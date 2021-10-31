@@ -1,0 +1,47 @@
+{
+  "name": "Yuzubot",
+  "version": "2.0.0",
+  "description": "Typescript/DJS - Discord bot - Discord API v9",
+  "dependencies": {
+    "@discordjs/builders": "^0.7.0",
+    "@discordjs/collection": "^0.2.1",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "@vitalets/google-translate-api": "^4.0.0",
+    "axios": "^0.23.0",
+    "discord-api-types": "^0.23.1",
+    "discord.js": "^13.3.0",
+    "dotenv": "^8.6.0",
+    "duckduckgo-images-api": "^1.0.5",
+    "mongoose": "^5.13.9",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.0-beta"
+  },
+  "devDependencies": {
+    "@types/duckduckgo-images-api": "^1.0.1",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^16.10.1",
+    "@types/superagent": "^4.1.13",
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/parser": "^4.32.0",
+    "eslint": "^7.32.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:typescript": "tsc",
+    "lint": "eslint . --ext .ts",
+    "fix": "eslint . --fix .",
+    "watch": "tsc -watch"
+  },
+  "repository": {
+    "url": "https://github.com/Le-Val/yuzu-bot",
+    "type": "github:user/repo"
+  },
+  "keywords": [],
+  "author": "Le Val",
+  "license": "CC0 1.0 Universal",
+  "engines": {
+    "node": ">=16"
+  },
+  "type": "module",
+  "main": "./built/index.js"
+}

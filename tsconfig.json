@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    // "composite": true,
+    "incremental": true,
+    "target": "es2021",
+    "module": "esnext",
+    "allowJs": true,
+    "checkJs": true,
+    "outDir": "./built",
+    "removeComments": true,
+    // "noEmit": true, ?????
+    "importHelpers": true,
+    "resolveJsonModule": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    /* Additional Checks */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    /* Experimental Options */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    /* Advanced Options */
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* utils */
+    "preserveValueImports": true,
+
+    /* path mapping */
+    "baseUrl": "src",
+    "paths": {
+      "@types/*": ["types/*"]
+    }
+  },
+  "include": ["./src/**/*"]
+}
