@@ -1,17 +1,19 @@
-import type { Command } from "./types/command.ts";
-import type { Event } from "./types/event.ts";
-import type { Task } from "./types/task.ts";
-import type { Monitor } from "./types/monitor.ts";
+import type { Command } from "./src/types/command.ts";
+import type { Event } from "./src/types/event.ts";
+import type { Task } from "./src/types/task.ts";
+import type { Monitor } from "./src/types/monitor.ts";
 import type { EventHandlers } from "./deps.ts";
 
-import { createBot, path, startBot } from "./deps.ts";
-import { cache, handle, Options } from "./utils/mod.ts";
+import { cache as cachePlugin, createBot, path, startBot } from "./deps.ts";
+
+import { cache, handle, Options } from "./src/utils/mod.ts";
 
 // scripts
-import "./utils/Scripts/APICommands.ts";
+import "./src/utils/Scripts/APICommands.ts";
+import "https://deno.land/x/dotenv/load.ts";
 
-const token = Options.TOKEN;
-const rootd = path.dirname(import.meta.url);
+const token = Deno.env.get("TOKEN") ?? " ";
+const rootd = path.dirname(import.meta.url) + "/src";
 
 // /slash_commands/
 await handle<Command<true>>(rootd, "slash_commands", (command) => {
@@ -61,5 +63,8 @@ const bot = createBot({
   ),
   cache: { isAsync: false },
 });
+
+// it was hard to tell if it works on my version
+cachePlugin.enableCachePlugin(bot as any);
 
 await startBot(bot);

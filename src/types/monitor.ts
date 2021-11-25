@@ -1,4 +1,4 @@
-import type { EventHandlers } from "../deps.ts";
+import type { EventHandlers } from "../../deps.ts";
 
 // T<'messageCreate'>
 

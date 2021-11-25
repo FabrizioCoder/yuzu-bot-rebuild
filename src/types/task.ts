@@ -1,4 +1,4 @@
-import type { Bot, DiscordenoUser } from "../deps.ts";
+import type { Bot, DiscordenoUser } from "../../deps.ts";
 import type { Milliseconds } from "../utils/mod.ts";
 
 export type Payload = {

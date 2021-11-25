@@ -1,6 +1,7 @@
-import type { Embed } from "../../deps.ts";
+import type { Embed } from "../../../deps.ts";
+import { ApplicationCommandOptionTypes } from "../../../deps.ts";
 import { cache } from "../Handlers/cache.ts";
-import { ApplicationCommandOptionTypes } from "../../deps.ts";
+
 import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 const api = "https://nekos.life/api/v2/";
@@ -54,9 +55,7 @@ endpoints.forEach(async (cmd) => {
 
       const option = i.data?.options?.[0];
 
-      if (option?.type !== ApplicationCommandOptionTypes.User) {
-        return;
-      }
+      if (option?.type !== ApplicationCommandOptionTypes.User) return;
 
       const userId = BigInt(option.value as string);
       const user = await bot.cache.users.get(userId);

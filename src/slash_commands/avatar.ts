@@ -1,12 +1,12 @@
 import type { Command } from "../types/command.ts";
-import type { Embed } from "../deps.ts";
+import type { Embed } from "../../deps.ts";
 import { Division } from "../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
   avatarURL,
   getUser,
   transformUser,
-} from "../deps.ts";
+} from "../../deps.ts";
 
 export default <Command> {
   options: {

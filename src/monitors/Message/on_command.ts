@@ -1,7 +1,7 @@
 import type { Monitor } from "../../types/monitor.ts";
 
 import { cache, Options } from "../../utils/mod.ts";
-import { sendMessage } from "../../deps.ts";
+import { sendMessage } from "../../../deps.ts";
 
 export default <Monitor<"messageCreate">> {
   name: "commandMonitor",

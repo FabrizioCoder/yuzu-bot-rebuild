@@ -1,4 +1,4 @@
-import type { Bot } from "../../deps.ts";
+import type { Bot } from "../../../deps.ts";
 import type { Payload } from "../../types/task.ts";
 import { cache } from "../mod.ts";
 

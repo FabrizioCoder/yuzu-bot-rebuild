@@ -1,6 +1,6 @@
 import type { Task } from "../types/task.ts";
 import { Milliseconds, Options } from "../utils/mod.ts";
-import { sendMessage } from "../deps.ts";
+import { sendMessage } from "../../deps.ts";
 
 export default <Task> {
   name: "uptime",

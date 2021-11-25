@@ -5,7 +5,7 @@ import type {
   EditGlobalApplicationCommand,
   Embed,
   MakeRequired,
-} from "../deps.ts";
+} from "../../deps.ts";
 
 type CommandMessageContent =
   | string
@@ -25,11 +25,12 @@ interface CommandOptions {
   };
 }
 
-type CommandData<T> = T extends true
+type CommandData<Slash> = Slash extends true
   ? MakeRequired<EditGlobalApplicationCommand, "name">
   : string;
 
-type CommandArguments<T> = T extends true ? [Bot, DiscordenoInteraction]
+type CommandArgumentsPassed<Slash> = Slash extends true
+  ? [Bot, DiscordenoInteraction]
   : [Bot, DiscordenoMessage, string[]];
 
 // now supports both slash commands and regular commands
@@ -41,6 +42,6 @@ export interface Command<Slash extends boolean = true> {
   options?: CommandOptions;
   // both slash and regular commands!
   execute(
-    ...args: CommandArguments<Slash>
+    ...args: CommandArgumentsPassed<Slash>
   ): CommandMessageContent | Promise<CommandMessageContent>;
 }

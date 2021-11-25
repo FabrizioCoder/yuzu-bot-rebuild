@@ -1,4 +1,4 @@
-import { path } from "../../deps.ts";
+import { path } from "../../../deps.ts";
 
 export async function handle<T>(
   root: string,

@@ -2,9 +2,9 @@ import type { Command } from "../../types/command.ts";
 import type { Event } from "../../types/event.ts";
 import type { Monitor } from "../../types/monitor.ts";
 import type { Task } from "../../types/task.ts";
-import type { EventHandlers } from "../../deps.ts";
+import type { EventHandlers } from "../../../deps.ts";
 
-import { Collection as List } from "../../deps.ts";
+import { Collection as List } from "../../../deps.ts";
 
 // slash commands
 const slashCommands: List<string, Command<true>> = new List();

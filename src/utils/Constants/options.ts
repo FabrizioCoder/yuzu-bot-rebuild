@@ -1,5 +1,3 @@
-import "https://deno.land/x/dotenv/load.ts";
-
 export const Options = {
   // ids
   CHANNEL_ID: 895959965469134858n,
@@ -8,5 +6,4 @@ export const Options = {
   SESSION_ID: 904922230285291531n,
   // ETC
   PREFIX: "!",
-  TOKEN: Deno.env.get("TOKEN") ?? "..",
 };

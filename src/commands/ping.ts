@@ -1,8 +1,6 @@
-import type { Command } from '../types/command.ts';
+import type { Command } from "../types/command.ts";
 
 export default <Command<false>> {
-    data: 'ping',
-    execute() {
-        return 'pong!';
-    },
+  data: "ping",
+  execute: () => "pong!",
 };

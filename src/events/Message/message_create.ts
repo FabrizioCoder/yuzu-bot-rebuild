@@ -1,7 +1,7 @@
 import type { Event } from "../../types/event.ts";
 
 import { cache } from "../../utils/mod.ts";
-import { sendMessage } from "../../deps.ts";
+import { sendMessage } from "../../../deps.ts";
 
 export default <Event<"messageCreate">> {
   name: "messageCreate",
