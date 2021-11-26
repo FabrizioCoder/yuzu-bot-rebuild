@@ -52,16 +52,16 @@ await handle<Monitor<keyof EventHandlers>>(rootd, "monitors", (monitor) => {
 
 // start the bot
 const bot = createBot({
-  token,
-  intents: ["Guilds", "GuildMessages"],
   botId: Options.SESSION_ID,
-  events: Object.fromEntries( // transforms a Map<string, any> into an Object
+  intents: ["Guilds", "GuildMessages"],
+  events: Object.fromEntries( // transforms a Map<string, T> into an Object
     Array.from(
       cache.events.entries(),
       ([k, v]) => [k, v.execute],
     ),
   ),
   cache: { isAsync: false },
+  token,
 });
 
 // it was hard to tell if it works on my version

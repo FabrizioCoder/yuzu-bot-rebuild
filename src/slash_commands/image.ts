@@ -21,6 +21,47 @@ import {
   randomHex,
 } from "../utils/mod.ts";
 
+// enums
+enum ButtonEmojis {
+  Back = "⏪",
+  Next = "⏩",
+  Page = "🔢",
+  Xsign = "✖️",
+}
+
+// it makes sense ig
+const buttons: [
+  ButtonComponent,
+  ButtonComponent,
+  ButtonComponent,
+  ButtonComponent,
+] = [
+  {
+    type: 2, // all buttons have type 2
+    label: ButtonEmojis.Back,
+    customId: "back",
+    style: ButtonStyles.Primary,
+  },
+  {
+    type: 2,
+    label: ButtonEmojis.Next,
+    customId: "next",
+    style: ButtonStyles.Primary,
+  },
+  {
+    type: 2,
+    label: ButtonEmojis.Page,
+    customId: "page",
+    style: ButtonStyles.Primary,
+  },
+  {
+    type: 2,
+    label: "delete",
+    customId: ButtonEmojis.Xsign,
+    style: ButtonStyles.Danger,
+  },
+];
+
 export default <Command> {
   options: {
     guildOnly: false,
@@ -61,50 +102,8 @@ export default <Command> {
       channel?.nsfw ? images.SafetyLevels.STRICT : images.SafetyLevels.OFF,
     );
 
-    // enums
-    enum ButtonEmojis {
-      Back = "⏪",
-      Next = "⏩",
-      Page = "🔢",
-      Xsign = "✖️",
-    }
-
-    // it makes sense ig
-    const buttons: [
-      ButtonComponent,
-      ButtonComponent,
-      ButtonComponent,
-      ButtonComponent,
-    ] = [
-      {
-        type: 2, // all buttons have type 2
-        label: ButtonEmojis.Back,
-        customId: "back",
-        style: ButtonStyles.Primary,
-      },
-      {
-        type: 2,
-        label: ButtonEmojis.Next,
-        customId: "next",
-        style: ButtonStyles.Primary,
-      },
-      {
-        type: 2,
-        label: ButtonEmojis.Page,
-        customId: "page",
-        style: ButtonStyles.Primary,
-      },
-      {
-        type: 2,
-        label: "Delete",
-        customId: ButtonEmojis.Xsign,
-        style: ButtonStyles.Danger,
-      },
-    ];
-
     const embed: Embed = {
       color: randomHex(),
-      title: "test",
       image: {
         url: results[0].image,
         height: results[0].height,
@@ -122,7 +121,10 @@ export default <Command> {
           bot,
           interaction.user.id,
           interaction.user.discriminator,
-          {},
+          {
+            avatar: interaction.user.avatar,
+            size: 512,
+          },
         ),
       },
       footer: {
@@ -155,21 +157,13 @@ export default <Command> {
 
     if (!member || !message) return;
 
-    function awaitButton(memberId: bigint, messageId: bigint) {
-      return needButton(
-        memberId,
-        messageId,
-        {
-          duration: Milliseconds.MINUTE * 5,
-          amount: 1,
-        },
-      );
-    }
-
     let index = 0;
 
     while (index < results.length) {
-      const button = await awaitButton(member.id, message.id);
+      const button = await needButton(member.id, message.id, {
+        duration: Milliseconds.MINUTE * 5,
+        amount: 1,
+      });
 
       switch (button.customId) {
         case "back":
@@ -218,6 +212,15 @@ export default <Command> {
 
       if (!currentImage || !currentImage.image) continue;
 
+      const copy = Object.assign(Object.create(embed) as Embed, {
+        image: {
+          url: currentImage.image,
+        },
+        footer: {
+          text: `Pag: ${index}/${results.length}`,
+        },
+      });
+
       // wtf it is so fucking fast
       await sendInteractionResponse(
         bot,
@@ -225,18 +228,7 @@ export default <Command> {
         button.interaction.token,
         {
           type: InteractionResponseTypes.UpdateMessage,
-          data: {
-            embeds: [
-              Object.assign(embed, {
-                image: {
-                  url: currentImage.image,
-                },
-                footer: {
-                  text: `Pag: ${index}/${results.length}`,
-                },
-              }),
-            ],
-          },
+          data: { embeds: [copy] },
         },
       );
     }

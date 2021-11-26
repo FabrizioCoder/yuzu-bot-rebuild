@@ -2,6 +2,7 @@
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Le-Val/yuzu-bot-rebuild?color=lightblue&label=Files)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/Le-Val/yuzu-bot-rebuild/discordeno-refactor)
+![GitHub](https://img.shields.io/github/license/Le-Val/yuzu-bot-rebuild)
 
 - my discord: `Yuzuru#1401`
 - [support the proyect](https://top.gg/bot/893319907981283340)
@@ -30,3 +31,12 @@ TOKEN=YOURTOKEN
 - Events, Commands, Monitors, Tasks
 - Collectors for buttons & messages
 - Support for slash commands
+
+### Functional rewrite
+
+- Image command
+- Emoji management
+- Database
+- Tag system with db
+- Lyirics command (genius wrapper)
+- Prefix command with db
