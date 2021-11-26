@@ -4,9 +4,10 @@ import type { Task } from "./src/types/task.ts";
 import type { Monitor } from "./src/types/monitor.ts";
 import type { EventHandlers } from "./deps.ts";
 
-import { cache as cachePlugin, createBot, path, startBot } from "./deps.ts";
+import { createBot, path, startBot } from "./deps.ts";
 
 import { cache, handle, Options } from "./src/utils/mod.ts";
+import { enableCachePlugin } from "https://deno.land/x/discordeno_cache_plugin/mod.ts";
 
 // scripts
 import "./src/utils/scripts/APICommands.ts";
@@ -64,8 +65,6 @@ const bot = createBot({
   token,
 });
 
-// it was hard to tell if it works on my version
-cachePlugin.enableCachePlugin(bot as any);
-// cachePlugin.enableCacheSweepers(bot as any);
+enableCachePlugin(bot as any);
 
 await startBot(bot);

@@ -6,7 +6,11 @@ import type {
   ButtonCollector,
   MessageCollector,
 } from "../../types/collector.ts";
-import type { EventHandlers } from "../../../deps.ts";
+import type {
+  Attachment,
+  DiscordenoMessage,
+  EventHandlers,
+} from "../../../deps.ts";
 
 import { Collection as List } from "../../../deps.ts";
 
@@ -36,6 +40,9 @@ const collectors = {
   messages: new List<bigint, MessageCollector>(),
 };
 
+const lastMessages = new List<bigint, DiscordenoMessage>();
+const lastAttachments = new List<bigint, Attachment[]>();
+
 export const cache = {
   slashCommands,
   commands,
@@ -44,4 +51,6 @@ export const cache = {
   tasks,
   runningTasks,
   collectors,
+  lastMessages,
+  lastAttachments,
 };
