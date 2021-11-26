@@ -1,18 +1,25 @@
-/* TODO: this code is not done yet */
-
 import type { Command } from "../types/command.ts";
 
 import type { ButtonComponent, DiscordenoMessage, Embed } from "../../deps.ts";
 
 import {
   ApplicationCommandOptionTypes,
+  avatarURL,
   ButtonStyles,
+  deleteMessage,
   images,
   InteractionResponseTypes,
   sendInteractionResponse,
+  sendMessage,
 } from "../../deps.ts";
 
-import { Division, Milliseconds } from "../utils/mod.ts";
+import {
+  Division,
+  Milliseconds,
+  needButton,
+  needMessage,
+  randomHex,
+} from "../utils/mod.ts";
 
 export default <Command> {
   options: {
@@ -54,6 +61,14 @@ export default <Command> {
       channel?.nsfw ? images.SafetyLevels.STRICT : images.SafetyLevels.OFF,
     );
 
+    // enums
+    enum ButtonEmojis {
+      Back = "⏪",
+      Next = "⏩",
+      Page = "🔢",
+      Xsign = "✖️",
+    }
+
     // it makes sense ig
     const buttons: [
       ButtonComponent,
@@ -63,38 +78,60 @@ export default <Command> {
     ] = [
       {
         type: 2, // all buttons have type 2
-        label: "Go back",
+        label: ButtonEmojis.Back,
         customId: "back",
         style: ButtonStyles.Primary,
       },
       {
         type: 2,
-        label: "Go next",
+        label: ButtonEmojis.Next,
         customId: "next",
         style: ButtonStyles.Primary,
       },
       {
         type: 2,
-        label: "Page",
+        label: ButtonEmojis.Page,
         customId: "page",
         style: ButtonStyles.Primary,
       },
       {
         type: 2,
         label: "Delete",
-        customId: "delete",
+        customId: ButtonEmojis.Xsign,
         style: ButtonStyles.Danger,
       },
     ];
 
     const embed: Embed = {
+      color: randomHex(),
       title: "test",
       image: {
         url: results[0].image,
         height: results[0].height,
         width: results[0].width,
       },
+      fields: [
+        {
+          name: "Búsqueda segura",
+          value: channel?.nsfw ? "No" : "Sí",
+        },
+      ],
+      author: {
+        name: `${interaction.user.username}#${interaction.user.discriminator}`,
+        iconUrl: avatarURL(
+          bot,
+          interaction.user.id,
+          interaction.user.discriminator,
+          {},
+        ),
+      },
+      footer: {
+        text: `Results for ${option.value}`,
+      },
     };
+
+    const interactionId = interaction.id;
+    const token = interaction.token;
 
     // this should work even if sendInteractionResponse() returns Promise<any>
     const message = <
@@ -102,8 +139,8 @@ export default <Command> {
       | undefined
     > await sendInteractionResponse(
       bot,
-      interaction.id,
-      interaction.token,
+      interactionId,
+      token,
       {
         type: InteractionResponseTypes.DeferredChannelMessageWithSource,
         data: {
@@ -117,5 +154,91 @@ export default <Command> {
     const member = interaction?.member;
 
     if (!member || !message) return;
+
+    function awaitButton(memberId: bigint, messageId: bigint) {
+      return needButton(
+        memberId,
+        messageId,
+        {
+          duration: Milliseconds.MINUTE * 5,
+          amount: 1,
+        },
+      );
+    }
+
+    let index = 0;
+
+    while (index < results.length) {
+      const button = await awaitButton(member.id, message.id);
+
+      switch (button.customId) {
+        case "back":
+          if (index > 0) index--;
+          break;
+
+        case "next":
+          if (index < results.length) index++;
+          break;
+
+        case "page": {
+          await sendMessage(
+            bot,
+            interaction.channelId!,
+            "Ingresa un número desde 0 hasta " + results.length,
+          );
+
+          const response = await needMessage(member.id, interaction.channelId!);
+          const newIndex = parseInt(response.content);
+
+          if (!isNaN(newIndex)) {
+            index = newIndex;
+          }
+          break;
+        }
+
+        case "delete":
+          await deleteMessage(bot, interaction.channelId!, message.id);
+          await sendInteractionResponse(
+            bot,
+            interaction.id,
+            interaction.token,
+            {
+              type: InteractionResponseTypes.ChannelMessageWithSource,
+              private: true,
+              data: { content: "OK!" },
+            },
+          );
+          return;
+
+        default:
+          break;
+      }
+
+      const currentImage = results[index];
+
+      if (!currentImage || !currentImage.image) continue;
+
+      // wtf it is so fucking fast
+      await sendInteractionResponse(
+        bot,
+        button.interaction.id,
+        button.interaction.token,
+        {
+          type: InteractionResponseTypes.UpdateMessage,
+          data: {
+            embeds: [
+              Object.assign(embed, {
+                image: {
+                  url: currentImage.image,
+                },
+                footer: {
+                  text: `Pag: ${index}/${results.length}`,
+                },
+              }),
+            ],
+          },
+        },
+      );
+    }
   },
 };

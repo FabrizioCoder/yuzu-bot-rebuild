@@ -1,6 +1,6 @@
 import type { Embed } from "../../../deps.ts";
 import { ApplicationCommandOptionTypes } from "../../../deps.ts";
-import { cache } from "../Handlers/cache.ts";
+import { cache } from "../handlers/cache.ts";
 
 import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
 

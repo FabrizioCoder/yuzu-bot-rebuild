@@ -9,7 +9,7 @@ import { cache as cachePlugin, createBot, path, startBot } from "./deps.ts";
 import { cache, handle, Options } from "./src/utils/mod.ts";
 
 // scripts
-import "./src/utils/Scripts/APICommands.ts";
+import "./src/utils/scripts/APICommands.ts";
 import "https://deno.land/x/dotenv/load.ts";
 
 const token = Deno.env.get("TOKEN") ?? " ";
@@ -66,5 +66,6 @@ const bot = createBot({
 
 // it was hard to tell if it works on my version
 cachePlugin.enableCachePlugin(bot as any);
+// cachePlugin.enableCacheSweepers(bot as any);
 
 await startBot(bot);

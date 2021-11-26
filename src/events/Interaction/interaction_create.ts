@@ -1,7 +1,8 @@
 import type { Event } from "../../types/event.ts";
-import { cache } from "../../utils/mod.ts";
+import { cache, processButtonCollectors } from "../../utils/mod.ts";
 import {
   InteractionResponseTypes,
+  InteractionTypes,
   sendInteractionResponse,
   sendMessage,
 } from "../../../deps.ts";
@@ -9,10 +10,14 @@ import {
 export default <Event<"interactionCreate">> {
   name: "interactionCreate",
   async execute(bot, interaction) {
-    // this code is shit but it works
-    const command = cache.slashCommands.get(
-      interaction.data?.name as string,
-    );
+    if (interaction.type === InteractionTypes.MessageComponent) {
+      if (interaction.member) {
+        processButtonCollectors(interaction, interaction.member);
+      }
+      return;
+    }
+
+    const command = cache.slashCommands.get(interaction.data?.name!);
 
     if (!command) return;
 

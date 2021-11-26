@@ -1,6 +1,6 @@
-import type { Event } from "../types/event.ts";
-import { cache, Options, registerTasks } from "../utils/mod.ts";
-import { upsertApplicationCommands } from "../../deps.ts";
+import type { Event } from "../../types/event.ts";
+import { cache, Options, registerTasks } from "../../utils/mod.ts";
+import { upsertApplicationCommands } from "../../../deps.ts";
 
 export default <Event<"ready">> {
   name: "ready",
