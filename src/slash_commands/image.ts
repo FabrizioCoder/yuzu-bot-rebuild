@@ -56,8 +56,8 @@ const buttons: [
   },
   {
     type: 2,
-    label: "delete",
-    customId: ButtonEmojis.Xsign,
+    label: ButtonEmojis.Xsign,
+    customId: "delete",
     style: ButtonStyles.Danger,
   },
 ];
