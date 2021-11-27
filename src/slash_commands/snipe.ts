@@ -12,6 +12,7 @@ export default <Command> {
       short: "Busca mensajes eliminados",
     },
   },
+  disabled: true,
   division: Division.INFO,
   data: {
     name: "snipe",

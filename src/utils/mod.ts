@@ -11,7 +11,7 @@ export * from "./handlers/registerTasks.ts";
 export * from "./collectors/needButton.ts";
 export * from "./collectors/needMessage.ts";
 
-export function range(start: number, stop: number, step = 1) {
+export function range(start: number, stop: number = start, step = 1) {
   return Array.from(
     { length: (stop - start) / step + 1 },
     (_, i) => start + (i * step),
@@ -25,4 +25,13 @@ export function randomHex() {
 export function sum(nums: number[]): number {
   if (!nums[0]) return 0;
   return nums[0] + sum(nums.slice(1));
+}
+
+export function multiply(nums: number[]): number {
+  if (!nums[0]) return 0;
+  return nums[0] * multiply(nums.slice(1));
+}
+
+export function mean(nums: number[]) {
+  return sum(nums) / nums.length;
 }

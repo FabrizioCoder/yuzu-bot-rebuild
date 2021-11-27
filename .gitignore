@@ -1,3 +1,2 @@
 *.env
-
-src/utils/decorators
+file_loader.ts

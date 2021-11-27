@@ -13,7 +13,7 @@ import { enableCachePlugin } from "https://deno.land/x/discordeno_cache_plugin/m
 import "./src/utils/scripts/APICommands.ts";
 import "https://deno.land/x/dotenv/load.ts";
 
-const token = Deno.env.get("TOKEN") ?? " ";
+const token = Deno.env.get("TOKEN") ?? Options.TOKEN;
 const rootd = path.dirname(import.meta.url) + "/src";
 
 // /slash_commands/

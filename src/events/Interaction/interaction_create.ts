@@ -28,11 +28,7 @@ export default <Event<"interactionCreate">> {
       await sendInteractionResponse(bot, interaction.id, interaction.token, {
         type: InteractionResponseTypes.DeferredChannelMessageWithSource,
       });
-
-      const output = await command.execute(
-        bot,
-        interaction,
-      );
+      const output = await command.execute(bot, interaction);
 
       if (!output) return;
 

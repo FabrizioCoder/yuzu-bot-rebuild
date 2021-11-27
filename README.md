@@ -34,9 +34,9 @@ TOKEN=YOURTOKEN
 
 ### Functional rewrite
 
-- Image command
-- Emoji management
-- Database
-- Tag system with db
-- Lyirics command (genius wrapper)
-- Prefix command with db
+[X] Image command
+[ ] Emoji management
+[ ] Database
+[ ] Tag system with db
+[ ] Lyirics command (genius wrapper)
+[ ] Prefix command with db

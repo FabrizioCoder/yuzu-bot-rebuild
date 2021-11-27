@@ -16,9 +16,8 @@ export default <Event<"messageCreate">> {
 
           await monitor.execute(bot, message);
         } catch (error: unknown) {
-          if (error instanceof Error) {
-            sendMessage(bot, message.channelId, error.message).catch(() => {});
-          }
+          if (!(error instanceof Error)) return;
+          sendMessage(bot, message.channelId, error.message).catch(() => {});
         }
       });
   },

@@ -6,4 +6,5 @@ export const Options = {
   SESSION_ID: 904922230285291531n,
   // ETC
   PREFIX: "!",
+  TOKEN: "........",
 };
