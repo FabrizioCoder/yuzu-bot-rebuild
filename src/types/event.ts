@@ -1,6 +1,6 @@
 import type { EventHandlers } from "../../deps.ts";
 
-export type Event<T extends keyof EventHandlers> = {
+export type Event<T extends keyof EventHandlers = keyof EventHandlers> = {
   disabled?: boolean;
   name: T;
   execute: (

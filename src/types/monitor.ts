@@ -2,7 +2,7 @@ import type { EventHandlers } from "../../deps.ts";
 
 // T<'messageCreate'>
 
-export type Monitor<T extends keyof EventHandlers> = {
+export type Monitor<T extends keyof EventHandlers = keyof EventHandlers> = {
   // arbitrary name
   name: string;
 

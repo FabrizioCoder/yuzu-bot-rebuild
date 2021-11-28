@@ -35,3 +35,11 @@ export function multiply(nums: number[]): number {
 export function mean(nums: number[]) {
   return sum(nums) / nums.length;
 }
+
+export function splitMessage(n: number, limit = 2048): number[] {
+  const rest = n - limit;
+  if (rest > limit) {
+    return [limit, splitMessage(rest, limit)].flat();
+  }
+  return [limit, rest].flat();
+}

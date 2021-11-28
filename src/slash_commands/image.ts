@@ -8,7 +8,6 @@ import {
   avatarURL,
   ButtonStyles,
   deleteMessage,
-  images,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
@@ -21,6 +20,8 @@ import {
   needMessage,
   randomHex,
 } from "../utils/mod.ts";
+
+import { SafetyLevels, search } from "https://deno.land/x/ddgimages/mod.ts";
 
 // enums
 enum ButtonEmojis {
@@ -100,9 +101,9 @@ export default <Command> {
     const channel = await bot.cache.channels.get(interaction.channelId);
 
     // get an nsfw output if the currentChannel is nsfw
-    const results = await images.search(
+    const results = await search(
       option.value as string,
-      channel?.nsfw ? images.SafetyLevels.STRICT : images.SafetyLevels.OFF,
+      channel?.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF,
     );
     const limit = results.length - 1;
 
