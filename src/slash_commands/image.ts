@@ -10,7 +10,6 @@ import {
   deleteMessage,
   InteractionResponseTypes,
   sendInteractionResponse,
-  sendMessage,
 } from "../../deps.ts";
 
 import {
@@ -166,6 +165,11 @@ export default <Command> {
         amount: 1,
       });
 
+      // do this before the switch statement
+      if (!button) {
+        break;
+      }
+
       switch (button.customId) {
         case "back": {
           if (index > 0) index--;
@@ -178,7 +182,10 @@ export default <Command> {
         }
 
         case "page": {
-          await sendInteractionResponse(
+          const tempMessage = <
+            | DiscordenoMessage
+            | undefined
+          > await sendInteractionResponse(
             bot,
             interaction.id,
             interaction.token,
@@ -192,6 +199,10 @@ export default <Command> {
             interaction.member.id,
             interaction.channelId,
           );
+
+          if (tempMessage) {
+            await deleteMessage(bot, interaction.channelId, tempMessage.id);
+          }
 
           const newIndex = parseInt(response.content);
 
