@@ -180,20 +180,19 @@ export default <Command> {
         case "page": {
           await sendInteractionResponse(
             bot,
-            button.interaction.id,
-            button.interaction.token,
+            interaction.id,
+            interaction.token,
             {
               type: InteractionResponseTypes.DeferredUpdateMessage,
+              data: { content: `Envía un número desde 0 hasta ${limit}` },
             },
           );
-          await sendMessage(bot, interaction.channelId, {
-            content: `Envía un número desde 0 hasta ${limit}`,
-          });
 
           const response = await needMessage(
             interaction.member.id,
             interaction.channelId,
           );
+
           const newIndex = parseInt(response.content);
 
           // if the page to go doesn't exists
@@ -212,7 +211,9 @@ export default <Command> {
             );
             continue;
           }
-          if (!isNaN(newIndex)) index = newIndex;
+          if (!isNaN(newIndex)) {
+            index = newIndex;
+          }
           break;
         }
 
