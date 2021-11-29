@@ -10,6 +10,7 @@ export default <Monitor<"messageDelete">> {
   async execute(_bot, _payload, message) {
     if (!message) return;
     // TODO flags: SourceMessageDeleted
-    cache.lastMessages.set(message.id, message);
+    cache.lastMessages.delete(message.channelId);
+    cache.lastMessages.set(message.channelId, message);
   },
 };
