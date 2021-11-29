@@ -7,10 +7,7 @@ import type {
   MakeRequired,
 } from "../../deps.ts";
 
-type CommandMessageContent =
-  | string
-  | Embed
-  | undefined;
+import type { Division } from "../utils/mod.ts";
 
 // /commands and !commands
 interface CommandOptions {
@@ -25,13 +22,25 @@ interface CommandOptions {
   };
 }
 
+const enum CommandTypes {
+  Slash,
+  Normal,
+}
+
+type Args = string[];
+
+type CommandMessageContent =
+  | string
+  | Embed
+  | undefined;
+
 type CommandData<Slash> = Slash extends true
   ? MakeRequired<EditGlobalApplicationCommand, "name">
   : string;
 
 type CommandArgumentsPassed<Slash> = Slash extends true
   ? [Bot, DiscordenoInteraction]
-  : [Bot, DiscordenoMessage, string[]];
+  : [Bot, DiscordenoMessage, Args];
 
 // now supports both slash commands and regular commands
 export interface Command<Slash extends boolean = true> {
@@ -40,8 +49,20 @@ export interface Command<Slash extends boolean = true> {
   // if its disabled
   disabled?: boolean;
   options?: CommandOptions;
-  // both slash and regular commands!
+
+  division?: Division;
+
+  type?: CommandTypes;
+
   execute(
     ...args: CommandArgumentsPassed<Slash>
   ): CommandMessageContent | Promise<CommandMessageContent>;
 }
+
+export type NonSlashCommand = Command<false> & {
+  type: CommandTypes.Normal;
+};
+
+export type SlashCommand = Command<true> & {
+  type: CommandTypes.Slash;
+};

@@ -58,10 +58,6 @@ export const isURL = (str: string) =>
 export const isCustomEmoji = (str: string) =>
   /^<([a]?):.*[a-z0-9]:\d{18}>/i.test(str);
 
-// check for owners id in string
-export const findId = (str: string) => /\d{18}/i.exec(str);
-export const isId = (str: string) => /\d{18}/i.test(str);
-
 // prefix command
 // deno-lint-ignore-line no-control-regexp
 export const isNotAscii = (str: string) => /[^\x00-\x7F]+/g.test(str);

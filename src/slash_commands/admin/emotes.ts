@@ -1,13 +1,17 @@
-import type { Command } from "../types/command.ts";
-import type { DiscordenoGuild, Embed, ModifyGuildEmoji } from "../../deps.ts";
-import { Division, randomHex } from "../utils/mod.ts";
+import type { Command } from "../../types/command.ts";
+import type {
+  DiscordenoGuild,
+  Embed,
+  ModifyGuildEmoji,
+} from "../../../deps.ts";
+import { Division, randomHex } from "../../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
   avatarURL,
   createEmoji,
   deleteEmoji,
   editEmoji,
-} from "../../deps.ts";
+} from "../../../deps.ts";
 
 export default <Command> {
   options: {

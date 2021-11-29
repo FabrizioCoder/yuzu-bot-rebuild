@@ -1,9 +1,9 @@
 /* TODO: check for long song lyrics */
 
-import type { Command } from "../types/command.ts";
-import type { Embed } from "../../deps.ts";
-import { Division, randomHex } from "../utils/mod.ts";
-import { ApplicationCommandOptionTypes } from "../../deps.ts";
+import type { Command } from "../../types/command.ts";
+import type { Embed } from "../../../deps.ts";
+import { Division, randomHex } from "../../utils/mod.ts";
+import { ApplicationCommandOptionTypes } from "../../../deps.ts";
 
 import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
 

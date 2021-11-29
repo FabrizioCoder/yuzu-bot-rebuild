@@ -1,7 +1,11 @@
-import type { Command } from "../types/command.ts";
+import type { Command } from "../../types/command.ts";
 
 // maybe we don't need DiscordenoMessage
-import type { ButtonComponent, DiscordenoMessage, Embed } from "../../deps.ts";
+import type {
+  ButtonComponent,
+  DiscordenoMessage,
+  Embed,
+} from "../../../deps.ts";
 
 import {
   ApplicationCommandOptionTypes,
@@ -10,7 +14,7 @@ import {
   deleteMessage,
   InteractionResponseTypes,
   sendInteractionResponse,
-} from "../../deps.ts";
+} from "../../../deps.ts";
 
 import {
   Division,
@@ -18,7 +22,7 @@ import {
   needButton,
   needMessage,
   randomHex,
-} from "../utils/mod.ts";
+} from "../../utils/mod.ts";
 
 import { SafetyLevels, search } from "https://deno.land/x/ddgimages/mod.ts";
 

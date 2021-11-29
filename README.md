@@ -3,9 +3,19 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/Le-Val/yuzu-bot-rebuild?color=lightblue&label=Files)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/Le-Val/yuzu-bot-rebuild/discordeno-refactor)
 ![GitHub](https://img.shields.io/github/license/Le-Val/yuzu-bot-rebuild)
+[![GitHub issues](https://img.shields.io/github/issues/Le-Val/yuzu-bot-rebuild)](https://github.com/Le-Val/yuzu-bot-rebuild/issues)
 
 - my discord: `Yuzuru#1401`
 - [support the proyect](https://top.gg/bot/893319907981283340)
+
+### Features
+
+- Functional - Lightweight
+- No event emitters
+- Easy-to-use command system
+- Events, Commands, Monitors & Tasks
+- Collectors for buttons or messages
+- Support for slash commands
 
 ### How to start?
 
@@ -24,13 +34,40 @@
 TOKEN=YOURTOKEN
 ```
 
-### Features
+### How to write a command
 
-- Functional & Lightweight
-- Easy-to-use command system
-- Events, Commands, Monitors, Tasks
-- Collectors for buttons & messages
-- Support for slash commands
+1. create a file in the /slash_commands/ folder
+2. put the following code:
+
+```ts
+// slash_commands/ping.ts
+import type { Command } from "../types/command.ts";
+
+// slash command:
+export default <Command> {
+  data: {
+    name: "ping",
+    description: "🏓🏓🏓",
+  },
+  execute: (bot, interaction) => "pong!",
+};
+```
+
+```ts
+// commands/ping.ts
+import type { Command } from "../types/command.ts";
+
+// non-slash command:
+export default <Command<false>> {
+  data: "ping",
+  execute: (bot, message) => "pong!",
+};
+```
+
+3. do something in the execute() function
+
+- the return type is `string | Embed` the reply will be deferred by default
+- the callback will be exactly the same as the interactionCreate event
 
 ### Functional rewrite TODO
 
@@ -38,18 +75,21 @@ TOKEN=YOURTOKEN
 - ~~Image command~~
 - ~~Snipe command~~
 - ~~Genius wrapper~~
+- ~~Pokedex~~
 - Database
-  - tag command
-  - prefix command
+  - Connect the databse
+  - Tag command
+  - Prefix command
 - Etc
-  - String manipulation commands
-    - Emojify command
-    - Reverse command
+  - ~~String manipulation commands~~
+    - ~~Emojify command~~
+    - ~~Reverse command~~
   - ~~Avatar command~~
   - ~~Ping command~~
+  - ~~Say command~~
   - help command (both)
   - userinfo command
   - serverinfo command
-  - 8ball command
+  - ~~8ball command~~
 - Dev
   - typescript eval

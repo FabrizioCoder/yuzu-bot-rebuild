@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run
+
 import type { Command } from "./src/types/command.ts";
 import type { Event } from "./src/types/event.ts";
 import type { Task } from "./src/types/task.ts";
@@ -66,7 +68,7 @@ const bot = createBot({
   token,
 });
 
-enableCachePlugin(bot as any);
+enableCachePlugin(bot);
 enablePermissionsPlugin(bot as any);
 
 await startBot(bot);
