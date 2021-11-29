@@ -3,10 +3,14 @@ import type { Event } from "./src/types/event.ts";
 import type { Task } from "./src/types/task.ts";
 import type { Monitor } from "./src/types/monitor.ts";
 
-import { createBot, startBot } from "./deps.ts";
 import { cache, handle, Options } from "./src/utils/mod.ts";
-import { enableCachePlugin } from "https://deno.land/x/discordeno_cache_plugin/mod.ts";
 import { dirname } from "https://deno.land/std@0.113.0/path/mod.ts";
+import {
+  createBot,
+  enableCachePlugin,
+  enablePermissionsPlugin,
+  startBot,
+} from "./deps.ts";
 
 // scripts
 import "https://deno.land/x/dotenv/load.ts";
@@ -63,5 +67,6 @@ const bot = createBot({
 });
 
 enableCachePlugin(bot as any);
+enablePermissionsPlugin(bot as any);
 
 await startBot(bot);

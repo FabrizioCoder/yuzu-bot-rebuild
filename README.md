@@ -32,11 +32,24 @@ TOKEN=YOURTOKEN
 - Collectors for buttons & messages
 - Support for slash commands
 
-### Functional rewrite
+### Functional rewrite TODO
 
-[X] Image command
-[ ] Emoji management
-[ ] Database
-[ ] Tag system with db
-[ ] Lyirics command (genius wrapper)
-[ ] Prefix command with db
+- ~~Emoji management commands~~
+- ~~Image command~~
+- ~~Snipe command~~
+- ~~Genius wrapper~~
+- Database
+  - tag command
+  - prefix command
+- Etc
+  - String manipulation commands
+    - Emojify command
+    - Reverse command
+  - ~~Avatar command~~
+  - ~~Ping command~~
+  - help command (both)
+  - userinfo command
+  - serverinfo command
+  - 8ball command
+- Dev
+  - typescript eval

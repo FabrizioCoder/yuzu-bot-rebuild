@@ -2,6 +2,7 @@
 export * from "./constants/categories.ts";
 export * from "./constants/options.ts";
 export * from "./constants/time.ts";
+export * from "./constants/mentions.ts";
 
 // our cache
 export * from "./handlers/cache.ts";
@@ -43,3 +44,24 @@ export function splitMessage(n: number, limit = 2048): number[] {
   }
   return [limit, rest].flat();
 }
+
+// say command
+export const isInvite = (str: string) =>
+  /(https:\/\/)?.*(discord.*\.?g.*g.*|invite\/*)\/?.+/igm.test(str);
+
+// check for spam
+export const isURL = (str: string) =>
+  /^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/
+    .test(str);
+
+// check if the string is an emoji
+export const isCustomEmoji = (str: string) =>
+  /^<([a]?):.*[a-z0-9]:\d{18}>/i.test(str);
+
+// check for owners id in string
+export const findId = (str: string) => /\d{18}/i.exec(str);
+export const isId = (str: string) => /\d{18}/i.test(str);
+
+// prefix command
+// deno-lint-ignore-line no-control-regexp
+export const isNotAscii = (str: string) => /[^\x00-\x7F]+/g.test(str);
