@@ -11,6 +11,7 @@ import {
   createEmoji,
   deleteEmoji,
   editEmoji,
+  hasGuildPermissions,
 } from "../../../deps.ts";
 
 export default <Command> {
@@ -19,7 +20,7 @@ export default <Command> {
     adminOnly: false,
     information: {
       descr: "Muestra emotes del server, añade y remueve emotes",
-      usage: "",
+      usage: "emotes | add | remove | hide | display [name] [url]",
     },
   },
   division: Division.INFO,
@@ -96,6 +97,16 @@ export default <Command> {
     );
 
     if (!guild) return;
+
+    if (option.name !== "display") {
+      const hasPermission = await hasGuildPermissions(
+        bot as any,
+        interaction.guildId,
+        interaction.user.id,
+        ["MANAGE_EMOJIS"],
+      );
+      if (!hasPermission) return "No posees suficientes permisos";
+    }
 
     switch (option.name) {
       case "hide": {

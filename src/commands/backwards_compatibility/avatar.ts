@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { DiscordenoUser, Embed } from "../../../deps.ts";
-import { Division } from "../../utils/mod.ts";
+import { DiscordColors, Division } from "../../utils/mod.ts";
 import { avatarURL } from "../../../deps.ts";
 
 export default <Command<false>> {
@@ -33,7 +33,7 @@ export default <Command<false>> {
         name: `Dueño: ${user.username}#${user.discriminator}`,
         iconURL: avatar,
       },
-      color: 0xF34C2,
+      color: DiscordColors.Blurple,
       description:
         `[Referencia](https://www.google.com/searchbyimage?image_url=${avatar})\n[Avatar URL](${avatar})`,
       image: { url: avatar },

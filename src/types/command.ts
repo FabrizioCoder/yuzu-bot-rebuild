@@ -45,7 +45,16 @@ type CommandArgumentsPassed<Slash> = Slash extends true
   : [Bot, DiscordenoMessage, CommandArgs];
 
 // now supports both slash commands and regular commands
-export interface Command<Slash extends boolean = true> {
+
+export interface Pipelines {
+  onBefore?(bot: Bot, interaction: DiscordenoInteraction): boolean;
+  onCancel?(
+    bot: Bot,
+    interaction: DiscordenoInteraction,
+  ): Embed | string;
+}
+
+export interface Command<Slash extends boolean = true> extends Pipelines {
   // the data (todo)
   data: CommandData<Slash>;
   // if its disabled
