@@ -1,7 +1,8 @@
 import type { Embed } from "../../../deps.ts";
 import { ApplicationCommandOptionTypes } from "../../../deps.ts";
-import { cache } from "../handlers/cache.ts";
+import { cache } from "../cache.ts";
 import { Division } from "../constants/categories.ts";
+import { DiscordColors } from "../constants/colors.ts";
 import { userMention } from "../constants/mentions.ts";
 
 import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
@@ -75,7 +76,7 @@ try {
 
         return <Embed> {
           description: getDescription(commandName, i.user.id, user.id),
-          color: 0x39F133,
+          color: DiscordColors.Blurple,
           image: { url: data.url },
         };
       },
@@ -110,7 +111,7 @@ try {
             userId,
             userId === msg.authorId ? bot.id : msg.authorId,
           ),
-          color: 0x39F133,
+          color: DiscordColors.Blurple,
           image: { url: data.url },
         };
       },

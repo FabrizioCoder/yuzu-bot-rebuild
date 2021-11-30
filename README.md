@@ -88,8 +88,6 @@ export default <Command<false>> {
   - ~~Ping command~~
   - ~~Say command~~
   - help command (both)
-  - userinfo command
+  - ~~userinfo command~~
   - serverinfo command
   - ~~8ball command~~
-- Dev
-  - typescript eval

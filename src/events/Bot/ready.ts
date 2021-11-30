@@ -1,6 +1,5 @@
 import type { Event } from "../../types/event.ts";
-import { cache, Options, registerTasks } from "../../utils/mod.ts";
-import { upsertApplicationCommands } from "../../../deps.ts";
+import { cache, registerTasks } from "../../utils/mod.ts";
 
 export default <Event<"ready">> {
   name: "ready",
@@ -8,12 +7,6 @@ export default <Event<"ready">> {
     const uptime = Date.now();
 
     registerTasks(bot, payload, uptime);
-
-    await upsertApplicationCommands(
-      bot,
-      cache.slashCommands.map((cmd) => cmd.data),
-      Options.GUILD_ID,
-    );
 
     // LOG
     console.group();

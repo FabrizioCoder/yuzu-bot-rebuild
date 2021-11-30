@@ -1,18 +1,14 @@
-import type { Command } from "../../types/command.ts";
-import type { Event } from "../../types/event.ts";
-import type { Monitor } from "../../types/monitor.ts";
-import type { Task } from "../../types/task.ts";
-import type {
-  ButtonCollector,
-  MessageCollector,
-} from "../../types/collector.ts";
+import type { Command } from "../types/command.ts";
+import type { Event } from "../types/event.ts";
+import type { Monitor } from "../types/monitor.ts";
+import type { Task } from "../types/task.ts";
+import type { ButtonCollector, MessageCollector } from "../types/collector.ts";
 import type {
   Attachment,
   DiscordenoMessage,
   EventHandlers,
-} from "../../../deps.ts";
-
-import { Collection as List } from "../../../deps.ts";
+} from "../../deps.ts";
+import { Collection as List } from "../../deps.ts";
 
 // slash commands
 const slashCommands: List<string, Command<true>> = new List();
