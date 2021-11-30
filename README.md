@@ -78,9 +78,9 @@ export default <Command<false>> {
 - ~~Snipe command~~
 - ~~Genius wrapper~~
 - ~~Pokedex~~
-- Database
+- ~~Database~~
   - ~~Connect the databse~~
-  - Tag command
+  - ~~Tag command~~
   - ~~Prefix command~~
 - Etc
   - ~~String manipulation commands~~
@@ -92,5 +92,10 @@ export default <Command<false>> {
   - ~~help command (categories)~~
   - help command (commands)
   - ~~userinfo command~~
-  - serverinfo command
+  - ~~serverinfo command~~
   - ~~8ball command~~
+- Non-slash
+  - Help command (both),
+  - tag command
+  - snipe command
+  - say command

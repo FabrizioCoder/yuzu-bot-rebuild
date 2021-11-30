@@ -28,3 +28,7 @@ export * from "./range.ts";
 export function randomHex() {
   return Math.floor(Math.random() * 16777215);
 }
+
+export function toCapitalCase(str: string) {
+  return str[0].toUpperCase() + str.slice(1, str.length);
+}

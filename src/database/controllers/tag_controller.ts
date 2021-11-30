@@ -9,12 +9,21 @@ export function getCollection(db: Database) {
 
 export function getTag(collection: Collection, name: string, id?: bigint) {
   return id
-    ? collection.findOne({ name: name, server: id.toString() })
-    : collection.findOne({ name: name, global: true });
+    ? collection.findOne({ name: name, server: id.toString() }, {
+      noCursorTimeout: false,
+    })
+    : collection.findOne({ name: name, global: true }, {
+      noCursorTimeout: false,
+    });
 }
 
 export function findTag(collection: Collection, id: bigint, userId: bigint) {
-  return collection.find({ server: id.toString(), user: userId.toString() });
+  return collection.find({
+    server: id.toString(),
+    user: userId.toString(),
+  }, {
+    noCursorTimeout: false,
+  }).toArray();
 }
 
 export function addTag(
