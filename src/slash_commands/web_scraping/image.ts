@@ -79,7 +79,7 @@ export default <Command> {
       usage: "<Search>",
     },
   },
-  division: Division.INFO,
+  division: Division.UTIL,
   data: {
     name: "image",
     description: "Busca imágenes en internet",

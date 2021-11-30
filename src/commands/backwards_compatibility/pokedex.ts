@@ -120,7 +120,9 @@ export default <Command<false>> {
     },
   },
   division: Division.FUN,
-  data: "dex",
+  data: {
+    name: "dex",
+  },
   async execute(bot, message, { args }) {
     const option = args.join(" ");
 

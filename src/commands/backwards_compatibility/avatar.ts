@@ -13,8 +13,10 @@ export default <Command<false>> {
       usage: "[@Mención]",
     },
   },
-  division: Division.INFO,
-  data: "avatar",
+  division: Division.UTIL,
+  data: {
+    name: "avatar",
+  },
   async execute(bot, message, { args }) {
     const option = (/\d{18}/g).exec(args.join(" "))?.[0];
 

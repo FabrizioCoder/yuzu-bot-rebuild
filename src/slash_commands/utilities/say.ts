@@ -12,7 +12,7 @@ export default <Command> {
       usage: "<Input>",
     },
   },
-  division: Division.INFO,
+  division: Division.FUN,
   data: {
     name: "say",
     description: "Hace que el bot diga algo muy malo",

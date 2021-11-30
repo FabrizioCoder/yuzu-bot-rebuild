@@ -24,7 +24,7 @@ export default <Command> {
       usage: "<Input>",
     },
   },
-  division: Division.INFO,
+  division: Division.FUN,
   data: {
     name: `${rpts.length}ball`,
     description: "Responde al usuario con una pregunta de sí/no",

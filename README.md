@@ -59,7 +59,9 @@ import type { Command } from "../types/command.ts";
 
 // non-slash command:
 export default <Command<false>> {
-  data: "ping",
+  data: {
+    name: "ping",
+  },
   execute: (bot, message) => "pong!",
 };
 ```
@@ -87,7 +89,8 @@ export default <Command<false>> {
   - ~~Avatar command~~
   - ~~Ping command~~
   - ~~Say command~~
-  - help command (both)
+  - ~~help command (categories)~~
+  - help command (commands)
   - ~~userinfo command~~
   - serverinfo command
   - ~~8ball command~~

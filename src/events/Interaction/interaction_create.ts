@@ -1,69 +1,24 @@
 import type { Event } from "../../types/event.ts";
-import { cache, processButtonCollectors } from "../../utils/mod.ts";
-import {
-  InteractionResponseTypes,
-  InteractionTypes,
-  sendInteractionResponse,
-  sendMessage,
-} from "../../../deps.ts";
+import { cache } from "../../utils/cache.ts";
+import { sendMessage } from "../../../deps.ts";
 
 export default <Event<"interactionCreate">> {
   name: "interactionCreate",
   async execute(bot, interaction) {
-    if (interaction.type === InteractionTypes.MessageComponent) {
-      if (interaction.member) {
-        processButtonCollectors(interaction, interaction.member);
-      }
-      return;
-    }
-
-    const command = cache.slashCommands.get(interaction.data?.name!);
-
-    if (!command) return;
-
-    if (!interaction.guildId && command.options?.guildOnly === true) return;
-
-    try {
-      // defer the reply
-      await sendInteractionResponse(bot, interaction.id, interaction.token, {
-        type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-      });
-
-      if (command.onBefore && command.onCancel) {
-        const rejection = command.onBefore(bot, interaction);
-        if (rejection) {
-          const cancel = command.onCancel(bot, interaction);
-          await sendInteractionResponse(
-            bot,
-            interaction.id,
-            interaction.token,
-            {
-              type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-              data: {
-                content: typeof cancel === "string" ? cancel : "",
-                embeds: typeof cancel !== "string" ? [cancel] : [],
-              },
-            },
+    cache.monitors
+      .filter((monitor) => monitor.kind === "interactionCreate")
+      .forEach(async (monitor) => {
+        try {
+          if (monitor.ignoreBots && interaction.user.bot) {
+            return;
+          }
+          await monitor.execute(bot, interaction);
+        } catch (error: unknown) {
+          if (!(error instanceof Error)) return;
+          sendMessage(bot, interaction.channelId!, error.message).catch(
+            () => {},
           );
-          return;
         }
-      }
-
-      const output = await command.execute(bot, interaction);
-
-      if (!output) return;
-
-      // response
-      await sendInteractionResponse(bot, interaction.id, interaction.token, {
-        type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-        data: {
-          content: typeof output === "string" ? output : "",
-          embeds: typeof output !== "string" ? [output] : [],
-        },
       });
-    } catch (err: unknown) {
-      if (!(err instanceof Error)) return;
-      sendMessage(bot, interaction.channelId!, err.message).catch(() => {});
-    }
   },
 };

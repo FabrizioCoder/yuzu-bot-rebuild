@@ -1,9 +1,10 @@
 export enum Division {
-  CONFIGURATION,
+  CONFIG,
   FUN,
   INFO,
   INTERACTION,
-  MODERATION,
   UTIL,
+  ADMIN,
+  // important
   OWNER,
 }

@@ -12,7 +12,7 @@ export default <Command> {
       usage: "<Input>",
     },
   },
-  division: Division.INFO,
+  division: Division.FUN,
   data: {
     name: "invert",
     description: "Invierte un texto",

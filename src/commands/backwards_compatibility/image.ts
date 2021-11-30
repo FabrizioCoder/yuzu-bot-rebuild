@@ -73,8 +73,10 @@ export default <Command<false>> {
       usage: "<Search>",
     },
   },
-  division: Division.INFO,
-  data: "image",
+  division: Division.UTIL,
+  data: {
+    name: "image",
+  },
   async execute(bot, message, { args }) {
     const option = args.join(" ");
 

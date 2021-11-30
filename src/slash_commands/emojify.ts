@@ -1,16 +1,18 @@
 import type { Command } from "../types/command.ts";
 import { ApplicationCommandOptionTypes } from "../../deps.ts";
+import { Division } from "../utils/mod.ts";
 
 export default <Command> {
   options: {
     guildOnly: false,
     adminOnly: false,
     information: {
-      descr: "Reemplaza texto por emotes.",
-      short: "Reemplaza texto por emotes",
+      descr: "Convierte un texto a emojis",
+      short: "Reemplaza texto por emojis",
       usage: "<Texto>",
     },
   },
+  division: Division.FUN,
   data: {
     name: "emojify",
     description: "Convierte un texto a emojis",

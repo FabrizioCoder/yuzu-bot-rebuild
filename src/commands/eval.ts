@@ -8,7 +8,9 @@ export default <Command<false>> {
     adminOnly: true,
   },
   division: Division.OWNER,
-  data: "eval",
+  data: {
+    name: "eval",
+  },
   execute(bot, message, { args }) {
     // TODO: put this into a monitor
     if (message.authorId !== Options.OWNER_ID) return;

@@ -30,8 +30,8 @@ await Promise.all([
   // /commands/
   handle<Command<false>>(rootd, "commands", (command) => {
     if (command.disabled) return;
-    cache.commands.set(command.data, command);
-    console.log("Loaded command %s", command.data);
+    cache.commands.set(command.data.name, command);
+    console.log("Loaded command %s", command.data.name);
   }),
   // /events/
   handle<Event>(rootd, "events", (event) => {
@@ -53,6 +53,7 @@ await Promise.all([
   }),
 ]);
 
+// more scripts
 await import("./src/utils/scripts/APICommands.ts");
 await import("./src/database/db.ts");
 

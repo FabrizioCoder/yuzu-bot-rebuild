@@ -12,7 +12,7 @@ export default <Command> {
       short: "Busca mensajes eliminados",
     },
   },
-  division: Division.INFO,
+  division: Division.UTIL,
   data: {
     name: "snipe",
     description: "Busca el último mensaje eliminado en el canal",

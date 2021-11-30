@@ -18,12 +18,14 @@ export default <Command<false>> {
     guildOnly: true,
     adminOnly: false,
     information: {
-      descr: "Muestra emotes del server, añade y remueve emotes",
+      descr: "Muestra, añade y remueve emotes",
       usage: "",
     },
   },
-  division: Division.INFO,
-  data: "emotes",
+  division: Division.UTIL,
+  data: {
+    name: "emotes",
+  },
   async execute(bot, message, { args }) {
     const [option, ...options] = args;
 

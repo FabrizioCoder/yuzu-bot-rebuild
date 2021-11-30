@@ -42,7 +42,6 @@ try {
         },
       },
       division: Division.INTERACTION,
-
       data: {
         name: commandName,
         description: `${commandName} a user`,
@@ -82,7 +81,9 @@ try {
       },
     });
     cache.commands.set(commandName, {
-      data: commandName,
+      data: {
+        name: commandName,
+      },
       options: {
         guildOnly: false,
         adminOnly: false,

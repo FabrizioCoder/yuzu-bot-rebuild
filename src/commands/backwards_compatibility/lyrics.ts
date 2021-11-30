@@ -28,8 +28,10 @@ export default <Command<false>> {
       usage: "[@Mención]",
     },
   },
-  division: Division.INFO,
-  data: "lyrics",
+  division: Division.UTIL,
+  data: {
+    name: "lyrics",
+  },
   async execute(_bot, _message, { args }) {
     const option = args.join(" ");
 

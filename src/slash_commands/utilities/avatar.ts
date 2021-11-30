@@ -13,7 +13,7 @@ export default <Command> {
       usage: "[@Mención]",
     },
   },
-  division: Division.INFO,
+  division: Division.UTIL,
   data: {
     name: "avatar",
     description: "Busca el avatar de un usuario",

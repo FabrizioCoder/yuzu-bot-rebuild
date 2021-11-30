@@ -1,7 +1,7 @@
 import type { Command } from "../types/command.ts";
 import type { PrefixSchema } from "../database/models/prefix_model.ts";
 
-import { Options } from "../utils/mod.ts";
+import { Division, Options } from "../utils/mod.ts";
 import { hasGuildPermissions } from "../../deps.ts";
 import {
   addPrefix,
@@ -20,7 +20,10 @@ export default <Command<false>> {
       usage: "<Input>",
     },
   },
-  data: "prefix",
+  division: Division.ADMIN,
+  data: {
+    name: "prefix",
+  },
   async execute(bot, message, { args }) {
     if (!db || !message.guildId) return;
 

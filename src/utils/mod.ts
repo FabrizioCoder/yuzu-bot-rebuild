@@ -4,6 +4,7 @@ export * from "./constants/options.ts";
 export * from "./constants/time.ts";
 export * from "./constants/mentions.ts";
 export * from "./constants/colors.ts";
+export * from "./constants/emojis.ts";
 
 // our cache
 export * from "./cache.ts";

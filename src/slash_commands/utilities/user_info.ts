@@ -21,7 +21,7 @@ export default <Command> {
       usage: "<User>",
     },
   },
-  division: Division.INFO,
+  division: Division.UTIL,
   data: {
     name: "user",
     description: "Busca un usuario",

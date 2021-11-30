@@ -29,7 +29,7 @@ export default <Command> {
       usage: "[@Mención]",
     },
   },
-  division: Division.INFO,
+  division: Division.UTIL,
   data: {
     name: "lyrics",
     description: "Busca letras de canciones",

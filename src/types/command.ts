@@ -29,6 +29,7 @@ const enum CommandTypes {
 
 type CommandArgs = {
   args: string[];
+  prefix: string;
 };
 
 type CommandMessageContent =
@@ -38,7 +39,7 @@ type CommandMessageContent =
 
 type CommandData<Slash> = Slash extends true
   ? MakeRequired<EditGlobalApplicationCommand, "name">
-  : string;
+  : { name: string; description?: undefined };
 
 type CommandArgumentsPassed<Slash> = Slash extends true
   ? [Bot, DiscordenoInteraction]
@@ -61,7 +62,7 @@ export interface Command<Slash extends boolean = true> extends Pipelines {
   disabled?: boolean;
   options?: CommandOptions;
 
-  division?: Division;
+  division: Division;
 
   type?: CommandTypes;
 

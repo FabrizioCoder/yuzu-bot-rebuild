@@ -19,14 +19,14 @@ export default <Command> {
     guildOnly: true,
     adminOnly: false,
     information: {
-      descr: "Muestra emotes del server, añade y remueve emotes",
+      descr: "Muestra, añade y remueve emotes",
       usage: "emotes | add | remove | hide | display [name] [url]",
     },
   },
-  division: Division.INFO,
+  division: Division.UTIL,
   data: {
     name: "emotes",
-    description: "Muestra emotes del server, añade y remueve emotes",
+    description: "Muestra, añade y remueve emotes",
     options: [
       {
         type: ApplicationCommandOptionTypes.SubCommand,
