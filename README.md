@@ -77,9 +77,9 @@ export default <Command<false>> {
 - ~~Genius wrapper~~
 - ~~Pokedex~~
 - Database
-  - Connect the databse
+  - ~~Connect the databse~~
   - Tag command
-  - Prefix command
+  - ~~Prefix command~~
 - Etc
   - ~~String manipulation commands~~
     - ~~Emojify command~~

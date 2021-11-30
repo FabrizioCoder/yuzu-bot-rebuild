@@ -54,6 +54,7 @@ await Promise.all([
 ]);
 
 await import("./src/utils/scripts/APICommands.ts");
+await import("./src/database/db.ts");
 
 // start the bot
 const bot = createBot({

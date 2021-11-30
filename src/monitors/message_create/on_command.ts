@@ -1,6 +1,8 @@
 import type { Monitor } from "../../types/monitor.ts";
-
+import type { PrefixSchema } from "../../database/models/prefix_model.ts";
 import { cache, Options } from "../../utils/mod.ts";
+import { getPrefix } from "../../database/controllers/prefix_controller.ts";
+import { db } from "../../database/db.ts";
 import { sendMessage } from "../../../deps.ts";
 
 export default <Monitor<"messageCreate">> {
@@ -9,7 +11,16 @@ export default <Monitor<"messageCreate">> {
   ignoreDM: true,
   ignoreBots: true,
   async execute(bot, message) {
-    const prefix = Options.PREFIX;
+    // TODO: make this more readable
+    const prefix = message.guildId
+      ? db
+        ? (await getPrefix(
+          db.collection<PrefixSchema>("prefixes"),
+          message.guildId,
+        ))?.prefix ?? Options.PREFIX
+        : Options.PREFIX
+      : Options.PREFIX;
+
     const args = message.content.slice(prefix.length).trim().split(/\s+/gm);
     const name = args.shift()?.toLowerCase();
 
