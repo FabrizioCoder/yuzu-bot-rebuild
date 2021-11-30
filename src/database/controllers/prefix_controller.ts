@@ -3,7 +3,7 @@ import type { PrefixSchema } from "../models/prefix_model.ts";
 
 type Collection<T = PrefixSchema> = MongoCollection<T>;
 
-export function getPrefixes(db: Database) {
+export function getCollection(db: Database) {
   return db.collection<PrefixSchema>("prefixes");
 }
 

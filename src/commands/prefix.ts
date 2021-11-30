@@ -1,11 +1,11 @@
 import type { Command } from "../types/command.ts";
-import type { PrefixSchema } from "../database/models/prefix_model.ts";
 
 import { Division, Options } from "../utils/mod.ts";
 import { hasGuildPermissions } from "../../deps.ts";
 import {
   addPrefix,
   editPrefix,
+  getCollection,
   getPrefix,
 } from "../database/controllers/prefix_controller.ts";
 import { db } from "../database/db.ts";
@@ -29,7 +29,7 @@ export default <Command<false>> {
 
     const input = args[0];
     const guildPrefix = await getPrefix(
-      db.collection<PrefixSchema>("prefixes"),
+      getCollection(db),
       message.guildId,
     );
 
@@ -52,23 +52,23 @@ export default <Command<false>> {
 
     if (guildPrefix) {
       await editPrefix(
-        db.collection<PrefixSchema>("prefixes"),
+        getCollection(db),
         message.guildId,
         input,
       );
       const newPrefix = await getPrefix(
-        db.collection<PrefixSchema>("prefixes"),
+        getCollection(db),
         message.guildId,
       );
       return `El prefix se ha actualizado a ${newPrefix?.prefix}`;
     } else {
       await addPrefix(
-        db.collection<PrefixSchema>("prefixes"),
+        getCollection(db),
         message.guildId,
         input,
       );
       const newPrefix = await getPrefix(
-        db.collection<PrefixSchema>("prefixes"),
+        getCollection(db),
         message.guildId,
       );
       return `El prefix nuevo será ${newPrefix?.prefix}`;
