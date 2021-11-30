@@ -1,11 +1,15 @@
-import type { Command } from "../types/command.ts";
-import type { DiscordenoUser, Embed } from "../../deps.ts";
-import { DiscordColors, Division, snowflakeToTimestamp } from "../utils/mod.ts";
+import type { Command } from "../../types/command.ts";
+import type { DiscordenoUser, Embed } from "../../../deps.ts";
+import {
+  DiscordColors,
+  Division,
+  snowflakeToTimestamp,
+} from "../../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
   avatarURL,
   getMember,
-} from "../../deps.ts";
+} from "../../../deps.ts";
 
 export default <Command> {
   options: {

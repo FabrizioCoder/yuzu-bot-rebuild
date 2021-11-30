@@ -1,6 +1,6 @@
-import type { Command } from "../types/command.ts";
-import { Division, isInvite } from "../utils/mod.ts";
-import { ApplicationCommandOptionTypes } from "../../deps.ts";
+import type { Command } from "../../types/command.ts";
+import { Division, isInvite } from "../../utils/mod.ts";
+import { ApplicationCommandOptionTypes } from "../../../deps.ts";
 
 export default <Command> {
   options: {

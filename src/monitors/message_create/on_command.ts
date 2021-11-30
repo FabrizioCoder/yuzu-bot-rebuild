@@ -31,7 +31,7 @@ export default <Monitor<"messageCreate">> {
     }
 
     try {
-      const output = await command.execute(bot, message, args);
+      const output = await command.execute(bot, message, { args });
 
       if (!output) return;
 

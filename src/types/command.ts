@@ -27,7 +27,9 @@ const enum CommandTypes {
   Normal,
 }
 
-type Args = string[];
+type CommandArgs = {
+  args: string[];
+};
 
 type CommandMessageContent =
   | string
@@ -40,7 +42,7 @@ type CommandData<Slash> = Slash extends true
 
 type CommandArgumentsPassed<Slash> = Slash extends true
   ? [Bot, DiscordenoInteraction]
-  : [Bot, DiscordenoMessage, Args];
+  : [Bot, DiscordenoMessage, CommandArgs];
 
 // now supports both slash commands and regular commands
 export interface Command<Slash extends boolean = true> {

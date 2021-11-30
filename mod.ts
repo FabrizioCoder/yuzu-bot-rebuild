@@ -16,7 +16,6 @@ import {
 
 // scripts
 import "https://deno.land/x/dotenv/load.ts";
-import "./src/utils/scripts/APICommands.ts";
 
 const token = Deno.env.get("TOKEN") ?? Options.TOKEN;
 const rootd = dirname(import.meta.url) + "/src";
@@ -53,6 +52,8 @@ await Promise.all([
     console.log("Loaded monitor %s", monitor.name);
   }),
 ]);
+
+await import("./src/utils/scripts/APICommands.ts");
 
 // start the bot
 const bot = createBot({

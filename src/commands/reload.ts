@@ -8,7 +8,7 @@ export default <Command<false>> {
     adminOnly: true,
   },
   division: Division.OWNER,
-  data: "eval",
+  data: "reload",
   async execute(bot, message) {
     if (message.authorId !== Options.OWNER_ID) return;
     const commands = cache.slashCommands.map((c) => c.data);

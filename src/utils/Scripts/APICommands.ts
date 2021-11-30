@@ -93,7 +93,7 @@ try {
         },
       },
       division: Division.INTERACTION,
-      execute(bot, msg, args) {
+      execute(bot, msg, { args }) {
         // utilities
         const search = args.join(" ").match(userMention);
 

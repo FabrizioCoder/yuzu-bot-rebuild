@@ -1,19 +1,19 @@
 // deno-lint-ignore-file camelcase
 
-import type { Command } from "../types/command.ts";
-import type { Embed } from "../../deps.ts";
-import { Division, randomHex } from "../utils/mod.ts";
-import { ApplicationCommandOptionTypes, avatarURL } from "../../deps.ts";
+import type { Command } from "../../types/command.ts";
+import type { Embed } from "../../../deps.ts";
+import { Division, randomHex } from "../../utils/mod.ts";
+import { ApplicationCommandOptionTypes, avatarURL } from "../../../deps.ts";
 import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 // TYPING
 
-type IApiResource = {
+interface ApiResource {
   name: string;
   url: string;
-};
+}
 
-type IPokemon = {
+interface Pokemon {
   id: number;
   name: string;
   base_experience: number;
@@ -21,19 +21,19 @@ type IPokemon = {
   is_default: boolean;
   order: number;
   weight: number;
-  sprites: IPokemonSprites;
-  abilities: IPokemonAbility[];
-  stats: IPokemonStat[];
-  types: IPokemonType[];
-};
+  sprites: PokemonSprites;
+  abilities: PokemonAbility[];
+  stats: PokemonStat[];
+  types: PokemonType[];
+}
 
-type IPokemonAbility = {
+interface PokemonAbility {
   is_hidden: boolean;
   slot: number;
-  ability: IApiResource;
-};
+  ability: ApiResource;
+}
 
-type IPokemonSprites = {
+interface PokemonSprites {
   front_default: string;
   front_shiny: string;
   front_female?: string;
@@ -43,35 +43,35 @@ type IPokemonSprites = {
   back_shiny: string;
   back_female?: string;
   backShiny_female?: string;
-};
+}
 
-type IPokemonStat = {
+interface PokemonStat {
   base_stat: number;
   effort: number;
-  stat: IApiResource;
-};
+  stat: ApiResource;
+}
 
-type IPokemonType = {
+interface PokemonType {
   slot: number;
-  type: IApiResource;
-};
+  type: ApiResource;
+}
 
-type IPokemonTarget = {
+interface PokemonTarget {
   id: number;
   specie: string;
   shiny: boolean;
   mega: boolean;
-};
+}
 
 // UTILITY
 
 async function getPokemonFromApi(
   pokemon: string | number,
-): Promise<IPokemon | undefined> {
+): Promise<Pokemon | undefined> {
   const pokeAPI = "https://pokeapi.co/api/v2";
 
   try {
-    const { data } = await axiod.get<IPokemon>(`${pokeAPI}/pokemon/${pokemon}`);
+    const { data } = await axiod.get<Pokemon>(`${pokeAPI}/pokemon/${pokemon}`);
 
     return data;
   } catch (_) {
@@ -79,19 +79,19 @@ async function getPokemonFromApi(
   }
 }
 
-function parseMessageToPokemon(message: string): IPokemonTarget {
+function parseMessageToPokemon(message: string): PokemonTarget {
   const base = {
     shiny: false,
     mega: false,
   };
 
   if (!isNaN(parseInt(message))) {
-    return <IPokemonTarget> Object.assign(base, {
+    return <PokemonTarget> Object.assign(base, {
       id: parseInt(message),
       specie: "",
     });
   } else {
-    return <IPokemonTarget> Object.assign(base, {
+    return <PokemonTarget> Object.assign(base, {
       id: 0,
       specie: message.toLowerCase(),
     });

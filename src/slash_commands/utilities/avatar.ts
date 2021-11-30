@@ -1,12 +1,7 @@
-import type { Command } from "../types/command.ts";
-import type { Embed } from "../../deps.ts";
-import { Division } from "../utils/mod.ts";
-import {
-  ApplicationCommandOptionTypes,
-  avatarURL,
-  getUser,
-  transformUser,
-} from "../../deps.ts";
+import type { Command } from "../../types/command.ts";
+import type { DiscordenoUser, Embed } from "../../../deps.ts";
+import { Division } from "../../utils/mod.ts";
+import { ApplicationCommandOptionTypes, avatarURL } from "../../../deps.ts";
 
 export default <Command> {
   options: {
@@ -25,7 +20,6 @@ export default <Command> {
     options: [
       {
         type: ApplicationCommandOptionTypes.User,
-        required: true,
         name: "target",
         description: "The user",
       },
@@ -35,9 +29,8 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
-      const userId = BigInt(option.value as string);
-      const rawUser = await getUser(bot, userId);
-      const user = transformUser(bot, rawUser);
+      const userId = BigInt(option.value as string ?? interaction.user.id);
+      const user = <DiscordenoUser | undefined> bot.cache.users.get(userId);
 
       if (!user) return "Especifica el usuario correctamente";
 
