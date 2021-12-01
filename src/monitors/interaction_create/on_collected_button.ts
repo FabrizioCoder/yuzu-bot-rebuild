@@ -9,6 +9,7 @@ export default <Monitor<"interactionCreate">> {
   ignoreBots: true,
   async execute(_bot, interaction) {
     if (interaction.type === InteractionTypes.MessageComponent) {
+      if (interaction.data?.customId === "menu") return;
       if (interaction.member) {
         processButtonCollectors(interaction, interaction.member);
       }
