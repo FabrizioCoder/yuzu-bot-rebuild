@@ -119,7 +119,7 @@ export default <Command> {
       usage: "<Nombre o id>",
     },
   },
-  division: Division.UTIL,
+  division: Division.FUN,
   data: {
     name: "pokedex",
     description: "Busca en la pokédex 🔍",

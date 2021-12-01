@@ -123,7 +123,7 @@ export default <Command<false>> {
   data: {
     name: "dex",
   },
-  async execute(bot, message, { args }) {
+  async execute(_bot, _message, { args }) {
     const option = args.join(" ");
 
     if (!option) {

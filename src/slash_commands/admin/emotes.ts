@@ -23,7 +23,7 @@ export default <Command> {
       usage: "emotes | add | remove | hide | display [name] [url]",
     },
   },
-  division: Division.UTIL,
+  division: Division.CONFIG,
   data: {
     name: "emotes",
     description: "Muestra, añade y remueve emotes",

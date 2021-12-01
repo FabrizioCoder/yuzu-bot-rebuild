@@ -82,7 +82,7 @@ export default <Command<false>> {
   - ~~Connect the databse~~
   - ~~Tag command~~
   - ~~Prefix command~~
-- Etc
+- ~~Etc~~
   - ~~String manipulation commands~~
     - ~~Emojify command~~
     - ~~Reverse command~~
@@ -90,13 +90,12 @@ export default <Command<false>> {
   - ~~Ping command~~
   - ~~Say command~~
   - ~~help command (categories)~~
-  - help command (commands)
+  - ~~help command (commands)~~
   - ~~userinfo command~~
   - ~~serverinfo command~~
   - ~~8ball command~~
 - Non-slash
   - ~~Help command (categories)~~
-  - Help command (commands)
   - ~~tag command~~
   - ~~snipe command~~
   - ~~say command~~

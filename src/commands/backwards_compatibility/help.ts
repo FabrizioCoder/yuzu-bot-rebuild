@@ -21,9 +21,8 @@ export default <Command<false>> {
     guildOnly: true,
     adminOnly: false,
     information: {
-      descr: "\\📕 Ayuda del bot...",
-      short: "\\📕 Ayuda del bot",
-      usage: "...",
+      descr: "📕 Ayuda del bot...",
+      short: "📕 Ayuda del bot",
     },
   },
   division: Division.INFO,

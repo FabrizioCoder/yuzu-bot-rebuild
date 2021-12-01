@@ -13,10 +13,10 @@ export default <Command<false>> {
     adminOnly: false,
     information: {
       descr: "Muestra, añade y remueve emotes",
-      usage: "",
+      usage: "emotes | add | remove | hide | display [name] [url]",
     },
   },
-  division: Division.UTIL,
+  division: Division.CONFIG,
   data: {
     name: "emotes",
   },

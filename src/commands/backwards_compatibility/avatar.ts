@@ -13,6 +13,8 @@ export default <Command<false>> {
       usage: "[@Mención]",
     },
   },
+  // TODO
+  disabled: true,
   division: Division.UTIL,
   data: {
     name: "avatar",

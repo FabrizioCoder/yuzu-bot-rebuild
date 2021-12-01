@@ -6,6 +6,11 @@ export default <Command<false>> {
   options: {
     guildOnly: true,
     adminOnly: true,
+    information: {
+      descr: "...",
+      short: "..",
+      usage: ".",
+    },
   },
   division: Division.OWNER,
   data: {
