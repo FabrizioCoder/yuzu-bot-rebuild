@@ -6,7 +6,6 @@ import type { Task } from "./src/types/task.ts";
 import type { Monitor } from "./src/types/monitor.ts";
 
 import { cache, handle, Options } from "./src/utils/mod.ts";
-import { dirname } from "https://deno.land/std@0.113.0/path/mod.ts";
 import {
   createBot,
   enableCachePlugin,
