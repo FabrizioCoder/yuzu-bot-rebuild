@@ -95,7 +95,8 @@ export default <Command<false>> {
   - ~~serverinfo command~~
   - ~~8ball command~~
 - Non-slash
-  - Help command (both),
-  - tag command
-  - snipe command
-  - say command
+  - ~~Help command (categories)~~
+  - Help command (commands)
+  - ~~tag command~~
+  - ~~snipe command~~
+  - ~~say command~~

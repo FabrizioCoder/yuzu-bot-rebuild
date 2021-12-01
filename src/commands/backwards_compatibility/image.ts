@@ -1,5 +1,10 @@
 import type { Command } from "../../types/command.ts";
-import type { ButtonComponent, Embed } from "../../../deps.ts";
+import type {
+  ButtonComponent,
+  DiscordenoChannel,
+  DiscordenoUser,
+  Embed,
+} from "../../../deps.ts";
 
 import {
   avatarURL,
@@ -85,8 +90,12 @@ export default <Command<false>> {
     }
 
     // TODO
-    const channel = await bot.cache.channels.get(message.channelId);
-    const author = await bot.cache.users.get(message.authorId);
+    const channel = <DiscordenoChannel> bot.cache.channels.get(
+      message.channelId,
+    );
+    const author = <DiscordenoUser | undefined> bot.cache.users.get(
+      message.authorId,
+    );
 
     if (!author) return;
 

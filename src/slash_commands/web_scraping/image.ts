@@ -3,6 +3,7 @@ import type { Command } from "../../types/command.ts";
 // maybe we don't need DiscordenoMessage
 import type {
   ButtonComponent,
+  DiscordenoChannel,
   DiscordenoMessage,
   Embed,
 } from "../../../deps.ts";
@@ -101,7 +102,9 @@ export default <Command> {
 
     if (!interaction.channelId) return;
 
-    const channel = await bot.cache.channels.get(interaction.channelId);
+    const channel = <DiscordenoChannel> bot.cache.channels.get(
+      interaction.channelId,
+    );
 
     // get an nsfw output if the currentChannel is nsfw
     const results = await search(

@@ -3,7 +3,7 @@ import { processButtonCollectors } from "../../utils/mod.ts";
 import { InteractionTypes } from "../../../deps.ts";
 
 export default <Monitor<"interactionCreate">> {
-  name: "buttonCollector",
+  name: "onButtonCollected",
   kind: "interactionCreate",
   ignoreDM: true,
   ignoreBots: true,

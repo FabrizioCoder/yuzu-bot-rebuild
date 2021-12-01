@@ -8,6 +8,11 @@ export default <Event<"ready">> {
 
     registerTasks(bot, payload, uptime);
 
+    console.log("Cached users", bot.cache.users.size());
+    console.log("Cached guilds", bot.cache.guilds.size());
+    console.log("Cached channels", bot.cache.channels.size());
+    console.log("Cached members", bot.cache.members.size());
+    console.log("Cached messages", bot.cache.messages.size());
     // LOG
     console.group();
     console.log("Logged in", `${payload.user.username}`);

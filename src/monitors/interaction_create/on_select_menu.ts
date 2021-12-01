@@ -8,7 +8,7 @@ import {
 import { cache, Division } from "../../utils/mod.ts";
 
 export default <Monitor<"interactionCreate">> {
-  name: "buttonCollector",
+  name: "onSelectMenu",
   kind: "interactionCreate",
   ignoreDM: true,
   ignoreBots: true,
