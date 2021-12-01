@@ -25,7 +25,10 @@ import {
   randomHex,
 } from "../../utils/mod.ts";
 
-import { SafetyLevels, search } from "https://deno.land/x/ddgimages/mod.ts";
+import {
+  SafetyLevels,
+  search,
+} from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
 
 // enums
 enum ButtonEmojis {
