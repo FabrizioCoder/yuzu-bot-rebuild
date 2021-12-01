@@ -18,35 +18,34 @@ import {
 import "https://deno.land/x/dotenv/load.ts";
 
 const token = Deno.env.get("TOKEN") ?? Options.TOKEN;
-const rootd = dirname(import.meta.url) + "/src";
 
 await Promise.all([
   // /slash_commands/
-  handle<Command>(rootd, "slash_commands", (command) => {
+  handle<Command>("slash_commands", (command) => {
     if (command.disabled) return;
     cache.slashCommands.set(command.data.name, command);
     console.log("Loaded command %s", command.data.name);
   }),
   // /commands/
-  handle<Command<false>>(rootd, "commands", (command) => {
+  handle<Command<false>>("commands", (command) => {
     if (command.disabled) return;
     cache.commands.set(command.data.name, command);
     console.log("Loaded command %s", command.data.name);
   }),
   // /events/
-  handle<Event>(rootd, "events", (event) => {
+  handle<Event>("events", (event) => {
     if (event.disabled) return;
     cache.events.set(event.name, event);
     console.log("Loaded event %s", event.name);
   }),
   // /tasks/
-  handle<Task>(rootd, "tasks", (task) => {
+  handle<Task>("tasks", (task) => {
     if (task.disabled) return;
     cache.tasks.set(task.name, task);
     console.log("Loaded task %s", task.name);
   }),
   // /monitors/
-  handle<Monitor>(rootd, "monitors", (monitor) => {
+  handle<Monitor>("monitors", (monitor) => {
     if (monitor.disabled) return;
     cache.monitors.set(monitor.name, monitor);
     console.log("Loaded monitor %s", monitor.name);
