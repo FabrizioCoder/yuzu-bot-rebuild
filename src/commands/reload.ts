@@ -19,7 +19,7 @@ export default <Command<false>> {
   async execute(bot, message) {
     if (message.authorId !== Options.OWNER_ID) return;
     const commands = cache.slashCommands.map((c) => c.data);
-    await upsertApplicationCommands(bot, commands, Options.GUILD_ID);
+    await upsertApplicationCommands(bot, commands);
     return `OK! Loading ⌛... \`${commands.map((c) => c.name).join(" ")}\``;
   },
 };
