@@ -1,17 +1,11 @@
 import type { Command } from "../../types/command.ts";
 import type {
   DiscordenoGuild,
-  DiscordenoUser,
   Embed,
   ModifyGuildEmoji,
 } from "../../../deps.ts";
 import { Division, randomHex } from "../../utils/mod.ts";
-import {
-  avatarURL,
-  createEmoji,
-  deleteEmoji,
-  editEmoji,
-} from "../../../deps.ts";
+import { createEmoji, deleteEmoji, editEmoji } from "../../../deps.ts";
 
 export default <Command<false>> {
   options: {
@@ -34,12 +28,8 @@ export default <Command<false>> {
     const guild = <DiscordenoGuild | undefined> bot.cache.guilds.get(
       message.guildId,
     );
-    const author = <DiscordenoUser | undefined> bot.cache.users.get(
-      message.authorId,
-    );
 
     if (!guild) return;
-    if (!author) return;
 
     switch (option) {
       case "hide": {
@@ -113,18 +103,6 @@ export default <Command<false>> {
       }
       default: {
         return <Embed> {
-          author: {
-            name: `${author.username}#${author.discriminator}`,
-            iconUrl: avatarURL(
-              bot,
-              author.id,
-              author.discriminator,
-              {
-                avatar: author.avatar,
-                size: 512,
-              },
-            ),
-          },
           color: randomHex(),
           // TODO: make less painful to read
           description: `Emotes: ${

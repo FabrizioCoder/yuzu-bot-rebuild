@@ -128,7 +128,7 @@ export default <Command> {
         },
       ],
       author: {
-        name: `${interaction.user.username}#${interaction.user.discriminator}`,
+        name: results[0].source,
         iconUrl: avatarURL(
           bot,
           interaction.user.id,
@@ -262,6 +262,18 @@ export default <Command> {
         },
         footer: {
           text: `📜: ${index}/${limit}`,
+        },
+        author: {
+          name: result.source,
+          iconUrl: avatarURL(
+            bot,
+            interaction.user.id,
+            interaction.user.discriminator,
+            {
+              avatar: interaction.user.avatar,
+              size: 512,
+            },
+          ),
         },
       });
 

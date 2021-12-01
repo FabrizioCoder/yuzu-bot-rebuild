@@ -2,12 +2,10 @@ import type { Command } from "../../types/command.ts";
 import type {
   ButtonComponent,
   DiscordenoChannel,
-  DiscordenoUser,
   Embed,
 } from "../../../deps.ts";
 
 import {
-  avatarURL,
   ButtonStyles,
   deleteMessage,
   InteractionResponseTypes,
@@ -93,11 +91,6 @@ export default <Command<false>> {
     const channel = <DiscordenoChannel> bot.cache.channels.get(
       message.channelId,
     );
-    const author = <DiscordenoUser | undefined> bot.cache.users.get(
-      message.authorId,
-    );
-
-    if (!author) return;
 
     // get an nsfw output if the currentChannel is nsfw
     const results = await search(
@@ -120,18 +113,6 @@ export default <Command<false>> {
           value: channel?.nsfw ? "No" : "Sí",
         },
       ],
-      author: {
-        name: `${author.username}#${author.discriminator}`,
-        iconUrl: avatarURL(
-          bot,
-          author.id,
-          author.discriminator,
-          {
-            avatar: author.avatar,
-            size: 512,
-          },
-        ),
-      },
       footer: { text: `Results for ${option}` },
     };
 
@@ -149,7 +130,7 @@ export default <Command<false>> {
 
     // listen to buttons forever
     while (true) {
-      const button = await needButton(author.id, sended.id, {
+      const button = await needButton(message.authorId, sended.id, {
         duration: Milliseconds.MINUTE * 5,
         amount: 1,
       });

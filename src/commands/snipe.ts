@@ -16,7 +16,7 @@ export default <Command<false>> {
   data: {
     name: "snipe",
   },
-  async execute(bot, message) {
+  async execute(bot) {
     const lastMessage = cache.lastMessages.first();
 
     if (!lastMessage) {
@@ -24,7 +24,7 @@ export default <Command<false>> {
     }
 
     const author = <DiscordenoUser | undefined> bot.cache.users.get(
-      message.authorId,
+      lastMessage.authorId,
     );
 
     if (!author) return;

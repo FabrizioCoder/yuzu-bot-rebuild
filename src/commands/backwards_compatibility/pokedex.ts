@@ -138,25 +138,7 @@ export default <Command<false>> {
       return "No se pudo encontrar información sobre el pokémon.";
     }
 
-    const author = <DiscordenoUser | undefined> bot.cache.users.get(
-      message.authorId,
-    );
-
-    if (!author) return;
-
     return <Embed> {
-      author: {
-        name: author.username,
-        url: avatarURL(
-          bot,
-          author.id,
-          author.discriminator,
-          {
-            avatar: author.avatar,
-            size: 512,
-          },
-        ),
-      },
       title: `${poke.name[0]?.toUpperCase() + poke.name.slice(1)} #${poke.id}`,
       color: randomHex(),
       footer: {

@@ -20,7 +20,7 @@ export default <Command<false>> {
   async execute(bot, message, { args }) {
     const option = (/\d{18}/g).exec(args.join(" "))?.[0];
 
-    const userId = BigInt(option ?? message.authorId);
+    const userId = BigInt(option ?? message.authorId.toString());
     const user = <DiscordenoUser> bot.cache.users.get(userId);
 
     if (!user) return "El usuario no se encontró";
