@@ -17,16 +17,6 @@ import {
 // scripts
 import "https://deno.land/x/dotenv/load.ts";
 
-// heroku...
-import { serve } from "https://deno.land/std@0.57.0/http/server.ts";
-import { parse } from "https://deno.land/std/flags/mod.ts";
-
-const { args } = Deno;
-const DEFAULT_PORT = 8000;
-const argPort = parse(args).port;
-
-serve({ port: argPort ? Number(argPort) : DEFAULT_PORT });
-
 const token = Deno.env.get("TOKEN") ?? Options.TOKEN;
 const rootd = dirname(import.meta.url) + "/src";
 
