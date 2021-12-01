@@ -1,6 +1,6 @@
 import type { Monitor } from "../../types/monitor.ts";
 import { processButtonCollectors } from "../../utils/mod.ts";
-import { InteractionTypes } from "../../../deps.ts";
+import { InteractionTypes, MessageComponentTypes } from "../../../deps.ts";
 
 export default <Monitor<"interactionCreate">> {
   name: "onButtonCollected",
@@ -9,7 +9,11 @@ export default <Monitor<"interactionCreate">> {
   ignoreBots: true,
   async execute(_bot, interaction) {
     if (interaction.type === InteractionTypes.MessageComponent) {
-      if (interaction.data?.customId === "menu") return;
+      if (
+        interaction.data?.componentType === MessageComponentTypes.SelectMenu
+      ) {
+        return;
+      }
       if (interaction.member) {
         processButtonCollectors(interaction, interaction.member);
       }
