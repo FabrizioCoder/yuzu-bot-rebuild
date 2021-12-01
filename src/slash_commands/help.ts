@@ -20,7 +20,7 @@ export default <Command> {
   },
   division: Division.INFO,
   data: {
-    name: "commands",
+    name: "help",
     description: "📕 Ayuda del bot...",
   },
   async execute(bot, interaction) {
