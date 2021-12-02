@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import { Division } from "../utils/mod.ts";
+import { Division, isInvite } from "../utils/mod.ts";
 import { deleteMessage, hasGuildPermissions, sendMessage } from "../../deps.ts";
 
 export default <Command<false>> {
@@ -7,7 +7,14 @@ export default <Command<false>> {
   division: Division.OWNER,
   async execute(bot, message, { args }) {
     const toSend = args.join(" ");
-    if (!toSend) return "Debes escribir algo";
+
+    if (!toSend) {
+      return "Debes escribir algo";
+    }
+
+    if (isInvite(toSend)) {
+      return "No puedo enviar invites";
+    }
 
     const msg = await sendMessage(bot, message.channelId, toSend);
 
