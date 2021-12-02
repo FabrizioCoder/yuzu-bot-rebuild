@@ -27,9 +27,9 @@ export default <Command<false>> {
   },
   division: Division.INFO,
   data: {
-    name: "commands",
+    name: "help",
   },
-  async execute(bot, message) {
+  async execute(bot, message, { prefix }) {
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",
@@ -84,7 +84,7 @@ export default <Command<false>> {
           size: 512,
         }),
       },
-      description: `Mi prefix es: !\n${
+      description: `Mi prefix es: ${prefix}\n${
         cache.slashCommands.size + cache.commands.size
       } comandos`,
       footer: {

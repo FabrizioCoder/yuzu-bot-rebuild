@@ -1,4 +1,5 @@
 import type {
+  ApplicationCommandTypes,
   Bot,
   DiscordenoInteraction,
   DiscordenoMessage,
@@ -45,17 +46,15 @@ type CommandArgumentsPassed<Slash> = Slash extends true
   ? [Bot, DiscordenoInteraction]
   : [Bot, DiscordenoMessage, CommandArgs];
 
-// now supports both slash commands and regular commands
-
-export interface Pipelines {
-  onBefore?(bot: Bot, interaction: DiscordenoInteraction): boolean;
-  onCancel?(
-    bot: Bot,
-    interaction: DiscordenoInteraction,
-  ): Embed | string;
+// the same as an slash command but sends a followUp message
+export interface ContextMenu {
+  name: string;
+  type: ApplicationCommandTypes;
+  execute(...args: CommandArgumentsPassed<true>): string | Embed;
 }
 
-export interface Command<Slash extends boolean = true> extends Pipelines {
+// now supports both slash commands and regular commands
+export interface Command<Slash extends boolean = true> {
   // the data (todo)
   data: CommandData<Slash>;
   // if its disabled

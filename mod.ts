@@ -49,6 +49,10 @@ await Promise.all([
     cache.monitors.set(monitor.name, monitor);
     console.log("Loaded monitor %s", monitor.name);
   }),
+  // /context_menus/
+  // handle<unknown>("context_menus", () => {
+  //   return;
+  // }),
 ]);
 
 // more scripts
