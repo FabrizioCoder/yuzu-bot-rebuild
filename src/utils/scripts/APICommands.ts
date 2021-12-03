@@ -63,7 +63,7 @@ try {
         if (option?.type !== ApplicationCommandOptionTypes.User) return;
 
         const userId = BigInt(option.value as string);
-        const user = <DiscordenoUser | undefined> bot.cache.users.get(userId);
+        const user = <DiscordenoUser | undefined> bot.users.get(userId);
 
         if (!data?.url) {
           return "No encontré una imagen para mostrar";

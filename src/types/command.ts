@@ -1,6 +1,6 @@
 import type {
   ApplicationCommandTypes,
-  Bot,
+  CachePlugin,
   DiscordenoInteraction,
   DiscordenoMessage,
   EditGlobalApplicationCommand,
@@ -43,8 +43,8 @@ type CommandData<Slash> = Slash extends true
   : { name: string; description?: undefined };
 
 type CommandArgumentsPassed<Slash> = Slash extends true
-  ? [Bot, DiscordenoInteraction]
-  : [Bot, DiscordenoMessage, CommandArgs];
+  ? [CachePlugin.BotWithCache, DiscordenoInteraction]
+  : [CachePlugin.BotWithCache, DiscordenoMessage, CommandArgs];
 
 // the same as an slash command but sends a followUp message
 export interface ContextMenu {

@@ -6,12 +6,7 @@ import type { Task } from "./src/types/task.ts";
 import type { Monitor } from "./src/types/monitor.ts";
 
 import { cache, handle, Options } from "./src/utils/mod.ts";
-import {
-  createBot,
-  enableCachePlugin,
-  enablePermissionsPlugin,
-  startBot,
-} from "./deps.ts";
+import { CachePlugin, createBot, PermissionsPlugin, startBot } from "./deps.ts";
 
 // scripts
 import "https://deno.land/x/dotenv/load.ts";
@@ -55,10 +50,6 @@ await Promise.all([
   // }),
 ]);
 
-// more scripts
-await import("./src/utils/scripts/APICommands.ts");
-await import("./src/database/db.ts");
-
 // start the bot
 const bot = createBot({
   botId: Options.ID,
@@ -69,13 +60,17 @@ const bot = createBot({
       ([k, v]) => [k, v.execute],
     ),
   ),
-  cache: { isAsync: false },
   token,
 });
 
-enableCachePlugin(bot);
+await startBot(
+  PermissionsPlugin.enablePermissionsPlugin(
+    CachePlugin.enableCachePlugin(
+      bot,
+    ),
+  ),
+);
 
-// deno-lint-ignore no-explicit-any
-enablePermissionsPlugin(bot as any);
-
-await startBot(bot);
+// more scripts
+await import("./src/utils/scripts/APICommands.ts");
+await import("./src/database/db.ts");

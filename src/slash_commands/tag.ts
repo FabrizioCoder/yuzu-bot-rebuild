@@ -1,9 +1,8 @@
 import type { Command } from "../types/command.ts";
-import type { DiscordenoChannel, DiscordenoUser } from "../../deps.ts";
 import { Division, Options, toCapitalCase } from "../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
-  hasGuildPermissions,
+  PermissionsPlugin,
 } from "../../deps.ts";
 import {
   addTag,
@@ -211,8 +210,8 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = await hasGuildPermissions(
-          bot as any,
+        const isAdmin = PermissionsPlugin.hasGuildPermissions(
+          bot,
           interaction.guildId,
           interaction.user.id,
           ["ADMINISTRATOR"],
@@ -247,9 +246,7 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const user = <DiscordenoUser | undefined> bot.cache.users.get(
-          BigInt(userId),
-        );
+        const user = bot.users.get(BigInt(userId));
 
         if (!user || user.bot) return "No encontré ese usuario";
 
@@ -309,8 +306,8 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = await hasGuildPermissions(
-          bot as any,
+        const isAdmin = PermissionsPlugin.hasGuildPermissions(
+          bot,
           interaction.guildId,
           interaction.user.id,
           ["ADMINISTRATOR"],
@@ -356,9 +353,7 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const channel = <DiscordenoChannel | undefined> bot.cache.channels.get(
-          interaction.channelId!,
-        );
+        const channel = bot.channels.get(interaction.channelId!);
         const safe = !channel?.nsfw;
 
         if (tag.nsfw && safe) {

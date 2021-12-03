@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type { DiscordenoUser, Embed } from "../../../deps.ts";
+import type { Embed } from "../../../deps.ts";
 import { DiscordColors, Division } from "../../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL } from "../../../deps.ts";
 
@@ -30,7 +30,7 @@ export default <Command> {
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
       const userId = BigInt(option.value as string ?? interaction.user.id);
-      const user = <DiscordenoUser | undefined> bot.cache.users.get(userId);
+      const user = bot.users.get(userId);
 
       if (!user) return "Especifica el usuario correctamente";
 

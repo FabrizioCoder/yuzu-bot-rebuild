@@ -1,9 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type {
-  DiscordenoUser,
-  Embed,
-  SelectMenuComponent,
-} from "../../../deps.ts";
+import type { Embed, SelectMenuComponent } from "../../../deps.ts";
 import {
   cache,
   DiscordColors,
@@ -57,12 +53,10 @@ export default <Command<false>> {
           };
         }),
     };
-    const me = <DiscordenoUser> bot.cache.users.get(bot.id);
-    const author = <DiscordenoUser | undefined> bot.cache.users.get(
-      message.authorId,
-    );
+    const me = bot.users.get(bot.id);
+    const author = bot.users.get(message.authorId);
 
-    if (!author) return;
+    if (!author || !me) return;
 
     const embed: Embed = {
       color: DiscordColors.Blurple,

@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import { Division, isInvite } from "../utils/mod.ts";
-import { deleteMessage, hasGuildPermissions, sendMessage } from "../../deps.ts";
+import { deleteMessage, PermissionsPlugin, sendMessage } from "../../deps.ts";
 
 export default <Command<false>> {
   data: { name: "say" },
@@ -19,10 +19,9 @@ export default <Command<false>> {
     const msg = await sendMessage(bot, message.channelId, toSend);
 
     if (msg.guildId) {
-      const canDeleteMessages = await hasGuildPermissions(
-        bot as any,
+      const canDeleteMessages = PermissionsPlugin.botHasGuildPermissions(
+        bot,
         msg.guildId,
-        bot.id,
         ["MANAGE_MESSAGES"],
       );
       if (canDeleteMessages) await deleteMessage(bot, msg.channelId, msg.id);

@@ -1,6 +1,7 @@
 import type { Monitor } from "../../types/monitor.ts";
 import { cache } from "../../utils/mod.ts";
 import {
+  CachePlugin,
   InteractionResponseTypes,
   InteractionTypes,
   sendInteractionResponse,
@@ -25,27 +26,10 @@ export default <Monitor<"interactionCreate">> {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
     });
 
-    if (command.onBefore && command.onCancel) {
-      const rejection = command.onBefore(bot, interaction);
-      if (rejection) {
-        const cancel = command.onCancel(bot, interaction);
-        await sendInteractionResponse(
-          bot,
-          interaction.id,
-          interaction.token,
-          {
-            type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-            data: {
-              content: typeof cancel === "string" ? cancel : "",
-              embeds: typeof cancel !== "string" ? [cancel] : [],
-            },
-          },
-        );
-        return;
-      }
-    }
-
-    const output = await command.execute(bot, interaction);
+    const output = await command.execute(
+      bot as CachePlugin.BotWithCache,
+      interaction,
+    );
 
     if (!output) return;
 

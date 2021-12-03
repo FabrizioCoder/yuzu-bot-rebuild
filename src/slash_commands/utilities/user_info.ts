@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type { DiscordenoUser, Embed } from "../../../deps.ts";
+import type { Embed } from "../../../deps.ts";
 import {
   DiscordColors,
   Division,
@@ -38,9 +38,7 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
-      const user = <DiscordenoUser | undefined> bot.cache.users.get(
-        BigInt(option.value as string),
-      );
+      const user = bot.users.get(BigInt(option.value as string));
 
       if (!user) return "No encontré al usuario";
 

@@ -1,9 +1,8 @@
 // deno-lint-ignore-file camelcase
 
 import type { Command } from "../../types/command.ts";
-import type { DiscordenoUser, Embed } from "../../../deps.ts";
+import type { Embed } from "../../../deps.ts";
 import { Division, randomHex } from "../../utils/mod.ts";
-import { avatarURL } from "../../../deps.ts";
 import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 // TYPING

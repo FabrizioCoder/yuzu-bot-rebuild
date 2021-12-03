@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import type { DiscordenoUser, Embed, SelectMenuComponent } from "../../deps.ts";
+import type { Embed, SelectMenuComponent } from "../../deps.ts";
 import { cache, DiscordColors, Division, DivisionEmoji } from "../utils/mod.ts";
 import {
   avatarURL,
@@ -51,7 +51,9 @@ export default <Command> {
           };
         }),
     };
-    const me = <DiscordenoUser> bot.cache.users.get(bot.id);
+    const me = bot.users.get(bot.id);
+
+    if (!me) return;
 
     const embed: Embed = {
       color: DiscordColors.Blurple,

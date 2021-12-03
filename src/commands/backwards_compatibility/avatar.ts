@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type { DiscordenoUser, Embed } from "../../../deps.ts";
+import type { Embed } from "../../../deps.ts";
 import { DiscordColors, Division } from "../../utils/mod.ts";
 import { avatarURL } from "../../../deps.ts";
 
@@ -23,7 +23,7 @@ export default <Command<false>> {
     const option = (/\d{18}/g).exec(args.join(" "))?.[0];
 
     const userId = BigInt(option ?? message.authorId.toString());
-    const user = <DiscordenoUser> bot.cache.users.get(userId);
+    const user = bot.users.get(userId);
 
     if (!user) return "El usuario no se encontró";
 

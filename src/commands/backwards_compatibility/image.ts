@@ -1,9 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type {
-  ButtonComponent,
-  DiscordenoChannel,
-  Embed,
-} from "../../../deps.ts";
+import type { ButtonComponent, Embed } from "../../../deps.ts";
 
 import {
   ButtonStyles,
@@ -90,10 +86,7 @@ export default <Command<false>> {
       return "Por favor escribe un texto";
     }
 
-    // TODO
-    const channel = <DiscordenoChannel> bot.cache.channels.get(
-      message.channelId,
-    );
+    const channel = bot.channels.get(message.channelId);
 
     // get an nsfw output if the currentChannel is nsfw
     const results = await search(

@@ -1,9 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type {
-  DiscordenoGuild,
-  Embed,
-  ModifyGuildEmoji,
-} from "../../../deps.ts";
+import type { Embed, ModifyGuildEmoji } from "../../../deps.ts";
 import { Division, randomHex } from "../../utils/mod.ts";
 import { createEmoji, deleteEmoji, editEmoji } from "../../../deps.ts";
 
@@ -25,9 +21,7 @@ export default <Command<false>> {
 
     if (!message.guildId) return;
 
-    const guild = <DiscordenoGuild | undefined> bot.cache.guilds.get(
-      message.guildId,
-    );
+    const guild = bot.guilds.get(message.guildId);
 
     if (!guild) return;
 

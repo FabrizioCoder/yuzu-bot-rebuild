@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import type { DiscordenoUser, Embed } from "../../deps.ts";
+import type { Embed } from "../../deps.ts";
 import { cache, Division, randomHex } from "../utils/mod.ts";
 import { avatarURL } from "../../deps.ts";
 
@@ -23,9 +23,7 @@ export default <Command<false>> {
       return "No existe un mensaje eliminado";
     }
 
-    const author = <DiscordenoUser | undefined> bot.cache.users.get(
-      lastMessage.authorId,
-    );
+    const author = bot.users.get(lastMessage.authorId);
 
     if (!author) return;
 

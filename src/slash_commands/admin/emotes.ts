@@ -11,7 +11,7 @@ import {
   createEmoji,
   deleteEmoji,
   editEmoji,
-  hasGuildPermissions,
+  PermissionsPlugin,
 } from "../../../deps.ts";
 
 export default <Command> {
@@ -92,15 +92,13 @@ export default <Command> {
     if (option?.type !== ApplicationCommandOptionTypes.SubCommand) return;
     if (!interaction.guildId) return;
 
-    const guild = <DiscordenoGuild | undefined> bot.cache.guilds.get(
-      interaction.guildId,
-    );
+    const guild = bot.guilds.get(interaction.guildId);
 
     if (!guild) return;
 
     if (option.name !== "display") {
-      const hasPermission = await hasGuildPermissions(
-        bot as any,
+      const hasPermission = PermissionsPlugin.hasGuildPermissions(
+        bot,
         interaction.guildId,
         interaction.user.id,
         ["MANAGE_EMOJIS"],
