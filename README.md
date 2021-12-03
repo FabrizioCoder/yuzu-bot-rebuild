@@ -19,7 +19,8 @@
 
 ### How to start?
 
-- Download/Clone/Fork the repo from this branch
+- Fork the repo from this branch
+- Clone my code
 - Install the [Deno](https://deno.land/) runtime
 - Go to the [developer](https://discord.com/developers/applications) portal
 - Make an application and get your token
@@ -70,3 +71,14 @@ export default <Command<false>> {
 
 - the return type is `string | Embed` the reply will be deferred by default
 - the callback will be exactly the same as the interactionCreate event
+
+### Heroku
+1. Add [this](https://github.com/chibat/heroku-buildpack-deno.git) buildpack to your app
+2. Make a mongodb atlas account
+3. Copy the `.env` example
+4. Add both your Discord token and the mongo atlas URI to the Heroku env variables
+5. Deploy directly from Github
+6. Enjoy
+
+### FAQ
+> no faq btw
