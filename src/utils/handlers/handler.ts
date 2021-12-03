@@ -11,7 +11,7 @@ async function handle<T>(folder: string, fn: (i: T) => void) {
       continue;
     }
     const output: { default: T } = await import(`../../${folder}/${file.name}`);
-    fn(output.default);
+    if (output.default) fn(output.default);
   }
 }
 

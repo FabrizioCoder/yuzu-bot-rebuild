@@ -86,7 +86,7 @@ export function processButtonCollectors(
       ...collector.buttons,
       {
         customId: data.data?.customId ||
-          `No customId provided for this button.`,
+          "No customId provided for this button.",
         interaction: data,
         member,
       },
@@ -95,7 +95,7 @@ export function processButtonCollectors(
 
   // More buttons still need to be collected
   collector.buttons.push({
-    customId: data.data?.customId ?? `No customId provided for this button.`,
+    customId: data.data?.customId ?? "No customId provided for this button.",
     interaction: data,
     member,
   });

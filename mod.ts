@@ -73,7 +73,6 @@ const bot = createBot({
   token,
 });
 
-// working by now
 enableCachePlugin(bot);
 
 // deno-lint-ignore no-explicit-any
