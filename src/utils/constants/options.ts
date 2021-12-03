@@ -4,7 +4,7 @@ export const Options = {
   GUILD_ID: 891367004903182336n,
   OWNER_ID: 774292293020155906n,
   // application id
-  ID: 916445394446192690n,
+  ID: 904922230285291531n,
   // ETC
   PREFIX: "!",
   TOKEN: "........",
