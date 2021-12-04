@@ -18,7 +18,7 @@ export default <Command> {
     description: "Busca el último mensaje eliminado en el canal",
   },
   async execute(bot, interaction) {
-    const message = cache.lastMessages.first();
+    const message = cache.lastMessages.get(interaction.channelId!);
 
     if (!message) {
       return "No existe un mensaje eliminado";

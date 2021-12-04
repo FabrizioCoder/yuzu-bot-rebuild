@@ -16,8 +16,8 @@ export default <Command<false>> {
   data: {
     name: "snipe",
   },
-  async execute(bot) {
-    const lastMessage = cache.lastMessages.first();
+  async execute(bot, message) {
+    const lastMessage = cache.lastMessages.get(message.channelId);
 
     if (!lastMessage) {
       return "No existe un mensaje eliminado";
