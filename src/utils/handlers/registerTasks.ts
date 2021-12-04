@@ -1,6 +1,6 @@
 import type { Bot } from "../../../deps.ts";
 import type { Payload } from "../../types/task.ts";
-import { cache } from "../mod.ts";
+import { cache } from "../cache.ts";
 
 // inspired by Discordeno template
 export const registerTasks = (
