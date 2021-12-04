@@ -54,7 +54,7 @@ await Promise.all([
 // start the bot
 const bot = createBot({
   botId: Options.ID,
-  intents: ["Guilds", "GuildMessages"],
+  intents: ["Guilds", "GuildMessages", "GuildEmojis", "DirectMessages"],
   events: Object.fromEntries( // transforms a Map<string, T> into an Object
     Array.from(
       cache.events.entries(),
