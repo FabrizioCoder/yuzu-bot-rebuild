@@ -16,13 +16,12 @@ export default <Command<false>> {
   data: {
     name: "reload",
   },
-  async execute(bot, message, { args }) {
+  async execute(bot, message) {
     if (message.authorId !== Options.OWNER_ID) return;
     const commands = cache.slashCommands.map((c) => c.data);
     await upsertApplicationCommands(
       bot,
       commands,
-      args.join(" ") ? BigInt(args.join(" ")) : undefined,
     );
     return `OK! Loading ⌛... \`${commands.map((c) => c.name).join(" ")}\``;
   },
