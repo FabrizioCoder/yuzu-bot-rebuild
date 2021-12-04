@@ -1,12 +1,12 @@
-import type { Command } from "../../types/command.ts";
+import type { Command } from "../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 import {
   DiscordColors,
   Division,
   snowflakeToTimestamp,
   toCapitalCase,
-} from "../../utils/mod.ts";
-import { avatarURL } from "../../../deps.ts";
+} from "../utils/mod.ts";
+import { avatarURL } from "../../deps.ts";
 
 export default <Command<false>> {
   options: {
@@ -83,6 +83,14 @@ export default <Command<false>> {
         {
           name: "Members",
           value: bot.members.size.toLocaleString(),
+          inline: true,
+        },
+        {
+          name: "Real count of members",
+          value: bot.guilds.map((g) => g.memberCount).reduce(
+            (a, b) => a + b,
+            0,
+          ),
           inline: true,
         },
         {
