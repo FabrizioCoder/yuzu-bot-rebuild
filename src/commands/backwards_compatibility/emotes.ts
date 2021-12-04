@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type { Embed, ModifyGuildEmoji } from "../../../deps.ts";
+import type { Embed } from "../../../deps.ts";
 import { Division, randomHex } from "../../utils/mod.ts";
 import { createEmoji, deleteEmoji, editEmoji } from "../../../deps.ts";
 
@@ -36,19 +36,23 @@ export default <Command<false>> {
         if (!name || name.length < 2) {
           return "El emoji debe tener al menos 2 caracteres";
         }
+        if (!role) {
+          return "Debes mencionar un rol";
+        }
 
         const emoji = guild.emojis.find((emoji) => emoji.name === name);
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        // TODO: editEmoji() has to be typed { roles } as string[] not bigint[]
         await editEmoji(
           bot,
           message.guildId,
-          BigInt(emoji.id),
+          emoji.id,
           {
-            roles: emoji.roles ? [role, ...emoji.roles] : [role],
-          } as ModifyGuildEmoji & { roles: string[] }, // fixing
+            roles: emoji.roles
+              ? [BigInt(role), ...emoji.roles]
+              : [BigInt(role)],
+          },
         );
 
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;

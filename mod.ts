@@ -10,6 +10,7 @@ import { CachePlugin, createBot, PermissionsPlugin, startBot } from "./deps.ts";
 
 // scripts
 import "https://deno.land/x/dotenv/load.ts";
+import "./src/utils/scripts/APICommands.ts";
 
 const token = Deno.env.get("TOKEN") ?? Options.TOKEN;
 
@@ -72,5 +73,4 @@ await startBot(
 );
 
 // more scripts
-await import("./src/utils/scripts/APICommands.ts");
 await import("./src/database/db.ts");

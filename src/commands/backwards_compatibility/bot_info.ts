@@ -24,7 +24,7 @@ export default <Command<false>> {
   },
   execute(bot) {
     const me = bot.users.get(bot.id);
-    const loggedIn = snowflakeToTimestamp(bot.id) / 1000n;
+
     if (!me) return;
 
     return <Embed> {
@@ -87,7 +87,9 @@ export default <Command<false>> {
         },
         {
           name: "Since",
-          value: `<t:${loggedIn}> <- <t:${loggedIn}:R>`,
+          value: `<t:${snowflakeToTimestamp(bot.id) / 1000n}> <- <t:${
+            snowflakeToTimestamp(bot.id) / 1000n
+          }:R>`,
         },
       ],
       footer: {

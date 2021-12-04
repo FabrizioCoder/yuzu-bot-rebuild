@@ -1,9 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type {
-  DiscordenoGuild,
-  Embed,
-  ModifyGuildEmoji,
-} from "../../../deps.ts";
+import type { Embed } from "../../../deps.ts";
 import { Division, randomHex } from "../../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
@@ -121,14 +117,15 @@ export default <Command> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        // TODO: editEmoji() has to be typed { roles } as string[] not bigint[]
         await editEmoji(
           bot,
           interaction.guildId,
-          BigInt(emoji.id),
+          emoji.id,
           {
-            roles: emoji.roles ? [role, ...emoji.roles] : [role],
-          } as ModifyGuildEmoji & { roles: string[] }, // fixing
+            roles: emoji.roles
+              ? [BigInt(role), ...emoji.roles]
+              : [BigInt(role)],
+          },
         );
 
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;
