@@ -125,14 +125,14 @@ export default <Command<false>> {
     let index = 0;
 
     // listen to buttons forever
-    while (true) {
+    do {
       const button = await needButton(message.authorId, sended.id, {
         duration: Milliseconds.MINUTE * 5,
         amount: 1,
       });
 
       // do this before the switch statement
-      if (!button) {
+      if (!button || !button.interaction) {
         break;
       }
 
@@ -229,6 +229,6 @@ export default <Command<false>> {
           },
         },
       );
-    }
+    } while (true);
   },
 };
