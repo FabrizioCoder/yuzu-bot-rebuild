@@ -17,31 +17,31 @@ const token = Deno.env.get("TOKEN") ?? Options.TOKEN;
 await Promise.all([
   // /slash_commands/
   handle<Command>("slash_commands", (command) => {
-    if (command.disabled) return;
+    if ("disable" in command) return;
     cache.slashCommands.set(command.data.name, command);
     console.log("Loaded command %s", command.data.name);
   }),
   // /commands/
   handle<Command<false>>("commands", (command) => {
-    if (command.disabled) return;
+    if ("disable" in command) return;
     cache.commands.set(command.data.name, command);
     console.log("Loaded command %s", command.data.name);
   }),
   // /events/
   handle<Event>("events", (event) => {
-    if (event.disabled) return;
+    if ("disable" in event) return;
     cache.events.set(event.name, event);
     console.log("Loaded event %s", event.name);
   }),
   // /tasks/
   handle<Task>("tasks", (task) => {
-    if (task.disabled) return;
+    if ("disable" in task) return;
     cache.tasks.set(task.name, task);
     console.log("Loaded task %s", task.name);
   }),
   // /monitors/
   handle<Monitor>("monitors", (monitor) => {
-    if (monitor.disabled) return;
+    if ("disable" in monitor) return;
     cache.monitors.set(monitor.name, monitor);
     console.log("Loaded monitor %s", monitor.name);
   }),

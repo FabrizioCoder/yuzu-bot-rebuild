@@ -50,7 +50,7 @@ export default <Command> {
         `https://some-random-api.ml/lyrics/?title=${option.value as string}`,
       );
 
-      if (!data || data.error) return "No pude encontrar esa canción";
+      if (!data || "error" in data) return "No pude encontrar esa canción";
 
       const embed = <Embed & { fields: [] }> {
         title: data.title,

@@ -166,7 +166,7 @@ export default <Command<false>> {
           const newIndex = parseInt(response.content);
 
           // if the page to go doesn't exists
-          if (!results[newIndex] || newIndex > limit || newIndex < 0) {
+          if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
             // TODO: this is a little bit tough to read
             // NOTE: this will not stop the command in any case
             await sendMessage(

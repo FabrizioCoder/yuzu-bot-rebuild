@@ -33,7 +33,7 @@ export default <Command<false>> {
       message.guildId,
     );
 
-    if (!input) {
+    if (!input || !(0 in args)) {
       return `El prefix actual es ${guildPrefix?.prefix ?? Options.PREFIX}`;
     }
 
