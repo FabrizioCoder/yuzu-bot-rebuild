@@ -5,6 +5,7 @@ import type {
   DiscordenoMessage,
   EditGlobalApplicationCommand,
   Embed,
+  Bot as _Bot,
   MakeRequired,
 } from "../../deps.ts";
 

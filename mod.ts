@@ -8,11 +8,7 @@ import type { Monitor } from "./src/types/monitor.ts";
 import { cache, handle, Options } from "./src/utils/mod.ts";
 import { CachePlugin, createBot, PermissionsPlugin, startBot } from "./deps.ts";
 
-// scripts
 import "https://deno.land/x/dotenv/load.ts";
-import "./src/utils/scripts/APICommands.ts";
-
-const token = Deno.env.get("TOKEN") ?? Options.TOKEN;
 
 await Promise.all([
   // /slash_commands/
@@ -51,6 +47,8 @@ await Promise.all([
   // }),
 ]);
 
+await import("./src/utils/scripts/APICommands.ts");
+
 // start the bot
 const bot = createBot({
   botId: Options.ID,
@@ -61,7 +59,7 @@ const bot = createBot({
       ([k, v]) => [k, v.execute],
     ),
   ),
-  token,
+  token: Deno.env.get("TOKEN") ?? Options.TOKEN,
 });
 
 await startBot(
