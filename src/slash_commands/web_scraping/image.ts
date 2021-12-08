@@ -14,6 +14,7 @@ import {
   deleteMessage,
   InteractionResponseTypes,
   sendInteractionResponse,
+  sendMessage,
 } from "../../../deps.ts";
 
 import {
@@ -160,63 +161,82 @@ export default <Command> {
     );
 
     // stuff to help the button collector
-    if (!interaction?.member || !message) return;
+    if (!message) return;
 
     // the current page index
     let index = 0;
 
     // listen to buttons forever
     do {
-      const button = await needButton(interaction.member.id, message.id, {
-        duration: Milliseconds.MINUTE * 5,
-        amount: 1,
-      });
+      try {
+        const button = await needButton(interaction.user.id, message.id, {
+          duration: Milliseconds.MINUTE * 5,
+          amount: 1,
+        });
 
-      // do this before the switch statement
-      if (!button || !button.interaction) {
-        break;
-      }
-
-      switch (button.customId) {
-        case "back": {
-          if (index > 0) index--;
-          break;
-        }
-
-        case "next": {
-          if (index < limit) index++;
-          break;
-        }
-
-        case "page": {
-          const tempMessage = <
-            | DiscordenoMessage
-            | undefined
-          > await sendInteractionResponse(
-            bot,
-            interaction.id,
-            interaction.token,
-            {
-              type: InteractionResponseTypes.DeferredUpdateMessage,
-              data: { content: `Envía un número desde 0 hasta ${limit}` },
-            },
-          );
-
-          const response = await needMessage(
-            interaction.member.id,
-            interaction.channelId,
-          );
-
-          if (tempMessage) {
-            await deleteMessage(bot, interaction.channelId, tempMessage.id);
+        switch (button.customId) {
+          case "back": {
+            if (index > 0) index--;
+            break;
           }
 
-          const newIndex = parseInt(response.content);
+          case "next": {
+            if (index < limit) index++;
+            break;
+          }
 
-          // if the page to go doesn't exists
-          if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
-            // TODO: this is a little bit tough to read
-            // NOTE: this will not stop the command in any case
+          case "page": {
+            await sendInteractionResponse(
+              bot,
+              button.interaction.id,
+              button.interaction.token,
+              {
+                type: InteractionResponseTypes.DeferredUpdateMessage,
+              },
+            );
+
+            const tempMessage = await sendMessage(bot, interaction.channelId, {
+              content: `Envía un número desde 0 hasta ${limit}`,
+            });
+
+            const response = await needMessage(
+              interaction.user.id,
+              interaction.channelId,
+            );
+
+            if (tempMessage) {
+              await deleteMessage(bot, interaction.channelId, tempMessage.id);
+            }
+
+            const newIndex = parseInt(response.content);
+
+            // if the page to go doesn't exists
+            if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
+              // TODO: this is a little bit tough to read
+              // NOTE: this will not stop the command in any case
+              await sendInteractionResponse(
+                bot,
+                interaction.id,
+                interaction.token,
+                {
+                  type: InteractionResponseTypes.ChannelMessageWithSource,
+                  private: true,
+                  data: { content: "El número no existe en los resultados" },
+                },
+              );
+              continue;
+            }
+            if (!isNaN(newIndex)) {
+              index = newIndex;
+            }
+            break;
+          }
+
+          case "delete": {
+            const toDelete = button?.interaction?.message?.id;
+            if (toDelete) {
+              await deleteMessage(bot, interaction.channelId, toDelete);
+            }
             await sendInteractionResponse(
               bot,
               interaction.id,
@@ -224,84 +244,67 @@ export default <Command> {
               {
                 type: InteractionResponseTypes.ChannelMessageWithSource,
                 private: true,
-                data: { content: "El número no existe en los resultados" },
+                data: { content: "OK!" },
               },
             );
             continue;
           }
-          if (!isNaN(newIndex)) {
-            index = newIndex;
-          }
-          break;
+
+          default:
+            break;
         }
+        const result = results[index];
 
-        case "delete": {
-          await deleteMessage(bot, interaction.channelId, message.id);
-          await sendInteractionResponse(
-            bot,
-            interaction.id,
-            interaction.token,
-            {
-              type: InteractionResponseTypes.ChannelMessageWithSource,
-              private: true,
-              data: { content: "OK!" },
-            },
-          );
-          return;
-        }
-
-        default:
-          break;
-      }
-      const result = results[index];
-
-      // create a copy of the embed rewritting the footer & image
-      const copy = Object.assign(Object.create(embed) as Embed, {
-        image: {
-          url: result.image,
-        },
-        footer: {
-          text: `📜: ${index}/${limit}`,
-        },
-        author: {
-          name: result.source,
-          iconUrl: avatarURL(
-            bot,
-            interaction.user.id,
-            interaction.user.discriminator,
-            {
-              avatar: interaction.user.avatar,
-              size: 512,
-            },
-          ),
-        },
-      });
-
-      // disable buttons to prevent the user to throw an unexpected result
-      const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
-      const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
-
-      index <= 0
-        ? buttons[backButtonIndex].disabled = true
-        : buttons[backButtonIndex].disabled = false;
-
-      index >= limit
-        ? buttons[nextButtonIndex].disabled = true
-        : buttons[nextButtonIndex].disabled = false;
-
-      // edit the message the component is attached to
-      await sendInteractionResponse(
-        bot,
-        button.interaction.id,
-        button.interaction.token,
-        {
-          type: InteractionResponseTypes.UpdateMessage,
-          data: {
-            embeds: [copy],
-            components: [{ type: 1, components: buttons }], // edited buttons
+        // create a copy of the embed rewritting the footer & image
+        const copy = Object.assign(Object.create(embed) as Embed, {
+          image: {
+            url: result.image,
           },
-        },
-      );
+          footer: {
+            text: `📜: ${index}/${limit}`,
+          },
+          author: {
+            name: result.source,
+            iconUrl: avatarURL(
+              bot,
+              interaction.user.id,
+              interaction.user.discriminator,
+              {
+                avatar: interaction.user.avatar,
+                size: 512,
+              },
+            ),
+          },
+        });
+
+        // disable buttons to prevent the user to throw an unexpected result
+        const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
+        const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
+
+        index <= 0
+          ? buttons[backButtonIndex].disabled = true
+          : buttons[backButtonIndex].disabled = false;
+
+        index >= limit
+          ? buttons[nextButtonIndex].disabled = true
+          : buttons[nextButtonIndex].disabled = false;
+
+        // edit the message the component is attached to
+        await sendInteractionResponse(
+          bot,
+          button.interaction.id,
+          button.interaction.token,
+          {
+            type: InteractionResponseTypes.UpdateMessage,
+            data: {
+              embeds: [copy],
+              components: [{ type: 1, components: buttons }], // edited buttons
+            },
+          },
+        );
+      } catch (_) {
+        break;
+      }
     } while (true);
   },
 };

@@ -49,9 +49,9 @@ export async function needMessage(
     key: memberId,
     channelId,
     createdAt: Date.now(),
-    filter: options?.filter || ((msg) => memberId === msg.authorId),
-    amount: options?.amount || 1,
-    duration: options?.duration || Milliseconds.MINUTE * 5,
+    filter: options?.filter ?? ((msg) => memberId === msg.authorId),
+    amount: options?.amount ?? 1,
+    duration: options?.duration ?? Milliseconds.MINUTE * 5,
   });
 
   return (options?.amount || 1) > 1 ? messages : messages[0];

@@ -2,7 +2,7 @@
 
 import type {
   DiscordenoInteraction,
-  DiscordenoMember,
+  DiscordenoUser,
   DiscordenoMessage,
 } from "../../deps.ts";
 
@@ -22,7 +22,7 @@ export interface BaseCollectorCreateOptions extends BaseCollectorOptions {
 
 export interface CollectButtonOptions extends BaseCollectorCreateOptions {
   messageId: bigint;
-  filter: (message: DiscordenoMessage, member?: DiscordenoMember) => boolean;
+  filter: (message: DiscordenoMessage, user?: DiscordenoUser) => boolean;
 }
 
 export interface ButtonCollector extends CollectButtonOptions {
@@ -35,13 +35,13 @@ export interface ButtonCollector extends CollectButtonOptions {
 }
 
 export interface ButtonCollectorOptions extends BaseCollectorOptions {
-  filter?: (message: DiscordenoMessage, member?: DiscordenoMember) => boolean;
+  filter?: (message: DiscordenoMessage, user?: DiscordenoUser) => boolean;
 }
 
 export interface ButtonCollectorReturn {
   customId: string;
-  interaction: Omit<DiscordenoInteraction, "member">;
-  member?: DiscordenoMember;
+  interaction: Omit<DiscordenoInteraction, "user">;
+  user?: DiscordenoUser;
 }
 
 // MESSAGES

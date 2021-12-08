@@ -15,7 +15,7 @@ export default <Monitor<"interactionCreate">> {
         return;
       }
       if (interaction.member) {
-        processButtonCollectors(interaction, interaction.member);
+        processButtonCollectors(interaction);
       }
       return;
     }
