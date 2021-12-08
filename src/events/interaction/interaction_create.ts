@@ -6,7 +6,7 @@ export default <Event<"interactionCreate">> {
   name: "interactionCreate",
   async execute(bot, interaction) {
     cache.monitors
-      .filter((monitor) => monitor.kind === "interactionCreate")
+      .filter((monitor) => monitor.type === "interactionCreate")
       .forEach(async (monitor) => {
         try {
           if (monitor.ignoreBots && interaction.user.bot) {

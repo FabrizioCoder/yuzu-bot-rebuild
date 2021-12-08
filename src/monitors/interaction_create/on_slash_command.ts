@@ -9,7 +9,7 @@ import {
 
 export default <Monitor<"interactionCreate">> {
   name: "onSlashCommand",
-  kind: "interactionCreate",
+  type: "interactionCreate",
   ignoreDM: true,
   ignoreBots: true,
   async execute(bot, interaction) {

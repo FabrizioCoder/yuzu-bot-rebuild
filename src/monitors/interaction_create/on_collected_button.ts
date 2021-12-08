@@ -4,7 +4,7 @@ import { InteractionTypes, MessageComponentTypes } from "../../../deps.ts";
 
 export default <Monitor<"interactionCreate">> {
   name: "onButtonCollected",
-  kind: "interactionCreate",
+  type: "interactionCreate",
   ignoreDM: true,
   ignoreBots: true,
   async execute(_bot, interaction) {

@@ -3,7 +3,7 @@ import { sendMessage } from "../../../deps.ts";
 
 export default <Monitor<"messageCreate">> {
   name: "mentionMonitor",
-  kind: "messageCreate",
+  type: "messageCreate",
   ignoreDM: false,
   ignoreBots: true,
   async execute(bot, message) {

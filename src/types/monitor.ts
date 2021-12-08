@@ -10,7 +10,7 @@ export type Monitor<T extends keyof EventHandlers = keyof EventHandlers> = {
   ignoreDM: boolean; // if the monitor is executed on dm
 
   disabled?: boolean;
-  kind?: T; // the monitor event
+  type?: T; // the monitor event
   execute: (
     ...args: Parameters<EventHandlers[T]>
   ) => void | Promise<void>;

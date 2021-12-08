@@ -8,7 +8,7 @@ export default <Event<"messageDelete">> {
   async execute(bot, payload, message) {
     // smol fix
     cache.monitors
-      .filter((monitor) => monitor.kind === "messageDelete")
+      .filter((monitor) => monitor.type === "messageDelete")
       .forEach(async (monitor) => {
         try {
           if (!message) return;

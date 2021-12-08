@@ -4,7 +4,7 @@ import { cache } from "../../utils/mod.ts";
 
 export default <Monitor<"messageCreate">> {
   name: "messageMonitor",
-  kind: "messageCreate",
+  type: "messageCreate",
   ignoreDM: true,
   ignoreBots: true,
   async execute(_bot, message) {

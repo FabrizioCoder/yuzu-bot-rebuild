@@ -9,7 +9,7 @@ import { cache, Division } from "../../utils/mod.ts";
 
 export default <Monitor<"interactionCreate">> {
   name: "onSelectMenu",
-  kind: "interactionCreate",
+  type: "interactionCreate",
   ignoreDM: true,
   ignoreBots: true,
   async execute(bot, interaction) {

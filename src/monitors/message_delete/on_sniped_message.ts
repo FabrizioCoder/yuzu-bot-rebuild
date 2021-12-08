@@ -4,7 +4,7 @@ import { cache } from "../../utils/mod.ts";
 
 export default <Monitor<"messageDelete">> {
   name: "messageSniper",
-  kind: "messageDelete",
+  type: "messageDelete",
   ignoreDM: true,
   ignoreBots: true,
   async execute(_bot, _payload, message) {

@@ -7,7 +7,7 @@ import { CachePlugin, sendMessage } from "../../../deps.ts";
 
 export default <Monitor<"messageCreate">> {
   name: "commandMonitor",
-  kind: "messageCreate",
+  type: "messageCreate",
   ignoreDM: true,
   ignoreBots: true,
   async execute(bot, message) {

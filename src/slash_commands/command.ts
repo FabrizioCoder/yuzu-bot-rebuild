@@ -69,16 +69,15 @@ export default <Command> {
         },
         {
           name: "Uso del comando:",
-          value: `${
-            command.data.description ? "/" : "!"
-          }${command.data.name} ${command.options?.information?.usage}`,
+          value: `${command.data.description ? "/" : "!"}${command.data.name} ${command.options?.information?.usage}`,
           inline: true,
         },
         {
           name: "Información del comando:",
           value: command.data.description ??
-            command.options?.information?.descr ??
-            command.options?.information?.short,
+                 command.options?.information?.descr ??
+                 command.options?.information?.short ?? "❓",
+
           inline: true,
         },
       ],
