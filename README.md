@@ -3,8 +3,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/Le-Val/yuzu-bot-rebuild?color=lightblue&label=Files)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Le-Val/yuzu-bot-rebuild)
 ![GitHub](https://img.shields.io/github/license/Le-Val/yuzu-bot-rebuild)
-![GitHub issues](https://img.shields.io/github/issues/Le-Val/yuzu-bot-rebuild)](https://github.com/Le-Val/yuzu-bot-rebuild/issues)
-
+[![GitHub issues](https://img.shields.io/github/issues/Le-Val/yuzu-bot-rebuild?color=lightblue&label=Issues)](https://github.com/Le-Val/yuzu-bot-rebuild/issues)
 - my discord: `Yuzuru#1401`
 - [support the proyect](https://top.gg/bot/893319907981283340)
 
