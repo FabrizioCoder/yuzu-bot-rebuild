@@ -1,7 +1,6 @@
 import type { Command } from "../../types/command.ts";
-import type { DiscordenoChannel, DiscordenoUser } from "../../../deps.ts";
 import { Division, Options, toCapitalCase } from "../../utils/mod.ts";
-import { PermissionsPlugin } from "../../../deps.ts";
+import { hasGuildPermissions } from "../../../deps.ts";
 import {
   addTag,
   editTag,
@@ -79,7 +78,7 @@ export default <Command<false>> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = PermissionsPlugin.hasGuildPermissions(
+        const isAdmin = hasGuildPermissions(
           bot,
           message.guildId,
           message.authorId,
@@ -168,7 +167,7 @@ export default <Command<false>> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = PermissionsPlugin.hasGuildPermissions(
+        const isAdmin = hasGuildPermissions(
           bot,
           message.guildId,
           message.authorId,

@@ -6,7 +6,7 @@ import type { Task } from "./src/types/task.ts";
 import type { Monitor } from "./src/types/monitor.ts";
 
 import { cache, handle, Options } from "./src/utils/mod.ts";
-import { CachePlugin, createBot, PermissionsPlugin, startBot } from "./deps.ts";
+import { createBot, enableCachePlugin, startBot } from "./deps.ts";
 
 import "https://deno.land/x/dotenv/load.ts";
 
@@ -56,17 +56,15 @@ const bot = createBot({
   events: Object.fromEntries( // transforms a Map<string, T> into an Object
     Array.from(
       cache.events.entries(),
-      ([k, v]) => [k, v.execute],
+      ([name, event]) => [name, event.execute],
     ),
   ),
   token: Deno.env.get("TOKEN") ?? Options.TOKEN,
 });
 
 await startBot(
-  PermissionsPlugin.enablePermissionsPlugin(
-    CachePlugin.enableCachePlugin(
-      bot,
-    ),
+  enableCachePlugin(
+    bot,
   ),
 );
 

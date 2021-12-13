@@ -2,7 +2,7 @@ import type { Command } from "../types/command.ts";
 import { Division, Options, toCapitalCase } from "../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
-  PermissionsPlugin,
+  hasGuildPermissions,
 } from "../../deps.ts";
 import {
   addTag,
@@ -210,7 +210,7 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = PermissionsPlugin.hasGuildPermissions(
+        const isAdmin = hasGuildPermissions(
           bot,
           interaction.guildId,
           interaction.user.id,
@@ -306,7 +306,7 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = PermissionsPlugin.hasGuildPermissions(
+        const isAdmin = hasGuildPermissions(
           bot,
           interaction.guildId,
           interaction.user.id,

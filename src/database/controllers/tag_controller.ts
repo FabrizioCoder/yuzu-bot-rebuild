@@ -1,4 +1,4 @@
-import type { Database, MongoCollection } from "../../../deps.ts";
+import type { Database, Collection as MongoCollection } from "https://deno.land/x/mongo/mod.ts";
 import type { TagSchema } from "../models/tag_model.ts";
 
 type Collection<T = TagSchema> = MongoCollection<T>;

@@ -1,7 +1,7 @@
 import type { Monitor } from "../../types/monitor.ts";
+import type { BotWithCache } from "../../../deps.ts";
 import { cache } from "../../utils/mod.ts";
 import {
-  CachePlugin,
   InteractionResponseTypes,
   InteractionTypes,
   sendInteractionResponse,
@@ -26,10 +26,7 @@ export default <Monitor<"interactionCreate">> {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
     });
 
-    const output = await command.execute(
-      bot as CachePlugin.BotWithCache,
-      interaction,
-    );
+    const output = await command.execute(bot as BotWithCache, interaction);
 
     if (!output) return;
 

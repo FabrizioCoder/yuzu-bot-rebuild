@@ -1,9 +1,10 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { PrefixSchema } from "../../database/models/prefix_model.ts";
+import type { BotWithCache } from "../../../deps.ts";
 import { cache, Options } from "../../utils/mod.ts";
 import { getPrefix } from "../../database/controllers/prefix_controller.ts";
 import { db } from "../../database/db.ts";
-import { CachePlugin, sendMessage } from "../../../deps.ts";
+import { sendMessage } from "../../../deps.ts";
 
 export default <Monitor<"messageCreate">> {
   name: "commandMonitor",
@@ -43,7 +44,7 @@ export default <Monitor<"messageCreate">> {
 
     try {
       const output = await command.execute(
-        bot as CachePlugin.BotWithCache,
+        bot as BotWithCache,
         message,
         { args, prefix },
       );

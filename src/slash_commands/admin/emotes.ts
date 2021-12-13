@@ -7,7 +7,7 @@ import {
   createEmoji,
   deleteEmoji,
   editEmoji,
-  PermissionsPlugin,
+  hasGuildPermissions,
 } from "../../../deps.ts";
 
 export default <Command> {
@@ -93,7 +93,7 @@ export default <Command> {
     if (!guild) return;
 
     if (option.name !== "display") {
-      const hasPermission = PermissionsPlugin.hasGuildPermissions(
+      const hasPermission = hasGuildPermissions(
         bot,
         interaction.guildId,
         interaction.user.id,

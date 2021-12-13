@@ -1,7 +1,7 @@
 import type { Command } from "../types/command.ts";
 
 import { Division, Options } from "../utils/mod.ts";
-import { PermissionsPlugin } from "../../deps.ts";
+import { hasGuildPermissions } from "../../deps.ts";
 import {
   addPrefix,
   editPrefix,
@@ -37,7 +37,7 @@ export default <Command<false>> {
       return `El prefix actual es ${guildPrefix?.prefix ?? Options.PREFIX}`;
     }
 
-    const hasPermissions = PermissionsPlugin.hasGuildPermissions(
+    const hasPermissions = hasGuildPermissions(
       bot,
       message.guildId,
       message.authorId,

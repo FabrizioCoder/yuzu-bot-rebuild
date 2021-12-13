@@ -1,4 +1,4 @@
-import type { MongoClient } from "../../deps.ts";
+import type { MongoClient } from "https://deno.land/x/mongo/mod.ts";
 
 import "https://deno.land/x/dotenv/load.ts";
 
