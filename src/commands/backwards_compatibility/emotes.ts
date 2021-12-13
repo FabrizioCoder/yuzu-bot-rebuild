@@ -25,7 +25,7 @@ export default <Command<false>> {
 
     if (!guild) return;
 
-    switch (option.toLowerCase()) {
+    switch (option?.toLowerCase()) {
       case "hide": {
         if (!hasGuildPermissions(bot, message.guildId, message.authorId, ["MANAGE_EMOJIS"])) {
           return "No posees permisos suficientes";
