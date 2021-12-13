@@ -205,15 +205,16 @@ export default <Command<false>> {
       default: {
         const [name] = options;
 
-        const tagGlobal = await getTag(getCollection(db), name);
-
-        if (tagGlobal) {
-          return tagGlobal.content;
-        }
-
         const tag = await getTag(getCollection(db), name, message.guildId);
 
-        if (!tag) return "No encontré ese tag";
+        if (!tag) {
+          const tagGlobal = await getTag(getCollection(db), name);
+
+          if (tagGlobal) {
+            return tagGlobal.content;
+          }
+          return "No encontré ese tag";
+        }
 
         const channel = bot.channels.get(message.channelId);
         const safe = !channel?.nsfw;
