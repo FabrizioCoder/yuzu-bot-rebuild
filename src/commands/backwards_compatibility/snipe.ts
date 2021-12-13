@@ -1,7 +1,7 @@
-import type { Command } from "../types/command.ts";
-import type { Embed } from "../../deps.ts";
-import { cache, Division, randomHex } from "../utils/mod.ts";
-import { avatarURL } from "../../deps.ts";
+import type { Command } from "../../types/command.ts";
+import type { Embed } from "../../../deps.ts";
+import { cache, Division, randomHex } from "../../utils/mod.ts";
+import { avatarURL } from "../../../deps.ts";
 
 export default <Command<false>> {
   options: {

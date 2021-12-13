@@ -16,6 +16,7 @@ export * from "./std/snowflake.ts";
 export * from "./std/registerTasks.ts";
 export * from "./std/url.ts";
 export * from "./std/emoji.ts";
+export * from "./std/cheemsify.ts";
 
 // collectors
 export * from "./collectors/needButton.ts";
