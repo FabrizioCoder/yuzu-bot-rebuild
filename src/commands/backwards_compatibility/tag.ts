@@ -203,7 +203,7 @@ export default <Command<false>> {
       }
       case Arguments.Display:
       default: {
-        const [name] = options;
+        const name = options[0] ?? option;
 
         const tag = await getTag(getCollection(db), name, message.guildId);
 
