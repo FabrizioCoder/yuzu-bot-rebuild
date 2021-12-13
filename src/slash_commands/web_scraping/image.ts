@@ -35,11 +35,13 @@ enum ButtonEmojis {
   Back = "⏪",
   Next = "⏩",
   Page = "🔢",
+  Random = "🔀",
   Xsign = "✖️",
 }
 
 // it makes sense ig
 const buttons: [
+  ButtonComponent,
   ButtonComponent,
   ButtonComponent,
   ButtonComponent,
@@ -63,6 +65,12 @@ const buttons: [
     type: 2,
     label: ButtonEmojis.Page,
     customId: "page",
+    style: ButtonStyles.Primary,
+  },
+  {
+    type: 2,
+    label: ButtonEmojis.Random,
+    customId: "random",
     style: ButtonStyles.Primary,
   },
   {
@@ -229,6 +237,11 @@ export default <Command> {
             if (!isNaN(newIndex)) {
               index = newIndex;
             }
+            break;
+          }
+
+          case "random": {
+            index = Math.floor(Math.random() * limit);
             break;
           }
 
