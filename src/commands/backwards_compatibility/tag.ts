@@ -201,7 +201,8 @@ export default <Command<false>> {
 
         return `ID: ${tag.user} <@${tag.user}>`;
       }
-      case Arguments.Display: {
+      case Arguments.Display:
+      default: {
         const [name] = options;
 
         const tagGlobal = await getTag(getCollection(db), name);
