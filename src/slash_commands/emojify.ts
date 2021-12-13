@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import { ApplicationCommandOptionTypes } from "../../deps.ts";
-import { Division } from "../utils/mod.ts";
+import { Division, rangeChar } from "../utils/mod.ts";
 
 export default <Command> {
   options: {
@@ -9,7 +9,7 @@ export default <Command> {
     information: {
       descr: "Convierte un texto a emojis",
       short: "Reemplaza texto por emojis",
-      usage: "<Texto>",
+      usage: "<Text>",
     },
   },
   division: Division.FUN,
@@ -32,7 +32,7 @@ export default <Command> {
       return "Escribe algo";
     }
 
-    const MAPPING: Record<string, string> = {
+    const mapping: Record<string, string> = {
       " ": "   ",
       "0": ":zero:",
       "1": ":one:",
@@ -48,15 +48,14 @@ export default <Command> {
       "?": ":grey_question:",
       "#": ":hash:",
       "*": ":asterisk:",
+      ...Object.fromEntries(
+        rangeChar("a", "z").map((c) => [c, `:regional_indicator_${c}: `]),
+      ),
     };
 
-    // TODO: remove side effects
-    "abcdefghijklmnopqrstuvwxyz".split("").forEach((c) => {
-      MAPPING[c] = MAPPING[c.toUpperCase()] = ` :regional_indicator_${c}:`;
-    });
-
-    return (option.value as string).split("").map((c) => MAPPING[c] || c).join(
-      "",
-    );
+    return (option.value as string)
+      .split("")
+      .map((c) => c.toLowerCase() in mapping ? mapping[c.toLowerCase()] : c)
+      .join("");
   },
 };
