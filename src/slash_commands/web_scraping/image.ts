@@ -1,11 +1,5 @@
 import type { Command } from "../../types/command.ts";
-
-// maybe we don't need DiscordenoMessage
-import type {
-  ButtonComponent,
-  DiscordenoMessage,
-  Embed,
-} from "../../../deps.ts";
+import type { ButtonComponent, Embed } from "../../../deps.ts";
 
 import {
   ApplicationCommandOptionTypes,
@@ -151,11 +145,7 @@ export default <Command> {
       footer: { text: `Results for ${option.value}` },
     };
 
-    // this should work even if sendInteractionResponse() returns Promise<any>
-    const message = <
-      | DiscordenoMessage
-      | undefined
-    > await sendInteractionResponse(
+    const message = await sendInteractionResponse(
       bot,
       interaction.id,
       interaction.token,
