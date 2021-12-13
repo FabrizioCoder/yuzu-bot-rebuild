@@ -1,29 +1,25 @@
 // constants
-export * from "./constants/categories.ts";
-export * from "./constants/options.ts";
+export * from "./constants/division.ts";
+export * from "./constants/option.ts";
 export * from "./constants/time.ts";
-export * from "./constants/mentions.ts";
-export * from "./constants/colors.ts";
-export * from "./constants/emojis.ts";
+export * from "./constants/color.ts";
+export * from "./constants/emoji.ts";
 
 // our cache
 export * from "./cache.ts";
 
 // utility
-export * from "./handlers/handler.ts";
-export * from "./handlers/registerTasks.ts";
+export * from "./std/handler.ts";
+export * from "./std/mention.ts";
+export * from "./std/range.ts";
+export * from "./std/snowflake.ts";
+export * from "./std/registerTasks.ts";
+export * from "./std/url.ts";
+export * from "./std/emoji.ts";
 
 // collectors
 export * from "./collectors/needButton.ts";
 export * from "./collectors/needMessage.ts";
-
-// regexp
-export * from "./string_manipulation/url.ts";
-export * from "./string_manipulation/emoji.ts";
-
-// etc
-export * from "./snowflake_util.ts";
-export * from "./range.ts";
 
 export function randomHex() {
   return Math.floor(Math.random() * 16777215);

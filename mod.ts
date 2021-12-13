@@ -9,6 +9,7 @@ import { cache, handle, Options } from "./src/utils/mod.ts";
 import { createBot, enableCachePlugin, startBot } from "./deps.ts";
 
 import "https://deno.land/x/dotenv/load.ts";
+import "./src/utils/scripts/APICommands.ts";
 
 await Promise.all([
   // /slash_commands/
@@ -47,13 +48,11 @@ await Promise.all([
   // }),
 ]);
 
-await import("./src/utils/scripts/APICommands.ts");
-
 // start the bot
 const bot = createBot({
   botId: Options.ID,
   intents: ["Guilds", "GuildMessages", "GuildEmojis", "DirectMessages"],
-  events: Object.fromEntries( // transforms a Map<string, T> into an Object
+  events: Object.fromEntries( // transforms a Map<string, T> into a Record<string, T>
     Array.from(
       cache.events.entries(),
       ([name, event]) => [name, event.execute],
