@@ -14,7 +14,6 @@ export * from "./std/handler.ts";
 export * from "./std/mention.ts";
 export * from "./std/range.ts";
 export * from "./std/snowflake.ts";
-export * from "./std/registerTasks.ts";
 export * from "./std/url.ts";
 export * from "./std/cheemsify.ts";
 

@@ -1,5 +1,5 @@
 import type { Event } from "../../types/event.ts";
-import type { Bot } from "../../../deps.ts";
+import type { BotWithCache } from "../../../deps.ts";
 import type { Payload } from "../../types/task.ts";
 import { cache } from "../../utils/mod.ts";
 
@@ -8,7 +8,7 @@ export default <Event<"ready">> {
   async execute(bot, payload) {
     const uptime = Date.now();
 
-    registerTasks(bot, payload, uptime);
+    registerTasks(bot as BotWithCache, payload, uptime);
 
     // LOG
     console.group();
@@ -28,7 +28,7 @@ export default <Event<"ready">> {
 
 // inspired by Discordeno template
 function registerTasks(
-  bot: Bot,
+  bot: BotWithCache,
   payload: Payload,
   ...args: number[]
 ): void {
