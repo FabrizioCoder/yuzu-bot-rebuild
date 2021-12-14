@@ -1,4 +1,5 @@
 import type { Command } from "../types/command.ts";
+
 import { ApplicationCommandOptionTypes } from "../../deps.ts";
 import { Division, rangeChar } from "../utils/mod.ts";
 

@@ -1,11 +1,13 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed, SelectMenuComponent } from "../../../deps.ts";
+
 import {
   cache,
   DiscordColors,
   Division,
   DivisionEmoji,
 } from "../../utils/mod.ts";
+
 import {
   avatarURL,
   MessageComponentTypes,

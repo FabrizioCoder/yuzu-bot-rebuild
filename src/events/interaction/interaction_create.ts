@@ -1,5 +1,5 @@
 import type { Event } from "../../types/event.ts";
-import { cache } from "../../utils/cache.ts";
+import { cache, Options } from "../../utils/mod.ts";
 import { sendMessage } from "../../../deps.ts";
 
 export default <Event<"interactionCreate">> {
@@ -14,10 +14,11 @@ export default <Event<"interactionCreate">> {
           }
           await monitor.execute(bot, interaction);
         } catch (error: unknown) {
-          if (!(error instanceof Error)) return;
-          sendMessage(bot, interaction.channelId!, error.message).catch(
-            () => {},
-          );
+          if (!(error instanceof Error)) {
+            return;
+          }
+          sendMessage(bot, Options.CHANNEL_ID, error.message)
+            .catch(console.error);
         }
       });
   },

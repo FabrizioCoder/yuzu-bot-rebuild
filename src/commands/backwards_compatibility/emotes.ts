@@ -1,7 +1,13 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
+
 import { Division, randomHex } from "../../utils/mod.ts";
-import { createEmoji, deleteEmoji, editEmoji, hasGuildPermissions } from "../../../deps.ts";
+import {
+  createEmoji,
+  deleteEmoji,
+  editEmoji,
+  hasGuildPermissions,
+} from "../../../deps.ts";
 
 export default <Command<false>> {
   options: {
@@ -27,7 +33,11 @@ export default <Command<false>> {
 
     switch (option?.toLowerCase()) {
       case "hide": {
-        if (!hasGuildPermissions(bot, message.guildId, message.authorId, ["MANAGE_EMOJIS"])) {
+        if (
+          !hasGuildPermissions(bot, message.guildId, message.authorId, [
+            "MANAGE_EMOJIS",
+          ])
+        ) {
           return "No posees permisos suficientes";
         }
 
@@ -62,7 +72,11 @@ export default <Command<false>> {
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;
       }
       case "remove": {
-        if (!hasGuildPermissions(bot, message.guildId, message.authorId, ["MANAGE_EMOJIS"])) {
+        if (
+          !hasGuildPermissions(bot, message.guildId, message.authorId, [
+            "MANAGE_EMOJIS",
+          ])
+        ) {
           return "No posees permisos suficientes";
         }
 
@@ -86,7 +100,11 @@ export default <Command<false>> {
         return `Elminé el emoji ${emoji.name}`;
       }
       case "add": {
-        if (!hasGuildPermissions(bot, message.guildId, message.authorId, ["MANAGE_EMOJIS"])) {
+        if (
+          !hasGuildPermissions(bot, message.guildId, message.authorId, [
+            "MANAGE_EMOJIS",
+          ])
+        ) {
           return "No posees permisos suficientes";
         }
 

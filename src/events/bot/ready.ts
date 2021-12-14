@@ -1,5 +1,7 @@
 import type { Event } from "../../types/event.ts";
-import { cache, registerTasks } from "../../utils/mod.ts";
+import type { Bot } from "../../../deps.ts";
+import type { Payload } from "../../types/task.ts";
+import { cache } from "../../utils/mod.ts";
 
 export default <Event<"ready">> {
   name: "ready",
@@ -23,3 +25,46 @@ export default <Event<"ready">> {
     console.groupEnd();
   },
 };
+
+// inspired by Discordeno template
+function registerTasks(
+  bot: Bot,
+  payload: Payload,
+  ...args: number[]
+): void {
+  return cache.tasks.forEach((task) => {
+    cache.runningTasks.initialTimeouts.add(
+      setTimeout(async () => {
+        console.log("Started Task %s", task.name);
+        try {
+          await task.execute(bot, payload, ...args);
+        } catch (err: unknown) {
+          if (err instanceof Error) console.error(err.message);
+        }
+        cache.runningTasks.initialTimeouts.add(
+          setInterval(async () => {
+            console.log("Started Task %s", task.name);
+            try {
+              await task.execute(bot, payload, ...args);
+            } catch (err: unknown) {
+              if (err instanceof Error) console.error(err.message);
+            }
+          }, task.interval),
+        );
+      }, task.interval - Date.now() % task.interval),
+    );
+  });
+}
+
+function clearTasks(): void {
+  for (const timeout of cache.runningTasks.initialTimeouts) {
+    clearTimeout(timeout);
+  }
+
+  for (const task of cache.runningTasks.intervals) {
+    clearInterval(task);
+  }
+
+  cache.tasks.clear();
+  cache.runningTasks.initialTimeouts.clear();
+}

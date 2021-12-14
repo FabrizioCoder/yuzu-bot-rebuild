@@ -1,4 +1,5 @@
 import type { Command } from "../types/command.ts";
+
 import { ApplicationCommandOptionTypes } from "../../deps.ts";
 import { cheemsify, Division } from "../utils/mod.ts";
 

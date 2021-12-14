@@ -1,5 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
+
 import { cache, Division, randomHex } from "../../utils/mod.ts";
 import { avatarURL } from "../../../deps.ts";
 
@@ -16,39 +17,37 @@ export default <Command<false>> {
   data: {
     name: "snipe",
   },
-  async execute(bot, message) {
-    const lastMessage = cache.lastMessages.get(message.channelId);
+  async execute(bot, m) {
+    const message = cache.lastMessages.get(m.channelId);
 
-    if (!lastMessage) {
+    if (!message) {
       return "No existe un mensaje eliminado";
     }
 
-    const author = bot.users.get(lastMessage.authorId);
+    const author = bot.users.get(message.authorId);
 
     if (!author) return;
 
-    if (lastMessage.content.length < 4096 - 1) {
-      return <Embed> {
-        author: {
-          name: `${author.username}#${author.discriminator}`,
-          iconUrl: avatarURL(
-            bot,
-            author.id,
-            author.discriminator,
-            {
-              avatar: author.avatar,
-              size: 512,
-            },
-          ),
-        },
-        color: randomHex(),
-        description: lastMessage.content,
-        footer: {
-          text: `${lastMessage.id} • ${
-            new Date(lastMessage.timestamp).toLocaleString("es")
-          }`,
-        },
-      };
-    }
+    if (message.content.length >= 4096) return;
+
+    return <Embed> {
+      author: {
+        name: `${author.username}#${author.discriminator}`,
+        iconUrl: avatarURL(
+          bot,
+          author.id,
+          author.discriminator,
+          {
+            avatar: author.avatar,
+            size: 512,
+          },
+        ),
+      },
+      color: randomHex(),
+      description: message.content,
+      footer: {
+        text: `${message.id} • ${new Date(message.timestamp).toLocaleString()}`,
+      },
+    };
   },
 };

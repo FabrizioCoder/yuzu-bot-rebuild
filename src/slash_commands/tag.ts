@@ -1,9 +1,11 @@
 import type { Command } from "../types/command.ts";
+
 import { Division, Options, toCapitalCase } from "../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
   hasGuildPermissions,
 } from "../../deps.ts";
+
 import {
   addTag,
   editTag,
@@ -13,6 +15,7 @@ import {
   passTag,
   removeTag,
 } from "../database/controllers/tag_controller.ts";
+
 import { db } from "../database/db.ts";
 
 enum Arguments {
@@ -182,7 +185,6 @@ export default <Command> {
           string,
           string,
         ];
-
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (tag) return "Ese tag ya existe";
@@ -196,16 +198,17 @@ export default <Command> {
             content,
           },
         );
+
         const output = await getTag(
           getCollection(db),
           name,
           interaction.guildId,
         );
+
         return `Añadí el tag ${output?.name}`;
       }
       case Arguments.Remove: {
         const [name] = <[string]> option.options?.map((o) => o.value);
-
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -241,7 +244,6 @@ export default <Command> {
           string,
           string,
         ];
-
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -256,11 +258,13 @@ export default <Command> {
           global: tag.nsfw,
           nsfw: tag.nsfw,
         });
+
         const output = await getTag(
           getCollection(db),
           tag.name,
           interaction.guildId,
         );
+
         return `<@${user.id}>! ${interaction.user.username} te ha regalado el #tag ${output
           ?.name}`;
       }
@@ -276,32 +280,32 @@ export default <Command> {
         if (BigInt(tag.user) !== interaction.user.id) {
           return "El tag no te pertenece";
         }
+
         await editTag(getCollection(db), tag, { content, attachments: [] });
+
         const output = await getTag(
           getCollection(db),
           tag.name,
           interaction.guildId,
         );
+
         return `Edité el tag ${output?.name}`;
       }
       case Arguments.List: {
-        let [userId] = <[string | undefined]> option.options?.map((o) =>
+        const [userId] = <[string | undefined]> option.options?.map((o) =>
           o.value
         );
-
-        userId ??= interaction.user.id.toString();
 
         const tags = await findTag(
           getCollection(db),
           interaction.guildId,
-          BigInt(userId),
+          BigInt(userId ?? interaction.user.id),
         );
 
         return tags.map((tag) => tag.name).join(", ");
       }
       case Arguments.Nsfw: {
         const [name] = <[string]> option.options?.map((o) => o.value);
-
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -312,6 +316,7 @@ export default <Command> {
           interaction.user.id,
           ["ADMINISTRATOR"],
         );
+
         if (BigInt(tag.user) !== interaction.user.id && !isAdmin) {
           return "El tag no te pertenece";
         }
@@ -322,6 +327,7 @@ export default <Command> {
           global: false,
           nsfw: !tag.nsfw,
         });
+
         const output = await getTag(
           getCollection(db),
           tag.name,
@@ -342,7 +348,6 @@ export default <Command> {
       }
       case Arguments.Display: {
         const [name] = <[string]> option.options?.map((o) => o.value);
-
         const tagGlobal = await getTag(getCollection(db), name);
 
         if (tagGlobal) {
@@ -359,6 +364,7 @@ export default <Command> {
         if (tag.nsfw && safe) {
           return "Contenido nsfw, lo sentimos pero no se puede mostrar en éste canal :underage:";
         }
+
         return tag.content;
       }
     }

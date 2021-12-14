@@ -222,6 +222,7 @@ export default <Command> {
                   data: { content: "El número no existe en los resultados" },
                 },
               );
+
               continue;
             }
             if (!isNaN(newIndex)) {
@@ -237,9 +238,11 @@ export default <Command> {
 
           case "delete": {
             const toDelete = button?.interaction?.message?.id;
+
             if (toDelete) {
               await deleteMessage(bot, interaction.channelId, toDelete);
             }
+
             await sendInteractionResponse(
               bot,
               interaction.id,
@@ -250,6 +253,7 @@ export default <Command> {
                 data: { content: "OK!" },
               },
             );
+
             continue;
           }
 

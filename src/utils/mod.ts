@@ -4,6 +4,7 @@ export * from "./constants/option.ts";
 export * from "./constants/time.ts";
 export * from "./constants/color.ts";
 export * from "./constants/emoji.ts";
+export * from "./constants/version.ts";
 
 // our cache
 export * from "./cache.ts";
@@ -15,7 +16,6 @@ export * from "./std/range.ts";
 export * from "./std/snowflake.ts";
 export * from "./std/registerTasks.ts";
 export * from "./std/url.ts";
-export * from "./std/emoji.ts";
 export * from "./std/cheemsify.ts";
 
 // collectors
@@ -28,4 +28,13 @@ export function randomHex() {
 
 export function toCapitalCase(str: string) {
   return `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+}
+
+export function isCustomEmoji(str: string) {
+  return /^<([a]?):.*[a-z0-9]:\d{18}>/i.test(str);
+}
+
+export function isNotAscii(str: string) {
+  // deno-lint-ignore no-control-regex
+  return /[^\x00-\x7F]+/g.test(str);
 }

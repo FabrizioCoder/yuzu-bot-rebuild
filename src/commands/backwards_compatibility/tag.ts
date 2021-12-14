@@ -1,4 +1,5 @@
 import type { Command } from "../../types/command.ts";
+
 import { Division, Options, toCapitalCase } from "../../utils/mod.ts";
 import { hasGuildPermissions } from "../../../deps.ts";
 import {
@@ -50,7 +51,6 @@ export default <Command<false>> {
     switch (search) {
       case Arguments.Add: {
         const [name, content] = options;
-
         const tag = await getTag(getCollection(db), name, message.guildId);
 
         if (tag) return "Ese tag ya existe";
@@ -64,16 +64,17 @@ export default <Command<false>> {
             content,
           },
         );
+
         const output = await getTag(
           getCollection(db),
           name,
           message.guildId,
         );
+
         return `Añadí el tag ${output?.name}`;
       }
       case Arguments.Remove: {
         const [name] = options;
-
         const tag = await getTag(getCollection(db), name, message.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -106,7 +107,6 @@ export default <Command<false>> {
       }
       case Arguments.Give: {
         const [name, userId] = options;
-
         const tag = await getTag(getCollection(db), name, message.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -121,17 +121,18 @@ export default <Command<false>> {
           global: tag.nsfw,
           nsfw: tag.nsfw,
         });
+
         const output = await getTag(
           getCollection(db),
           tag.name,
           message.guildId,
         );
+
         return `<@${user.id}>! <@${message.authorId}> te ha regalado el #tag ${output
           ?.name}`;
       }
       case Arguments.Edit: {
         const [name, content] = options;
-
         const tag = await getTag(getCollection(db), name, message.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -139,30 +140,30 @@ export default <Command<false>> {
         if (BigInt(tag.user) !== message.authorId) {
           return "El tag no te pertenece";
         }
+
         await editTag(getCollection(db), tag, { content, attachments: [] });
+
         const output = await getTag(
           getCollection(db),
           tag.name,
           message.guildId,
         );
+
         return `Edité el tag ${output?.name}`;
       }
       case Arguments.List: {
-        let [userId] = options;
-
-        userId ??= message.authorId.toString();
+        const [userId] = <[string | undefined]> options;
 
         const tags = await findTag(
           getCollection(db),
           message.guildId,
-          BigInt(userId),
+          BigInt(userId ?? message.authorId),
         );
 
         return tags.map((tag) => tag.name).join(", ");
       }
       case Arguments.Nsfw: {
         const [name] = options;
-
         const tag = await getTag(getCollection(db), name, message.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -173,6 +174,7 @@ export default <Command<false>> {
           message.authorId,
           ["ADMINISTRATOR"],
         );
+
         if (BigInt(tag.user) !== message.authorId && !isAdmin) {
           return "El tag no te pertenece";
         }
@@ -183,6 +185,7 @@ export default <Command<false>> {
           global: false,
           nsfw: !tag.nsfw,
         });
+
         const output = await getTag(
           getCollection(db),
           tag.name,
@@ -204,7 +207,6 @@ export default <Command<false>> {
       case Arguments.Display:
       default: {
         const name = options[0] ?? option;
-
         const tag = await getTag(getCollection(db), name, message.guildId);
 
         if (!tag) {
@@ -213,6 +215,7 @@ export default <Command<false>> {
           if (tagGlobal) {
             return tagGlobal.content;
           }
+
           return "No encontré ese tag";
         }
 
@@ -222,6 +225,7 @@ export default <Command<false>> {
         if (tag.nsfw && safe) {
           return "Contenido nsfw, lo sentimos pero no se puede mostrar en éste canal :underage:";
         }
+
         return tag.content;
       }
     }

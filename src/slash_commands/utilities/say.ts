@@ -1,4 +1,5 @@
 import type { Command } from "../../types/command.ts";
+
 import { Division, isInvite } from "../../utils/mod.ts";
 import { ApplicationCommandOptionTypes } from "../../../deps.ts";
 
@@ -32,9 +33,7 @@ export default <Command> {
     if (option?.type !== ApplicationCommandOptionTypes.String) return;
 
     if (typeof option.value === "string") {
-      if (isInvite(option.value)) {
-        return "No puedo enviar invites";
-      }
+      if (isInvite(option.value)) return "No puedo enviar invites";
 
       return option.value;
     }

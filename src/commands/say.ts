@@ -1,6 +1,11 @@
 import type { Command } from "../types/command.ts";
+
 import { Division, isInvite } from "../utils/mod.ts";
-import { botHasGuildPermissions, deleteMessage, sendMessage } from "../../deps.ts";
+import {
+  botHasGuildPermissions,
+  deleteMessage,
+  sendMessage,
+} from "../../deps.ts";
 
 export default <Command<false>> {
   data: { name: "say" },

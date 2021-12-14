@@ -12,6 +12,7 @@ export default <Task> {
 
       // Remove the collector
       cache.collectors.buttons.delete(key);
+
       // Reject the promise so code can continue in commands.
       return collector.reject("The button was not pressed in time.");
     });

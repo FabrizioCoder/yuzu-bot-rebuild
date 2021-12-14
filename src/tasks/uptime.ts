@@ -7,13 +7,9 @@ export default <Task> {
   interval: Milliseconds.HOUR,
   async execute(bot, _payload, uptime) {
     // time
-    const weeks = ((Date.now() - uptime) / Milliseconds.WEEK).toFixed();
-    const hours = ((Date.now() - uptime) / Milliseconds.HOUR).toFixed();
-    const days = ((Date.now() - uptime) / Milliseconds.DAY).toFixed();
-    const minutes = ((Date.now() - uptime) / Milliseconds.MINUTE).toFixed();
+    const time = new Date(uptime).toLocaleDateString("es");
 
-    const uptimeMessage =
-      `El bot ha estado encendido ${weeks} semanas ${days} días ${hours} horas ${minutes} minutos`;
+    const uptimeMessage = `El bot ha estado encendido desde ${time}`;
 
     const channelId = Options.CHANNEL_ID;
 

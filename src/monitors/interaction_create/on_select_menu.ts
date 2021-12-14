@@ -48,6 +48,7 @@ export default <Monitor<"interactionCreate">> {
               value: `${commandPairs.join("\n")}`,
             },
           ];
+
           await sendInteractionResponse(
             bot,
             interaction.id,

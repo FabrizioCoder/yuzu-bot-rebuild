@@ -1,5 +1,6 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
+
 import { Division, randomHex } from "../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL } from "../../deps.ts";
 
@@ -12,7 +13,7 @@ const rpts = [
   "Podría ser",
   "Es poco probable",
   "Quizás",
-];
+] as const;
 
 export default <Command> {
   options: {

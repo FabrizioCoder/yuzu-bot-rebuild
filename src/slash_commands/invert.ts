@@ -28,21 +28,20 @@ export default <Command> {
   async execute(_, interaction) {
     const option = interaction.data?.options?.[0];
 
-    if (option?.type === ApplicationCommandOptionTypes.String) {
-      const MAPPING =
-        "¡\"#$%⅋,)(*+'-˙/0ƖᄅƐㄣϛ9ㄥ86:;<=>¿@∀qƆpƎℲפHIſʞ˥WNOԀQɹS┴∩ΛMX⅄Z[/]^_`ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz{|}~";
-      const OFFSET = "!".charCodeAt(0); // Start with the character '!'
+    if (option?.type !== ApplicationCommandOptionTypes.String) return;
+    const mapping =
+      "¡\"#$%⅋,)(*+'-˙/0ƖᄅƐㄣϛ9ㄥ86:;<=>¿@∀qƆpƎℲפHIſʞ˥WNOԀQɹS┴∩ΛMX⅄Z[/]^_`ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz{|}~";
+    const offset = "!".charCodeAt(0); // Start with the character '!'
 
-      if ((option.value as string).length < 1) {
-        return "Escribe algo";
-      }
-
-      return (option.value as string)
-        .split("")
-        .map((c) => c.charCodeAt(0) - OFFSET)
-        .map((c) => MAPPING[c] ?? " ")
-        .reverse()
-        .join("");
+    if ((option.value as string).length < 1) {
+      return "Escribe algo";
     }
+
+    return (option.value as string)
+      .split("")
+      .map((c) => c.charCodeAt(0) - offset)
+      .map((c) => mapping[c] ?? " ")
+      .reverse()
+      .join("");
   },
 };

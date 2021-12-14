@@ -2,7 +2,7 @@ import type { EventHandlers } from "../../deps.ts";
 
 // T<'messageCreate'>
 
-export type Monitor<T extends keyof EventHandlers = keyof EventHandlers> = {
+export interface Monitor<T extends keyof EventHandlers = keyof EventHandlers> {
   // arbitrary name
   name: string;
 
@@ -14,4 +14,4 @@ export type Monitor<T extends keyof EventHandlers = keyof EventHandlers> = {
   execute: (
     ...args: Parameters<EventHandlers[T]>
   ) => void | Promise<void>;
-};
+}

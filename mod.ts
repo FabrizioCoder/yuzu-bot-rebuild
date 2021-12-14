@@ -1,5 +1,3 @@
-#!/usr/bin/env -S deno run
-
 import type { Command } from "./src/types/command.ts";
 import type { Event } from "./src/types/event.ts";
 import type { Task } from "./src/types/task.ts";
@@ -13,10 +11,10 @@ import "./src/utils/scripts/APICommands.ts";
 
 await Promise.all([
   // /slash_commands/
-  handle<Command>("slash_commands", (command) => {
-    if ("disable" in command) return;
-    cache.slashCommands.set(command.data.name, command);
-    console.log("Loaded command %s", command.data.name);
+  handle<Command>("slash_commands", (slashCommand) => {
+    if ("disable" in slashCommand) return;
+    cache.slashCommands.set(slashCommand.data.name, slashCommand);
+    console.log("Loaded slash command %s", slashCommand.data.name);
   }),
   // /commands/
   handle<Command<false>>("commands", (command) => {
@@ -42,28 +40,22 @@ await Promise.all([
     cache.monitors.set(monitor.name, monitor);
     console.log("Loaded monitor %s", monitor.name);
   }),
-  // /context_menus/
-  // handle<unknown>("context_menus", () => {
-  //   return;
-  // }),
 ]);
 
 // start the bot
-const bot = createBot({
-  botId: Options.ID,
-  intents: ["Guilds", "GuildMessages", "GuildEmojis", "DirectMessages"],
-  events: Object.fromEntries( // transforms a Map<string, T> into a Record<string, T>
-    Array.from(
-      cache.events.entries(),
-      ([name, event]) => [name, event.execute],
-    ),
-  ),
-  token: Deno.env.get("TOKEN") ?? Options.TOKEN,
-});
-
 await startBot(
   enableCachePlugin(
-    bot,
+    createBot({
+      botId: Options.ID,
+      intents: ["Guilds", "GuildMessages", "GuildEmojis", "DirectMessages"],
+      events: Object.fromEntries( // transforms a Map<string, T> into a Record<string, T>
+        Array.from(
+          cache.events.entries(),
+          ([name, event]) => [name, event.execute],
+        ),
+      ),
+      token: Deno.env.get("TOKEN") ?? Options.TOKEN,
+    }),
   ),
 );
 

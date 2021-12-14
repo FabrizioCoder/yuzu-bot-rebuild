@@ -8,16 +8,16 @@ export default <Monitor<"interactionCreate">> {
   ignoreDM: true,
   ignoreBots: true,
   async execute(_bot, interaction) {
-    if (interaction.type === InteractionTypes.MessageComponent) {
-      if (
-        interaction.data?.componentType === MessageComponentTypes.SelectMenu
-      ) {
-        return;
-      }
-      if (interaction.member) {
-        processButtonCollectors(interaction);
-      }
+    const { type, data } = interaction;
+
+    if (type !== InteractionTypes.MessageComponent) {
+      return;
+    } else if (data?.componentType === MessageComponentTypes.SelectMenu) {
       return;
     }
+
+    processButtonCollectors(interaction);
+
+    return;
   },
 };

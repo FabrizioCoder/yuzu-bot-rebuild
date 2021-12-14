@@ -1,5 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
+
 import { DiscordColors, Division } from "../../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL } from "../../../deps.ts";
 

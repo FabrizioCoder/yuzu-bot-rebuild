@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 
-import { Division, Options } from "../utils/mod.ts";
+import { Division, isNotAscii } from "../utils/mod.ts";
 import { hasGuildPermissions } from "../../deps.ts";
 import {
   addPrefix,
@@ -24,20 +24,25 @@ export default <Command<false>> {
   data: {
     name: "prefix",
   },
-  async execute(bot, message, { args }) {
+  async execute(bot, message, { args, prefix }) {
     if (!db || !message.guildId) return;
 
-    const input = args[0];
+    const [input] = args;
+
     const guildPrefix = await getPrefix(
       getCollection(db),
       message.guildId,
     );
 
     if (!input || !(0 in args)) {
-      return `El prefix actual es ${guildPrefix?.prefix ?? Options.PREFIX}`;
+      return `El prefix actual es ${prefix}`;
     }
 
-    const hasPermissions = hasGuildPermissions(
+    if (isNotAscii(input)) {
+      return "El prefix no puede contener caracteres especiales";
+    }
+
+    const isStaff = hasGuildPermissions(
       bot,
       message.guildId,
       message.authorId,
@@ -46,7 +51,7 @@ export default <Command<false>> {
       ],
     );
 
-    if (hasPermissions) {
+    if (isStaff) {
       return "No posees suficientes permisos";
     }
 
@@ -56,10 +61,12 @@ export default <Command<false>> {
         message.guildId,
         input,
       );
+
       const newPrefix = await getPrefix(
         getCollection(db),
         message.guildId,
       );
+
       return `El prefix se ha actualizado a ${newPrefix?.prefix}`;
     } else {
       await addPrefix(
@@ -67,10 +74,12 @@ export default <Command<false>> {
         message.guildId,
         input,
       );
+
       const newPrefix = await getPrefix(
         getCollection(db),
         message.guildId,
       );
+
       return `El prefix nuevo será ${newPrefix?.prefix}`;
     }
   },

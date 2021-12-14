@@ -1,7 +1,7 @@
-import type { Bot, DiscordenoUser } from "../../deps.ts";
+import type { BotWithCache, DiscordenoUser } from "../../deps.ts";
 import type { Milliseconds } from "../utils/mod.ts";
 
-export type Payload = {
+export interface Payload {
   shardId: number;
   v: number;
   user: DiscordenoUser;
@@ -9,17 +9,17 @@ export type Payload = {
   sessionId: string;
   shard?: number[];
   applicationId: bigint;
-};
+}
 
-export type Task = {
+export interface Task {
   // arbitrary name
   name: string;
   interval: Milliseconds;
   disabled?: boolean;
   // botId uptime and anothe ruseful ids
   execute: (
-    bot: Bot,
+    bot: BotWithCache,
     payload: Payload,
     ...args: number[]
   ) => void | Promise<void>;
-};
+}

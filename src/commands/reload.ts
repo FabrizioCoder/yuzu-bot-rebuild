@@ -1,4 +1,5 @@
 import type { Command } from "../types/command.ts";
+
 import { cache, Division, Options } from "../utils/mod.ts";
 import { upsertApplicationCommands } from "../../deps.ts";
 

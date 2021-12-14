@@ -7,7 +7,7 @@ import {
   deleteMessage,
   InteractionResponseTypes,
   sendInteractionResponse,
-  sendMessage
+  sendMessage,
 } from "../../../deps.ts";
 
 import {
@@ -81,7 +81,7 @@ export default <Command<false>> {
     name: "image",
   },
   async execute(bot, message, { args }) {
-    const option = args.join(" ")
+    const option = args.join(" ");
 
     if (!option) return "Por favor escribe un texto";
 
@@ -172,7 +172,7 @@ export default <Command<false>> {
             );
 
             const tempMessage = await sendMessage(bot, message.channelId, {
-              content: `Envía un número desde 0 hasta ${limit}`
+              content: `Envía un número desde 0 hasta ${limit}`,
             });
 
             const response = await needMessage(
@@ -193,7 +193,7 @@ export default <Command<false>> {
               await sendMessage(
                 bot,
                 message.channelId,
-                "El número no existe en los resultados"
+                "El número no existe en los resultados",
               );
               continue;
             }
@@ -205,7 +205,11 @@ export default <Command<false>> {
 
           case "delete": {
             const toDelete = button.interaction.message?.id;
-            if (toDelete) await deleteMessage(bot, message.channelId, toDelete);
+
+            if (toDelete) {
+              await deleteMessage(bot, message.channelId, toDelete);
+            }
+
             continue;
           }
 

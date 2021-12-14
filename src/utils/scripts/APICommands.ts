@@ -1,4 +1,5 @@
 import type { DiscordenoUser, Embed } from "../../../deps.ts";
+
 import { ApplicationCommandOptionTypes } from "../../../deps.ts";
 import { cache } from "../cache.ts";
 import { Division } from "../constants/division.ts";
