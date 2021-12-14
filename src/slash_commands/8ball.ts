@@ -62,7 +62,7 @@ export default <Command> {
           },
           {
             name: "Tu pregunta fue:",
-            value: option.value as string,
+            value: option.value?.toString(),
           },
           {
             name: "Mi respuesta es:",

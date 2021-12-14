@@ -7,7 +7,6 @@ import { cache, handle, Options } from "./src/utils/mod.ts";
 import { createBot, enableCachePlugin, startBot } from "./deps.ts";
 
 import "https://deno.land/x/dotenv/load.ts";
-import "./src/utils/scripts/APICommands.ts";
 
 await Promise.all([
   // /slash_commands/
@@ -41,6 +40,8 @@ await Promise.all([
     console.log("Loaded monitor %s", monitor.name);
   }),
 ]);
+
+await import("./src/utils/scripts/APICommands.ts");
 
 // start the bot
 await startBot(

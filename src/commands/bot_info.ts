@@ -23,7 +23,8 @@ export default <Command<false>> {
   data: {
     name: "botinfo",
   },
-  execute(bot) {
+  execute(bot, message) {
+    if (message.guildId === 916940037176836096n) return;
     const me = bot.users.get(bot.id);
 
     if (!me) return;
