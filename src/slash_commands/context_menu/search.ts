@@ -13,6 +13,7 @@ export default <Command> {
       usage: "<Input>",
     },
   },
+  disabled: true,
   division: Division.FUN,
   data: {
     type: ApplicationCommandTypes.Message,
