@@ -18,7 +18,6 @@ export default <Command> {
   data: {
     type: ApplicationCommandTypes.Message,
     name: "search",
-    description: "...",
   },
   async execute(bot, interaction) {
     console.log(bot, interaction);

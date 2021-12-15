@@ -1,5 +1,4 @@
 import type { Command } from "../../types/command.ts";
-
 import { Division, Options, toCapitalCase } from "../../utils/mod.ts";
 import { hasGuildPermissions } from "../../../deps.ts";
 import {

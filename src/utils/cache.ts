@@ -8,7 +8,6 @@ import type {
   DiscordenoMessage,
   EventHandlers,
 } from "../../deps.ts";
-
 import { Collection as List } from "../../deps.ts";
 
 // slash commands

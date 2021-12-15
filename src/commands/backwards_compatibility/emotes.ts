@@ -1,6 +1,5 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
-
 import { Division, randomHex } from "../../utils/mod.ts";
 import {
   createEmoji,

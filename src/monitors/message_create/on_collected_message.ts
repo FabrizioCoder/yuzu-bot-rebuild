@@ -1,5 +1,4 @@
 import type { Monitor } from "../../types/monitor.ts";
-
 import { cache } from "../../utils/mod.ts";
 
 export default <Monitor<"messageCreate">> {

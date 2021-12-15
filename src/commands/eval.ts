@@ -1,6 +1,5 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
-
 import { DiscordColors, Division, Options } from "../utils/mod.ts";
 
 export default <Command<false>> {

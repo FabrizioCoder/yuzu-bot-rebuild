@@ -1,5 +1,4 @@
 import type { Command } from "../types/command.ts";
-
 import { Division, isInvite } from "../utils/mod.ts";
 import { deleteMessage, sendMessage } from "../../deps.ts";
 

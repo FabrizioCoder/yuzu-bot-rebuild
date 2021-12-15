@@ -4,11 +4,12 @@ import type {
   ButtonCollectorReturn,
   CollectButtonOptions,
 } from "../../types/collector.ts";
-
 import { Milliseconds } from "../constants/time.ts";
 import { cache } from "../cache.ts";
 
-export function collectButtons(options: CollectButtonOptions): Promise<ButtonCollectorReturn[]> {
+export function collectButtons(
+  options: CollectButtonOptions,
+): Promise<ButtonCollectorReturn[]> {
   return new Promise((resolve, reject) => {
     cache.collectors.buttons.get(options.key)?.reject(
       "A new collector began before the user responded to the previous one.",
@@ -45,7 +46,8 @@ export async function needButton(
     key: userId,
     messageId,
     createdAt: Date.now(),
-    filter: options?.filter ?? ((_, user) => (user ? userId === user.id : true)),
+    filter: options?.filter ??
+      ((_, user) => (user ? userId === user.id : true)),
     amount: options?.amount ?? 1,
     duration: options?.duration ?? Milliseconds.MINUTE * 5,
   });
@@ -77,7 +79,8 @@ export function processButtonCollectors(data: DiscordenoInteraction) {
     return collector.resolve([
       ...collector.buttons,
       {
-        customId: data.data?.customId ?? "No customId provided for this button.",
+        customId: data.data?.customId ??
+          "No customId provided for this button.",
         interaction: data,
         user: data.user,
       },

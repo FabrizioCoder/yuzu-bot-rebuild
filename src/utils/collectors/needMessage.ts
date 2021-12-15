@@ -3,7 +3,6 @@ import type {
   CollectMessagesOptions,
   MessageCollectorOptions,
 } from "../../types/collector.ts";
-
 import { Milliseconds } from "../constants/time.ts";
 import { cache } from "../cache.ts";
 

@@ -1,5 +1,4 @@
 import type { Command } from "../types/command.ts";
-
 import { Division, isNotAscii } from "../utils/mod.ts";
 import { hasGuildPermissions } from "../../deps.ts";
 import {
