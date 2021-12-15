@@ -16,7 +16,13 @@ export default <Command<false>> {
       return "No puedo enviar invites";
     }
 
-    await sendMessage(bot, message.channelId, toSend);
+    await sendMessage(bot, message.channelId, {
+      content: toSend,
+      allowedMentions: {
+        users: [message.authorId],
+        roles: [],
+      },
+    });
     await deleteMessage(bot, message.channelId, message.id)
       .catch(() => {});
   },
