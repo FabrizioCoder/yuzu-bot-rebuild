@@ -36,6 +36,7 @@ export default <Monitor<"interactionCreate">> {
       data: {
         content: typeof output === "string" ? output : "",
         embeds: typeof output !== "string" ? [output] : [],
+        allowedMentions: { users: [], roles: [] },
       },
     });
   },

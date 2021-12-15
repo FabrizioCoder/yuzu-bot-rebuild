@@ -52,7 +52,10 @@ export default <Monitor<"messageCreate">> {
       if (!output) return;
 
       if (typeof output === "string") {
-        await sendMessage(bot, message.channelId, { content: output });
+        await sendMessage(bot, message.channelId, {
+          content: output,
+          allowedMentions: { users: [], roles: [] },
+        });
         return;
       }
       await sendMessage(bot, message.channelId, { embeds: [output] });
