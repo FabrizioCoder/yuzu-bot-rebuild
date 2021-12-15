@@ -11,6 +11,8 @@ export type {
 
 // NOTE: import this module as a standalone piece do not import the mod.ts
 export {
+  botHasChannelPermissions,
   botHasGuildPermissions,
+  hasChannelPermissions,
   hasGuildPermissions,
 } from "https://deno.land/x/discordeno_permissions_plugin@0.0.11/src/permissions.ts";

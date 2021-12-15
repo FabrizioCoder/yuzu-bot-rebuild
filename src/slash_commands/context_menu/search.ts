@@ -13,13 +13,12 @@ export default <Command> {
     guildOnly: false,
     adminOnly: false,
     information: {
-      descr: "...",
-      short: "...",
+      descr: "Click encima de un mensaje para buscar una imagen",
+      short: "Click encima de un mensaje",
       usage: "<Input>",
     },
   },
-  disabled: true,
-  division: Division.FUN,
+  division: Division.UTIL,
   data: {
     type: ApplicationCommandTypes.Message,
     name: "search",
@@ -29,7 +28,7 @@ export default <Command> {
 
     if (message) {
       const [result] = await search(message.content, SafetyLevels.STRICT);
-      return result.image;
+      if (result && "image" in result) return result.image;
     }
   },
 };

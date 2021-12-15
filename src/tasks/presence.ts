@@ -7,18 +7,19 @@ export default <Task> {
   interval: Milliseconds.MINUTE * 10,
   execute(bot, _payload) {
     const gCount = bot.guilds.size;
-    const uCount = bot.guilds.map((g) => g.memberCount).reduce(
-      (a, b) => a + b,
-      0,
-    );
+    const uCount = bot.guilds
+      .map((guild) => guild.memberCount)
+      .reduce((a, b) => a + b, 0);
 
     // TODO: make this more readable
     const presences = [
-      `!help /help`,
+      "🎶🎶🎶",
+      "!help /help",
+      `${bot.gateway.shards.size} shards`,
       `${uCount.toLocaleString("de-CH")} users`,
       `${gCount.toLocaleString("de-CH")} servers`,
-      `${cache.slashCommands.size} commands`,
-      `Version ${VERSION}`,
+      `${cache.slashCommands.size} slash commands and ${cache.commands.size} commands`,
+      `Bot using v${VERSION}`,
     ];
 
     editBotStatus(bot, {

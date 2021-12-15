@@ -42,16 +42,16 @@ export default <Monitor<"messageCreate">> {
       return;
     }
 
-    const output = await command.execute(
-      bot as BotWithCache,
-      message,
-      { args, prefix },
-    );
-
     await sendMessage(
       bot,
       Options.CHANNEL_ID,
       `Comando ${command.data.name} ejecutado por ${message.tag}`,
+    );
+
+    const output = await command.execute(
+      bot as BotWithCache,
+      message,
+      { args, prefix },
     );
 
     if (!output) return;

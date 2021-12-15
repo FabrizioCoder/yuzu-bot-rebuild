@@ -63,7 +63,7 @@ export default <Command<false>> {
         {
           name: "Desarrollo",
           value:
-            `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`\n [Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`\n [Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``,
+            `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`\n[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`\n[Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``,
           inline: true,
         },
         {
