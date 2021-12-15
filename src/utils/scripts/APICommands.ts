@@ -7,24 +7,24 @@ import { userMention } from "../std/mention.ts";
 import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 const api = "https://nekos.life/api/v2/";
-const endpoints = [
-  "img/hug",
-  "img/kiss",
-  "img/poke",
-  "img/tickle",
-  "img/pat",
-  "img/cuddle",
-] as const;
+const endpointsActionPairs = {
+  "img/hug": "hugs",
+  "img/kiss": "kisses",
+  "img/poke": "pokes",
+  "img/tickle": "tickle",
+  "img/pat": "pats",
+  "img/cuddle": "cuddle",
+  "img/feed": "feeds",
+} as const;
 
 try {
   const getDescription = (
     action: string,
     target: bigint,
     author: bigint,
-  ) =>
-    `<@${target.toString()}> received a ${action} from <@${author.toString()}>`;
+  ) => `<@${author}> ${action} <@${target}>`;
 
-  endpoints.forEach(async (cmd) => {
+  Object.keys(endpointsActionPairs).forEach(async (cmd) => {
     const commandName = cmd.slice(4, cmd.length);
 
     type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
@@ -35,9 +35,17 @@ try {
         guildOnly: false,
         adminOnly: false,
         information: {
-          descr: `To ${commandName}`,
+          descr: `${
+            endpointsActionPairs[
+              `img/${commandName}` as keyof typeof endpointsActionPairs
+            ]
+          }`,
           usage: `[@User]`,
-          short: `To ${commandName}`,
+          short: `${
+            endpointsActionPairs[
+              `img/${commandName}` as keyof typeof endpointsActionPairs
+            ]
+          }`,
         },
       },
       division: Division.INTERACTION,
@@ -73,7 +81,13 @@ try {
         }
 
         return <Embed> {
-          description: getDescription(commandName, i.user.id, user.id),
+          description: getDescription(
+            endpointsActionPairs[
+              `img/${commandName}` as keyof typeof endpointsActionPairs
+            ],
+            i.user.id,
+            user.id,
+          ),
           color: DiscordColors.Blurple,
           image: { url: data.url },
         };
@@ -87,9 +101,17 @@ try {
         guildOnly: false,
         adminOnly: false,
         information: {
-          descr: `To ${commandName}`,
+          descr: `${
+            endpointsActionPairs[
+              `img/${commandName}` as keyof typeof endpointsActionPairs
+            ]
+          }`,
           usage: `[@User]`,
-          short: `To ${commandName}`,
+          short: `${
+            endpointsActionPairs[
+              `img/${commandName}` as keyof typeof endpointsActionPairs
+            ]
+          }`,
         },
       },
       division: Division.INTERACTION,
@@ -107,7 +129,9 @@ try {
 
         return <Embed> {
           description: getDescription(
-            commandName,
+            endpointsActionPairs[
+              `img/${commandName}` as keyof typeof endpointsActionPairs
+            ],
             userId,
             userId === msg.authorId ? bot.id : msg.authorId,
           ),

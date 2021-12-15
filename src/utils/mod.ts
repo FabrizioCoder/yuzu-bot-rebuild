@@ -1,6 +1,5 @@
 // constants
 export * from "./constants/division.ts";
-export * from "./constants/option.ts";
 export * from "./constants/time.ts";
 export * from "./constants/color.ts";
 export * from "./constants/emoji.ts";
@@ -20,7 +19,7 @@ export * from "./std/cheemsify.ts";
 export * from "./collectors/needButton.ts";
 export * from "./collectors/needMessage.ts";
 
-export const VERSION = "1.3.2";
+export * as Options from "./constants/option.ts";
 
 export function randomHex() {
   return Math.floor(Math.random() * 16777215);
