@@ -29,7 +29,9 @@ export default <Command<false>> {
         msg.guildId,
         ["MANAGE_MESSAGES"],
       );
-      if (canDeleteMessages) await deleteMessage(bot, msg.channelId, msg.id);
+      if (canDeleteMessages) {
+        await deleteMessage(bot, message.channelId, message.id);
+      }
     }
   },
 };
