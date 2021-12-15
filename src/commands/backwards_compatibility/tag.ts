@@ -50,7 +50,7 @@ export default <Command<false>> {
 
     switch (search) {
       case Arguments.Add: {
-        const [name, content] = options;
+        const [name, ...content] = options;
         const tag = await getTag(getCollection(db), name, message.guildId);
 
         if (tag) return "Ese tag ya existe";
@@ -61,7 +61,7 @@ export default <Command<false>> {
           message.authorId,
           {
             name,
-            content,
+            content: content.join(" "),
           },
         );
 
@@ -132,7 +132,7 @@ export default <Command<false>> {
           ?.name}`;
       }
       case Arguments.Edit: {
-        const [name, content] = options;
+        const [name, ...content] = options;
         const tag = await getTag(getCollection(db), name, message.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -141,7 +141,10 @@ export default <Command<false>> {
           return "El tag no te pertenece";
         }
 
-        await editTag(getCollection(db), tag, { content, attachments: [] });
+        await editTag(getCollection(db), tag, {
+          content: content.join(" "),
+          attachments: [],
+        });
 
         const output = await getTag(
           getCollection(db),
