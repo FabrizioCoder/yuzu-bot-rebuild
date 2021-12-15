@@ -42,30 +42,27 @@ export default <Monitor<"messageCreate">> {
       return;
     }
 
-    try {
-      const output = await command.execute(
-        bot as BotWithCache,
-        message,
-        { args, prefix },
-      );
+    const output = await command.execute(
+      bot as BotWithCache,
+      message,
+      { args, prefix },
+    );
 
-      if (!output) return;
+    await sendMessage(
+      bot,
+      Options.CHANNEL_ID,
+      `Comando ${command.data.name} ejecutado por ${message.tag}`,
+    );
 
-      if (typeof output === "string") {
-        await sendMessage(bot, message.channelId, {
-          content: output,
-          allowedMentions: { users: [], roles: [] },
-        });
-        return;
-      }
-      await sendMessage(bot, message.channelId, { embeds: [output] });
-    } catch (error: unknown) {
-      if (!(error instanceof Error)) return;
-      sendMessage(
-        bot,
-        message.channelId,
-        `Error: ${error.message}`,
-      ).catch(() => {});
+    if (!output) return;
+
+    if (typeof output === "string") {
+      await sendMessage(bot, message.channelId, {
+        content: output,
+        allowedMentions: { users: [], roles: [] },
+      });
+      return;
     }
+    await sendMessage(bot, message.channelId, { embeds: [output] });
   },
 };

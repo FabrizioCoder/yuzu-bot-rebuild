@@ -1,10 +1,11 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { BotWithCache } from "../../../deps.ts";
-import { cache } from "../../utils/mod.ts";
+import { cache, Options } from "../../utils/mod.ts";
 import {
   InteractionResponseTypes,
   InteractionTypes,
   sendInteractionResponse,
+  sendMessage,
 } from "../../../deps.ts";
 
 export default <Monitor<"interactionCreate">> {
@@ -27,6 +28,12 @@ export default <Monitor<"interactionCreate">> {
     });
 
     const output = await command.execute(bot as BotWithCache, interaction);
+
+    await sendMessage(
+      bot,
+      Options.CHANNEL_ID,
+      `Comando ${command.data.name} ejecutado por ${interaction.user.username}`,
+    );
 
     if (!output) return;
 
