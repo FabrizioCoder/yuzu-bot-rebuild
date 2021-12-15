@@ -20,6 +20,7 @@ export * from "./collectors/needButton.ts";
 export * from "./collectors/needMessage.ts";
 
 export * as Options from "./constants/option.ts";
+export { VERSION } from "./constants/option.ts";
 
 export function randomHex() {
   return Math.floor(Math.random() * 16777215);
