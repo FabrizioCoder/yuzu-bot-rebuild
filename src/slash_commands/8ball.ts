@@ -45,15 +45,10 @@ export default <Command> {
       return <Embed> {
         color: randomHex(),
         thumbnail: {
-          url: avatarURL(
-            bot,
-            interaction.user.id,
-            interaction.user.discriminator,
-            {
-              avatar: interaction.user.avatar,
-              size: 512,
-            },
-          ),
+          url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+            avatar: interaction.user.avatar,
+            size: 512,
+          }),
         },
         fields: [
           {

@@ -45,9 +45,7 @@ export default <Command<false>> {
       bot,
       message.guildId,
       message.authorId,
-      [
-        "MANAGE_GUILD",
-      ],
+      ["MANAGE_GUILD"],
     );
 
     if (!isStaff) {

@@ -69,9 +69,7 @@ export default <Command> {
           },
           {
             name: "Se unió a Discord en:",
-            value: `<t:${snowflakeToTimestamp(user.id) / 1000n}> <- <t:${
-              snowflakeToTimestamp(user.id) / 1000n
-            }:R>`,
+            value: `<t:${snowflakeToTimestamp(user.id) / 1000n}> <- <t:${snowflakeToTimestamp(user.id) / 1000n}:R>`,
           },
         ],
         color: DiscordColors.Blurple,

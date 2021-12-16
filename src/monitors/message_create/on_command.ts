@@ -2,11 +2,11 @@ import type { Monitor } from "../../types/monitor.ts";
 import type { PrefixSchema } from "../../database/models/prefix_model.ts";
 import type { BotWithCache } from "../../../deps.ts";
 import { cache, Options } from "../../utils/mod.ts";
-import { getPrefix } from "../../database/controllers/prefix_controller.ts";
+import { getCollection, getPrefix } from "../../database/controllers/prefix_controller.ts";
 import { db } from "../../database/db.ts";
 import { sendMessage } from "../../../deps.ts";
 
-export default <Monitor<"messageCreate">> {
+export default <Monitor<"messageCreate">>{
   name: "commandMonitor",
   type: "messageCreate",
   ignoreDM: true,
@@ -15,10 +15,7 @@ export default <Monitor<"messageCreate">> {
     // TODO: make this more readable
     const prefix = message.guildId
       ? db
-        ? (await getPrefix(
-          db.collection<PrefixSchema>("prefixes"),
-          message.guildId,
-        ))?.prefix ?? Options.PREFIX
+        ? (await getPrefix(getCollection(db), message.guildId))?.prefix ?? Options.PREFIX
         : Options.PREFIX
       : Options.PREFIX;
 
@@ -34,27 +31,19 @@ export default <Monitor<"messageCreate">> {
     const command = cache.commands.get(name);
 
     if (!command) {
-      sendMessage(
-        bot,
-        message.channelId,
-        "Ese comando no existe! 🔒",
-      ).catch(() => {});
+      await sendMessage(bot, message.channelId, "Ese comando no existe! 🔒");
       return;
     }
 
-    await sendMessage(
-      bot,
-      Options.CHANNEL_ID,
-      `Comando ${command.data.name} ejecutado por ${message.tag}`,
-    );
+    await sendMessage(bot, Options.CHANNEL_ID, {
+      content: `Comando ${command.data.name} ejecutado por ${message.tag}`,
+    });
 
-    const output = await command.execute(
-      bot as BotWithCache,
-      message,
-      { args, prefix },
-    );
+    const output = await command.execute(bot as BotWithCache, message, { args, prefix });
 
-    if (!output) return;
+    if (!output) {
+      return;
+    }
 
     if (typeof output === "string") {
       await sendMessage(bot, message.channelId, {

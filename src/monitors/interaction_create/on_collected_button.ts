@@ -7,7 +7,7 @@ export default <Monitor<"interactionCreate">> {
   type: "interactionCreate",
   ignoreDM: true,
   ignoreBots: true,
-  async execute(_bot, interaction) {
+  execute(_bot, interaction) {
     const { type, data } = interaction;
 
     if (type !== InteractionTypes.MessageComponent) {

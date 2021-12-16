@@ -35,6 +35,10 @@ export default <Command> {
         .filter((u) => u.discriminator === <number> option.value)
         .map((u) => `${u.username}#${u.discriminator}`);
 
+      if ((option.value as number).toString().length !== 4) {
+        return "El tag debe tener 4 dígitos";
+      }
+
       return <Embed> {
         color: randomHex(),
         description: users.join(", ") ?? "Sin resultados",

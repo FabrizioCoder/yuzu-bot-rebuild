@@ -194,9 +194,7 @@ export default <Command<false>> {
           message.guildId,
         );
 
-        return `Edité el tag ${output?.name} como **${
-          !output?.nsfw ? "sfw" : "nsfw"
-        }**`;
+        return `Edité el tag ${output?.name} como **${!output?.nsfw ? "sfw" : "nsfw"}**`;
       }
       case Arguments.Owner: {
         const [name] = options;

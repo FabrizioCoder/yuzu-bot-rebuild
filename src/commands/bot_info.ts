@@ -23,17 +23,17 @@ export default <Command<false>> {
     name: "botinfo",
   },
   execute(bot, message) {
+    // test guilds
     if (message.guildId === 882096686334345216n) return;
     if (message.guildId === 916940037176836096n) return;
-    const me = bot.users.get(bot.id);
-
-    if (!me) return;
 
     // utility
+    const me = bot.users.get(bot.id);
+    const fn = ([k, v]: [string, number]) => `${toCapitalCase(k)} -> ${(((v / 1024 / 1024) * 100) / 100) | 0} MB`;
     const botCreatedAt = snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000n;
-    const memory = Object.entries(Deno.memoryUsage()).map(([k, v]) =>
-      `${toCapitalCase(k)} |> ${(((v / 1024 / 1024) * 100) / 100) | 0} MB`
-    );
+    const memory = Object.entries(Deno.memoryUsage()).map(fn);
+
+    if (!me) return;
 
     return <Embed> {
       color: DiscordColors.Blurple,
@@ -68,13 +68,14 @@ export default <Command<false>> {
         {
           name: "Desarrollo",
           value:
-            `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`\n[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`\n[Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``,
+            `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`` +
+            `[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`` +
+            `[Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``,
           inline: true,
         },
         {
           name: "Repository",
-          value:
-            "\\🔒 [Get source code](https://github.com/Le-Val/yuzu-bot-rebuild)",
+          value: "\\🔒 [Get source code](https://github.com/Le-Val/yuzu-bot-rebuild)",
         },
         {
           name: "Guilds",

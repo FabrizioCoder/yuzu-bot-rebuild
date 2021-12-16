@@ -27,11 +27,9 @@ export default <Monitor<"interactionCreate">> {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
     });
 
-    await sendMessage(
-      bot,
-      Options.CHANNEL_ID,
-      `Comando ${command.data.name} ejecutado por ${interaction.user.username}${interaction.user.discriminator}`,
-    );
+    await sendMessage(bot, Options.CHANNEL_ID, {
+      content: `Comando ${command.data.name} ejecutado por ${interaction.user.username}${interaction.user.discriminator}`,
+    });
 
     const output = await command.execute(bot as BotWithCache, interaction);
 
