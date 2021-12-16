@@ -5,7 +5,7 @@ import type {
   CollectButtonOptions,
 } from "../../types/collector.ts";
 import { Milliseconds } from "../constants/time.ts";
-import { cache } from "../cache.ts";
+import * as cache from "../cache.ts";
 
 export function collectButtons(
   options: CollectButtonOptions,

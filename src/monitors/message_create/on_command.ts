@@ -1,5 +1,4 @@
 import type { Monitor } from "../../types/monitor.ts";
-import type { PrefixSchema } from "../../database/models/prefix_model.ts";
 import type { BotWithCache } from "../../../deps.ts";
 import { cache, Options } from "../../utils/mod.ts";
 import { getCollection, getPrefix } from "../../database/controllers/prefix_controller.ts";
@@ -12,7 +11,6 @@ export default <Monitor<"messageCreate">>{
   ignoreDM: true,
   ignoreBots: true,
   async execute(bot, message) {
-    // TODO: make this more readable
     const prefix = message.guildId
       ? db
         ? (await getPrefix(getCollection(db), message.guildId))?.prefix ?? Options.PREFIX
