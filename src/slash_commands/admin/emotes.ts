@@ -171,6 +171,9 @@ export default <Command> {
         return `Creé el emoji ${emoji.name} -> <:${emoji.name}:${emoji.id}>`;
       }
       default: {
+        const emojis = guild.emojis.map((e) =>
+          `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`
+        );
         return <Embed> {
           author: {
             name:
@@ -187,11 +190,7 @@ export default <Command> {
           },
           color: randomHex(),
           // TODO: make less painful to read
-          description: `Emotes: ${
-            guild.emojis.map((e) =>
-              `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`
-            ).join(" ")
-          }`,
+          description: `Emotes: ${emojis.join(" ")}`,
           footer: {
             text: guild.id.toString(),
           },

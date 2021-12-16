@@ -30,13 +30,16 @@ export default <Command<false>> {
 
     if (!guild) return;
 
+    const canManageEmojis = hasGuildPermissions(
+      bot,
+      message.guildId,
+      message.authorId,
+      ["MANAGE_EMOJIS"],
+    );
+
     switch (option?.toLowerCase()) {
       case "hide": {
-        if (
-          !hasGuildPermissions(bot, message.guildId, message.authorId, [
-            "MANAGE_EMOJIS",
-          ])
-        ) {
+        if (!canManageEmojis) {
           return "No posees permisos suficientes";
         }
 
@@ -71,11 +74,7 @@ export default <Command<false>> {
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;
       }
       case "remove": {
-        if (
-          !hasGuildPermissions(bot, message.guildId, message.authorId, [
-            "MANAGE_EMOJIS",
-          ])
-        ) {
+        if (!canManageEmojis) {
           return "No posees permisos suficientes";
         }
 
@@ -99,11 +98,7 @@ export default <Command<false>> {
         return `Elminé el emoji ${emoji.name}`;
       }
       case "add": {
-        if (
-          !hasGuildPermissions(bot, message.guildId, message.authorId, [
-            "MANAGE_EMOJIS",
-          ])
-        ) {
+        if (!canManageEmojis) {
           return "No posees permisos suficientes";
         }
 
@@ -129,14 +124,12 @@ export default <Command<false>> {
         return `Creé el emoji ${emoji.name} -> <:${emoji.name}:${emoji.id}>`;
       }
       default: {
+        const emojis = guild.emojis.map((e) =>
+          `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`
+        );
         return <Embed> {
           color: randomHex(),
-          // TODO: make less painful to read
-          description: `Emotes: ${
-            guild.emojis.map((e) =>
-              `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`
-            ).join(" ")
-          }`,
+          description: `Emotes: ${emojis.join(" ")}`,
           footer: {
             text: guild.id.toString(),
           },

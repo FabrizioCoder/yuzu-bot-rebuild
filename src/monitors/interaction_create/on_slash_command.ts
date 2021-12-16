@@ -30,7 +30,7 @@ export default <Monitor<"interactionCreate">> {
     await sendMessage(
       bot,
       Options.CHANNEL_ID,
-      `Comando ${command.data.name} ejecutado por ${interaction.user.username}`,
+      `Comando ${command.data.name} ejecutado por ${interaction.user.username}${interaction.user.discriminator}`,
     );
 
     const output = await command.execute(bot as BotWithCache, interaction);

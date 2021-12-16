@@ -23,10 +23,17 @@ export default <Command<false>> {
     name: "botinfo",
   },
   execute(bot, message) {
+    if (message.guildId === 882096686334345216n) return;
     if (message.guildId === 916940037176836096n) return;
     const me = bot.users.get(bot.id);
 
     if (!me) return;
+
+    // utility
+    const botCreatedAt = snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000n;
+    const memory = Object.entries(Deno.memoryUsage()).map(([k, v]) =>
+      `${toCapitalCase(k)} |> ${(((v / 1024 / 1024) * 100) / 100) | 0} MB`
+    );
 
     return <Embed> {
       color: DiscordColors.Blurple,
@@ -45,9 +52,7 @@ export default <Command<false>> {
       fields: [
         {
           name: "Memory",
-          value: Object.entries(Deno.memoryUsage()).map(([k, v]) =>
-            `${toCapitalCase(k)} |> ${(((v / 1024 / 1024) * 100) / 100) | 0} MB`
-          ).join("\n"),
+          value: memory.join("\n"),
           inline: true,
         },
         {
@@ -88,17 +93,12 @@ export default <Command<false>> {
         },
         {
           name: "Real count of members",
-          value: bot.guilds.map((g) => g.memberCount).reduce(
-            (a, b) => a + b,
-            0,
-          ),
+          value: bot.guilds.map((g) => g.memberCount).reduce((a, b) => a + b, 0),
           inline: true,
         },
         {
           name: "Since",
-          value: `<t:${snowflakeToTimestamp(bot.id) / 1000n}> <- <t:${
-            snowflakeToTimestamp(bot.id) / 1000n
-          }:R>`,
+          value: `<t:${botCreatedAt}> <- <t:${botCreatedAt}:R>`,
         },
       ],
       footer: {

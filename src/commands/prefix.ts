@@ -50,7 +50,7 @@ export default <Command<false>> {
       ],
     );
 
-    if (isStaff) {
+    if (!isStaff) {
       return "No posees suficientes permisos";
     }
 
