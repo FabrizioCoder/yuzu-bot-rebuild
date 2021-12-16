@@ -32,7 +32,7 @@ export default <Command<false>> {
       color: randomHex(),
       description: users.join("\n") ?? "Sin resultados",
       footer: {
-        text: `${users.length} usuario(s) con el tag ${tag}`,
+        text: `${users.length} usuario(s) con el tag ${args[0]}`,
       },
     };
   },
