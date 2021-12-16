@@ -2,6 +2,7 @@ import type { Command } from "./src/types/command.ts";
 import type { Event } from "./src/types/event.ts";
 import type { Task } from "./src/types/task.ts";
 import type { Monitor } from "./src/types/monitor.ts";
+import type { EventHandlers } from "./deps.ts";
 
 import { cache, handle, Options } from "./src/utils/mod.ts";
 import { createBot, enableCachePlugin, startBot } from "./deps.ts";
@@ -22,7 +23,7 @@ await Promise.all([
     console.log("Loaded command %s", command.data.name);
   }),
   // /events/
-  handle<Event>("events", (event) => {
+  handle<Event<keyof EventHandlers>>("events", (event) => {
     if ("disable" in event) return;
     cache.events.set(event.name, event);
     console.log("Loaded event %s", event.name);
@@ -34,7 +35,7 @@ await Promise.all([
     console.log("Loaded task %s", task.name);
   }),
   // /monitors/
-  handle<Monitor>("monitors", (monitor) => {
+  handle<Monitor<keyof EventHandlers>>("monitors", (monitor) => {
     if ("disable" in monitor) return;
     cache.monitors.set(monitor.name, monitor);
     console.log("Loaded monitor %s", monitor.name);

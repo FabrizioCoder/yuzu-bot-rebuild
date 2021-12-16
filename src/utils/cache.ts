@@ -4,7 +4,7 @@ import type { Monitor } from "../types/monitor.ts";
 import type { Task } from "../types/task.ts";
 import type { ButtonCollector, MessageCollector } from "../types/collector.ts";
 import type {
-  Attachment,
+  DiscordenoAttachment,
   DiscordenoMessage,
   EventHandlers,
 } from "../../deps.ts";
@@ -37,7 +37,7 @@ const collectors = {
 };
 
 const lastMessages = new List<bigint, DiscordenoMessage>();
-const lastAttachments = new List<bigint, Attachment[]>();
+const lastAttachments = new List<bigint, DiscordenoAttachment[]>();
 
 export const cache = {
   slashCommands,

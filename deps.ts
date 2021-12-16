@@ -15,4 +15,6 @@ export {
   botHasGuildPermissions,
   hasChannelPermissions,
   hasGuildPermissions,
+  calculateBits,
+  calculatePermissions
 } from "https://deno.land/x/discordeno_permissions_plugin@0.0.11/src/permissions.ts";
