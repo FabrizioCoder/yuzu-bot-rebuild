@@ -1,9 +1,9 @@
 import type { DiscordenoUser, Embed } from "../../../deps.ts";
 import { ApplicationCommandOptionTypes } from "../../../deps.ts";
-import { cache } from "../cache.ts";
 import { Division } from "../constants/division.ts";
 import { DiscordColors } from "../constants/color.ts";
 import { userMention } from "../std/mention.ts";
+import * as cache from "../cache.ts";
 import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 const api = "https://nekos.life/api/v2/";
