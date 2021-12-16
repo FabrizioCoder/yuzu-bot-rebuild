@@ -1,5 +1,5 @@
 import type { Task } from "../types/task.ts";
-import { cache, Milliseconds, VERSION } from "../utils/mod.ts";
+import { cache, Milliseconds, Options } from "../utils/mod.ts";
 import { ActivityTypes, editBotStatus } from "../../deps.ts";
 
 export default <Task> {
@@ -19,7 +19,7 @@ export default <Task> {
       `${uCount.toLocaleString("de-CH")} users`,
       `${gCount.toLocaleString("de-CH")} servers`,
       `${cache.slashCommands.size} slash commands and ${cache.commands.size} commands`,
-      `Bot using v${VERSION}`,
+      `Bot using v${Options.VERSION}`,
     ];
 
     editBotStatus(bot, {

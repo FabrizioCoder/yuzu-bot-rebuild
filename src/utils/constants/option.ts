@@ -8,4 +8,4 @@ export const ID = 893319907981283340n; // main bot
 export const PREFIX = "!";
 export const TOKEN = "........";
 
-export const VERSION = "1.3.2";
+export const VERSION = "1.3.3";

@@ -11,42 +11,30 @@ import type {
 import { Collection as List } from "../../deps.ts";
 
 // slash commands
-const slashCommands: List<string, Command<true>> = new List();
+export const slashCommands: List<string, Command<true>> = new List();
 
 // regular commands
-const commands: List<string, Command<false>> = new List();
+export const commands: List<string, Command<false>> = new List();
 
 // events
-const events: List<string, Event<keyof EventHandlers>> = new List();
+export const events: List<string, Event<keyof EventHandlers>> = new List();
 
 // monitors
-const monitors: List<string, Monitor<keyof EventHandlers>> = new List();
+export const monitors: List<string, Monitor<keyof EventHandlers>> = new List();
 
 // tasks
-const tasks: List<string, Task> = new List();
+export const tasks: List<string, Task> = new List();
 
 // running tasks
-const runningTasks = {
+export const runningTasks = {
   initialTimeouts: new Set<number>(),
   intervals: new Set<number>(),
 };
 
-const collectors = {
+export const collectors = {
   buttons: new List<bigint, ButtonCollector>(),
   messages: new List<bigint, MessageCollector>(),
 };
 
-const lastMessages = new List<bigint, DiscordenoMessage>();
-const lastAttachments = new List<bigint, DiscordenoAttachment[]>();
-
-export const cache = {
-  slashCommands,
-  commands,
-  events,
-  monitors,
-  tasks,
-  runningTasks,
-  collectors,
-  lastMessages,
-  lastAttachments,
-};
+export const lastMessages = new List<bigint, DiscordenoMessage>();
+export const lastAttachments = new List<bigint, DiscordenoAttachment[]>();
