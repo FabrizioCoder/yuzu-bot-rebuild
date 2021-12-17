@@ -6,16 +6,13 @@ export default <Task> {
   name: "uptime",
   interval: Milliseconds.HOUR,
   async execute(bot, _payload, uptime) {
-    const uptimeMessage = `
+    const uptimeMessage = String.prototype.trim.call(`
     El bot ha estado encendido desde:
-    <t:${Math.floor(uptime / 1000)}:R>
-    <t:${Math.floor(uptime / 1000)}:F>
-    <t:${Math.floor(uptime / 1000)}:d>
-    `;
-
-    const channelId = Options.CHANNEL_ID;
+    -> <t:${Math.floor(uptime / 1000)}:R>
+    -> <t:${Math.floor(uptime / 1000)}:F>
+    `);
 
     // log
-    await sendMessage(bot, channelId, uptimeMessage);
+    await sendMessage(bot, Options.CHANNEL_ID, uptimeMessage);
   },
 };
