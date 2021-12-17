@@ -11,9 +11,9 @@ export default <Task> {
 
     const uptimeMessage = `
     El bot ha estado encendido desde:
-      <t:${(now - uptime) / 1000}:R>
-      <t:${(now - uptime) / 1000}:F>
-      <t:${(now - uptime) / 1000}:d>
+    <t:${(now - uptime)}:R>
+    <t:${(now - uptime)}:F>
+    <t:${(now - uptime)}:d>
     `;
 
     const channelId = Options.CHANNEL_ID;

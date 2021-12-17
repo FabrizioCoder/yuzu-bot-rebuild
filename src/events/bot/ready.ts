@@ -21,7 +21,7 @@ export default <Event<"ready">> {
     printLog("Loaded ->", `${cache.events.size} events`);
     printLog("Loaded ->", `${cache.monitors.size} monitors`);
     printLog("Loaded ->", `${cache.tasks.size} tasks`);
-    printLog("Shard: %s of %d shards", payload.shardId, bot.botGatewayData?.shards);
+    printLog("Shard: %s of %d shards", payload.shardId + 1, bot.botGatewayData?.shards);
     printLog("API version: %s", payload.v);
     printLog("Deno: %s, V8: %s, TS: %s", ...Object.values(Deno.version));
     printLog("Running OS: %s %s %s", Deno.build.env, Deno.build.os, Deno.build.arch);
