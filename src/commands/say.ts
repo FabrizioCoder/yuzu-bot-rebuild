@@ -1,8 +1,17 @@
 import type { Command } from "../types/command.ts";
 import { Division, isInvite } from "../utils/mod.ts";
-import { deleteMessage, sendMessage } from "../../deps.ts";
+import { deleteMessage } from "../../deps.ts";
 
 export default <Command<false>> {
+  options: {
+    guildOnly: false,
+    adminOnly: false,
+    information: {
+      descr: "Hace que el bot diga algo muy malo",
+      short: "Escribir el mensaje del bot",
+      usage: "<Input>",
+    },
+  },
   data: { name: "say" },
   division: Division.OWNER,
   async execute(bot, message, { args }) {
@@ -16,13 +25,8 @@ export default <Command<false>> {
       return "No puedo enviar invites";
     }
 
-    await sendMessage(bot, message.channelId, {
-      content: toSend,
-      allowedMentions: {
-        users: [message.authorId],
-        roles: [],
-      },
-    });
     await deleteMessage(bot, message.channelId, message.id).catch(() => {});
+
+    return toSend;
   },
 };
