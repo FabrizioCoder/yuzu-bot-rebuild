@@ -14,9 +14,8 @@ export default <Event<"messageCreate">> {
           }
 
           await monitor.execute(bot, message);
-        } catch (e: unknown) {
-          await sendMessage(bot, Options.CHANNEL_ID, `Error: ${JSON.stringify(e)}`)
-            .catch(console.error);
+        } catch (e) {
+          await sendMessage(bot, Options.CHANNEL_ID, `Error: ${JSON.stringify(e)}`).catch(console.error);
         }
       });
   },

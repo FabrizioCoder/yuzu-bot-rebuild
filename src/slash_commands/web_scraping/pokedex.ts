@@ -66,9 +66,7 @@ interface PokemonTarget {
 
 // UTILITY
 
-async function getPokemonFromApi(
-  pokemon: string | number,
-): Promise<Pokemon | undefined> {
+async function getPokemonFromApi(pokemon: string | number): Promise<Pokemon | undefined> {
   const pokeAPI = "https://pokeapi.co/api/v2";
 
   try {
@@ -87,12 +85,12 @@ function parseMessageToPokemon(message: string): PokemonTarget {
   };
 
   if (!isNaN(parseInt(message))) {
-    return <PokemonTarget> Object.assign(base, {
+    return <PokemonTarget>Object.assign(base, {
       id: parseInt(message),
       specie: "",
     });
   } else {
-    return <PokemonTarget> Object.assign(base, {
+    return <PokemonTarget>Object.assign(base, {
       id: 0,
       specie: message.toLowerCase(),
     });
@@ -140,8 +138,7 @@ export default <Command> {
     }
 
     const target = parseMessageToPokemon(option.value as string);
-    const poke = await getPokemonFromApi(target.id) ??
-      await getPokemonFromApi(target.specie);
+    const poke = await getPokemonFromApi(target.id) ?? await getPokemonFromApi(target.specie);
 
     if (!poke) {
       return "No se pudo encontrar información sobre el pokémon.";
@@ -150,15 +147,10 @@ export default <Command> {
     return <Embed> {
       author: {
         name: interaction.user.username,
-        url: avatarURL(
-          bot,
-          interaction.user.id,
-          interaction.user.discriminator,
-          {
-            avatar: interaction.user.avatar,
-            size: 512,
-          },
-        ),
+        url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+          avatar: interaction.user.avatar,
+          size: 512,
+        }),
       },
       title: `${poke.name[0]?.toUpperCase() + poke.name.slice(1)} #${poke.id}`,
       color: randomHex(),
@@ -166,9 +158,7 @@ export default <Command> {
         text: "Thanks to PokéAPI for existing!",
         url: "https://pokeapi.co/static/pokeapi_256.888baca4.png",
       },
-      description: poke.stats.map((value) =>
-        `${value.stat.name}: \`${value.base_stat}\``
-      ).join("\n"),
+      description: poke.stats.map((value) => `${value.stat.name}: \`${value.base_stat}\``).join("\n"),
       fields: [
         {
           name: "Abilities",
@@ -180,10 +170,7 @@ export default <Command> {
         },
         {
           name: "Etc",
-          value: [
-            `**Weight**: ${parsePokemonWeight(poke.weight)}kg`,
-            `**Height**: ${poke.height}cm`,
-          ].join("\n"),
+          value: [`**Weight**: ${parsePokemonWeight(poke.weight)}kg`, `**Height**: ${poke.height}cm`].join("\n"),
         },
       ],
       image: {

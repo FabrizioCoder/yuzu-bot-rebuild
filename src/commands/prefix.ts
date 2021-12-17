@@ -1,12 +1,7 @@
 import type { Command } from "../types/command.ts";
 import { Division, isNotAscii } from "../utils/mod.ts";
 import { hasGuildPermissions } from "../../deps.ts";
-import {
-  addPrefix,
-  editPrefix,
-  getCollection,
-  getPrefix,
-} from "../database/controllers/prefix_controller.ts";
+import { addPrefix, editPrefix, getCollection, getPrefix } from "../database/controllers/prefix_controller.ts";
 import { db } from "../database/db.ts";
 
 export default <Command<false>> {
@@ -28,10 +23,7 @@ export default <Command<false>> {
 
     const [input] = args;
 
-    const guildPrefix = await getPrefix(
-      getCollection(db),
-      message.guildId,
-    );
+    const guildPrefix = await getPrefix(getCollection(db), message.guildId);
 
     if (!input || !(0 in args)) {
       return `El prefix actual es ${prefix}`;
@@ -41,41 +33,22 @@ export default <Command<false>> {
       return "El prefix no puede contener caracteres especiales";
     }
 
-    const isStaff = hasGuildPermissions(
-      bot,
-      message.guildId,
-      message.authorId,
-      ["MANAGE_GUILD"],
-    );
+    const isStaff = hasGuildPermissions(bot, message.guildId, message.authorId, ["MANAGE_GUILD"]);
 
     if (!isStaff) {
       return "No posees suficientes permisos";
     }
 
     if (guildPrefix) {
-      await editPrefix(
-        getCollection(db),
-        message.guildId,
-        input,
-      );
+      await editPrefix(getCollection(db), message.guildId, input);
 
-      const newPrefix = await getPrefix(
-        getCollection(db),
-        message.guildId,
-      );
+      const newPrefix = await getPrefix(getCollection(db), message.guildId);
 
       return `El prefix se ha actualizado a ${newPrefix?.prefix}`;
     } else {
-      await addPrefix(
-        getCollection(db),
-        message.guildId,
-        input,
-      );
+      await addPrefix(getCollection(db), message.guildId, input);
 
-      const newPrefix = await getPrefix(
-        getCollection(db),
-        message.guildId,
-      );
+      const newPrefix = await getPrefix(getCollection(db), message.guildId);
 
       return `El prefix nuevo será ${newPrefix?.prefix}`;
     }

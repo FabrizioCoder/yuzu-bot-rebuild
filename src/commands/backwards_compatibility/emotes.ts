@@ -1,13 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 import { Division, randomHex } from "../../utils/mod.ts";
-import {
-  createEmoji,
-  deleteEmoji,
-  editEmoji,
-  getGuild,
-  hasGuildPermissions,
-} from "../../../deps.ts";
+import { createEmoji, deleteEmoji, editEmoji, getGuild, hasGuildPermissions } from "../../../deps.ts";
 
 export default <Command<false>> {
   options: {
@@ -31,12 +25,7 @@ export default <Command<false>> {
 
     if (!guild) return;
 
-    const canManageEmojis = hasGuildPermissions(
-      bot,
-      message.guildId,
-      message.authorId,
-      ["MANAGE_EMOJIS"],
-    );
+    const canManageEmojis = hasGuildPermissions(bot, message.guildId, message.authorId, ["MANAGE_EMOJIS"]);
 
     switch (option?.toLowerCase()) {
       case "hide": {
@@ -44,15 +33,13 @@ export default <Command<false>> {
           return "No posees permisos suficientes";
         }
 
-        const [name, role] = options as [
-          string | undefined,
-          string | undefined,
-        ];
+        const [name, role] = options as [string | undefined, string | undefined];
 
         // enforce to add an emoji of 2 characters
         if (!name || name.length < 2) {
           return "El emoji debe tener al menos 2 caracteres";
         }
+
         if (!role) {
           return "Debes mencionar un rol";
         }
@@ -61,16 +48,9 @@ export default <Command<false>> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        await editEmoji(
-          bot,
-          message.guildId,
-          emoji.id,
-          {
-            roles: emoji.roles
-              ? [BigInt(role), ...emoji.roles]
-              : [BigInt(role)],
-          },
-        );
+        await editEmoji(bot, message.guildId, emoji.id, {
+          roles: emoji.roles ? [BigInt(role), ...emoji.roles] : [BigInt(role)],
+        });
 
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;
       }
@@ -79,7 +59,7 @@ export default <Command<false>> {
           return "No posees permisos suficientes";
         }
 
-        const [name] = <[string | undefined]> options;
+        const [name] = <[string | undefined]>options;
 
         // enforce to add an emoji of 2 characters
         if (!name || name.length < 2) {
@@ -90,11 +70,7 @@ export default <Command<false>> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        await deleteEmoji(
-          bot,
-          message.guildId,
-          BigInt(emoji.id),
-        );
+        await deleteEmoji(bot, message.guildId, BigInt(emoji.id));
 
         return `Elminé el emoji ${emoji.name}`;
       }
@@ -103,10 +79,7 @@ export default <Command<false>> {
           return "No posees permisos suficientes";
         }
 
-        const [name, image] = options as [
-          string | undefined,
-          string | undefined,
-        ];
+        const [name, image] = options as [string | undefined, string | undefined];
 
         // enforce to add an emoji of 2 characters
         if (!name || name.length < 2) {
@@ -125,9 +98,8 @@ export default <Command<false>> {
         return `Creé el emoji ${emoji.name} -> <:${emoji.name}:${emoji.id}>`;
       }
       default: {
-        const emojis = guild.emojis.map((e) =>
-          `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`
-        );
+        const emojis = guild.emojis.map((e) => `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`);
+
         return <Embed> {
           color: randomHex(),
           description: `Emotes: ${emojis.join(" ")}`,

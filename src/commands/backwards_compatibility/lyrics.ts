@@ -35,9 +35,7 @@ export default <Command<false>> {
     const option = args.join(" ");
 
     if (option) {
-      const { data } = await axiod.get<Song>(
-        `https://some-random-api.ml/lyrics/?title=${option}`,
-      );
+      const { data } = await axiod.get<Song>(`https://some-random-api.ml/lyrics/?title=${option}`);
 
       if (!data || "error" in data) return "No pude encontrar esa canción";
 

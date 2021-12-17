@@ -5,7 +5,7 @@ import { getCollection, getPrefix } from "../../database/controllers/prefix_cont
 import { db } from "../../database/db.ts";
 import { sendMessage } from "../../../deps.ts";
 
-export default <Monitor<"messageCreate">>{
+export default <Monitor<"messageCreate">> {
   name: "commandMonitor",
   type: "messageCreate",
   ignoreDM: true,

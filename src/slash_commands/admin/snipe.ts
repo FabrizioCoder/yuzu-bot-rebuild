@@ -30,15 +30,10 @@ export default <Command> {
     return <Embed> {
       author: {
         name: `${interaction.user.username}#${interaction.user.discriminator}`,
-        iconUrl: avatarURL(
-          bot,
-          interaction.user.id,
-          interaction.user.discriminator,
-          {
-            avatar: interaction.user.avatar,
-            size: 512,
-          },
-        ),
+        iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+          avatar: interaction.user.avatar,
+          size: 512,
+        }),
       },
       color: randomHex(),
       description: message.content,

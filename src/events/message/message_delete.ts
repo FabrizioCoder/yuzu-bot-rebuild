@@ -12,9 +12,8 @@ export default <Event<"messageDelete">> {
           if (!message) return;
           if (monitor.ignoreBots && message.isBot) return;
           await monitor.execute(bot, payload, message);
-        } catch (e: unknown) {
-          await sendMessage(bot, Options.CHANNEL_ID, `Error: ${JSON.stringify(e)}`)
-            .catch(console.error);
+        } catch (e) {
+          await sendMessage(bot, Options.CHANNEL_ID, `Error: ${JSON.stringify(e)}`).catch(console.error);
         }
       });
   },

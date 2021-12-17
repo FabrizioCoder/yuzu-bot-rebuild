@@ -1,10 +1,6 @@
 /* https://github.com/discordeno/template/blob/main/src/types/collectors.ts */
 
-import type {
-  DiscordenoInteraction,
-  DiscordenoUser,
-  DiscordenoMessage,
-} from "../../deps.ts";
+import type { DiscordenoInteraction, DiscordenoUser, DiscordenoMessage } from "../../deps.ts";
 
 // BASE
 
@@ -26,9 +22,7 @@ export interface CollectButtonOptions extends BaseCollectorCreateOptions {
 }
 
 export interface ButtonCollector extends CollectButtonOptions {
-  resolve: (
-    value: ButtonCollectorReturn[] | PromiseLike<ButtonCollectorReturn[]>,
-  ) => void;
+  resolve: (value: ButtonCollectorReturn[] | PromiseLike<ButtonCollectorReturn[]>) => void;
   // deno-lint-ignore no-explicit-any
   reject: (reason?: any) => void;
   buttons: ButtonCollectorReturn[];
@@ -52,9 +46,7 @@ export interface CollectMessagesOptions extends BaseCollectorCreateOptions {
 }
 
 export interface MessageCollector extends CollectMessagesOptions {
-  resolve: (
-    value: DiscordenoMessage[] | PromiseLike<DiscordenoMessage[]>,
-  ) => void;
+  resolve: (value: DiscordenoMessage[] | PromiseLike<DiscordenoMessage[]>) => void;
   // deno-lint-ignore no-explicit-any
   reject: (reason?: any) => void;
   messages: DiscordenoMessage[];

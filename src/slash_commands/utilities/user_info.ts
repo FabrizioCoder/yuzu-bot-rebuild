@@ -1,18 +1,8 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 
-import {
-  DiscordColors,
-  Division,
-  snowflakeToTimestamp,
-} from "../../utils/mod.ts";
-
-import {
-  ApplicationCommandOptionTypes,
-  avatarURL,
-  getMember,
-  getUser,
-} from "../../../deps.ts";
+import { DiscordColors, Division, snowflakeToTimestamp } from "../../utils/mod.ts";
+import { ApplicationCommandOptionTypes, avatarURL, getMember, getUser } from "../../../deps.ts";
 
 export default <Command> {
   options: {
@@ -41,11 +31,8 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
-      const user = (
-        bot.users.get(BigInt(option.value as string))
-      ) ?? (
-        await getUser(bot, BigInt(option.value as string))
-      );
+      const user =
+        bot.users.get(BigInt(option.value as string)) ?? await getUser(bot, BigInt(option.value as string));
 
       if (!user) return "No encontré al usuario";
 
@@ -92,22 +79,16 @@ export default <Command> {
         const member = await getMember(bot, interaction.guildId, user.id);
 
         if (member.premiumSince) {
-          embed.fields?.push(
-            {
-              name: "Mejora el servidor desde:",
-              value: `<t:${BigInt(member.premiumSince) / 1000n}> <- <t:${
-                BigInt(member.premiumSince) / 1000n
-              }:R>`,
-            },
-          );
+          embed.fields?.push({
+            name: "Mejora el servidor desde:",
+            value: `<t:${BigInt(member.premiumSince) / 1000n}> <- <t:${BigInt(member.premiumSince) / 1000n}:R>`,
+          });
         }
 
         embed.fields?.push(
           {
             name: "Se unió al servidor en:",
-            value: `<t:${BigInt(member.joinedAt) / 1000n}> <- <t:${
-              BigInt(member.joinedAt) / 1000n
-            }:R>`,
+            value: `<t:${BigInt(member.joinedAt) / 1000n}> <- <t:${BigInt(member.joinedAt) / 1000n}:R>`,
           },
           {
             name: "Apodo",
@@ -116,7 +97,7 @@ export default <Command> {
           {
             name: `Roles: [${member.roles.length}]`,
             value: `@everyone ${member.roles.map((r) => `<@&${r}>`).join(" ")}`,
-          },
+          }
         );
       }
 

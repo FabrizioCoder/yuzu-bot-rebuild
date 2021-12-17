@@ -4,16 +4,7 @@ import type { Embed } from "../../deps.ts";
 import { Division, randomHex } from "../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL } from "../../deps.ts";
 
-const rpts = [
-  "Sí",
-  "No",
-  "Tal vez",
-  "No sé",
-  "¡Claro!",
-  "Podría ser",
-  "Es poco probable",
-  "Quizás",
-] as const;
+const rpts = ["Sí", "No", "Tal vez", "No sé", "¡Claro!", "Podría ser", "Es poco probable", "Quizás"] as const;
 
 export default <Command> {
   options: {

@@ -18,11 +18,7 @@ const endpointsActionPairs = {
 } as const;
 
 try {
-  const getDescription = (
-    action: string,
-    target: bigint,
-    author: bigint,
-  ) => `<@${author}> ${action} <@${target}>`;
+  const getDescription = (action: string, target: bigint, author: bigint) => `<@${author}> ${action} <@${target}>`;
 
   Object.keys(endpointsActionPairs).forEach(async (cmd) => {
     const commandName = cmd.slice(4, cmd.length);
@@ -35,17 +31,9 @@ try {
         guildOnly: false,
         adminOnly: false,
         information: {
-          descr: `${
-            endpointsActionPairs[
-              `img/${commandName}` as keyof typeof endpointsActionPairs
-            ]
-          }`,
+          descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
           usage: `[@User]`,
-          short: `${
-            endpointsActionPairs[
-              `img/${commandName}` as keyof typeof endpointsActionPairs
-            ]
-          }`,
+          short: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
         },
       },
       division: Division.INTERACTION,
@@ -82,11 +70,9 @@ try {
 
         return <Embed> {
           description: getDescription(
-            endpointsActionPairs[
-              `img/${commandName}` as keyof typeof endpointsActionPairs
-            ],
+            endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
             i.user.id,
-            user.id,
+            user.id
           ),
           color: DiscordColors.Blurple,
           image: { url: data.url },
@@ -101,17 +87,9 @@ try {
         guildOnly: false,
         adminOnly: false,
         information: {
-          descr: `${
-            endpointsActionPairs[
-              `img/${commandName}` as keyof typeof endpointsActionPairs
-            ]
-          }`,
+          descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
           usage: `[@User]`,
-          short: `${
-            endpointsActionPairs[
-              `img/${commandName}` as keyof typeof endpointsActionPairs
-            ]
-          }`,
+          short: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
         },
       },
       division: Division.INTERACTION,
@@ -119,9 +97,11 @@ try {
         // utilities
         const search = args.join(" ").match(userMention);
 
-        if (!search) return "Especifica correctamente el usuario";
+        if (!search) {
+          return "Especifica correctamente el usuario";
+        }
 
-        const userId = BigInt(search?.[0]?.match(/\d{18}/ig)?.[0]!);
+        const userId = BigInt(search?.[0]?.match(/\d{18}/gi)?.[0]!);
 
         if (!data?.url) {
           return "No encontré una imagen para mostrar";
@@ -129,11 +109,9 @@ try {
 
         return <Embed> {
           description: getDescription(
-            endpointsActionPairs[
-              `img/${commandName}` as keyof typeof endpointsActionPairs
-            ],
+            endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
             userId,
-            userId === msg.authorId ? bot.id : msg.authorId,
+            userId === msg.authorId ? bot.id : msg.authorId
           ),
           color: DiscordColors.Blurple,
           image: { url: data.url },

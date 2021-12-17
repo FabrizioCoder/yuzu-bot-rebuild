@@ -3,7 +3,7 @@ import type { BotWithCache } from "../../../deps.ts";
 import type { Payload } from "../../types/task.ts";
 import { cache } from "../../utils/mod.ts";
 
-export default <Event<"ready">> {
+export default <Event<"ready">>{
   name: "ready",
   execute(bot, payload) {
     const uptime = Date.now();
@@ -30,18 +30,14 @@ export default <Event<"ready">> {
 };
 
 // inspired by Discordeno template
-function registerTasks(
-  bot: BotWithCache,
-  payload: Payload,
-  ...args: number[]
-): void {
+function registerTasks(bot: BotWithCache, payload: Payload, ...args: number[]): void {
   return cache.tasks.forEach((task) => {
     cache.runningTasks.initialTimeouts.add(
       setTimeout(async () => {
         console.log("Started Task %s", task.name);
         try {
           await task.execute(bot, payload, ...args);
-        } catch (err: unknown) {
+        } catch (err) {
           if (err instanceof Error) console.error(err.message);
         }
         cache.runningTasks.initialTimeouts.add(
@@ -49,12 +45,12 @@ function registerTasks(
             console.log("Started Task %s", task.name);
             try {
               await task.execute(bot, payload, ...args);
-            } catch (err: unknown) {
+            } catch (err) {
               if (err instanceof Error) console.error(err.message);
             }
-          }, task.interval),
+          }, task.interval)
         );
-      }, task.interval - Date.now() % task.interval),
+      }, task.interval - (Date.now() % task.interval))
     );
   });
 }

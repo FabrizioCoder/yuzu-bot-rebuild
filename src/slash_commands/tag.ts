@@ -1,12 +1,7 @@
 import type { Command } from "../types/command.ts";
 
 import { Division, Options, toCapitalCase } from "../utils/mod.ts";
-import {
-  ApplicationCommandOptionTypes,
-  getChannel,
-  getUser,
-  hasGuildPermissions,
-} from "../../deps.ts";
+import { ApplicationCommandOptionTypes, getChannel, getUser, hasGuildPermissions } from "../../deps.ts";
 
 import {
   addTag,
@@ -178,34 +173,21 @@ export default <Command> {
     if (!interaction.guildId) return;
     if (!db) return;
 
-    const search =
-      Arguments[toCapitalCase(option.name) as keyof typeof Arguments];
+    const search = Arguments[toCapitalCase(option.name) as keyof typeof Arguments];
 
     switch (search) {
       case Arguments.Add: {
-        const [name, content] = option.options?.map((o) => o.value) as [
-          string,
-          string,
-        ];
+        const [name, content] = option.options?.map((o) => o.value) as [string, string];
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (tag) return "Ese tag ya existe";
 
-        await addTag(
-          getCollection(db),
-          interaction.guildId,
-          interaction.user.id,
-          {
-            name,
-            content,
-          },
-        );
-
-        const output = await getTag(
-          getCollection(db),
+        await addTag(getCollection(db), interaction.guildId, interaction.user.id, {
           name,
-          interaction.guildId,
-        );
+          content,
+        });
+
+        const output = await getTag(getCollection(db), name, interaction.guildId);
 
         return `Añadí el tag ${output?.name}`;
       }
@@ -215,37 +197,22 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = hasGuildPermissions(
-          bot,
-          interaction.guildId,
-          interaction.user.id,
-          ["ADMINISTRATOR"],
-        );
+        const isAdmin = hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["ADMINISTRATOR"]);
 
-        if (
-          BigInt(tag.user) !== interaction.user.id && !isAdmin &&
-          interaction.user.id !== Options.OWNER_ID
-        ) {
+        if (BigInt(tag.user) !== interaction.user.id && !isAdmin && interaction.user.id !== Options.OWNER_ID) {
           return "El tag no te pertenece";
         }
+
         if (tag.global && interaction.user.id !== Options.OWNER_ID) {
           return "El tag es global y no se puede remover";
         }
 
-        await removeTag(
-          getCollection(db),
-          interaction.guildId,
-          interaction.user.id,
-          tag.name,
-        );
+        await removeTag(getCollection(db), interaction.guildId, interaction.user.id, tag.name);
 
         return `Removí el tag ${tag.name}`;
       }
       case Arguments.Give: {
-        const [name, userId] = option.options?.map((o) => o.value) as [
-          string,
-          string,
-        ];
+        const [name, userId] = option.options?.map((o) => o.value) as [string, string];
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -261,20 +228,12 @@ export default <Command> {
           nsfw: tag.nsfw,
         });
 
-        const output = await getTag(
-          getCollection(db),
-          tag.name,
-          interaction.guildId,
-        );
+        const output = await getTag(getCollection(db), tag.name, interaction.guildId);
 
-        return `<@${user.id}>! ${interaction.user.username} te ha regalado el #tag ${output
-          ?.name}`;
+        return `<@${user.id}>! ${interaction.user.username} te ha regalado el #tag ${output?.name}`;
       }
       case Arguments.Edit: {
-        const [name, content] = option.options?.map((o) => o.value) as [
-          string,
-          string,
-        ];
+        const [name, content] = option.options?.map((o) => o.value) as [string, string];
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -285,39 +244,24 @@ export default <Command> {
 
         await editTag(getCollection(db), tag, { content, attachments: [] });
 
-        const output = await getTag(
-          getCollection(db),
-          tag.name,
-          interaction.guildId,
-        );
+        const output = await getTag(getCollection(db), tag.name, interaction.guildId);
 
         return `Edité el tag ${output?.name}`;
       }
       case Arguments.List: {
-        const [userId] = <[string | undefined]> option.options?.map((o) =>
-          o.value
-        );
+        const [userId] = <[string | undefined]>option.options?.map((o) => o.value);
 
-        const tags = await findTag(
-          getCollection(db),
-          interaction.guildId,
-          BigInt(userId ?? interaction.user.id),
-        );
+        const tags = await findTag(getCollection(db), interaction.guildId, BigInt(userId ?? interaction.user.id));
 
         return tags.map((tag) => tag.name).join(", ");
       }
       case Arguments.Nsfw: {
-        const [name] = <[string]> option.options?.map((o) => o.value);
+        const [name] = <[string]>option.options?.map((o) => o.value);
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = hasGuildPermissions(
-          bot,
-          interaction.guildId,
-          interaction.user.id,
-          ["ADMINISTRATOR"],
-        );
+        const isAdmin = hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["ADMINISTRATOR"]);
 
         if (BigInt(tag.user) !== interaction.user.id && !isAdmin) {
           return "El tag no te pertenece";
@@ -330,18 +274,12 @@ export default <Command> {
           nsfw: !tag.nsfw,
         });
 
-        const output = await getTag(
-          getCollection(db),
-          tag.name,
-          interaction.guildId,
-        );
+        const output = await getTag(getCollection(db), tag.name, interaction.guildId);
 
-        return `Edité el tag ${output?.name} como **${
-          !output?.nsfw ? "sfw" : "nsfw"
-        }**`;
+        return `Edité el tag ${output?.name} como **${!output?.nsfw ? "sfw" : "nsfw"}**`;
       }
       case Arguments.Owner: {
-        const [name] = <[string]> option.options?.map((o) => o.value);
+        const [name] = <[string]>option.options?.map((o) => o.value);
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (!tag) return "No encontré ese tag";
@@ -351,7 +289,7 @@ export default <Command> {
       case Arguments.Display: {
         if (!interaction.channelId) return;
 
-        const [name] = <[string]> option.options?.map((o) => o.value);
+        const [name] = <[string]>option.options?.map((o) => o.value);
         const tagGlobal = await getTag(getCollection(db), name);
 
         if (tagGlobal) {

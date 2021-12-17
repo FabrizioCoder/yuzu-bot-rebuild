@@ -3,10 +3,7 @@ import type { Command } from "../../types/command.ts";
 import { Division } from "../../utils/mod.ts";
 import { ApplicationCommandTypes } from "../../../deps.ts";
 
-import {
-  SafetyLevels,
-  search,
-} from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
+import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
 
 export default <Command> {
   options: {

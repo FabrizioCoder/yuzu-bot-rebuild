@@ -3,27 +3,23 @@ import type { Event } from "../types/event.ts";
 import type { Monitor } from "../types/monitor.ts";
 import type { Task } from "../types/task.ts";
 import type { ButtonCollector, MessageCollector } from "../types/collector.ts";
-import type {
-  DiscordenoAttachment,
-  DiscordenoMessage,
-  EventHandlers,
-} from "../../deps.ts";
-import { Collection as List } from "../../deps.ts";
+import type { DiscordenoAttachment, DiscordenoMessage, EventHandlers } from "../../deps.ts";
+import { Collection } from "../../deps.ts";
 
 // slash commands
-export const slashCommands: List<string, Command<true>> = new List();
+export const slashCommands: Collection<string, Command<true>> = new Collection();
 
 // regular commands
-export const commands: List<string, Command<false>> = new List();
+export const commands: Collection<string, Command<false>> = new Collection();
 
 // events
-export const events: List<string, Event<keyof EventHandlers>> = new List();
+export const events: Collection<string, Event<keyof EventHandlers>> = new Collection();
 
 // monitors
-export const monitors: List<string, Monitor<keyof EventHandlers>> = new List();
+export const monitors: Collection<string, Monitor<keyof EventHandlers>> = new Collection();
 
 // tasks
-export const tasks: List<string, Task> = new List();
+export const tasks: Collection<string, Task> = new Collection();
 
 // running tasks
 export const runningTasks = {
@@ -32,9 +28,9 @@ export const runningTasks = {
 };
 
 export const collectors = {
-  buttons: new List<bigint, ButtonCollector>(),
-  messages: new List<bigint, MessageCollector>(),
+  buttons: new Collection<bigint, ButtonCollector>(),
+  messages: new Collection<bigint, MessageCollector>(),
 };
 
-export const lastMessages = new List<bigint, DiscordenoMessage>();
-export const lastAttachments = new List<bigint, DiscordenoAttachment[]>();
+export const lastMessages = new Collection<bigint, DiscordenoMessage>();
+export const lastAttachments = new Collection<bigint, DiscordenoAttachment[]>();

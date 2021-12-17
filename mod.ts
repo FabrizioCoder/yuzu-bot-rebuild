@@ -5,7 +5,7 @@ import type { Monitor } from "./src/types/monitor.ts";
 import type { EventHandlers } from "./deps.ts";
 
 import { cache, handle, Options } from "./src/utils/mod.ts";
-import { createBot, enableCachePlugin, startBot } from "./deps.ts";
+import { createBot, enableCachePlugin as addCache, startBot } from "./deps.ts";
 
 import "https://deno.land/x/dotenv/load.ts";
 
@@ -47,21 +47,15 @@ await import("./src/utils/scripts/APICommands.ts");
 const bot = createBot({
   botId: Options.ID,
   intents: ["Guilds", "GuildMessages", "GuildEmojis", "DirectMessages"],
-  events: Object.fromEntries( // transforms a Map<string, T> into a Record<string, T>
-    Array.from(
-      cache.events.entries(),
-      ([name, event]) => [name, event.execute],
-    ),
+  events: Object.fromEntries(
+    // transforms a Map<string, T> into a Record<string, T>
+    Array.from(cache.events.entries(), ([name, event]) => [name, event.execute])
   ),
   token: Deno.env.get("TOKEN") ?? Options.TOKEN,
 });
 
 // start the bot
-await startBot(
-  enableCachePlugin(
-    bot,
-  ),
-);
+await startBot(addCache(bot));
 
 // more scripts
 await import("./src/database/db.ts");

@@ -7,11 +7,8 @@ export default <Task> {
   interval: Milliseconds.MINUTE * 10,
   execute(bot, _payload) {
     const gCount = bot.guilds.size;
-    const uCount = bot.guilds
-      .map((guild) => guild.memberCount)
-      .reduce((a, b) => a + b, 0);
+    const uCount = bot.guilds.map((guild) => guild.memberCount).reduce((a, b) => a + b, 0);
 
-    // TODO: make this more readable
     const presences = [
       "🎶🎶🎶",
       "!help /help",
@@ -24,11 +21,13 @@ export default <Task> {
 
     editBotStatus(bot, {
       status: "online",
-      activities: [{
-        createdAt: Date.now(),
-        name: presences[Math.floor(Math.random() * presences.length - 1) + 1],
-        type: ActivityTypes.Listening,
-      }],
+      activities: [
+        {
+          createdAt: Date.now(),
+          name: presences[Math.floor(Math.random() * presences.length - 1) + 1],
+          type: ActivityTypes.Listening,
+        },
+      ],
     });
   },
 };

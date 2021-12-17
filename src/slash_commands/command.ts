@@ -32,35 +32,24 @@ export default <Command> {
 
     if (option?.type !== ApplicationCommandOptionTypes.String) return;
 
-    const command = cache.slashCommands.get(option.value as string) ??
-      cache.commands.get(option.value as string);
+    const command = cache.slashCommands.get(option.value as string) ?? cache.commands.get(option.value as string);
 
     if (!command) return "El comando no existe";
 
     return <Embed> {
       color: DiscordColors.Blurple,
       thumbnail: {
-        url: avatarURL(
-          bot,
-          interaction.user.id,
-          interaction.user.discriminator,
-          {
-            avatar: interaction.user.avatar,
-            size: 512,
-          },
-        ),
+        url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+          avatar: interaction.user.avatar,
+          size: 512,
+        }),
       },
       footer: {
         text: "Optional [] Required <>",
-        iconUrl: avatarURL(
-          bot,
-          interaction.user.id,
-          interaction.user.discriminator,
-          {
-            avatar: interaction.user.avatar,
-            size: 512,
-          },
-        ),
+        iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+          avatar: interaction.user.avatar,
+          size: 512,
+        }),
       },
       fields: [
         {
@@ -70,16 +59,16 @@ export default <Command> {
         },
         {
           name: "Uso del comando:",
-          value: `${
-            command.data.description ? "/" : "!"
-          }${command.data.name} ${command.options?.information?.usage}`,
+          value: `${command.data.description ? "/" : "!"}${command.data.name} ${command.options?.information?.usage}`,
           inline: true,
         },
         {
           name: "Información del comando:",
-          value: command.data.description ??
+          value:
+            command.data.description ??
             command.options?.information?.descr ??
-            command.options?.information?.short ?? "❓",
+            command.options?.information?.short ??
+            "❓",
 
           inline: true,
         },

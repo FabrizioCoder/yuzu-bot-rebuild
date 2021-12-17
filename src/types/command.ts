@@ -4,7 +4,6 @@ import type {
   DiscordenoMessage,
   EditGlobalApplicationCommand,
   Embed,
-  Bot as _Bot,
   MakeRequired,
 } from "../../deps.ts";
 
@@ -35,7 +34,7 @@ type CommandMessageContent =
 
 type CommandData<Slash> = Slash extends true
   ? MakeRequired<EditGlobalApplicationCommand, "name">
-  : { name: string; description?: undefined, type?: undefined };
+  : { name: string; description?: undefined; type?: undefined };
 
 type CommandArgumentsPassed<Slash> = Slash extends true
   ? [BotWithCache, DiscordenoInteraction]

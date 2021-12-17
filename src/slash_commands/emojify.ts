@@ -49,14 +49,12 @@ export default <Command> {
       "?": ":grey_question:",
       "#": ":hash:",
       "*": ":asterisk:",
-      ...Object.fromEntries(
-        rangeChar("a", "z").map((c) => [c, `:regional_indicator_${c}: `]),
-      ),
+      ...Object.fromEntries(rangeChar("a", "z").map((c) => [c, `:regional_indicator_${c}: `])),
     };
 
     return (option.value as string)
       .split("")
-      .map((c) => c.toLowerCase() in mapping ? mapping[c.toLowerCase()] : c)
+      .map((c) => (c.toLowerCase() in mapping ? mapping[c.toLowerCase()] : c))
       .join("");
   },
 };

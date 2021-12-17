@@ -32,15 +32,10 @@ export default <Command<false>> {
     return <Embed> {
       author: {
         name: `${author.username}#${author.discriminator}`,
-        iconUrl: avatarURL(
-          bot,
-          author.id,
-          author.discriminator,
-          {
-            avatar: author.avatar,
-            size: 512,
-          },
-        ),
+        iconUrl: avatarURL(bot, author.id, author.discriminator, {
+          avatar: author.avatar,
+          size: 512,
+        }),
       },
       color: randomHex(),
       description: message.content,

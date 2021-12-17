@@ -95,12 +95,7 @@ export default <Command> {
     if (!guild) return;
 
     if (option.name !== "display") {
-      const hasPermission = hasGuildPermissions(
-        bot,
-        interaction.guildId,
-        interaction.user.id,
-        ["MANAGE_EMOJIS"],
-      );
+      const hasPermission = hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["MANAGE_EMOJIS"]);
       if (!hasPermission) return "No posees suficientes permisos";
     }
 
@@ -108,7 +103,7 @@ export default <Command> {
       case "hide": {
         const [name, role] = option.options?.map((o) => o.value) as [
           string,
-          string, // role id
+          string // role id
         ];
         // enforce to add an emoji of 2 characters
         if (name.length < 2) {
@@ -119,21 +114,14 @@ export default <Command> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        await editEmoji(
-          bot,
-          interaction.guildId,
-          emoji.id,
-          {
-            roles: emoji.roles
-              ? [BigInt(role), ...emoji.roles]
-              : [BigInt(role)],
-          },
-        );
+        await editEmoji(bot, interaction.guildId, emoji.id, {
+          roles: emoji.roles ? [BigInt(role), ...emoji.roles] : [BigInt(role)],
+        });
 
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;
       }
       case "remove": {
-        const [name] = <[string]> option.options?.map((o) => o.value);
+        const [name] = <[string]>option.options?.map((o) => o.value);
 
         // enforce to add an emoji of 2 characters
         if (name.length < 2) {
@@ -144,19 +132,12 @@ export default <Command> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        await deleteEmoji(
-          bot,
-          interaction.guildId,
-          BigInt(emoji.id),
-        );
+        await deleteEmoji(bot, interaction.guildId, BigInt(emoji.id));
 
         return `Elminé el emoji ${emoji.name}`;
       }
       case "add": {
-        const [name, image] = option.options?.map((o) => o.value) as [
-          string,
-          string,
-        ];
+        const [name, image] = option.options?.map((o) => o.value) as [string, string];
         // enforce to add an emoji of 2 characters
         if (name.length < 2) {
           return "El emoji debe tener al menos 2 caracteres";
@@ -172,22 +153,14 @@ export default <Command> {
         return `Creé el emoji ${emoji.name} -> <:${emoji.name}:${emoji.id}>`;
       }
       default: {
-        const emojis = guild.emojis.map((e) =>
-          `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`
-        );
+        const emojis = guild.emojis.map((e) => `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`);
         return <Embed> {
           author: {
-            name:
-              `${interaction.user.username}#${interaction.user.discriminator}`,
-            iconUrl: avatarURL(
-              bot,
-              interaction.user.id,
-              interaction.user.discriminator,
-              {
-                avatar: interaction.user.avatar,
-                size: 512,
-              },
-            ),
+            name: `${interaction.user.username}#${interaction.user.discriminator}`,
+            iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+              avatar: interaction.user.avatar,
+              size: 512,
+            }),
           },
           color: randomHex(),
           // TODO: make less painful to read

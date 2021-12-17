@@ -46,9 +46,7 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.String) {
-      const { data } = await axiod.get<Song>(
-        `https://some-random-api.ml/lyrics/?title=${option.value as string}`,
-      );
+      const { data } = await axiod.get<Song>(`https://some-random-api.ml/lyrics/?title=${option.value as string}`);
 
       if (!data || "error" in data) return "No pude encontrar esa canción";
 

@@ -64,9 +64,7 @@ interface PokemonTarget {
 
 // UTILITY
 
-async function getPokemonFromApi(
-  pokemon: string | number,
-): Promise<Pokemon | undefined> {
+async function getPokemonFromApi(pokemon: string | number) {
   const pokeAPI = "https://pokeapi.co/api/v2";
 
   try {
@@ -78,7 +76,7 @@ async function getPokemonFromApi(
   }
 }
 
-function parseMessageToPokemon(message: string): PokemonTarget {
+function parseMessageToPokemon(message: string) {
   const base = {
     shiny: false,
     mega: false,
@@ -130,8 +128,7 @@ export default <Command<false>> {
     }
 
     const target = parseMessageToPokemon(option);
-    const poke = await getPokemonFromApi(target.id) ??
-      await getPokemonFromApi(target.specie);
+    const poke = await getPokemonFromApi(target.id) ?? await getPokemonFromApi(target.specie);
 
     if (!poke) {
       return "No se pudo encontrar información sobre el pokémon.";
@@ -144,9 +141,7 @@ export default <Command<false>> {
         text: "Thanks to PokéAPI for existing!",
         url: "https://pokeapi.co/static/pokeapi_256.888baca4.png",
       },
-      description: poke.stats.map((value) =>
-        `${value.stat.name}: \`${value.base_stat}\``
-      ).join("\n"),
+      description: poke.stats.map((value) => `${value.stat.name}: \`${value.base_stat}\``).join("\n"),
       fields: [
         {
           name: "Abilities",
@@ -158,10 +153,7 @@ export default <Command<false>> {
         },
         {
           name: "Etc",
-          value: [
-            `**Weight**: ${parsePokemonWeight(poke.weight)}kg`,
-            `**Height**: ${poke.height}cm`,
-          ].join("\n"),
+          value: [`**Weight**: ${parsePokemonWeight(poke.weight)}kg`, `**Height**: ${poke.height}cm`].join("\n"),
         },
       ],
       image: {

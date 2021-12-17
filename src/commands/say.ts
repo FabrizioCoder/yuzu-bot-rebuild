@@ -23,7 +23,6 @@ export default <Command<false>> {
         roles: [],
       },
     });
-    await deleteMessage(bot, message.channelId, message.id)
-      .catch(() => {});
+    await deleteMessage(bot, message.channelId, message.id).catch(() => {});
   },
 };

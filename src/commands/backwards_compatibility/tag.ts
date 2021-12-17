@@ -54,21 +54,12 @@ export default <Command<false>> {
 
         if (tag) return "Ese tag ya existe";
 
-        await addTag(
-          getCollection(db),
-          message.guildId,
-          message.authorId,
-          {
-            name,
-            content: content.join(" "),
-          },
-        );
-
-        const output = await getTag(
-          getCollection(db),
+        await addTag(getCollection(db), message.guildId, message.authorId, {
           name,
-          message.guildId,
-        );
+          content: content.join(" "),
+        });
+
+        const output = await getTag(getCollection(db), name, message.guildId);
 
         return `Añadí el tag ${output?.name}`;
       }
@@ -78,29 +69,17 @@ export default <Command<false>> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = hasGuildPermissions(
-          bot,
-          message.guildId,
-          message.authorId,
-          ["ADMINISTRATOR"],
-        );
+        const isAdmin = hasGuildPermissions(bot, message.guildId, message.authorId, ["ADMINISTRATOR"]);
 
-        if (
-          BigInt(tag.user) !== message.authorId && !isAdmin &&
-          message.authorId !== Options.OWNER_ID
-        ) {
+        if (BigInt(tag.user) !== message.authorId && !isAdmin && message.authorId !== Options.OWNER_ID) {
           return "El tag no te pertenece";
         }
+
         if (tag.global && message.authorId !== Options.OWNER_ID) {
           return "El tag es global y no se puede remover";
         }
 
-        await removeTag(
-          getCollection(db),
-          message.guildId,
-          message.authorId,
-          tag.name,
-        );
+        await removeTag(getCollection(db), message.guildId, message.authorId, tag.name);
 
         return `Removí el tag ${tag.name}`;
       }
@@ -121,14 +100,9 @@ export default <Command<false>> {
           nsfw: tag.nsfw,
         });
 
-        const output = await getTag(
-          getCollection(db),
-          tag.name,
-          message.guildId,
-        );
+        const output = await getTag(getCollection(db), tag.name, message.guildId);
 
-        return `<@${user.id}>! <@${message.authorId}> te ha regalado el #tag ${output
-          ?.name}`;
+        return `<@${user.id}>! <@${message.authorId}> te ha regalado el #tag ${output?.name}`;
       }
       case Arguments.Edit: {
         const [name, ...content] = options;
@@ -145,22 +119,14 @@ export default <Command<false>> {
           attachments: [],
         });
 
-        const output = await getTag(
-          getCollection(db),
-          tag.name,
-          message.guildId,
-        );
+        const output = await getTag(getCollection(db), tag.name, message.guildId);
 
         return `Edité el tag ${output?.name}`;
       }
       case Arguments.List: {
-        const [userId] = <[string | undefined]> options;
+        const [userId] = <[string | undefined]>options;
 
-        const tags = await findTag(
-          getCollection(db),
-          message.guildId,
-          BigInt(userId ?? message.authorId),
-        );
+        const tags = await findTag(getCollection(db), message.guildId, BigInt(userId ?? message.authorId));
 
         return tags.map((tag) => tag.name).join(", ");
       }
@@ -170,12 +136,7 @@ export default <Command<false>> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = hasGuildPermissions(
-          bot,
-          message.guildId,
-          message.authorId,
-          ["ADMINISTRATOR"],
-        );
+        const isAdmin = hasGuildPermissions(bot, message.guildId, message.authorId, ["ADMINISTRATOR"]);
 
         if (BigInt(tag.user) !== message.authorId && !isAdmin) {
           return "El tag no te pertenece";
@@ -188,11 +149,7 @@ export default <Command<false>> {
           nsfw: !tag.nsfw,
         });
 
-        const output = await getTag(
-          getCollection(db),
-          tag.name,
-          message.guildId,
-        );
+        const output = await getTag(getCollection(db), tag.name, message.guildId);
 
         return `Edité el tag ${output?.name} como **${!output?.nsfw ? "sfw" : "nsfw"}**`;
       }

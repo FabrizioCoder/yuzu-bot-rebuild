@@ -17,12 +17,12 @@ export default <Command<false>> {
     name: "reload",
   },
   async execute(bot, message) {
-    if (message.authorId !== Options.OWNER_ID) return;
-    const commands = cache.slashCommands.map((c) => c.data);
-    await upsertApplicationCommands(
-      bot,
-      commands,
-    );
-    return `OK! Loading ⌛... \`${commands.map((c) => c.name).join(" ")}\``;
+    if (message.authorId === Options.OWNER_ID) {
+      const commands = cache.slashCommands.map((c) => c.data);
+
+      await upsertApplicationCommands(bot, commands);
+
+      return `OK! Loading ⌛... \`${commands.map((c) => c.name).join(" ")}\``;
+    }
   },
 };

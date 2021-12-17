@@ -17,13 +17,10 @@ import {
   Milliseconds,
   needButton,
   needMessage,
-  randomHex,
+  randomHex
 } from "../../utils/mod.ts";
 
-import {
-  SafetyLevels,
-  search,
-} from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
+import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
 
 // enums
 enum ButtonEmojis {
@@ -35,13 +32,7 @@ enum ButtonEmojis {
 }
 
 // it makes sense ig
-const buttons: [
-  ButtonComponent,
-  ButtonComponent,
-  ButtonComponent,
-  ButtonComponent,
-  ButtonComponent,
-] = [
+const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent] = [
   {
     type: 2, // all buttons have type 2
     label: ButtonEmojis.Back,
@@ -111,10 +102,7 @@ export default <Command> {
     const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
 
     // get an nsfw output if the currentChannel is nsfw
-    const results = await search(
-      option.value as string,
-      channel?.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF,
-    );
+    const results = await search(option.value as string, channel?.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
     const limit = results.length - 1;
 
     // this is the base embed to send
@@ -133,31 +121,21 @@ export default <Command> {
       ],
       author: {
         name: results[0].source,
-        iconUrl: avatarURL(
-          bot,
-          interaction.user.id,
-          interaction.user.discriminator,
-          {
-            avatar: interaction.user.avatar,
-            size: 512,
-          },
-        ),
+        iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+          avatar: interaction.user.avatar,
+          size: 512,
+        }),
       },
       footer: { text: `Results for ${option.value}` },
     };
 
-    const message = await sendInteractionResponse(
-      bot,
-      interaction.id,
-      interaction.token,
-      {
-        type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-        data: {
-          embeds: [embed],
-          components: [{ type: 1, components: buttons }],
-        },
+    const message = await sendInteractionResponse(bot, interaction.id, interaction.token, {
+      type: InteractionResponseTypes.DeferredChannelMessageWithSource,
+      data: {
+        embeds: [embed],
+        components: [{ type: 1, components: buttons }],
       },
-    );
+    });
 
     // stuff to help the button collector
     if (!message) return;
@@ -185,23 +163,15 @@ export default <Command> {
           }
 
           case "page": {
-            await sendInteractionResponse(
-              bot,
-              button.interaction.id,
-              button.interaction.token,
-              {
-                type: InteractionResponseTypes.DeferredUpdateMessage,
-              },
-            );
+            await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
+              type: InteractionResponseTypes.DeferredUpdateMessage,
+            });
 
             const tempMessage = await sendMessage(bot, interaction.channelId, {
               content: `Envía un número desde 0 hasta ${limit}`,
             });
 
-            const response = await needMessage(
-              interaction.user.id,
-              interaction.channelId,
-            );
+            const response = await needMessage(interaction.user.id, interaction.channelId);
 
             if (tempMessage) {
               await deleteMessage(bot, interaction.channelId, tempMessage.id);
@@ -213,16 +183,11 @@ export default <Command> {
             if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
               // TODO: this is a little bit tough to read
               // NOTE: this will not stop the command in any case
-              await sendInteractionResponse(
-                bot,
-                interaction.id,
-                interaction.token,
-                {
-                  type: InteractionResponseTypes.ChannelMessageWithSource,
-                  private: true,
-                  data: { content: "El número no existe en los resultados" },
-                },
-              );
+              await sendInteractionResponse(bot, interaction.id, interaction.token, {
+                type: InteractionResponseTypes.ChannelMessageWithSource,
+                private: true,
+                data: { content: "El número no existe en los resultados" },
+              });
 
               continue;
             }
@@ -244,16 +209,11 @@ export default <Command> {
               await deleteMessage(bot, interaction.channelId, toDelete);
             }
 
-            await sendInteractionResponse(
-              bot,
-              interaction.id,
-              interaction.token,
-              {
-                type: InteractionResponseTypes.ChannelMessageWithSource,
-                private: true,
-                data: { content: "OK!" },
-              },
-            );
+            await sendInteractionResponse(bot, interaction.id, interaction.token, {
+              type: InteractionResponseTypes.ChannelMessageWithSource,
+              private: true,
+              data: { content: "OK!" },
+            });
 
             continue;
           }
@@ -273,15 +233,10 @@ export default <Command> {
           },
           author: {
             name: result.source,
-            iconUrl: avatarURL(
-              bot,
-              interaction.user.id,
-              interaction.user.discriminator,
-              {
-                avatar: interaction.user.avatar,
-                size: 512,
-              },
-            ),
+            iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+              avatar: interaction.user.avatar,
+              size: 512,
+            }),
           },
         });
 
@@ -289,27 +244,18 @@ export default <Command> {
         const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
         const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
 
-        index <= 0
-          ? buttons[backButtonIndex].disabled = true
-          : buttons[backButtonIndex].disabled = false;
+        index <= 0 ? (buttons[backButtonIndex].disabled = true) : (buttons[backButtonIndex].disabled = false);
 
-        index >= limit
-          ? buttons[nextButtonIndex].disabled = true
-          : buttons[nextButtonIndex].disabled = false;
+        index >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
 
         // edit the message the component is attached to
-        await sendInteractionResponse(
-          bot,
-          button.interaction.id,
-          button.interaction.token,
-          {
-            type: InteractionResponseTypes.UpdateMessage,
-            data: {
-              embeds: [copy],
-              components: [{ type: 1, components: buttons }], // edited buttons
-            },
+        await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
+          type: InteractionResponseTypes.UpdateMessage,
+          data: {
+            embeds: [copy],
+            components: [{ type: 1, components: buttons }], // edited buttons
           },
-        );
+        });
       } catch (_) {
         break;
       }

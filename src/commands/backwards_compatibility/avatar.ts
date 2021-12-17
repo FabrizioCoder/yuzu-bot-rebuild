@@ -20,7 +20,7 @@ export default <Command<false>> {
     name: "avatar",
   },
   async execute(bot, message, { args }) {
-    const option = (/\d{18}/g).exec(args.join(" "))?.[0];
+    const option = /\d{18}/g.exec(args.join(" "))?.[0];
 
     const userId = BigInt(option ?? message.authorId.toString());
     const user = bot.users.get(userId) ?? await getUser(bot, userId);
@@ -38,8 +38,7 @@ export default <Command<false>> {
         iconURL: avatar,
       },
       color: DiscordColors.Blurple,
-      description:
-        `[Referencia](https://www.google.com/searchbyimage?image_url=${avatar})\n[Avatar URL](${avatar})`,
+      description: `[Referencia](https://www.google.com/searchbyimage?image_url=${avatar})\n[Avatar URL](${avatar})`,
       image: { url: avatar },
     };
   },

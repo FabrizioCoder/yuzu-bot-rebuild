@@ -1,11 +1,6 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
-import {
-  DiscordColors,
-  Division,
-  snowflakeToTimestamp,
-  toCapitalCase,
-} from "../utils/mod.ts";
+import { DiscordColors, Division, snowflakeToTimestamp, toCapitalCase } from "../utils/mod.ts";
 import { avatarURL, getUser } from "../../deps.ts";
 
 export default <Command<false>> {
@@ -39,15 +34,10 @@ export default <Command<false>> {
       color: DiscordColors.Blurple,
       title: `Using ${bot.gateway.shards.size} shards`,
       thumbnail: {
-        url: avatarURL(
-          bot,
-          me.id,
-          me.discriminator,
-          {
-            avatar: me.avatar,
-            size: 512,
-          },
-        ),
+        url: avatarURL(bot, me.id, me.discriminator, {
+          avatar: me.avatar,
+          size: 512,
+        }),
       },
       fields: [
         {
@@ -67,10 +57,11 @@ export default <Command<false>> {
         },
         {
           name: "Desarrollo",
-          value:
-            `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`\n` +
-            `[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`\n` +
-            `[Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``,
+          value: `
+            [Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`
+            [Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`
+            [Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\`
+          `,
           inline: true,
         },
         {

@@ -16,10 +16,6 @@ export default <Task> {
     const channelId = Options.CHANNEL_ID;
 
     // log
-    await sendMessage(
-      bot,
-      channelId,
-      uptimeMessage,
-    );
+    await sendMessage(bot, channelId, uptimeMessage);
   },
 };
