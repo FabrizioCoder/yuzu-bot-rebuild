@@ -1,5 +1,4 @@
 import type {
-  ApplicationCommandTypes,
   BotWithCache,
   DiscordenoInteraction,
   DiscordenoMessage,
@@ -24,11 +23,6 @@ interface CommandOptions {
   };
 }
 
-const enum CommandTypes {
-  Slash,
-  Normal,
-}
-
 type CommandArgs = {
   args: string[];
   prefix: string;
@@ -41,18 +35,11 @@ type CommandMessageContent =
 
 type CommandData<Slash> = Slash extends true
   ? MakeRequired<EditGlobalApplicationCommand, "name">
-  : { name: string; description?: undefined };
+  : { name: string; description?: undefined, type?: undefined };
 
 type CommandArgumentsPassed<Slash> = Slash extends true
   ? [BotWithCache, DiscordenoInteraction]
   : [BotWithCache, DiscordenoMessage, CommandArgs];
-
-// the same as an slash command but sends a followUp message
-export interface ContextMenu {
-  name: string;
-  type: ApplicationCommandTypes;
-  execute(...args: CommandArgumentsPassed<true>): string | Embed;
-}
 
 // now supports both slash commands and regular commands
 export interface Command<Slash extends boolean = true> {
@@ -64,17 +51,7 @@ export interface Command<Slash extends boolean = true> {
 
   division: Division;
 
-  type?: CommandTypes;
-
   execute(
     ...args: CommandArgumentsPassed<Slash>
-  ): CommandMessageContent | Promise<CommandMessageContent>;
+  ): CommandMessageContent | Promise<CommandMessageContent> | PromiseLike<CommandMessageContent>;
 }
-
-export type NonSlashCommand = Command<false> & {
-  type: CommandTypes.Normal;
-};
-
-export type SlashCommand = Command<true> & {
-  type: CommandTypes.Slash;
-};

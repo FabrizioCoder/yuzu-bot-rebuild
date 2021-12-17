@@ -2,7 +2,7 @@ import type { Command } from "./src/types/command.ts";
 import type { Event } from "./src/types/event.ts";
 import type { Task } from "./src/types/task.ts";
 import type { Monitor } from "./src/types/monitor.ts";
-import type { EventHandlers, SnakeCasedPropertiesDeep } from "./deps.ts";
+import type { EventHandlers } from "./deps.ts";
 
 import { cache, handle, Options } from "./src/utils/mod.ts";
 import { createBot, enableCachePlugin, startBot } from "./deps.ts";
