@@ -4,7 +4,7 @@ import { sendMessage } from "../../../deps.ts";
 
 export default <Event<"interactionCreate">> {
   name: "interactionCreate",
-  async execute(bot, interaction) {
+  execute(bot, interaction) {
     cache.monitors
       .filter((monitor) => monitor.type === "interactionCreate")
       .forEach(async (monitor) => {

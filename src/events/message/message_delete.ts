@@ -4,8 +4,7 @@ import { sendMessage } from "../../../deps.ts";
 
 export default <Event<"messageDelete">> {
   name: "messageDelete",
-  async execute(bot, payload, message) {
-    // smol fix
+  execute(bot, payload, message) {
     cache.monitors
       .filter((monitor) => monitor.type === "messageDelete")
       .forEach(async (monitor) => {

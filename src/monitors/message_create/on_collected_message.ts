@@ -6,7 +6,7 @@ export default <Monitor<"messageCreate">> {
   type: "messageCreate",
   ignoreDM: true,
   ignoreBots: true,
-  async execute(_bot, message) {
+  execute(_bot, message) {
     const collector = cache.collectors.messages.get(message.authorId);
     if (!collector || message.channelId !== collector.channelId) return;
     if (!collector.filter(message)) return;

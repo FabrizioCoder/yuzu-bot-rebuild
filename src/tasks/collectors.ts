@@ -4,7 +4,7 @@ import { cache, Milliseconds } from "../utils/mod.ts";
 export default <Task> {
   name: "collectors",
   interval: Milliseconds.MINUTE,
-  async execute() {
+  execute() {
     const now = Date.now();
     cache.collectors.buttons.forEach((collector, key) => {
       // This collector has not finished yet.

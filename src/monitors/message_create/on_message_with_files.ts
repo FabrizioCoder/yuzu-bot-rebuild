@@ -6,7 +6,7 @@ export default <Monitor<"messageCreate">> {
   type: "messageCreate",
   ignoreDM: false,
   ignoreBots: true,
-  async execute(_bot, message) {
+  execute(_bot, message) {
     const hasFile = message.attachments.length > 0;
     if (hasFile) {
       cache.lastAttachments.delete(message.channelId);

@@ -7,9 +7,14 @@ export default <Task> {
   interval: Milliseconds.HOUR,
   async execute(bot, _payload, uptime) {
     // time
-    const time = new Date(uptime).toLocaleDateString("es");
+    const now = Date.now();
 
-    const uptimeMessage = `El bot ha estado encendido desde ${time}`;
+    const uptimeMessage = `
+    El bot ha estado encendido desde:
+      <t:${(now - uptime) / 1000}:R>
+      <t:${(now - uptime) / 1000}:F>
+      <t:${(now - uptime) / 1000}:d>
+    `;
 
     const channelId = Options.CHANNEL_ID;
 

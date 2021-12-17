@@ -78,9 +78,7 @@ export default <Command> {
           size: 512,
         }),
       },
-      description: `Mi prefix es: !\n${
-        cache.slashCommands.size + cache.commands.size
-      } comandos`,
+      description: `Mi prefix es: !\n${cache.slashCommands.size + cache.commands.size} comandos`,
       footer: {
         text: `${interaction.user.id} <> Required [] Optional`,
         iconUrl: avatarURL(

@@ -5,24 +5,27 @@ import { cache } from "../../utils/mod.ts";
 
 export default <Event<"ready">> {
   name: "ready",
-  async execute(bot, payload) {
+  execute(bot, payload) {
     const uptime = Date.now();
 
     registerTasks(bot as BotWithCache, payload, uptime);
 
+    const { log: printLog, group, groupEnd } = console;
+
     // LOG
-    console.group();
-    console.log("Logged in", `${payload.user.username}`);
-    console.log("Loaded ->", `${payload.guilds.length} guilds`);
-    console.log("Loaded ->", `${cache.commands.size} regular commands`);
-    console.log("Loaded ->", `${cache.slashCommands.size} slash commands`);
-    console.log("Loaded ->", `${cache.events.size} events`);
-    console.log("Loaded ->", `${cache.monitors.size} monitors`);
-    console.log("Loaded ->", `${cache.tasks.size} tasks`);
-    console.log("Session: %s", payload.sessionId);
-    console.log("Shard: %s", payload.shardId);
-    console.log("API version: %s", payload.v);
-    console.groupEnd();
+    group();
+    printLog("Logged in", `${payload.user.username} ${payload.applicationId}`);
+    printLog("Loaded ->", `${payload.guilds.length} guilds`);
+    printLog("Loaded ->", `${cache.commands.size} regular commands`);
+    printLog("Loaded ->", `${cache.slashCommands.size} slash commands`);
+    printLog("Loaded ->", `${cache.events.size} events`);
+    printLog("Loaded ->", `${cache.monitors.size} monitors`);
+    printLog("Loaded ->", `${cache.tasks.size} tasks`);
+    printLog("Shard: %s of %d shards", payload.shardId, bot.botGatewayData?.shards);
+    printLog("API version: %s", payload.v);
+    printLog("Deno: %s, V8: %s, TS: %s", ...Object.values(Deno.version));
+    printLog("Running OS: %s %s %s", Deno.build.env, Deno.build.os, Deno.build.arch);
+    groupEnd();
   },
 };
 
