@@ -2,7 +2,7 @@ import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 
 import { DiscordColors, Division } from "../../utils/mod.ts";
-import { ApplicationCommandOptionTypes, avatarURL } from "../../../deps.ts";
+import { ApplicationCommandOptionTypes, avatarURL, getUser } from "../../../deps.ts";
 
 export default <Command> {
   options: {
@@ -31,7 +31,7 @@ export default <Command> {
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
       const userId = BigInt(option.value as string ?? interaction.user.id);
-      const user = bot.users.get(userId);
+      const user = bot.users.get(userId) ?? await getUser(bot, userId);
 
       if (!user) return "Especifica el usuario correctamente";
 

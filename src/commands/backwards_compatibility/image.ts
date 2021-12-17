@@ -5,6 +5,8 @@ import {
   avatarURL,
   ButtonStyles,
   deleteMessage,
+  getChannel,
+  getUser,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
@@ -85,8 +87,8 @@ export default <Command<false>> {
 
     if (!option) return "Por favor escribe un texto";
 
-    const channel = bot.channels.get(message.channelId);
-    const author = bot.users.get(message.authorId);
+    const channel = bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
+    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
     if (!author) return;
 

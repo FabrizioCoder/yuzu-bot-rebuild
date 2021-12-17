@@ -5,6 +5,7 @@ import { cache, DiscordColors, Division, DivisionEmoji } from "../utils/mod.ts";
 
 import {
   avatarURL,
+  getUser,
   InteractionResponseTypes,
   MessageComponentTypes,
   sendInteractionResponse,
@@ -53,7 +54,7 @@ export default <Command> {
           };
         }),
     };
-    const me = bot.users.get(bot.id);
+    const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
 
     if (!me) return;
 

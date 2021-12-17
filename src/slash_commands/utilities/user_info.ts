@@ -11,6 +11,7 @@ import {
   ApplicationCommandOptionTypes,
   avatarURL,
   getMember,
+  getUser,
 } from "../../../deps.ts";
 
 export default <Command> {
@@ -40,7 +41,11 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
-      const user = bot.users.get(BigInt(option.value as string));
+      const user = (
+        bot.users.get(BigInt(option.value as string))
+      ) ?? (
+        await getUser(bot, BigInt(option.value as string))
+      );
 
       if (!user) return "No encontré al usuario";
 

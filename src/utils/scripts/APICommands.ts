@@ -1,5 +1,5 @@
-import type { DiscordenoUser, Embed } from "../../../deps.ts";
-import { ApplicationCommandOptionTypes } from "../../../deps.ts";
+import type { Embed } from "../../../deps.ts";
+import { ApplicationCommandOptionTypes, getUser } from "../../../deps.ts";
 import { Division } from "../constants/division.ts";
 import { DiscordColors } from "../constants/color.ts";
 import { userMention } from "../std/mention.ts";
@@ -62,7 +62,7 @@ try {
         ],
       },
 
-      execute(bot, i) {
+      async execute(bot, i) {
         // utilities
 
         const option = i.data?.options?.[0];
@@ -70,7 +70,7 @@ try {
         if (option?.type !== ApplicationCommandOptionTypes.User) return;
 
         const userId = BigInt(option.value as string);
-        const user = <DiscordenoUser | undefined> bot.users.get(userId);
+        const user = bot.users.get(userId) ?? await getUser(bot, userId);
 
         if (!data?.url) {
           return "No encontré una imagen para mostrar";

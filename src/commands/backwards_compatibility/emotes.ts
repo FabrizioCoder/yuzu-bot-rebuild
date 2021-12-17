@@ -5,6 +5,7 @@ import {
   createEmoji,
   deleteEmoji,
   editEmoji,
+  getGuild,
   hasGuildPermissions,
 } from "../../../deps.ts";
 
@@ -26,7 +27,7 @@ export default <Command<false>> {
 
     if (!message.guildId) return;
 
-    const guild = bot.guilds.get(message.guildId);
+    const guild = bot.guilds.get(message.guildId) ?? await getGuild(bot, message.guildId);
 
     if (!guild) return;
 

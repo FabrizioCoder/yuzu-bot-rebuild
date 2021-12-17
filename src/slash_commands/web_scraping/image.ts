@@ -6,6 +6,7 @@ import {
   avatarURL,
   ButtonStyles,
   deleteMessage,
+  getChannel,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
@@ -107,7 +108,7 @@ export default <Command> {
 
     if (!interaction.channelId) return;
 
-    const channel = bot.channels.get(interaction.channelId);
+    const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
 
     // get an nsfw output if the currentChannel is nsfw
     const results = await search(

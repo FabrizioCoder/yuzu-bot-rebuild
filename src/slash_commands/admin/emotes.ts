@@ -8,6 +8,7 @@ import {
   createEmoji,
   deleteEmoji,
   editEmoji,
+  getGuild,
   hasGuildPermissions,
 } from "../../../deps.ts";
 
@@ -89,7 +90,7 @@ export default <Command> {
     if (option?.type !== ApplicationCommandOptionTypes.SubCommand) return;
     if (!interaction.guildId) return;
 
-    const guild = bot.guilds.get(interaction.guildId);
+    const guild = bot.guilds.get(interaction.guildId) ?? await getGuild(bot, interaction.guildId);
 
     if (!guild) return;
 

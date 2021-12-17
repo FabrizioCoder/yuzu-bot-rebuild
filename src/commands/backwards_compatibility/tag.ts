@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import { Division, Options, toCapitalCase } from "../../utils/mod.ts";
-import { hasGuildPermissions } from "../../../deps.ts";
+import { getChannel, getUser, hasGuildPermissions } from "../../../deps.ts";
 import {
   addTag,
   editTag,
@@ -110,7 +110,7 @@ export default <Command<false>> {
 
         if (!tag) return "No encontré ese tag";
 
-        const user = bot.users.get(BigInt(userId));
+        const user = bot.users.get(BigInt(userId)) ?? await getUser(bot, BigInt(userId));
 
         if (!user || user.bot) return "No encontré ese usuario";
 
@@ -219,7 +219,7 @@ export default <Command<false>> {
           return "No encontré ese tag";
         }
 
-        const channel = bot.channels.get(message.channelId);
+        const channel = bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
         const safe = !channel?.nsfw;
 
         if (tag.nsfw && safe) {

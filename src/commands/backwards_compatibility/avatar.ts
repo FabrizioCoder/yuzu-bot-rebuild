@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 import { DiscordColors, Division } from "../../utils/mod.ts";
-import { avatarURL } from "../../../deps.ts";
+import { avatarURL, getUser } from "../../../deps.ts";
 
 export default <Command<false>> {
   options: {
@@ -23,7 +23,7 @@ export default <Command<false>> {
     const option = (/\d{18}/g).exec(args.join(" "))?.[0];
 
     const userId = BigInt(option ?? message.authorId.toString());
-    const user = bot.users.get(userId);
+    const user = bot.users.get(userId) ?? await getUser(bot, userId);
 
     if (!user) return "El usuario no se encontró";
 

@@ -10,6 +10,7 @@ import {
 
 import {
   avatarURL,
+  getUser,
   MessageComponentTypes,
   sendMessage,
 } from "../../../deps.ts";
@@ -55,8 +56,8 @@ export default <Command<false>> {
           };
         }),
     };
-    const me = bot.users.get(bot.id);
-    const author = bot.users.get(message.authorId);
+    const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
+    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
     if (!author || !me) return;
 

@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 import { cache, Division, randomHex } from "../../utils/mod.ts";
-import { avatarURL } from "../../../deps.ts";
+import { avatarURL, getUser } from "../../../deps.ts";
 
 export default <Command<false>> {
   options: {
@@ -23,7 +23,7 @@ export default <Command<false>> {
       return "No existe un mensaje eliminado";
     }
 
-    const author = bot.users.get(message.authorId);
+    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
     if (!author) return;
 

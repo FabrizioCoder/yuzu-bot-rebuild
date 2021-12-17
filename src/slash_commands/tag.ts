@@ -3,6 +3,8 @@ import type { Command } from "../types/command.ts";
 import { Division, Options, toCapitalCase } from "../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
+  getChannel,
+  getUser,
   hasGuildPermissions,
 } from "../../deps.ts";
 
@@ -248,7 +250,7 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const user = bot.users.get(BigInt(userId));
+        const user = bot.users.get(BigInt(userId)) ?? await getUser(bot, BigInt(userId));
 
         if (!user || user.bot) return "No encontré ese usuario";
 
@@ -347,6 +349,8 @@ export default <Command> {
         return `ID: ${tag.user} <@${tag.user}>`;
       }
       case Arguments.Display: {
+        if (!interaction.channelId) return;
+
         const [name] = <[string]> option.options?.map((o) => o.value);
         const tagGlobal = await getTag(getCollection(db), name);
 
@@ -358,7 +362,7 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const channel = bot.channels.get(interaction.channelId!);
+        const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
         const safe = !channel?.nsfw;
 
         if (tag.nsfw && safe) {
