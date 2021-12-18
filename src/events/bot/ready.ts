@@ -2,29 +2,33 @@ import type { Event } from "../../types/event.ts";
 import type { BotWithCache } from "../../../deps.ts";
 import type { Payload } from "../../types/task.ts";
 import { cache } from "../../utils/mod.ts";
+import { enableCacheSweepers as addSweepers } from "../../../deps.ts";
 
 export default <Event<"ready">>{
   name: "ready",
   execute(bot, payload) {
+    // sweepers
+    addSweepers(bot as BotWithCache);
+
     const uptime = Date.now();
 
     registerTasks(bot as BotWithCache, payload, uptime);
 
-    const { log: printLog, group, groupEnd } = console;
+    const { log, group, groupEnd } = console;
 
     // LOG
     group();
-    printLog("Logged in", `${payload.user.username} ${payload.applicationId}`);
-    printLog("Loaded ->", `${payload.guilds.length} guilds`);
-    printLog("Loaded ->", `${cache.commands.size} regular commands`);
-    printLog("Loaded ->", `${cache.slashCommands.size} slash commands`);
-    printLog("Loaded ->", `${cache.events.size} events`);
-    printLog("Loaded ->", `${cache.monitors.size} monitors`);
-    printLog("Loaded ->", `${cache.tasks.size} tasks`);
-    printLog("Shard: %s of %d shards", payload.shardId + 1, bot.botGatewayData?.shards);
-    printLog("API version: %s", payload.v);
-    printLog("Deno: %s, V8: %s, TS: %s", ...Object.values(Deno.version));
-    printLog("Running OS: %s %s %s", Deno.build.env, Deno.build.os, Deno.build.arch);
+    log("Logged in", `${payload.user.username} ${payload.applicationId}`);
+    log("Loaded ->", `${payload.guilds.length} guilds`);
+    log("Loaded ->", `${cache.commands.size} regular commands`);
+    log("Loaded ->", `${cache.slashCommands.size} slash commands`);
+    log("Loaded ->", `${cache.events.size} events`);
+    log("Loaded ->", `${cache.monitors.size} monitors`);
+    log("Loaded ->", `${cache.tasks.size} tasks`);
+    log("Shard: %s of %d shards", payload.shardId + 1, bot.botGatewayData?.shards);
+    log("API version: %s", payload.v);
+    log("Deno: %s, V8: %s, TS: %s", ...Object.values(Deno.version));
+    log("Running OS: %s %s %s", Deno.build.env, Deno.build.os, Deno.build.arch);
     groupEnd();
   },
 };

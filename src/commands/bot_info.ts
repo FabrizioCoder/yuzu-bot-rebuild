@@ -3,7 +3,7 @@ import type { Embed } from "../../deps.ts";
 import { DiscordColors, Division, snowflakeToTimestamp, toCapitalCase } from "../utils/mod.ts";
 import { avatarURL, getUser } from "../../deps.ts";
 
-export default <Command<false>> {
+export default <Command<false>>{
   options: {
     guildOnly: false,
     adminOnly: false,
@@ -23,14 +23,14 @@ export default <Command<false>> {
     if (message.guildId === 916940037176836096n) return;
 
     // utility
-    const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
+    const me = bot.users.get(bot.id) ?? (await getUser(bot, bot.id));
     const fn = ([k, v]: [string, number]) => `${toCapitalCase(k)} -> ${(((v / 1024 / 1024) * 100) / 100) | 0} MB`;
     const botCreatedAt = snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000n;
     const memory = Object.entries(Deno.memoryUsage()).map(fn);
 
     if (!me) return;
 
-    return <Embed> {
+    return <Embed>{
       color: DiscordColors.Blurple,
       title: `Using ${bot.gateway.shards.size} shards`,
       thumbnail: {
@@ -57,11 +57,10 @@ export default <Command<false>> {
         },
         {
           name: "Desarrollo",
-          value: `
-            [Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`
-            [Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`
-            [Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\`
-          `,
+          value:
+            "[Deno](https://deno.land/) \\🦕 `${Deno.version.deno}`" +
+            "[Typescript](https://www.typescriptlang.org/) `${Deno.version.typescript}`" +
+            "[Discordeno](https://github.com/discordeno/discordeno) `${bot.constants.DISCORDENO_VERSION}`",
           inline: true,
         },
         {
