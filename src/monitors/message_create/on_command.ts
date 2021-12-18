@@ -5,17 +5,30 @@ import { getCollection, getPrefix } from "../../database/controllers/prefix_cont
 import { db } from "../../database/db.ts";
 import { sendMessage } from "../../../deps.ts";
 
-export default <Monitor<"messageCreate">> {
+/*
+ * get a prefix from a given guildId
+ */
+async function getPrefixFromId(database: typeof db, id?: bigint, def = Options.PREFIX) {
+  if (id) {
+    if (!database) {
+      return def;
+    }
+
+    const { prefix } = await getPrefix(getCollection(database), id) ?? { prefix: def };
+
+    return prefix;
+  }
+
+  return def;
+}
+
+export default <Monitor<"messageCreate">>{
   name: "commandMonitor",
   type: "messageCreate",
   ignoreDM: true,
   ignoreBots: true,
   async execute(bot, message) {
-    const prefix = message.guildId
-      ? db
-        ? (await getPrefix(getCollection(db), message.guildId))?.prefix ?? Options.PREFIX
-        : Options.PREFIX
-      : Options.PREFIX;
+    const prefix = await getPrefixFromId(db, message.guildId);
 
     const args = message.content.slice(prefix.length).trim().split(/\s+/gm);
     const name = args.shift()?.toLowerCase();
@@ -24,7 +37,9 @@ export default <Monitor<"messageCreate">> {
       return;
     }
 
-    if (!name) return;
+    if (!name) {
+      return;
+    }
 
     const command = cache.commands.get(name);
 

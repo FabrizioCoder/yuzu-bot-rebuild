@@ -13,8 +13,6 @@ import type { Division } from "../utils/mod.ts";
 interface CommandOptions {
   guildOnly?: boolean; // if the command can be executed on dm
   adminOnly?: boolean;
-  // if is disabled
-  disabled?: boolean;
   information?: {
     descr?: string; // description
     usage?: string; // duh
