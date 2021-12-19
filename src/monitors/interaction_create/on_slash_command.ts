@@ -28,7 +28,8 @@ export default <Monitor<"interactionCreate">> {
     });
 
     await sendMessage(bot, Options.CHANNEL_ID, {
-      content: `Comando ${command.data.name} ejecutado por ${interaction.user.username}${interaction.user.discriminator}`,
+      content: `Comando ${command.data.name} ejecutado por ${interaction.user.username}${interaction.user.discriminator} ` +
+               `en el ${interaction.guildId ? "servidor" : "dm"} ${interaction.guildId ?? interaction.channelId}`,
     });
 
     const output = await command.execute(bot as BotWithCache, interaction);

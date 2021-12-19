@@ -49,7 +49,7 @@ const bot = createBot({
   botId: Deno.args[0] ? BigInt(Deno.args[0]) : Options.ID,
   intents: ["Guilds", "GuildMessages", "GuildEmojis", "DirectMessages"],
   events: Object.fromEntries(
-    // transforms a Map<string, T> into a Record<string, T>
+    // transforms a Map<string, T> into a Record<string, T["execute"]>
     Array.from(cache.events.entries(), ([name, event]) => [name, event.execute])
   ),
   token: Deno.args[1] ?? Deno.env.get("TOKEN") ?? Options.TOKEN,

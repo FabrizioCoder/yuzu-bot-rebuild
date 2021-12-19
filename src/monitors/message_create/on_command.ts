@@ -49,7 +49,8 @@ export default <Monitor<"messageCreate">>{
     }
 
     await sendMessage(bot, Options.CHANNEL_ID, {
-      content: `Comando ${command.data.name} ejecutado por ${message.tag}`,
+      content: `Comando ${command.data.name} ejecutado por ${message.tag} ` +
+               `en el ${message.guildId ? "servidor" : "dm"} ${message.guildId ?? message.channelId}`,
     });
 
     const output = await command.execute(bot as BotWithCache, message, { args, prefix });
