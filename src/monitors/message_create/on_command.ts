@@ -28,6 +28,14 @@ export default <Monitor<"messageCreate">>{
   ignoreDM: false,
   ignoreBots: true,
   async execute(bot, message) {
+    if (message.guildId) {
+      const canSendMessages = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["SEND_MESSAGES"]);
+
+      if (!canSendMessages) {
+        return;
+      }
+    }
+
     const prefix = await getPrefixFromId(db, message.guildId);
 
     const args = message.content.slice(prefix.length).trim().split(/\s+/gm);
@@ -42,14 +50,6 @@ export default <Monitor<"messageCreate">>{
     }
 
     const command = cache.commands.get(name);
-
-    if (message.guildId) {
-      const canSendMessages = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["SEND_MESSAGES"]);
-
-      if (!canSendMessages) {
-        return;
-      }
-    }
 
     // CHECKS
 
