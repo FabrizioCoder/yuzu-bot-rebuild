@@ -7,7 +7,6 @@ import { ApplicationCommandOptionTypes, avatarURL, getMember, getUser } from "..
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Busca un usuario",
       short: "Busca un usuario",

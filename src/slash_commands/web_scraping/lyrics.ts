@@ -22,7 +22,6 @@ interface Song {
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Busca letras de canciones",
       short: "Busca letras de canciones",

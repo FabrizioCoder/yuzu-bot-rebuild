@@ -7,7 +7,6 @@ import { ApplicationCommandOptionTypes, avatarURL } from "../../deps.ts";
 export default <Command> {
   options: {
     guildOnly: true,
-    adminOnly: false,
     information: {
       descr: "📗 Encuentra un comando del bot...",
       short: "📗 Encuentra un comando del bot...",

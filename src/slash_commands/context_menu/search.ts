@@ -8,7 +8,6 @@ import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.t
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Click encima de un mensaje para buscar una imagen",
       short: "Click encima de un mensaje",

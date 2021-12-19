@@ -15,7 +15,6 @@ import {
 export default <Command> {
   options: {
     guildOnly: true,
-    adminOnly: false,
     information: {
       descr: "Muestra, añade y remueve emotes",
       usage: "emotes | add | remove | hide | display [name] [url]",

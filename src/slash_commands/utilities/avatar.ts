@@ -7,7 +7,6 @@ import { ApplicationCommandOptionTypes, avatarURL, getUser } from "../../../deps
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Busca el avatar de un usuario",
       short: "Busca avatares",

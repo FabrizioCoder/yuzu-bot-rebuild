@@ -7,7 +7,6 @@ import { ApplicationCommandOptionTypes } from "../../deps.ts";
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Encuentra a usuarios con el mismo tag",
       short: "Encuentra a usuarios con el mismo tag",

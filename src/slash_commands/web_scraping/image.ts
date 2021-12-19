@@ -64,7 +64,6 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Busca imágenes en internet",
       short: "Busca imágenes",

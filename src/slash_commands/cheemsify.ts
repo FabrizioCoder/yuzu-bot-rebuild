@@ -6,7 +6,6 @@ import { Category, cheemsify } from "../utils/mod.ts";
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Conviertem un temxtom am imdiomam cheems",
       short: "Conviertem un temxtom am imdiomam cheems",

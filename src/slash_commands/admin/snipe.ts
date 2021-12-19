@@ -7,7 +7,6 @@ import { avatarURL } from "../../../deps.ts";
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Busca el último mensaje eliminado en el canal",
       short: "Busca mensajes eliminados",
