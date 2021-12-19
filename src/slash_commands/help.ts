@@ -31,6 +31,7 @@ export default <Command> {
       customId: "menu",
       placeholder: "Nada seleccionado 📕📗📘",
       options: Array.from(Object.entries(Category))
+        .filter(([k]) => k !== "Admin")
         .filter(([k]) => CategoryEmoji[`:category_${k.toLowerCase()}:` as keyof typeof CategoryEmoji])
         .map(([k, _v]) => {
           const emoji = CategoryEmoji[`:category_${k.toLowerCase()}:` as keyof typeof CategoryEmoji];
