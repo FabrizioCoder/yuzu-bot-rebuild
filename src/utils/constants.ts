@@ -59,7 +59,7 @@ export const Configuration = {
   // ETC
   PREFIX: "!",
   TOKEN: "........",
-  VERSION: "1.3.4",
+  VERSION: "1.4.0,
 };
 
 // utility to parse mentions
