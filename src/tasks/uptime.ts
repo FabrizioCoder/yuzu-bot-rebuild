@@ -1,10 +1,10 @@
 import type { Task } from "../types/task.ts";
-import { Milliseconds, Options } from "../utils/mod.ts";
+import { Milliseconds, Configuration } from "../utils/mod.ts";
 import { sendMessage } from "../../deps.ts";
 
 export default <Task>{
   name: "uptime",
-  interval: Milliseconds.HOUR,
+  interval: Milliseconds.Hour,
   async execute(bot, _payload, uptime) {
     const uptimeMessage =
       "El bot ha estado encendido desde:\n" +
@@ -12,6 +12,6 @@ export default <Task>{
       `-> <t:${Math.floor(uptime / 1000)}:F>`;
 
     // log
-    await sendMessage(bot, Options.CHANNEL_ID, uptimeMessage);
+    await sendMessage(bot, Configuration.CHANNEL_ID, uptimeMessage);
   },
 };

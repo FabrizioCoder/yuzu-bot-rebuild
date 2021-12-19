@@ -1,7 +1,7 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
 
-import { cache, DiscordColors, Division } from "../utils/mod.ts";
+import { cache, Category, DiscordColors } from "../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL } from "../../deps.ts";
 
 export default <Command> {
@@ -14,7 +14,7 @@ export default <Command> {
       usage: "<Command>",
     },
   },
-  division: Division.INFO,
+  category: Category.Info,
   data: {
     name: "commands",
     description: "📗 Encuentra un comando del bot...",
@@ -36,7 +36,7 @@ export default <Command> {
 
     if (!command) return "El comando no existe";
 
-    return <Embed> {
+    return <Embed>{
       color: DiscordColors.Blurple,
       thumbnail: {
         url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {

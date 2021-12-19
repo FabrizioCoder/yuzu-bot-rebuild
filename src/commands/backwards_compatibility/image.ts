@@ -12,13 +12,7 @@ import {
   sendMessage,
 } from "../../../deps.ts";
 
-import {
-  Division,
-  Milliseconds,
-  needButton,
-  needMessage,
-  randomHex
-} from "../../utils/mod.ts";
+import { Category, Milliseconds, needButton, needMessage, randomHex } from "../../utils/mod.ts";
 
 import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
 
@@ -60,7 +54,7 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-export default <Command<false>> {
+export default <Command<false>>{
   options: {
     guildOnly: false,
     adminOnly: false,
@@ -70,7 +64,7 @@ export default <Command<false>> {
       usage: "<Search>",
     },
   },
-  division: Division.UTIL,
+  category: Category.Util,
   data: {
     name: "image",
   },
@@ -128,7 +122,7 @@ export default <Command<false>> {
     do {
       try {
         const button = await needButton(message.authorId, msg.id, {
-          duration: Milliseconds.MINUTE * 5,
+          duration: Milliseconds.Minute * 5,
           amount: 1,
         });
 

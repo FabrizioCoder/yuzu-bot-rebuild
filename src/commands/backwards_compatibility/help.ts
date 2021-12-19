@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed, SelectMenuComponent } from "../../../deps.ts";
 
-import { cache, DiscordColors, Division, DivisionEmoji } from "../../utils/mod.ts";
+import { cache, Category, CategoryEmoji, DiscordColors } from "../../utils/mod.ts";
 
 import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "../../../deps.ts";
 
@@ -14,7 +14,7 @@ export default <Command<false>> {
       short: "📕 Ayuda del bot",
     },
   },
-  division: Division.INFO,
+  category: Category.Info,
   data: {
     name: "help",
   },
@@ -23,10 +23,10 @@ export default <Command<false>> {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",
       placeholder: "Nada seleccionado 📕📗📘",
-      options: Array.from(Object.entries(Division))
-        .filter(([k]) => DivisionEmoji[`:category_${k.toLowerCase()}:` as keyof typeof DivisionEmoji])
+      options: Array.from(Object.entries(Category))
+        .filter(([k]) => CategoryEmoji[`:category_${k.toLowerCase()}:` as keyof typeof CategoryEmoji])
         .map(([k, _v]) => {
-          const emoji = DivisionEmoji[`:category_${k.toLowerCase()}:` as keyof typeof DivisionEmoji];
+          const emoji = CategoryEmoji[`:category_${k.toLowerCase()}:` as keyof typeof CategoryEmoji];
 
           return {
             label: k.toString().toLowerCase(),

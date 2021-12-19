@@ -3,9 +3,9 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 
-import { Division, randomHex } from "../../utils/mod.ts";
+import { Category, randomHex } from "../../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL } from "../../../deps.ts";
-import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
+import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 // TYPING
 
@@ -70,7 +70,7 @@ async function getPokemonFromApi(pokemon: string | number): Promise<Pokemon | un
   const pokeAPI = "https://pokeapi.co/api/v2";
 
   try {
-    const { data } = await axiod.get<Pokemon>(`${pokeAPI}/pokemon/${pokemon}`);
+    const { data } = await f.get<Pokemon>(`${pokeAPI}/pokemon/${pokemon}`);
 
     return data;
   } catch (_) {
@@ -118,7 +118,7 @@ export default <Command> {
       usage: "<Nombre o id>",
     },
   },
-  division: Division.FUN,
+  category: Category.Util,
   data: {
     name: "pokedex",
     description: "Busca en la pokédex 🔍",
@@ -144,7 +144,7 @@ export default <Command> {
       return "No se pudo encontrar información sobre el pokémon.";
     }
 
-    return <Embed> {
+    return <Embed>{
       author: {
         name: interaction.user.username,
         url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {

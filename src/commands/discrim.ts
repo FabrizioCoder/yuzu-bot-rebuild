@@ -1,7 +1,7 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
 
-import { Division, randomHex } from "../utils/mod.ts";
+import { Category, randomHex } from "../utils/mod.ts";
 
 export default <Command<false>> {
   options: {
@@ -13,7 +13,7 @@ export default <Command<false>> {
       usage: "<Tag>",
     },
   },
-  division: Division.FUN,
+  category: Category.Util,
   data: {
     name: "discrim",
   },
@@ -26,7 +26,7 @@ export default <Command<false>> {
 
     const users = bot.users.filter((u) => u.discriminator === tag).map((u) => `${u.username}#${u.discriminator}`);
 
-    return <Embed> {
+    return <Embed>{
       color: randomHex(),
       description: users.join("\n") ?? "Sin resultados",
       footer: {

@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 
-import { Division, randomHex } from "../../utils/mod.ts";
+import { Category, randomHex } from "../../utils/mod.ts";
 import {
   ApplicationCommandOptionTypes,
   avatarURL,
@@ -21,7 +21,7 @@ export default <Command> {
       usage: "emotes | add | remove | hide | display [name] [url]",
     },
   },
-  division: Division.CONFIG,
+  category: Category.Config,
   data: {
     name: "emotes",
     description: "Muestra, añade y remueve emotes",

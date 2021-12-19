@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 
-import { Division } from "../../utils/mod.ts";
+import { Category } from "../../utils/mod.ts";
 import { ApplicationCommandTypes } from "../../../deps.ts";
 
 import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
@@ -15,7 +15,7 @@ export default <Command> {
       usage: "<Input>",
     },
   },
-  division: Division.UTIL,
+  category: Category.Util,
   data: {
     type: ApplicationCommandTypes.Message,
     name: "search",
@@ -25,7 +25,9 @@ export default <Command> {
 
     if (message) {
       const [result] = await search(message.content, SafetyLevels.STRICT);
-      if (result && "image" in result) return result.image;
+      if (result) {
+        return result.image;
+      }
     }
   },
 };

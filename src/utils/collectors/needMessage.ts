@@ -1,6 +1,6 @@
 import type { DiscordenoMessage } from "../../../deps.ts";
 import type { CollectMessagesOptions, MessageCollectorOptions } from "../../types/collector.ts";
-import { Milliseconds } from "../constants/time.ts";
+import { Milliseconds } from "../constants.ts";
 import * as cache from "../cache.ts";
 
 export function collectMessages(options: CollectMessagesOptions): Promise<DiscordenoMessage[]> {
@@ -36,7 +36,7 @@ export async function needMessage(memberId: bigint, channelId: bigint, options?:
     createdAt: Date.now(),
     filter: options?.filter ?? ((msg) => memberId === msg.authorId),
     amount: options?.amount ?? 1,
-    duration: options?.duration ?? Milliseconds.MINUTE * 5,
+    duration: options?.duration ?? Milliseconds.Minute * 5,
   });
 
   return (options?.amount || 1) > 1 ? messages : messages[0];

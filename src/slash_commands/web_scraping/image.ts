@@ -12,13 +12,7 @@ import {
   sendMessage,
 } from "../../../deps.ts";
 
-import {
-  Division,
-  Milliseconds,
-  needButton,
-  needMessage,
-  randomHex
-} from "../../utils/mod.ts";
+import { Category, Milliseconds, needButton, needMessage, randomHex } from "../../utils/mod.ts";
 
 import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
 
@@ -77,7 +71,7 @@ export default <Command> {
       usage: "<Search>",
     },
   },
-  division: Division.UTIL,
+  category: Category.Util,
   data: {
     name: "image",
     description: "Busca imágenes en internet",
@@ -147,7 +141,7 @@ export default <Command> {
     do {
       try {
         const button = await needButton(interaction.user.id, message.id, {
-          duration: Milliseconds.MINUTE * 5,
+          duration: Milliseconds.Minute * 5,
           amount: 1,
         });
 

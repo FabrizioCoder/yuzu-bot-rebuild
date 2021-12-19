@@ -1,7 +1,7 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { Embed, SelectMenuComponent } from "../../../deps.ts";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "../../../deps.ts";
-import { cache, Division } from "../../utils/mod.ts";
+import { cache, Category } from "../../utils/mod.ts";
 
 export default <Monitor<"interactionCreate">>{
   name: "onSelectMenu",
@@ -20,7 +20,7 @@ export default <Monitor<"interactionCreate">>{
 
       if (row && category) {
         const commands = [...cache.slashCommands, ...cache.commands]
-          .filter(([_, cmd]) => cmd.division === Division[category as keyof typeof Division])
+          .filter(([_, cmd]) => cmd.category === Category[category as keyof typeof Category])
           .map(([_, cmd]) => cmd);
 
         const commandPairs = commands.map(

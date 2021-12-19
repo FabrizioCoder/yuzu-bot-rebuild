@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 
-import { Division, isInvite } from "../../utils/mod.ts";
+import { Category, isInvite } from "../../utils/mod.ts";
 import { ApplicationCommandOptionTypes } from "../../../deps.ts";
 
 export default <Command> {
@@ -13,7 +13,7 @@ export default <Command> {
       usage: "<Input>",
     },
   },
-  division: Division.FUN,
+  category: Category.Fun,
   data: {
     name: "say",
     description: "Hace que el bot diga algo muy malo",

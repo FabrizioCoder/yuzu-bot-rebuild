@@ -17,5 +17,5 @@ export interface Task {
   interval: Milliseconds;
   disabled?: boolean;
   // botId uptime and anothe ruseful ids
-  execute: (bot: BotWithCache, payload: Payload, ...args: number[]) => void | Promise<void>;
+  execute: (bot: BotWithCache, payload: Payload, ...args: number[]) => void | Promise<void> | Promise<void>;
 }

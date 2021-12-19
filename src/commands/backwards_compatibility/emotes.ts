@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
-import { Division, randomHex } from "../../utils/mod.ts";
+import { Category, randomHex } from "../../utils/mod.ts";
 import { createEmoji, deleteEmoji, editEmoji, getGuild, hasGuildPermissions } from "../../../deps.ts";
 
 export default <Command<false>> {
@@ -12,7 +12,7 @@ export default <Command<false>> {
       usage: "emotes | add | remove | hide | display [name] [url]",
     },
   },
-  division: Division.CONFIG,
+  category: Category.Config,
   data: {
     name: "emotes",
   },
@@ -100,7 +100,7 @@ export default <Command<false>> {
       default: {
         const emojis = guild.emojis.map((e) => `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`);
 
-        return <Embed> {
+        return <Embed>{
           color: randomHex(),
           description: `Emotes: ${emojis.join(" ")}`,
           footer: {

@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import { Division, isNotAscii } from "../utils/mod.ts";
+import { Category, isNotAscii } from "../utils/mod.ts";
 import { hasGuildPermissions } from "../../deps.ts";
 import { addPrefix, editPrefix, getCollection, getPrefix } from "../database/controllers/prefix_controller.ts";
 import { db } from "../database/db.ts";
@@ -14,7 +14,7 @@ export default <Command<false>> {
       usage: "<Input>",
     },
   },
-  division: Division.ADMIN,
+  category: Category.Config,
   data: {
     name: "prefix",
   },

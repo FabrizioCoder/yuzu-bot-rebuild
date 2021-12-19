@@ -1,7 +1,7 @@
 import type { Command } from "../types/command.ts";
 
 import { ApplicationCommandOptionTypes } from "../../deps.ts";
-import { cheemsify, Division } from "../utils/mod.ts";
+import { Category, cheemsify } from "../utils/mod.ts";
 
 export default <Command> {
   options: {
@@ -13,7 +13,7 @@ export default <Command> {
       usage: "<Text>",
     },
   },
-  division: Division.FUN,
+  category: Category.Fun,
   data: {
     name: "cheemsify",
     description: "Conviertem un temxtom am imdiomam cheems",
@@ -26,13 +26,14 @@ export default <Command> {
       },
     ],
   },
-  execute(_bot, interaction) {
+  async execute(_bot, interaction) {
     const option = interaction.data?.options?.[0];
 
     // Remtomrnam umn memnsamjem aml demtemctamr qumem nom sem ham pumemstom namdam
     if (option?.type !== ApplicationCommandOptionTypes.String) {
       return "Pomn amlgom pamram demcimr emn chememms";
     }
+
     //Enviam eml temxtom cheemsimfimcamdom y qumimtam lams memncimomnems pamram emvimtamr qumem memncimomnemn am umsumamrimoms
     return cheemsify(option.value as string);
   },

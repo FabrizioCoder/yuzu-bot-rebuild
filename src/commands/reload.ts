@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import { cache, Division, Options } from "../utils/mod.ts";
+import { cache, Category } from "../utils/mod.ts";
 import { upsertApplicationCommands } from "../../deps.ts";
 
 export default <Command<false>> {
@@ -12,17 +12,15 @@ export default <Command<false>> {
       usage: ".",
     },
   },
-  division: Division.OWNER,
+  category: Category.Owner,
   data: {
     name: "reload",
   },
-  async execute(bot, message) {
-    if (message.authorId === Options.OWNER_ID) {
-      const commands = cache.slashCommands.map((c) => c.data);
+  async execute(bot) {
+    const commands = cache.slashCommands.map((c) => c.data);
 
-      await upsertApplicationCommands(bot, commands);
+    await upsertApplicationCommands(bot, commands);
 
-      return `OK! Loading ⌛... \`${commands.map((c) => c.name).join(" ")}\``;
-    }
+    return `OK! Loading ⌛... \`${commands.map((c) => c.name).join(" ")}\``;
   },
 };

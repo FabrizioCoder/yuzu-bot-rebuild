@@ -1,19 +1,18 @@
 import type { Command } from "../types/command.ts";
 
+import { Category, rangeChar } from "../utils/mod.ts";
 import { ApplicationCommandOptionTypes } from "../../deps.ts";
-import { Division, rangeChar } from "../utils/mod.ts";
 
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Convierte un texto a emojis",
       short: "Reemplaza texto por emojis",
       usage: "<Text>",
     },
   },
-  division: Division.FUN,
+  category: Category.Fun,
   data: {
     name: "emojify",
     description: "Convierte un texto a emojis",
@@ -26,7 +25,7 @@ export default <Command> {
       },
     ],
   },
-  execute(_bot, interaction) {
+  async execute(_bot, interaction) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {

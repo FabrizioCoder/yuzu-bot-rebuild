@@ -1,20 +1,17 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
-import { DiscordColors, Division, Options } from "../utils/mod.ts";
+import { Category, DiscordColors } from "../utils/mod.ts";
 
 export default <Command<false>> {
   options: {
     guildOnly: true,
     adminOnly: true,
   },
-  division: Division.OWNER,
+  category: Category.Owner,
   data: {
     name: "eval",
   },
-  execute(bot, message, { args }) {
-    // TODO: put this into a monitor
-    if (message.authorId !== Options.OWNER_ID) return;
-
+  execute(bot, _message, { args }) {
     const ms = Date.now();
 
     const input = args?.join(" ");
@@ -24,7 +21,7 @@ export default <Command<false>> {
     try {
       const output = eval(input);
 
-      return <Embed> {
+      return <Embed>{
         author: {
           name: bot.id.toString(),
         },

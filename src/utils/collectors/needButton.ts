@@ -1,6 +1,6 @@
 import type { DiscordenoInteraction } from "../../../deps.ts";
 import type { ButtonCollectorOptions, ButtonCollectorReturn, CollectButtonOptions } from "../../types/collector.ts";
-import { Milliseconds } from "../constants/time.ts";
+import { Milliseconds } from "../constants.ts";
 import * as cache from "../cache.ts";
 
 export function collectButtons(options: CollectButtonOptions): Promise<ButtonCollectorReturn[]> {
@@ -35,7 +35,7 @@ export async function needButton(userId: bigint, messageId: bigint, options?: Bu
     createdAt: Date.now(),
     filter: options?.filter ?? ((_, user) => (user ? userId === user.id : true)),
     amount: options?.amount ?? 1,
-    duration: options?.duration ?? Milliseconds.MINUTE * 5,
+    duration: options?.duration ?? Milliseconds.Minute * 5,
   });
 
   return (options?.amount || 1) > 1 ? buttons : buttons[0];

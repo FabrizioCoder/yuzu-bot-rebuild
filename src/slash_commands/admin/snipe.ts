@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 
-import { cache, Division, randomHex } from "../../utils/mod.ts";
+import { cache, Category, randomHex } from "../../utils/mod.ts";
 import { avatarURL } from "../../../deps.ts";
 
 export default <Command> {
@@ -13,12 +13,12 @@ export default <Command> {
       short: "Busca mensajes eliminados",
     },
   },
-  division: Division.UTIL,
+  category: Category.Util,
   data: {
     name: "snipe",
     description: "Busca el último mensaje eliminado en el canal",
   },
-  execute(bot, interaction) {
+  async execute(bot, interaction) {
     const message = cache.lastMessages.get(interaction.channelId!);
 
     if (!message) {

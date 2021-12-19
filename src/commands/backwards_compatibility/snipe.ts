@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
-import { cache, Division, randomHex } from "../../utils/mod.ts";
+import { cache, Category, randomHex } from "../../utils/mod.ts";
 import { avatarURL, getUser } from "../../../deps.ts";
 
 export default <Command<false>> {
@@ -12,7 +12,7 @@ export default <Command<false>> {
       short: "Busca mensajes eliminados",
     },
   },
-  division: Division.UTIL,
+  category: Category.Util,
   data: {
     name: "snipe",
   },
@@ -29,7 +29,7 @@ export default <Command<false>> {
 
     if (message.content.length >= 4096) return;
 
-    return <Embed> {
+    return <Embed>{
       author: {
         name: `${author.username}#${author.discriminator}`,
         iconUrl: avatarURL(bot, author.id, author.discriminator, {

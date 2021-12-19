@@ -2,8 +2,8 @@
 
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
-import { Division, randomHex } from "../../utils/mod.ts";
-import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
+import { Category, randomHex } from "../../utils/mod.ts";
+import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 // TYPING
 
@@ -68,7 +68,7 @@ async function getPokemonFromApi(pokemon: string | number) {
   const pokeAPI = "https://pokeapi.co/api/v2";
 
   try {
-    const { data } = await axiod.get<Pokemon>(`${pokeAPI}/pokemon/${pokemon}`);
+    const { data } = await f.get<Pokemon>(`${pokeAPI}/pokemon/${pokemon}`);
 
     return data;
   } catch (_) {
@@ -83,12 +83,12 @@ function parseMessageToPokemon(message: string) {
   };
 
   if (!isNaN(parseInt(message))) {
-    return <PokemonTarget> Object.assign(base, {
+    return <PokemonTarget>Object.assign(base, {
       id: parseInt(message),
       specie: "",
     });
   } else {
-    return <PokemonTarget> Object.assign(base, {
+    return <PokemonTarget>Object.assign(base, {
       id: 0,
       specie: message.toLowerCase(),
     });
@@ -116,7 +116,7 @@ export default <Command<false>> {
       usage: "<Nombre o id>",
     },
   },
-  division: Division.FUN,
+  category: Category.Util,
   data: {
     name: "dex",
   },
@@ -134,7 +134,7 @@ export default <Command<false>> {
       return "No se pudo encontrar información sobre el pokémon.";
     }
 
-    return <Embed> {
+    return <Embed>{
       title: `${poke.name[0]?.toUpperCase() + poke.name.slice(1)} #${poke.id}`,
       color: randomHex(),
       footer: {

@@ -1,9 +1,9 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
-import { DiscordColors, Division, snowflakeToTimestamp, toCapitalCase } from "../utils/mod.ts";
+import { Category, DiscordColors, snowflakeToTimestamp, toCapitalCase } from "../utils/mod.ts";
 import { avatarURL, getUser } from "../../deps.ts";
 
-export default <Command<false>>{
+export default <Command<false>> {
   options: {
     guildOnly: false,
     adminOnly: false,
@@ -13,7 +13,7 @@ export default <Command<false>>{
       usage: "lol",
     },
   },
-  division: Division.INFO,
+  category: Category.Info,
   data: {
     name: "botinfo",
   },
@@ -26,9 +26,7 @@ export default <Command<false>>{
     const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
     const botCreatedAt = snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000n;
 
-    const memory = Object.entries(
-      Deno.memoryUsage()
-    ).map(
+    const memory = Object.entries(Deno.memoryUsage()).map(
       ([k, v]: [string, number]) => `${toCapitalCase(k)} -> ${(((v / 1024 / 1024) * 100) / 100) | 0} MB`
     );
 
@@ -62,8 +60,8 @@ export default <Command<false>>{
         {
           name: "Desarrollo",
           value:
-            `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`` +
-            `[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`` +
+            `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`\n` +
+            `[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`\n` +
             `[Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``,
           inline: true,
         },
@@ -72,23 +70,18 @@ export default <Command<false>>{
           value: "\\🔒 [Get source code](https://github.com/Le-Val/yuzu-bot-rebuild)",
         },
         {
-          name: "Guilds",
+          name: "Cached guilds",
           value: bot.guilds.size.toLocaleString(),
           inline: true,
         },
         {
-          name: "Users",
+          name: "Cached users",
           value: bot.users.size.toLocaleString(),
           inline: true,
         },
         {
-          name: "Members",
+          name: "Cached members",
           value: bot.members.size.toLocaleString(),
-          inline: true,
-        },
-        {
-          name: "Real count of members",
-          value: bot.guilds.map((g) => g.memberCount).reduce((a, b) => a + b, 0),
           inline: true,
         },
         {

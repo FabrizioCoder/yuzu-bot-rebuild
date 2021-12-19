@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import { Division, Options, toCapitalCase } from "../../utils/mod.ts";
+import { Category, Configuration, toCapitalCase } from "../../utils/mod.ts";
 import { getChannel, getUser, hasGuildPermissions } from "../../../deps.ts";
 import {
   addTag,
@@ -34,7 +34,7 @@ export default <Command<false>> {
         "[add(name, content) | remove(name) | give(name, @user) | edit(name, content) | list() | nsfw(name) | owner(name)] [search] ...",
     },
   },
-  division: Division.FUN,
+  category: Category.Fun,
   data: {
     name: "tag",
   },
@@ -71,11 +71,11 @@ export default <Command<false>> {
 
         const isAdmin = hasGuildPermissions(bot, message.guildId, message.authorId, ["ADMINISTRATOR"]);
 
-        if (BigInt(tag.user) !== message.authorId && !isAdmin && message.authorId !== Options.OWNER_ID) {
+        if (BigInt(tag.user) !== message.authorId && !isAdmin && message.authorId !== Configuration.OWNER_ID) {
           return "El tag no te pertenece";
         }
 
-        if (tag.global && message.authorId !== Options.OWNER_ID) {
+        if (tag.global && message.authorId !== Configuration.OWNER_ID) {
           return "El tag es global y no se puede remover";
         }
 

@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
-import { DiscordColors, Division } from "../../utils/mod.ts";
+import { Category, DiscordColors } from "../../utils/mod.ts";
 import { avatarURL, getUser } from "../../../deps.ts";
 
 export default <Command<false>> {
@@ -15,7 +15,7 @@ export default <Command<false>> {
   },
   // TODO
   disabled: true,
-  division: Division.UTIL,
+  category: Category.Info,
   data: {
     name: "avatar",
   },
@@ -32,7 +32,7 @@ export default <Command<false>> {
       size: 2048,
     });
 
-    return <Embed> {
+    return <Embed>{
       author: {
         name: `Dueño: ${user.username}#${user.discriminator}`,
         iconURL: avatar,

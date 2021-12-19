@@ -1,10 +1,10 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 
-import { DiscordColors, Division, snowflakeToTimestamp } from "../../utils/mod.ts";
+import { Category, DiscordColors, snowflakeToTimestamp } from "../../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL, getMember, getUser } from "../../../deps.ts";
 
-export default <Command>{
+export default <Command> {
   options: {
     guildOnly: false,
     adminOnly: false,
@@ -14,7 +14,7 @@ export default <Command>{
       usage: "<User>",
     },
   },
-  division: Division.UTIL,
+  category: Category.Info,
   data: {
     name: "user",
     description: "Busca un usuario",

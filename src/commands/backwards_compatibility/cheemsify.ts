@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import { cheemsify, Division } from "../../utils/mod.ts";
+import { Category, cheemsify } from "../../utils/mod.ts";
 
 export default <Command<false>> {
   options: {
@@ -11,11 +11,11 @@ export default <Command<false>> {
       usage: "<Text>",
     },
   },
-  division: Division.FUN,
+  category: Category.Fun,
   data: {
     name: "cheemsify",
   },
-  execute(_bot, _message, { args }) {
+  async execute(_bot, _message, { args }) {
     const option = args.join(" ");
 
     // Remtomrnam umn memnsamjem aml demtemctamr qumem nom sem ham pumemstom namdam

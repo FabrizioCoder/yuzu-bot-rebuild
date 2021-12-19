@@ -7,7 +7,7 @@ import type {
   MakeRequired,
 } from "../../deps.ts";
 
-import type { Division } from "../utils/mod.ts";
+import type { Category } from "../utils/mod.ts";
 
 // /commands and !commands
 interface CommandOptions {
@@ -25,10 +25,7 @@ type CommandArgs = {
   prefix: string;
 };
 
-type CommandMessageContent =
-  | string
-  | Embed
-  | undefined;
+type CommandMessageContent = string | Embed | undefined;
 
 type CommandData<Slash> = Slash extends true
   ? MakeRequired<EditGlobalApplicationCommand, "name">
@@ -46,7 +43,7 @@ export interface Command<Slash extends boolean = true> {
   disabled?: boolean;
   options?: Slash extends true ? Omit<CommandOptions, "adminOnly"> : CommandOptions;
 
-  division: Division;
+  category?: Category;
 
   execute(
     ...args: CommandArgumentsPassed<Slash>

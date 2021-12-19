@@ -1,7 +1,7 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
 
-import { Division, randomHex } from "../utils/mod.ts";
+import { Category, randomHex } from "../utils/mod.ts";
 import { ApplicationCommandOptionTypes } from "../../deps.ts";
 
 export default <Command> {
@@ -14,7 +14,7 @@ export default <Command> {
       usage: "<Tag>",
     },
   },
-  division: Division.FUN,
+  category: Category.Util,
   data: {
     name: "discrim",
     description: "Encuentra a usuarios con el mismo tag",
@@ -32,10 +32,10 @@ export default <Command> {
 
     if (option?.type === ApplicationCommandOptionTypes.Integer) {
       const users = bot.users
-        .filter((u) => u.discriminator === <number> option.value)
+        .filter((u) => u.discriminator === <number>option.value)
         .map((u) => `${u.username}#${u.discriminator}`);
 
-      return <Embed> {
+      return <Embed>{
         color: randomHex(),
         description: users.join(", ") ?? "Sin resultados",
         footer: {

@@ -1,7 +1,7 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "../../deps.ts";
 
-import { Division, randomHex } from "../utils/mod.ts";
+import { Category, randomHex } from "../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL } from "../../deps.ts";
 
 const rpts = ["Sí", "No", "Tal vez", "No sé", "¡Claro!", "Podría ser", "Es poco probable", "Quizás"] as const;
@@ -16,7 +16,7 @@ export default <Command> {
       usage: "<Input>",
     },
   },
-  division: Division.FUN,
+  category: Category.Fun,
   data: {
     name: `${rpts.length}ball`,
     description: "Responde al usuario con una pregunta de sí/no",
@@ -33,7 +33,7 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.String) {
-      return <Embed> {
+      return <Embed>{
         color: randomHex(),
         thumbnail: {
           url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {

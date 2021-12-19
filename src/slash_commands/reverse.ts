@@ -1,19 +1,18 @@
 import type { Command } from "../types/command.ts";
 
-import { Division } from "../utils/mod.ts";
+import { Category } from "../utils/mod.ts";
 import { ApplicationCommandOptionTypes } from "../../deps.ts";
 
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Invierte un texto",
       short: "Invierte un texto",
       usage: "<Input>",
     },
   },
-  division: Division.FUN,
+  category: Category.Fun,
   data: {
     name: "reverse",
     description: "Invierte un texto",

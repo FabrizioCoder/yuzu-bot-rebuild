@@ -4,8 +4,8 @@ import type { Task } from "./src/types/task.ts";
 import type { Monitor } from "./src/types/monitor.ts";
 import type { EventHandlers } from "./deps.ts";
 
-import { cache, loadFilesFromFolder, Options } from "./src/utils/mod.ts";
-import { createBot, enableCachePlugin as addCache, startBot } from "./deps.ts";
+import { cache, Configuration, loadFilesFromFolder } from "./src/utils/mod.ts";
+import { createBot, enableCachePlugin, startBot } from "./deps.ts";
 
 import "https://deno.land/x/dotenv/load.ts";
 
@@ -46,17 +46,17 @@ await Promise.all([
 await import("./src/utils/scripts/APICommands.ts");
 
 const bot = createBot({
-  botId: Deno.args[0] ? BigInt(Deno.args[0]) : Options.ID,
+  botId: Deno.args[0] ? BigInt(Deno.args[0]) : Configuration.ID,
   intents: ["Guilds", "GuildMessages", "GuildEmojis", "DirectMessages"],
   events: Object.fromEntries(
     // transforms a Map<string, T> into a Record<string, T["execute"]>
     Array.from(cache.events.entries(), ([name, event]) => [name, event.execute])
   ),
-  token: Deno.args[1] ?? Deno.env.get("TOKEN") ?? Options.TOKEN,
+  token: Deno.args[1] ?? Deno.env.get("TOKEN") ?? Configuration.TOKEN,
 });
 
 // start the bot
-await startBot(addCache(bot));
+await startBot(enableCachePlugin(bot));
 
 // start the database
 await import("./src/database/db.ts");

@@ -8,7 +8,9 @@ export async function loadFilesFromFolder<T>(dir: string, fn: (file: T) => void)
       loadFilesFromFolder(join(dir, file.name), fn);
       continue;
     }
-    const struct: { default?: T } = await import(`../../${dir}/${file.name}`);
-    if (struct.default) fn(struct.default);
+    const { default: struct }: { default?: T } = await import(`../../${dir}/${file.name}`);
+    if (struct) {
+      fn(struct);
+    }
   }
 }

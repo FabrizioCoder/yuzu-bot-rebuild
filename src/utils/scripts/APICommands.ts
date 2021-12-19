@@ -1,10 +1,8 @@
 import type { Embed } from "../../../deps.ts";
 import { ApplicationCommandOptionTypes, getUser } from "../../../deps.ts";
-import { Division } from "../constants/division.ts";
-import { DiscordColors } from "../constants/color.ts";
-import { userMention } from "../std/mention.ts";
+import { Category, DiscordColors, userMention } from "../constants.ts";
+import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
 import * as cache from "../cache.ts";
-import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 const api = "https://nekos.life/api/v2/";
 const endpointsActionPairs = {
@@ -24,19 +22,18 @@ try {
     const commandName = cmd.slice(4, cmd.length);
 
     type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
-    const { data } = await axiod.get<Image | undefined>(api + cmd);
+    const { data } = await f.get<Image | undefined>(api + cmd);
 
     cache.slashCommands.set(commandName, {
       options: {
         guildOnly: false,
-        adminOnly: false,
         information: {
           descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
           usage: `[@User]`,
           short: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
         },
       },
-      division: Division.INTERACTION,
+      category: Category.Interaction,
       data: {
         name: commandName,
         description: `${commandName} a user`,
@@ -68,7 +65,7 @@ try {
           return "Especifica correctamente el usuario";
         }
 
-        return <Embed> {
+        return <Embed>{
           description: getDescription(
             endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
             i.user.id,
@@ -92,7 +89,7 @@ try {
           short: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
         },
       },
-      division: Division.INTERACTION,
+      category: Category.Interaction,
       execute(bot, msg, { args }) {
         // utilities
         const search = args.join(" ").match(userMention);
@@ -107,7 +104,7 @@ try {
           return "No encontré una imagen para mostrar";
         }
 
-        return <Embed> {
+        return <Embed>{
           description: getDescription(
             endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
             userId,

@@ -1,6 +1,6 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { BotWithCache } from "../../../deps.ts";
-import { cache, Options } from "../../utils/mod.ts";
+import { cache, Configuration } from "../../utils/mod.ts";
 import { getCollection, getPrefix } from "../../database/controllers/prefix_controller.ts";
 import { db } from "../../database/db.ts";
 import { botHasGuildPermissions, sendMessage } from "../../../deps.ts";
@@ -8,13 +8,13 @@ import { botHasGuildPermissions, sendMessage } from "../../../deps.ts";
 /*
  * get a prefix from a given guildId
  */
-async function getPrefixFromId(database: typeof db, id?: bigint, def = Options.PREFIX) {
+async function getPrefixFromId(database: typeof db, id?: bigint, def = Configuration.PREFIX) {
   if (id) {
     if (!database) {
       return def;
     }
 
-    const { prefix } = (await getPrefix(getCollection(database), id)) ?? { prefix: def };
+    const { prefix } = await getPrefix(getCollection(database), id) ?? { prefix: def };
 
     return prefix;
   }
@@ -63,14 +63,14 @@ export default <Monitor<"messageCreate">>{
       return;
     }
 
-    if (message.authorId !== Options.OWNER_ID && command.options?.adminOnly) {
+    if (message.authorId !== Configuration.OWNER_ID && command.options?.adminOnly) {
       await sendMessage(bot, message.channelId, "Debes ser dev para usar el comando...");
       return;
     }
 
     // END CHECKS
 
-    await sendMessage(bot, Options.CHANNEL_ID, {
+    await sendMessage(bot, Configuration.CHANNEL_ID, {
       content:
         `Comando ${command.data.name} ejecutado por ${message.tag} ` +
         `en el ${message.guildId ? "servidor" : "dm"} ${message.guildId ?? message.channelId}`,

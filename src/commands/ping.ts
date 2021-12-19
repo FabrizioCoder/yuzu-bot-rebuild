@@ -1,12 +1,12 @@
 import type { Command } from "../types/command.ts";
-import { Division } from "../utils/mod.ts";
+import { Category } from "../utils/mod.ts";
 
 export default <Command<false>> {
-  division: Division.OWNER,
+  category: Category.Owner,
   data: {
     name: "ping",
   },
-  execute() {
+  async execute() {
     return "pong!";
   },
 };

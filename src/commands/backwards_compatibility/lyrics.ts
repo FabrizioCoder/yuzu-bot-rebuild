@@ -2,8 +2,8 @@
 
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
-import { Division, randomHex } from "../../utils/mod.ts";
-import axiod from "https://deno.land/x/axiod@0.23.1/mod.ts";
+import { Category, randomHex } from "../../utils/mod.ts";
+import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
 
 interface Song {
   lyrics: string;
@@ -27,7 +27,7 @@ export default <Command<false>> {
       usage: "[@Mención]",
     },
   },
-  division: Division.UTIL,
+  category: Category.Util,
   data: {
     name: "lyrics",
   },
@@ -35,11 +35,11 @@ export default <Command<false>> {
     const option = args.join(" ");
 
     if (option) {
-      const { data } = await axiod.get<Song>(`https://some-random-api.ml/lyrics/?title=${option}`);
+      const { data } = await f.get<Song>(`https://some-random-api.ml/lyrics/?title=${option}`);
 
       if (!data || "error" in data) return "No pude encontrar esa canción";
 
-      const embed = <Embed & { fields: [] }> {
+      const embed = <Embed & { fields: [] }>{
         title: data.title,
         color: randomHex(),
         author: {

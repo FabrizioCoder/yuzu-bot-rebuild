@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import { Division, isInvite } from "../utils/mod.ts";
+import { Category, isInvite } from "../utils/mod.ts";
 import { deleteMessage } from "../../deps.ts";
 
 export default <Command<false>> {
@@ -13,7 +13,7 @@ export default <Command<false>> {
     },
   },
   data: { name: "say" },
-  division: Division.OWNER,
+  category: Category.Fun,
   async execute(bot, message, { args }) {
     const toSend = args.join(" ");
 

@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 
-import { Division, Options, toCapitalCase } from "../utils/mod.ts";
+import { Category, Configuration, toCapitalCase } from "../utils/mod.ts";
 import { ApplicationCommandOptionTypes, getChannel, getUser, hasGuildPermissions } from "../../deps.ts";
 
 import {
@@ -29,7 +29,6 @@ enum Arguments {
 export default <Command> {
   options: {
     guildOnly: false,
-    adminOnly: false,
     information: {
       descr: "Crea, edita, borra o modifica tags",
       short: "Crea, edita, borra o modifica tags",
@@ -37,7 +36,7 @@ export default <Command> {
         "[add(name, content) | remove(name) | give(name, @user) | edit(name, content) | list() | nsfw(name) | owner(name)] [search] ...",
     },
   },
-  division: Division.FUN,
+  category: Category.Fun,
   data: {
     name: "tag",
     description: "Crea, edita, borra o modifica tags",
@@ -192,18 +191,18 @@ export default <Command> {
         return `Añadí el tag ${output?.name}`;
       }
       case Arguments.Remove: {
-        const [name] = <[string]> option.options?.map((o) => o.value);
+        const [name] = <[string]>option.options?.map((o) => o.value);
         const tag = await getTag(getCollection(db), name, interaction.guildId);
 
         if (!tag) return "No encontré ese tag";
 
         const isAdmin = hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["ADMINISTRATOR"]);
 
-        if (BigInt(tag.user) !== interaction.user.id && !isAdmin && interaction.user.id !== Options.OWNER_ID) {
+        if (BigInt(tag.user) !== interaction.user.id && !isAdmin && interaction.user.id !== Configuration.OWNER_ID) {
           return "El tag no te pertenece";
         }
 
-        if (tag.global && interaction.user.id !== Options.OWNER_ID) {
+        if (tag.global && interaction.user.id !== Configuration.OWNER_ID) {
           return "El tag es global y no se puede remover";
         }
 

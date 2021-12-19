@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
 
-import { DiscordColors, Division } from "../../utils/mod.ts";
+import { Category, DiscordColors } from "../../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL, getUser } from "../../../deps.ts";
 
 export default <Command> {
@@ -14,7 +14,7 @@ export default <Command> {
       usage: "[@Mención]",
     },
   },
-  division: Division.UTIL,
+  category: Category.Info,
   data: {
     name: "avatar",
     description: "Busca el avatar de un usuario",
