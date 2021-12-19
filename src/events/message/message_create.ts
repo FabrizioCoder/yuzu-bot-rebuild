@@ -16,7 +16,7 @@ export default <Event<"messageCreate">> {
           await monitor.execute(bot, message);
         } catch (e: unknown) {
           if (e instanceof Error) {
-            await sendMessage(bot, Options.CHANNEL_ID, e.name).catch(console.error);
+            await sendMessage(bot, Options.CHANNEL_ID, `${e.cause}\n${e.stack}`).catch(console.error);
           }
         }
       });
