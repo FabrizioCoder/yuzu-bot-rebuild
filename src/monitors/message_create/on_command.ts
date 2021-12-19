@@ -3,7 +3,7 @@ import type { BotWithCache } from "../../../deps.ts";
 import { cache, Options } from "../../utils/mod.ts";
 import { getCollection, getPrefix } from "../../database/controllers/prefix_controller.ts";
 import { db } from "../../database/db.ts";
-import { sendMessage } from "../../../deps.ts";
+import { botHasGuildPermissions, sendMessage } from "../../../deps.ts";
 
 /*
  * get a prefix from a given guildId
@@ -14,7 +14,7 @@ async function getPrefixFromId(database: typeof db, id?: bigint, def = Options.P
       return def;
     }
 
-    const { prefix } = await getPrefix(getCollection(database), id) ?? { prefix: def };
+    const { prefix } = (await getPrefix(getCollection(database), id)) ?? { prefix: def };
 
     return prefix;
   }
@@ -25,7 +25,7 @@ async function getPrefixFromId(database: typeof db, id?: bigint, def = Options.P
 export default <Monitor<"messageCreate">>{
   name: "commandMonitor",
   type: "messageCreate",
-  ignoreDM: true,
+  ignoreDM: false,
   ignoreBots: true,
   async execute(bot, message) {
     const prefix = await getPrefixFromId(db, message.guildId);
@@ -43,17 +43,53 @@ export default <Monitor<"messageCreate">>{
 
     const command = cache.commands.get(name);
 
+    if (message.guildId) {
+      const canSendMessages = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["SEND_MESSAGES"]);
+
+      if (!canSendMessages) {
+        return;
+      }
+    }
+
+    // CHECKS
+
     if (!command) {
       await sendMessage(bot, message.channelId, "Ese comando no existe! 🔒");
       return;
     }
 
+    if (!message.guildId && command.options?.guildOnly) {
+      await sendMessage(bot, message.channelId, "Este comando solo funciona en servidores...");
+      return;
+    }
+
+    if (message.authorId !== Options.OWNER_ID && command.options?.adminOnly) {
+      await sendMessage(bot, message.channelId, "Debes ser dev para usar el comando...");
+      return;
+    }
+
+    // END CHECKS
+
     await sendMessage(bot, Options.CHANNEL_ID, {
-      content: `Comando ${command.data.name} ejecutado por ${message.tag} ` +
-               `en el ${message.guildId ? "servidor" : "dm"} ${message.guildId ?? message.channelId}`,
+      content:
+        `Comando ${command.data.name} ejecutado por ${message.tag} ` +
+        `en el ${message.guildId ? "servidor" : "dm"} ${message.guildId ?? message.channelId}`,
     });
 
     const output = await command.execute(bot as BotWithCache, message, { args, prefix });
+
+    // PERMISSIONS
+
+    if (message.guildId) {
+      const canSendEmbeds = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["EMBED_LINKS"]);
+
+      if (typeof output !== "string" && !canSendEmbeds) {
+        await sendMessage(bot, message.channelId, "No puedo enviar embeds...");
+        return;
+      }
+    }
+
+    // END PERMISSIONS
 
     if (!output) {
       return;

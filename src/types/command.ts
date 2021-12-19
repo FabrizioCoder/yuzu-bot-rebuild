@@ -44,7 +44,7 @@ export interface Command<Slash extends boolean = true> {
   data: CommandData<Slash>;
   // if its disabled
   disabled?: boolean;
-  options?: CommandOptions;
+  options?: Slash extends true ? Omit<CommandOptions, "adminOnly"> : CommandOptions;
 
   division: Division;
 
