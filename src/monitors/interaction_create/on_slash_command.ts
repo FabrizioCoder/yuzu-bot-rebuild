@@ -9,7 +9,7 @@ import {
   sendMessage,
 } from "../../../deps.ts";
 
-export default <Monitor<"interactionCreate">>{
+export default <Monitor<"interactionCreate">> {
   name: "onSlashCommand",
   type: "interactionCreate",
   ignoreDM: true,

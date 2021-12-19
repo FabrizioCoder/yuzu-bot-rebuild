@@ -134,7 +134,7 @@ export default <Command<false>> {
       return "No se pudo encontrar información sobre el pokémon.";
     }
 
-    return <Embed>{
+    return <Embed> {
       title: `${poke.name[0]?.toUpperCase() + poke.name.slice(1)} #${poke.id}`,
       color: randomHex(),
       footer: {

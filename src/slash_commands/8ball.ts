@@ -32,7 +32,7 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.String) {
-      return <Embed>{
+      return <Embed> {
         color: randomHex(),
         thumbnail: {
           url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {

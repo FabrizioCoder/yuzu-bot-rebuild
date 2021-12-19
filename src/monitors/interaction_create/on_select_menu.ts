@@ -3,7 +3,7 @@ import type { Embed, SelectMenuComponent } from "../../../deps.ts";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "../../../deps.ts";
 import { cache, Category } from "../../utils/mod.ts";
 
-export default <Monitor<"interactionCreate">>{
+export default <Monitor<"interactionCreate">> {
   name: "onSelectMenu",
   type: "interactionCreate",
   ignoreDM: true,

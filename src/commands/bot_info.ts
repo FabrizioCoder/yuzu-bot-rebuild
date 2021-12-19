@@ -32,7 +32,7 @@ export default <Command<false>> {
 
     if (!me) return;
 
-    return <Embed>{
+    return <Embed> {
       color: DiscordColors.Blurple,
       title: `Using ${bot.gateway.shards.size} shards`,
       thumbnail: {

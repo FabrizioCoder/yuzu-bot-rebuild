@@ -35,7 +35,7 @@ export default <Command> {
 
     if (!command) return "El comando no existe";
 
-    return <Embed>{
+    return <Embed> {
       color: DiscordColors.Blurple,
       thumbnail: {
         url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {

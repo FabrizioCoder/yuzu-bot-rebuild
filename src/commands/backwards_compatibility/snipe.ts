@@ -29,7 +29,7 @@ export default <Command<false>> {
 
     if (message.content.length >= 4096) return;
 
-    return <Embed>{
+    return <Embed> {
       author: {
         name: `${author.username}#${author.discriminator}`,
         iconUrl: avatarURL(bot, author.id, author.discriminator, {

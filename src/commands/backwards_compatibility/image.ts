@@ -54,7 +54,7 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-export default <Command<false>>{
+export default <Command<false>> {
   options: {
     guildOnly: false,
     adminOnly: false,

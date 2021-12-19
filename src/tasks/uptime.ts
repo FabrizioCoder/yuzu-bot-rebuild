@@ -2,7 +2,7 @@ import type { Task } from "../types/task.ts";
 import { Milliseconds, Configuration } from "../utils/mod.ts";
 import { sendMessage } from "../../deps.ts";
 
-export default <Task>{
+export default <Task> {
   name: "uptime",
   interval: Milliseconds.Hour,
   async execute(bot, _payload, uptime) {

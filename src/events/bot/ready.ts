@@ -3,7 +3,7 @@ import type { BotWithCache } from "../../../deps.ts";
 import type { Payload } from "../../types/task.ts";
 import { cache } from "../../utils/mod.ts";
 
-export default <Event<"ready">>{
+export default <Event<"ready">> {
   name: "ready",
   execute(bot, payload) {
     const uptime = Date.now();

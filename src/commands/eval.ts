@@ -21,7 +21,7 @@ export default <Command<false>> {
     try {
       const output = eval(input);
 
-      return <Embed>{
+      return <Embed> {
         author: {
           name: bot.id.toString(),
         },

@@ -143,7 +143,7 @@ export default <Command> {
       return "No se pudo encontrar información sobre el pokémon.";
     }
 
-    return <Embed>{
+    return <Embed> {
       author: {
         name: interaction.user.username,
         url: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {

@@ -34,7 +34,7 @@ export default <Command> {
         .filter((u) => u.discriminator === <number>option.value)
         .map((u) => `${u.username}#${u.discriminator}`);
 
-      return <Embed>{
+      return <Embed> {
         color: randomHex(),
         description: users.join(", ") ?? "Sin resultados",
         footer: {

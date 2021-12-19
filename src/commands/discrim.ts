@@ -26,7 +26,7 @@ export default <Command<false>> {
 
     const users = bot.users.filter((u) => u.discriminator === tag).map((u) => `${u.username}#${u.discriminator}`);
 
-    return <Embed>{
+    return <Embed> {
       color: randomHex(),
       description: users.join("\n") ?? "Sin resultados",
       footer: {

@@ -65,7 +65,7 @@ try {
           return "Especifica correctamente el usuario";
         }
 
-        return <Embed>{
+        return <Embed> {
           description: getDescription(
             endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
             i.user.id,
@@ -104,7 +104,7 @@ try {
           return "No encontré una imagen para mostrar";
         }
 
-        return <Embed>{
+        return <Embed> {
           description: getDescription(
             endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
             userId,

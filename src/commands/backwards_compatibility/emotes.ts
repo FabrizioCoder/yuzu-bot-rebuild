@@ -100,7 +100,7 @@ export default <Command<false>> {
       default: {
         const emojis = guild.emojis.map((e) => `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`);
 
-        return <Embed>{
+        return <Embed> {
           color: randomHex(),
           description: `Emotes: ${emojis.join(" ")}`,
           footer: {

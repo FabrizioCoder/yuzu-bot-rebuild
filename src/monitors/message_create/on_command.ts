@@ -22,7 +22,7 @@ async function getPrefixFromId(database: typeof db, id?: bigint, def = Configura
   return def;
 }
 
-export default <Monitor<"messageCreate">>{
+export default <Monitor<"messageCreate">> {
   name: "commandMonitor",
   type: "messageCreate",
   ignoreDM: false,
