@@ -39,14 +39,13 @@ export default <Command<false>> {
 
       if (!data || "error" in data) return "No pude encontrar esa canción";
 
-      const embed = <Embed & { fields: [] }> {
+      const embed: Embed = {
         title: data.title,
         color: randomHex(),
         author: {
           iconUrl: data.thumbnail.genius,
           name: data.author,
         },
-        fields: [],
       };
 
       if (data.lyrics.length > 2048) {

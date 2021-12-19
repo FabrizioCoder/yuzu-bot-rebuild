@@ -1,68 +1,8 @@
-// deno-lint-ignore-file camelcase
-
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "../../../deps.ts";
+import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
 import { Category, randomHex } from "../../utils/mod.ts";
 import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
-
-// TYPING
-
-interface ApiResource {
-  name: string;
-  url: string;
-}
-
-interface Pokemon {
-  id: number;
-  name: string;
-  base_experience: number;
-  height: number;
-  is_default: boolean;
-  order: number;
-  weight: number;
-  sprites: PokemonSprites;
-  abilities: PokemonAbility[];
-  stats: PokemonStat[];
-  types: PokemonType[];
-}
-
-interface PokemonAbility {
-  is_hidden: boolean;
-  slot: number;
-  ability: ApiResource;
-}
-
-interface PokemonSprites {
-  front_default: string;
-  front_shiny: string;
-  front_female?: string;
-  front_shinyFemale?: string;
-
-  back_default: string;
-  back_shiny: string;
-  back_female?: string;
-  backShiny_female?: string;
-}
-
-interface PokemonStat {
-  base_stat: number;
-  effort: number;
-  stat: ApiResource;
-}
-
-interface PokemonType {
-  slot: number;
-  type: ApiResource;
-}
-
-interface PokemonTarget {
-  id: number;
-  specie: string;
-  shiny: boolean;
-  mega: boolean;
-}
-
-// UTILITY
 
 async function getPokemonFromApi(pokemon: string | number) {
   const pokeAPI = "https://pokeapi.co/api/v2";
@@ -70,9 +10,9 @@ async function getPokemonFromApi(pokemon: string | number) {
   try {
     const { data } = await f.get<Pokemon>(`${pokeAPI}/pokemon/${pokemon}`);
 
-    return data;
-  } catch (_) {
-    return undefined;
+    return Promise.resolve(data);
+  } catch (error: unknown) {
+    return Promise.reject(error);
   }
 }
 
@@ -83,12 +23,12 @@ function parseMessageToPokemon(message: string) {
   };
 
   if (!isNaN(parseInt(message))) {
-    return <PokemonTarget>Object.assign(base, {
+    return <PokemonTarget> Object.assign(base, {
       id: parseInt(message),
       specie: "",
     });
   } else {
-    return <PokemonTarget>Object.assign(base, {
+    return <PokemonTarget> Object.assign(base, {
       id: 0,
       specie: message.toLowerCase(),
     });
@@ -96,7 +36,7 @@ function parseMessageToPokemon(message: string) {
 }
 
 function parsePokemonWeight(weight: number): string {
-  let strWeight = weight.toString(); // var prevent shadowing
+  let strWeight = weight.toString();
   const len = strWeight.length;
 
   if (len === 1) strWeight = `0.${strWeight}`;
@@ -153,7 +93,7 @@ export default <Command<false>> {
         },
         {
           name: "Etc",
-          value: [`**Weight**: ${parsePokemonWeight(poke.weight)}kg`, `**Height**: ${poke.height}cm`].join("\n"),
+          value: [`**Weight**: ${parsePokemonWeight(poke.weight)}kg`, `**Height**: ${poke.height}`].join("\n"),
         },
       ],
       image: {

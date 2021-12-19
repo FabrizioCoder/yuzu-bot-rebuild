@@ -18,11 +18,8 @@ const endpointsActionPairs = {
 try {
   const getDescription = (action: string, target: bigint, author: bigint) => `<@${author}> ${action} <@${target}>`;
 
-  Object.keys(endpointsActionPairs).forEach(async (cmd) => {
+  Object.keys(endpointsActionPairs).forEach((cmd) => {
     const commandName = cmd.slice(4, cmd.length);
-
-    type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
-    const { data } = await f.get<Image | undefined>(api + cmd);
 
     cache.slashCommands.set(commandName, {
       options: {
@@ -49,6 +46,8 @@ try {
 
       async execute(bot, i) {
         // utilities
+        type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
+        const { data } = await f.get<Image | undefined>(api + cmd);
 
         const option = i.data?.options?.[0];
 
@@ -90,8 +89,11 @@ try {
         },
       },
       category: Category.Interaction,
-      execute(bot, msg, { args }) {
+      async execute(bot, msg, { args }) {
         // utilities
+        type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
+        const { data } = await f.get<Image | undefined>(api + cmd);
+
         const search = args.join(" ").match(userMention);
 
         if (!search) {
