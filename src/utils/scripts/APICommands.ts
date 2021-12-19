@@ -60,6 +60,10 @@ try {
           return "No encontré una imagen para mostrar";
         }
 
+        if (userId === i.user.id) {
+          return "¿?";
+        }
+
         if (!user) {
           return "Especifica correctamente el usuario";
         }
@@ -104,6 +108,10 @@ try {
 
         if (!data?.url) {
           return "No encontré una imagen para mostrar";
+        }
+
+        if (userId === msg.authorId) {
+          return "¿?";
         }
 
         return <Embed> {
