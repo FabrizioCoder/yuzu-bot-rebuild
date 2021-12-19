@@ -6,7 +6,7 @@ export default <Task> {
   name: "presences",
   interval: Milliseconds.MINUTE * 10,
   execute(bot, _payload) {
-    const gCount = bot.guilds.size;
+    const gCount = bot.guilds.size + bot.dispatchedGuildIds.size;
     const uCount = bot.guilds.map((guild) => guild.memberCount).reduce((a, b) => a + b, 0);
 
     const presences = [
