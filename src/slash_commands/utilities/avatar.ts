@@ -31,7 +31,7 @@ export default <Command> {
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
       const userId = BigInt((option.value as string) ?? interaction.user.id);
-      const user = bot.users.get(userId) ?? await getUser(bot, userId);
+      const user = bot.users.get(userId) ?? await getUser(bot, userId) ?? interaction.user;
 
       if (!user) return "Especifica el usuario correctamente";
 

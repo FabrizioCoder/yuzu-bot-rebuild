@@ -4,7 +4,7 @@ import type { Embed } from "../../../deps.ts";
 import { DiscordColors, Division, snowflakeToTimestamp } from "../../utils/mod.ts";
 import { ApplicationCommandOptionTypes, avatarURL, getMember, getUser } from "../../../deps.ts";
 
-export default <Command> {
+export default <Command>{
   options: {
     guildOnly: false,
     adminOnly: false,
@@ -32,7 +32,9 @@ export default <Command> {
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
       const user =
-        bot.users.get(BigInt(option.value as string)) ?? await getUser(bot, BigInt(option.value as string));
+        bot.users.get(BigInt(option.value as string)) ??
+        await getUser(bot, BigInt(option.value as string)) ??
+        interaction.user;
 
       if (!user) return "No encontré al usuario";
 
@@ -45,7 +47,7 @@ export default <Command> {
           }),
           url: avatarURL(bot, user.id, user.discriminator, {
             avatar: user.avatar,
-            size: 2048,
+            size: 2048, // Discord will resize this fyi
           }),
         },
         thumbnail: {
