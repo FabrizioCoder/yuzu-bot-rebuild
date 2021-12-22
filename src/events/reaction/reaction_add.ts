@@ -14,15 +14,14 @@ export default <Event<"reactionAdd">>{
 
     if (!starboard) return;
 
-    const message = bot.messages.get(messageId) ?? await getMessage(bot, channelId, messageId);
+    // use this rather than the cache!
+    const message = await getMessage(bot, channelId, messageId);
     const user = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
     // debug for now
-    console.log(message.reactions);
-
-    const reaction = message.reactions?.find((r) => (r.emoji.id === BigInt(starboard.emojiId)) || (r.emoji.name === "⭐"));
-
-    console.log(reaction);
+    const reaction = message.reactions?.find(
+      (r) => (r.emoji.id === BigInt(starboard.emojiId)) || (r.emoji.name === "⭐")
+    );
 
     // if the emoji didn't reach enough reactions just ignore
     if (reaction && starboard.count > reaction.count) return;
@@ -45,14 +44,11 @@ export default <Event<"reactionAdd">>{
           name: "Emoji:",
           value: `<${emoji.animated ? "a" : ""}:${emoji.name}:${emoji.id}>`,
         },
-        {
-          name: "Info:",
-          value:
-            `<t:${message.timestamp / 1000}:R>\n` +
-            `[Jump to!](https://discord.com/channels/${message.guildId}${message.channelId}${message.id})`,
-        },
       ],
-      description: message.content,
+      description:
+        `<t:${Math.floor(message.timestamp / 1000)}:R>\n` +
+        `[Jump to!](https://discord.com/channels/${guildId}/${channelId}/${messageId})\n` +
+        `${message.content}\n`
     };
 
     // if we already sended a message, edit the message with the new count!
@@ -60,7 +56,8 @@ export default <Event<"reactionAdd">>{
       const response = cache.alreadySendedInStarboard.get(messageId);
 
       if (response) {
-        await editMessage(bot, response.channelId, response.id, { embeds: [embed] });
+        await editMessage(bot, response.channelId, response.id, { embeds: [embed] })
+          .catch(() => {});
       }
 
       return;

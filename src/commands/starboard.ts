@@ -16,7 +16,7 @@ export default <Command<false>>{
     information: {
       descr: "Configura un canal para enviar mensajes starboard ⭐",
       short: "Configura un canal para enviar mensajes starboard ⭐",
-      usage: "<Channel>",
+      usage: "<Channel> [emoji] [count]",
     },
   },
   category: Category.Config,
@@ -40,12 +40,15 @@ export default <Command<false>>{
       return "El canal debe pertenecer al servidor...";
     }
 
+    const count = parseInt(args[2] ?? "5");
     const emoji = guild.emojis.find((emoji) => emoji.name === args[1]);
     const starboard = await getStarboard(getCollection(db), guild.id);
 
+    if (count < 1) return "El número debe ser mayor a 0";
+
     if (!starboard) {
       // set a new starboard
-      await setStarboard(getCollection(db), guild.id, channel.id, emoji?.id);
+      await setStarboard(getCollection(db), guild.id, channel.id, emoji?.id, count);
 
       const newStarboard = await getStarboard(getCollection(db), guild.id);
 
@@ -57,6 +60,7 @@ export default <Command<false>>{
           guildId: guild.id.toString(),
         },
         {
+          count,
           channelId: channel.id.toString(),
           emojiId: !emoji ? "⭐" : emoji.id ? emoji.id.toString() : emoji.name,
         }

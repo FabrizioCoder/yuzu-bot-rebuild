@@ -47,7 +47,7 @@ await import("./src/utils/scripts/APICommands.ts");
 
 const bot = createBot({
   botId: Deno.args[0] ? BigInt(Deno.args[0]) : Configuration.ID,
-  intents: ["Guilds", "GuildMessages", "GuildEmojis", "DirectMessages"],
+  intents: ["Guilds", "GuildMessages", "GuildMessageReactions", "GuildEmojis", "DirectMessages"],
   events: Object.fromEntries(
     // transforms a Map<string, T> into a Record<string, T["execute"]>
     Array.from(cache.events.entries(), ([name, event]) => [name, event.execute])
