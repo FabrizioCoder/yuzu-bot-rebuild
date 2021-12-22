@@ -22,6 +22,8 @@ export default <Event<"reactionAdd">>{
 
     const reaction = message.reactions?.find((r) => (r.emoji.id === BigInt(starboard.emojiId)) || (r.emoji.name === "⭐"));
 
+    console.log(reaction);
+
     // if the emoji didn't reach enough reactions just ignore
     if (reaction && starboard.count > reaction.count) return;
 

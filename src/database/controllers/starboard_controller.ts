@@ -4,7 +4,7 @@ import type { StarboardSchema } from "../models/starboard_model.ts";
 type Collection<T = StarboardSchema> = MongoCollection<T>;
 
 export function getCollection(db: Database) {
-  return db.collection<StarboardSchema>("prefixes");
+  return db.collection<StarboardSchema>("starboards");
 }
 
 export function getStarboard(collection: Collection, id: bigint) {

@@ -55,7 +55,7 @@ export const Configuration = {
   GUILD_ID: 891367004903182336n,
   OWNER_ID: 774292293020155906n,
   // application id
-  ID: 893319907981283340n, // main bot
+  ID: 904922230285291531n, // main bot
   // ETC
   PREFIX: "!",
   TOKEN: "........",
