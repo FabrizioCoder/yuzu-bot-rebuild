@@ -12,15 +12,15 @@ export default <Event<"reactionAdd">>{
 
     const starboard = await getStarboard(getCollection(db), guildId);
 
-    const message = bot.messages.get(messageId) ?? (await getMessage(bot, channelId, messageId));
-    const user = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
-
     if (!starboard) return;
+
+    const message = bot.messages.get(messageId) ?? await getMessage(bot, channelId, messageId);
+    const user = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
     // debug for now
     console.log(message.reactions);
 
-    const reaction = message.reactions?.find((r) => r.emoji.id === BigInt(starboard.emojiId) ?? r.emoji.name === "⭐");
+    const reaction = message.reactions?.find((r) => (r.emoji.id === BigInt(starboard.emojiId)) || (r.emoji.name === "⭐"));
 
     // if the emoji didn't reach enough reactions just ignore
     if (reaction && starboard.count > reaction.count) return;
