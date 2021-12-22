@@ -9,32 +9,47 @@ export function getCollection(db: Database) {
 
 export function getTag(collection: Collection, name: string, id?: bigint) {
   return id
-    ? collection.findOne({ name: name, server: id.toString() }, {
-      noCursorTimeout: false,
-    })
-    : collection.findOne({ name: name, global: true }, {
-      noCursorTimeout: false,
-    });
+    ? collection.findOne(
+        { name: name, server: id.toString() },
+        {
+          noCursorTimeout: false,
+        }
+      )
+    : collection.findOne(
+        { name: name, global: true },
+        {
+          noCursorTimeout: false,
+        }
+      );
 }
 
 export function findTag(collection: Collection, id: bigint, userId: bigint) {
-  return collection.find({
-    server: id.toString(),
-    user: userId.toString(),
-  }, {
-    noCursorTimeout: false,
-  }).toArray();
+  return collection
+    .find(
+      {
+        server: id.toString(),
+        user: userId.toString(),
+      },
+      {
+        noCursorTimeout: false,
+      }
+    )
+    .toArray();
 }
 
 export function addTag(
   collection: Collection,
   id: bigint,
   userId: bigint,
-  { name, content, attachments }: {
+  {
+    name,
+    content,
+    attachments,
+  }: {
     name: string;
     content?: string;
     attachments?: string[];
-  },
+  }
 ) {
   if (!content && !attachments) return;
   return collection.insertOne({
@@ -48,12 +63,7 @@ export function addTag(
   });
 }
 
-export function removeTag(
-  collection: Collection,
-  id: bigint,
-  userId: bigint,
-  name: string,
-) {
+export function removeTag(collection: Collection, id: bigint, userId: bigint, name: string) {
   return collection.deleteOne({
     server: id.toString(),
     user: userId.toString(),
@@ -63,17 +73,17 @@ export function removeTag(
 
 export function editTag(
   collection: Collection,
-  data: Pick<TagSchema, "server" | "user" | "name">,
-  query: Partial<TagSchema>,
+  query: Pick<TagSchema, "server" | "user" | "name">,
+  data: Partial<TagSchema>
 ) {
-  return collection.updateOne(data, { $set: query });
+  return collection.updateOne(query, { $set: data });
 }
 
 export function passTag(
   collection: Collection,
   id: bigint,
   userId: bigint,
-  data: Pick<TagSchema, "server" | "user" | "global" | "nsfw">,
+  data: Pick<TagSchema, "server" | "user" | "global" | "nsfw">
 ) {
   return collection.updateOne(data, {
     $set: { server: id.toString(), user: userId.toString() },

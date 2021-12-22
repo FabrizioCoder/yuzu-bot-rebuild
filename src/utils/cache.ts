@@ -34,3 +34,4 @@ export const collectors = {
 
 export const lastMessages = new Collection<bigint, DiscordenoMessage>();
 export const lastAttachments = new Collection<bigint, DiscordenoAttachment[]>();
+export const alreadySendedInStarboard = new Collection<bigint, DiscordenoMessage>();

@@ -120,7 +120,7 @@ export default <Command> {
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;
       }
       case "remove": {
-        const [name] = <[string]>option.options?.map((o) => o.value);
+        const [name] = <[string]> option.options?.map((o) => o.value);
 
         // enforce to add an emoji of 2 characters
         if (name.length < 2) {

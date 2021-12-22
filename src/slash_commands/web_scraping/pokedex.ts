@@ -52,13 +52,14 @@ export default <Command> {
     guildOnly: false,
     information: {
       descr: "Comando para buscar un pokémon por su nombre o id",
-      short: "Busca pokemones.",
+      short: "Busca pokemones",
       usage: "<Nombre o id>",
     },
   },
   category: Category.Util,
   data: {
     name: "dex",
+    description: "Comando para buscar un pokémon por su nombre o id",
   },
   async execute(_bot, interaction) {
     const option = interaction.data?.options?.[0];
