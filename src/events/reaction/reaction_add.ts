@@ -16,11 +16,11 @@ export default <Event<"reactionAdd">>{
 
     // use this rather than the cache!
     const message = await getMessage(bot, channelId, messageId);
-    const user = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+    const user = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
 
     // debug for now
     const reaction = message.reactions?.find(
-      (r) => (r.emoji.id === BigInt(starboard.emojiId)) || (r.emoji.name === "⭐")
+      (r) => r.emoji.id?.toString() === starboard.emojiId || r.emoji.name === "⭐"
     );
 
     // if the emoji didn't reach enough reactions just ignore
@@ -30,10 +30,10 @@ export default <Event<"reactionAdd">>{
       color: DiscordColors.Yellow,
       author: {
         name: `${user.username}#${user.discriminator}`,
-        iconUrl: avatarURL(bot, user.id, user.discriminator, {
-          avatar: user.avatar,
-          size: 512,
-        }),
+        iconUrl: avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 }),
+      },
+      thumbnail: {
+        url: avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 }),
       },
       fields: [
         {
@@ -45,10 +45,14 @@ export default <Event<"reactionAdd">>{
           value: `<${emoji.animated ? "a" : ""}:${emoji.name}:${emoji.id}>`,
         },
       ],
+      footer: {
+        text: `⭐ ${user.username}#${user.discriminator}`,
+        iconUrl: avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 }),
+      },
       description:
         `<t:${Math.floor(message.timestamp / 1000)}:R>\n` +
         `[Jump to!](https://discord.com/channels/${guildId}/${channelId}/${messageId})\n` +
-        `${message.content}\n`
+        `${message.content}\n`,
     };
 
     // if we already sended a message, edit the message with the new count!
@@ -56,8 +60,7 @@ export default <Event<"reactionAdd">>{
       const response = cache.alreadySendedInStarboard.get(messageId);
 
       if (response) {
-        await editMessage(bot, response.channelId, response.id, { embeds: [embed] })
-          .catch(() => {});
+        await editMessage(bot, response.channelId, response.id, { embeds: [embed] }).catch(() => {});
       }
 
       return;
