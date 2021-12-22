@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import { Category } from "../utils/mod.ts";
-import { getChannel, getGuild } from "../../deps.ts";
+import { getChannel, getGuild, hasGuildPermissions } from "../../deps.ts";
 import {
   editStarboard,
   getCollection,
@@ -35,6 +35,12 @@ export default <Command<false>>{
     if (!channelId) return;
 
     const channel = bot.channels.get(channelId) ?? (await getChannel(bot, channelId));
+
+    const isStaff = hasGuildPermissions(bot, guild.id, message.authorId, ["MANAGE_GUILD"]);
+
+    if (!isStaff) {
+      return "No posees suficientes permisos";
+    }
 
     if (channel.guildId !== message.guildId!) {
       return "El canal debe pertenecer al servidor...";
