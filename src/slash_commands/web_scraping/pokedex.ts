@@ -12,8 +12,7 @@ async function getPokemonFromApi(pokemon: string | number) {
     const { data } = await f.get<Pokemon>(`${pokeAPI}/pokemon/${pokemon}`);
 
     return Promise.resolve(data);
-  } catch (error: unknown) {
-    Promise.reject(error);
+  } catch (_) {
     return;
   }
 }

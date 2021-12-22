@@ -9,8 +9,14 @@ export default <Event<"messageDelete">> {
       .filter((monitor) => monitor.type === "messageDelete")
       .forEach(async (monitor) => {
         try {
-          if (!message) return;
-          if (monitor.ignoreBots && message.isBot) return;
+          if (!message) {
+            return;
+          }
+
+          if (monitor.ignoreBots && message.isBot) {
+            return;
+          }
+
           await monitor.execute(bot, payload, message);
         } catch (e) {
           if (e instanceof Error) {

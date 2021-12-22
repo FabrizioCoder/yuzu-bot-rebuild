@@ -12,6 +12,7 @@ export default <Event<"interactionCreate">> {
           if (monitor.ignoreBots && interaction.user.bot) {
             return;
           }
+
           await monitor.execute(bot, interaction);
         } catch (e: unknown) {
           if (e instanceof Error) {

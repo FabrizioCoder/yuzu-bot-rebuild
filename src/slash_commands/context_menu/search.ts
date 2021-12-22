@@ -24,6 +24,7 @@ export default <Command> {
 
     if (message) {
       const [result] = await search(message.content, SafetyLevels.STRICT);
+
       if (result) {
         return result.image;
       }

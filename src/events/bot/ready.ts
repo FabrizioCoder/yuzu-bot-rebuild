@@ -28,7 +28,7 @@ export default <Event<"ready">> {
 };
 
 // inspired by Discordeno template
-function registerTasks(bot: BotWithCache, payload: Payload, ...args: number[]): void {
+function registerTasks(bot: BotWithCache, payload: Payload, ...args: number[]) {
   return cache.tasks.forEach((task) => {
     cache.runningTasks.initialTimeouts.add(
       setTimeout(async () => {
@@ -53,7 +53,7 @@ function registerTasks(bot: BotWithCache, payload: Payload, ...args: number[]): 
   });
 }
 
-function clearTasks(): void {
+function clearTasks() {
   for (const timeout of cache.runningTasks.initialTimeouts) {
     clearTimeout(timeout);
   }

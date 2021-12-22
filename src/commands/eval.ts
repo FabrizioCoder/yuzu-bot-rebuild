@@ -13,7 +13,6 @@ export default <Command<false>> {
   },
   execute(bot, _message, { args }) {
     const ms = Date.now();
-
     const input = args?.join(" ");
 
     if (!input) return "Escribe algo.";
