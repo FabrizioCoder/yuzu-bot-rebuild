@@ -16,7 +16,7 @@ export default <Event<"reactionAdd">>{
 
     // use this rather than the cache!
     const message = await getMessage(bot, channelId, messageId);
-    const user = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
+    const user = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
     // debug for now
     const reaction = message.reactions?.find(
