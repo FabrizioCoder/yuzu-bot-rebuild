@@ -33,7 +33,8 @@ export default <Command> {
       return "Pomn amlgom pamram demcimr emn chememms";
     }
 
-    //Enviam eml temxtom cheemsimfimcamdom y qumimtam lams memncimomnems pamram emvimtamr qumem memncimomnemn am umsumamrimoms
+    // Enviam eml temxtom cheemsimfimcamdom
+    // qumimtam lams memncimomnems pamram emvimtamr qumem memncimomnemn am umsumamrimoms
     return cheemsify(option.value as string);
   },
 };

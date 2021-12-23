@@ -13,7 +13,7 @@ const endpointsActionPairs = {
   "img/pat": "pats",
   "img/cuddle": "cuddle",
   "img/feed": "feeds",
-} as const;
+};
 
 try {
   const getDescription = (action: string, target: bigint, author: bigint) => `<@${author}> ${action} <@${target}>`;
@@ -24,6 +24,7 @@ try {
     cache.slashCommands.set(commandName, {
       options: {
         guildOnly: false,
+        adminOnly: false,
         information: {
           descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
           usage: `[@User]`,

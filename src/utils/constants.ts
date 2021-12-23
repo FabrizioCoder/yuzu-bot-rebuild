@@ -50,7 +50,7 @@ export enum Category {
 }
 
 // ids
-export const Configuration = {
+export const Configuration = <const> {
   CHANNEL_ID: 895959965469134858n,
   GUILD_ID: 891367004903182336n,
   OWNER_ID: 774292293020155906n,

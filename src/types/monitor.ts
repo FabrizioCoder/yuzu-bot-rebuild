@@ -1,7 +1,7 @@
 import type { Event } from "./event.ts";
 import type { EventHandlers } from "../../deps.ts";
 
-// T<'messageCreate'>
+// ex: Monitor<'messageCreate'>
 
 export interface Monitor<T extends keyof EventHandlers> extends Omit<Event<T>, "name"> {
   // arbitrary name

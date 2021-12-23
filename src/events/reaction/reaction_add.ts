@@ -5,7 +5,7 @@ import { avatarURL, editMessage, sendMessage, getMessage, getUser } from "../../
 import { getCollection, getStarboard } from "../../database/controllers/starboard_controller.ts";
 import { db } from "../../database/db.ts";
 
-export default <Event<"reactionAdd">>{
+export default <Event<"reactionAdd">> {
   name: "reactionAdd",
   async execute(bot: BotWithCache, { channelId, guildId, messageId, emoji }) {
     if (!db || !guildId) return;

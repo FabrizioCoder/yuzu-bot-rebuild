@@ -5,21 +5,13 @@ import { getCollection, getPrefix } from "../../database/controllers/prefix_cont
 import { db } from "../../database/db.ts";
 import { botHasGuildPermissions, sendMessage } from "../../../deps.ts";
 
-/*
- * get a prefix from a given guildId
- */
-async function getPrefixFromId(database: typeof db, id?: bigint, def = Configuration.PREFIX) {
-  if (id) {
-    if (!database) {
-      return def;
-    }
+// get a prefix from a given guildId
+async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Configuration.PREFIX) {
+  if (!id || !database) return prefix;
 
-    const { prefix } = await getPrefix(getCollection(database), id) ?? { prefix: def };
+  const { prefix: customPrefix } = await getPrefix(getCollection(database), id) ?? { prefix };
 
-    return prefix;
-  }
-
-  return def;
+  return customPrefix;
 }
 
 export default <Monitor<"messageCreate">> {
@@ -31,9 +23,7 @@ export default <Monitor<"messageCreate">> {
     if (message.guildId) {
       const canSendMessages = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["SEND_MESSAGES"]);
 
-      if (!canSendMessages) {
-        return;
-      }
+      if (!canSendMessages) return;
     }
 
     const prefix = await getPrefixFromId(db, message.guildId);
@@ -91,17 +81,15 @@ export default <Monitor<"messageCreate">> {
 
     // END PERMISSIONS
 
-    if (!output) {
-      return;
+    if (!output) return;
+
+    if (typeof output !== "string") {
+      await sendMessage(bot, message.channelId, { embeds: [output] });
     }
 
     if (typeof output === "string") {
-      await sendMessage(bot, message.channelId, {
-        content: output,
-        allowedMentions: { users: [], roles: [] },
-      });
-      return;
+      await sendMessage(bot, message.channelId, { content: output, allowedMentions: { users: [], roles: [] } });
     }
-    await sendMessage(bot, message.channelId, { embeds: [output] });
+
   },
 };

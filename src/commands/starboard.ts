@@ -9,7 +9,7 @@ import {
 } from "../database/controllers/starboard_controller.ts";
 import { db } from "../database/db.ts";
 
-export default <Command<false>>{
+export default <Command<false>> {
   options: {
     guildOnly: true,
     adminOnly: false,
@@ -26,7 +26,7 @@ export default <Command<false>>{
   async execute(bot, message, { args }) {
     if (!db) return;
 
-    const guild = bot.guilds.get(message.guildId!) ?? (await getGuild(bot, message.guildId!));
+    const guild = bot.guilds.get(message.guildId!) ?? await getGuild(bot, message.guildId!);
 
     if (!guild) return;
 

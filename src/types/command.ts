@@ -9,43 +9,44 @@ import type {
 
 import type { Category } from "../utils/mod.ts";
 
-// /commands and !commands
-interface CommandOptions {
-  guildOnly?: boolean; // if the command can be executed on dm
-  adminOnly?: boolean;
-  information?: {
-    descr?: string; // description
-    usage?: string; // duh
-    short?: string; // short description
-  };
+interface Information {
+  descr: string; // description
+  usage: string; // duh
+  short: string; // short description
 }
 
-type CommandArgs = {
+// /commands and !commands
+interface CommandOptions {
+  guildOnly: boolean; // if the command can be executed on dm
+  adminOnly: boolean;
+  information?: Partial<Information>;
+}
+
+interface CommandArgs {
   args: string[];
   prefix: string;
-};
+}
 
-type CommandMessageContent = string | Embed | undefined;
+type CommandMessageContent =
+  | string
+  | Embed
+  | undefined;
 
 type CommandData<Slash> = Slash extends true
-  ? MakeRequired<EditGlobalApplicationCommand, "name">
-  : { name: string; description?: undefined; type?: undefined };
+  ? MakeRequired<EditGlobalApplicationCommand, "name" | "description">
+  : Pick<MakeRequired<EditGlobalApplicationCommand, "name">, "name">;
 
-type CommandArgumentsPassed<Slash> = Slash extends true
-  ? [BotWithCache, DiscordenoInteraction]
-  : [BotWithCache, DiscordenoMessage, CommandArgs];
+type CommandArguments<Slash> = Slash extends true
+  ? [bot: BotWithCache, interaction: DiscordenoInteraction]
+  : [bot: BotWithCache, message: DiscordenoMessage, args: CommandArgs];
 
 // now supports both slash commands and regular commands
 export interface Command<Slash extends boolean = true> {
-  // the data (todo)
   data: CommandData<Slash>;
-  // if its disabled
-  disabled?: boolean;
-  options?: Slash extends true ? Omit<CommandOptions, "adminOnly"> : CommandOptions;
-
+  disabled?: "on" | "off";
+  options?: CommandOptions
   category?: Category;
-
   execute(
-    ...args: CommandArgumentsPassed<Slash>
+    ...args: CommandArguments<Slash>
   ): CommandMessageContent | Promise<CommandMessageContent> | PromiseLike<CommandMessageContent>;
 }

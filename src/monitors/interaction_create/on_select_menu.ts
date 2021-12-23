@@ -24,10 +24,8 @@ export default <Monitor<"interactionCreate">> {
           .map(([_, cmd]) => cmd);
 
         const commandPairs = commands.map(
-          ({ data, options }) =>
-            `\`${data.description ? "/" : "!"}${data.name}\` -> ${
-              data.description ? data.description : options?.information?.descr ?? options?.information?.short
-            }`
+          ({ data, options: opts }) =>
+            `\`${"description" in data ? "/" : "!"}${data.name}\` -> ${"description" in data ? data.description : opts?.information?.descr ?? opts?.information?.short}`
         );
 
         baseEmbed.title = String.raw`Información del comando 💣`;

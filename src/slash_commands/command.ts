@@ -15,12 +15,12 @@ export default <Command> {
   },
   category: Category.Info,
   data: {
-    name: "commands",
+    name: "findcommand",
     description: "📗 Encuentra un comando del bot...",
     options: [
       {
         type: ApplicationCommandOptionTypes.String,
-        name: "command",
+        name: "name",
         required: true,
         description: "El comando a buscar",
       },
@@ -58,16 +58,17 @@ export default <Command> {
         },
         {
           name: "Uso del comando:",
-          value: `${command.data.description ? "/" : "!"}${command.data.name} ${command.options?.information?.usage}`,
+          value: `${"description" in command.data ? "/" : "!"}${command.data.name} ${
+            command.options?.information?.usage
+          }`,
           inline: true,
         },
         {
           name: "Información del comando:",
           value:
-            command.data.description ??
-            command.options?.information?.descr ??
-            command.options?.information?.short ??
-            "❓",
+            "description" in command.data
+              ? command.data.description
+              : command.options?.information?.descr ?? command.options?.information?.short ?? "❓",
 
           inline: true,
         },
