@@ -31,7 +31,7 @@ function registerTasks(bot: BotWithCache, payload: Payload, ...args: number[]) {
         logger.log(LogLevels.Debug, `Started Task ${task.name}`);
         try {
           await task.execute(bot, payload, ...args);
-        } catch (err) {
+        } catch (err: unknown) {
           if (err instanceof Error) logger.error(err.message);
         }
         cache.runningTasks.initialTimeouts.add(
@@ -39,7 +39,7 @@ function registerTasks(bot: BotWithCache, payload: Payload, ...args: number[]) {
             logger.log(LogLevels.Debug, `Started Task ${task.name}`);
             try {
               await task.execute(bot, payload, ...args);
-            } catch (err) {
+            } catch (err: unknown) {
               if (err instanceof Error) logger.error(err.message);
             }
           }, task.interval)
