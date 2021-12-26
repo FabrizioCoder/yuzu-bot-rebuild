@@ -3,8 +3,8 @@ import type { Event } from "../bot/types/event.ts";
 import type { Monitor } from "../bot/types/monitor.ts";
 import type { Task } from "../bot/types/task.ts";
 import type { ButtonCollector, MessageCollector } from "../bot/types/collector.ts";
-import type { DiscordenoAttachment, DiscordenoMessage, EventHandlers } from "../../deps.ts";
-import { Collection } from "../../deps.ts";
+import type { DiscordenoAttachment, DiscordenoMessage, EventHandlers } from "discordeno";
+import { Collection } from "discordeno";
 
 // slash commands
 export const slashCommands: Collection<string, Command<true>> = new Collection();
