@@ -6,9 +6,8 @@ import type { EventHandlers } from "discordeno";
 import { cache, Configuration, loadFilesFromFolder, logger } from "utils";
 import { createBot, startBot } from "discordeno";
 import { enableCachePlugin } from "cache_plugin";
-import { config } from "dotenv";
 
-config();
+import "https://deno.land/x/dotenv@v3.1.0/load.ts";
 
 const log = logger.create({ name: "Handler" });
 
