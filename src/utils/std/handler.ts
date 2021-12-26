@@ -1,8 +1,9 @@
-import { dirname, fromFileUrl, join, relative, resolve } from "https://deno.land/std@0.119.0/path/mod.ts";
+import { dirname, fromFileUrl, join, relative, resolve } from "path";
+
+// TODO: make the root directory configurable (line 7)
 
 export async function load<T>(dir: string, fn: (file: T) => void) {
   // getting the absolute path of the given directory
-  // NOTE: the directory has to be inside the /bot/ folder
   const fromRoot = resolve("./src/bot/", dir);
 
   // read all of the files inside

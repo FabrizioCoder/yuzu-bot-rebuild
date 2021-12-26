@@ -1,7 +1,7 @@
 // NOTE: prototypical version of Discordeno template
 // https://github.com/discordeno/template/blob/main/minimal/src/utils/logger.ts
 
-import { bold, cyan, gray, yellow, red, italic } from "https://deno.land/std@0.117.0/fmt/colors.ts";
+import { bold, cyan, gray, yellow, red, italic } from "fmt/colors";
 
 export enum LogLevels {
   Debug,

@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import { Category, Configuration, toCapitalCase } from "../../../utils/mod.ts";
-import { getChannel, getUser, hasGuildPermissions } from "../../../../deps.ts";
+import { getChannel, getUser, hasGuildPermissions } from "discordeno";
 
 import {
   addTag,

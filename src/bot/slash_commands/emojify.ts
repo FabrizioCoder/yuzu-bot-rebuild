@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import { Category, rangeChar } from "../../utils/mod.ts";
-import { ApplicationCommandOptionTypes } from "../../../deps.ts";
+import { ApplicationCommandOptionTypes } from "discordeno";
 
 export default <Command> {
   options: {

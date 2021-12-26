@@ -1,5 +1,5 @@
 import type { Monitor } from "../../types/monitor.ts";
-import type { BotWithCache } from "../../../../deps.ts";
+import type { BotWithCache } from "discordeno";
 import { cache, Configuration } from "../../../utils/mod.ts";
 import {
   botHasGuildPermissions,
@@ -7,7 +7,7 @@ import {
   InteractionTypes,
   sendInteractionResponse,
   sendMessage,
-} from "../../../../deps.ts";
+} from "discordeno";
 
 export default <Monitor<"interactionCreate">> {
   name: "onSlashCommand",

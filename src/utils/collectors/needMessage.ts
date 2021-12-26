@@ -1,4 +1,4 @@
-import type { DiscordenoMessage } from "../../../deps.ts";
+import type { DiscordenoMessage } from "discordeno";
 import type { CollectMessagesOptions, MessageCollectorOptions } from "../../bot/types/collector.ts";
 import { Milliseconds } from "../constants.ts";
 import * as cache from "../cache.ts";

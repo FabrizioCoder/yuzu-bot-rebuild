@@ -1,6 +1,6 @@
 import type { Monitor } from "../../types/monitor.ts";
 import { processButtonCollectors } from "../../../utils/mod.ts";
-import { InteractionTypes, MessageComponentTypes } from "../../../../deps.ts";
+import { InteractionTypes, MessageComponentTypes } from "discordeno";
 
 export default <Monitor<"interactionCreate">> {
   name: "onButtonCollected",

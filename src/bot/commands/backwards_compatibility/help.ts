@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
-import type { Embed, SelectMenuComponent } from "../../../../deps.ts";
+import type { Embed, SelectMenuComponent } from "discordeno";
 import { cache, Category, CategoryEmoji, DiscordColors } from "../../../utils/mod.ts";
-import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "../../../../deps.ts";
+import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "discordeno";
 
 export default <Command<false>> {
   options: {

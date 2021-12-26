@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
-import type { Embed } from "../../../../deps.ts";
+import type { Embed } from "discordeno";
 import { Category, DiscordColors, snowflakeToTimestamp } from "../../../utils/mod.ts";
-import { ApplicationCommandOptionTypes, avatarURL, getMember, getUser } from "../../../../deps.ts";
+import { ApplicationCommandOptionTypes, avatarURL, getMember, getUser } from "discordeno";
 
 export default <Command> {
   options: {

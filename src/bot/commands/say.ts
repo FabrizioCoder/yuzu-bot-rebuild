@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import { Category, isInvite } from "../../utils/mod.ts";
-import { deleteMessage } from "../../../deps.ts";
+import { deleteMessage } from "discordeno";
 
 export default <Command<false>> {
   options: {

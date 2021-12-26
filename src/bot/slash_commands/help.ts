@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import type { Embed, SelectMenuComponent } from "../../../deps.ts";
+import type { Embed, SelectMenuComponent } from "discordeno";
 
 import { cache, Category, CategoryEmoji, DiscordColors } from "../../utils/mod.ts";
 
@@ -9,7 +9,7 @@ import {
   InteractionResponseTypes,
   MessageComponentTypes,
   sendInteractionResponse,
-} from "../../../deps.ts";
+} from "discordeno";
 
 export default <Command> {
   options: {

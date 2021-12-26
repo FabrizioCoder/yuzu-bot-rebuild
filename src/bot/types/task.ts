@@ -1,4 +1,4 @@
-import type { BotWithCache, DiscordenoUser } from "../../../deps.ts";
+import type { BotWithCache, DiscordenoUser } from "discordeno";
 import type { Milliseconds } from "../../utils/mod.ts";
 
 export interface Payload {

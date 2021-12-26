@@ -1,6 +1,6 @@
 import type { Event } from "../../types/event.ts";
 import { cache, Configuration, logger } from "../../../utils/mod.ts";
-import { sendMessage } from "../../../../deps.ts";
+import { sendMessage } from "discordeno";
 
 export default <Event<"interactionCreate">> {
   name: "interactionCreate",

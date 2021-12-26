@@ -1,6 +1,6 @@
 import type { Monitor } from "../../types/monitor.ts";
-import type { Embed, SelectMenuComponent } from "../../../../deps.ts";
-import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "../../../../deps.ts";
+import type { Embed, SelectMenuComponent } from "discordeno";
+import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
 import { cache, Category } from "../../../utils/mod.ts";
 
 export default <Monitor<"interactionCreate">> {

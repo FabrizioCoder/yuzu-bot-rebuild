@@ -1,5 +1,5 @@
 import type { Event } from "./event.ts";
-import type { EventHandlers } from "../../../deps.ts";
+import type { EventHandlers } from "discordeno";
 
 // ex: Monitor<'messageCreate'>
 

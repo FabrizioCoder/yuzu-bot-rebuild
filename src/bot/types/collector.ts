@@ -1,4 +1,4 @@
-import type { DiscordenoInteraction, DiscordenoUser, DiscordenoMessage } from "../../../deps.ts";
+import type { DiscordenoInteraction, DiscordenoUser, DiscordenoMessage } from "discordeno";
 
 // BASE
 

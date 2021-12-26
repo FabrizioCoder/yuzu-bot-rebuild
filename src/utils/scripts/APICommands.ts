@@ -1,5 +1,5 @@
-import type { Embed } from "../../../deps.ts";
-import { ApplicationCommandOptionTypes, getUser } from "../../../deps.ts";
+import type { Embed } from "discordeno";
+import { ApplicationCommandOptionTypes, getUser } from "discordeno";
 import { Category, DiscordColors, userMention } from "../constants.ts";
 import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
 import { commands, slashCommands } from "../cache.ts";

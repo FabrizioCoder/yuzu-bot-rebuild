@@ -1,4 +1,4 @@
-import type { DiscordenoInteraction } from "../../../deps.ts";
+import type { DiscordenoInteraction } from "discordeno";
 import type { ButtonCollectorOptions, ButtonCollectorReturn, CollectButtonOptions } from "../../bot/types/collector.ts";
 import { Milliseconds } from "../constants.ts";
 import * as cache from "../cache.ts";

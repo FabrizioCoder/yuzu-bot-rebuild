@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
-import type { Embed } from "../../../../deps.ts";
+import type { Embed } from "discordeno";
 import { Category, randomHex } from "../../../utils/mod.ts";
-import { createEmoji, deleteEmoji, editEmoji, getGuild, hasGuildPermissions } from "../../../../deps.ts";
+import { createEmoji, deleteEmoji, editEmoji, getGuild, hasGuildPermissions } from "discordeno";
 
 export default <Command<false>> {
   options: {

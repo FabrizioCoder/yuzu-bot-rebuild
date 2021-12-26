@@ -2,14 +2,15 @@ import type { Command } from "./types/command.ts";
 import type { Event } from "./types/event.ts";
 import type { Task } from "./types/task.ts";
 import type { Monitor } from "./types/monitor.ts";
-import type { EventHandlers } from "../../deps.ts";
+import type { EventHandlers } from "discordeno";
 
 import { cache, Configuration, loadFilesFromFolder, logger } from "../utils/mod.ts";
-import { createBot, enableCachePlugin, startBot } from "../../deps.ts";
+import { createBot, startBot } from "discordeno";
+import { enableCachePlugin } from "cache_plugin";
 
-import "https://deno.land/x/dotenv/load.ts";
+import "dotenv/load";
 
-const log = logger.create({ name: "Handler" })
+const log = logger.create({ name: "Handler" });
 
 await Promise.all([
   // /slash_commands/

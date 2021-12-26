@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import type { ButtonComponent, Embed } from "../../../../deps.ts";
+import type { ButtonComponent, Embed } from "discordeno";
 
 import {
   avatarURL,
@@ -10,7 +10,7 @@ import {
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
-} from "../../../../deps.ts";
+} from "discordeno";
 
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "../../../utils/mod.ts";
 

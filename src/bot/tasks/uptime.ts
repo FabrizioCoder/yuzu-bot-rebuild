@@ -1,6 +1,6 @@
 import type { Task } from "../types/task.ts";
 import { Milliseconds, Configuration, logger } from "../../utils/mod.ts";
-import { sendMessage } from "../../../deps.ts";
+import { sendMessage } from "discordeno";
 
 export default <Task> {
   name: "uptime",

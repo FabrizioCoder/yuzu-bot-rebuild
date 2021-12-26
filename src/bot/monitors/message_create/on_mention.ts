@@ -1,5 +1,5 @@
 import type { Monitor } from "../../types/monitor.ts";
-import { sendMessage } from "../../../../deps.ts";
+import { sendMessage } from "discordeno";
 
 export default <Monitor<"messageCreate">> {
   name: "mentionMonitor",

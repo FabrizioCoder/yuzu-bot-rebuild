@@ -1,12 +1,11 @@
 import type {
-  BotWithCache,
   DiscordenoInteraction,
   DiscordenoMessage,
   EditGlobalApplicationCommand,
   Embed,
   MakeRequired,
-} from "../../../deps.ts";
-
+} from "discordeno";
+import type { BotWithCache } from "cache_plugin";
 import type { Category } from "../../utils/mod.ts";
 
 interface Information {
