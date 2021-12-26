@@ -1,10 +1,10 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { BotWithCache } from "cache_plugin";
 import { cache, Configuration } from "utils";
-import { getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
-import { db } from "../../../database/db.ts";
 import { sendMessage } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
+import { getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
+import { db } from "../../../database/db.ts";
 
 // get a prefix from a given guildId
 async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Configuration.PREFIX) {

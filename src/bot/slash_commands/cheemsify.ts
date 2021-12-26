@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
-import { ApplicationCommandOptionTypes } from "discordeno";
 import { Category, cheemsify } from "utils";
+import { ApplicationCommandOptionTypes } from "discordeno";
 
 export default <Command> {
   options: {

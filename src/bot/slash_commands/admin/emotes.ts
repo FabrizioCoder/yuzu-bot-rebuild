@@ -1,8 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "discordeno";
-
 import { Category, randomHex } from "utils";
-
 import {
   ApplicationCommandOptionTypes,
   avatarURL,
@@ -11,7 +9,6 @@ import {
   editEmoji,
   getGuild,
 } from "discordeno";
-
 import { hasGuildPermissions } from "permissions_plugin";
 
 export default <Command> {

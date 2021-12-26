@@ -2,14 +2,12 @@ import type { Command } from "../types/command.ts";
 import { Category } from "utils";
 import { getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
-
 import {
   editStarboard,
   getCollection,
   getStarboard,
   setStarboard,
 } from "../../database/controllers/starboard_controller.ts";
-
 import { db } from "../../database/db.ts";
 
 export default <Command<false>> {

@@ -1,3 +1,4 @@
+import type { Category } from "utils";
 import type {
   DiscordenoInteraction,
   DiscordenoMessage,
@@ -6,7 +7,6 @@ import type {
   MakeRequired,
 } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
-import type { Category } from "utils";
 
 interface Information {
   descr: string; // description

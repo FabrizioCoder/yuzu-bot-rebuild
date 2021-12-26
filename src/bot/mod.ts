@@ -3,9 +3,10 @@ import type { Event } from "./types/event.ts";
 import type { Task } from "./types/task.ts";
 import type { Monitor } from "./types/monitor.ts";
 import type { EventHandlers } from "discordeno";
-import { cache, Configuration, loadFilesFromFolder, logger } from "utils";
+import { cache, Configuration, loadFilesFromBot, logger } from "utils";
 import { createBot, startBot } from "discordeno";
 import { enableCachePlugin } from "cache_plugin";
+import { cyan } from "fmt/colors";
 
 import "https://deno.land/x/dotenv@v3.1.0/load.ts";
 
@@ -13,34 +14,34 @@ const log = logger.create({ name: "Handler" });
 
 await Promise.all([
   // /slash_commands/
-  loadFilesFromFolder<Command>("slash_commands", (slashCommand) => {
+  loadFilesFromBot<Command>("slash_commands", (slashCommand) => {
     if ("disable" in slashCommand) return;
     cache.slashCommands.set(slashCommand.data.name, slashCommand);
-    log.info(`Loaded ${log.color("slash command")} ${slashCommand.data.name}`);
+    log.info(`Loaded ${cyan("slash command")} ${slashCommand.data.name}`);
   }),
   // /commands/
-  loadFilesFromFolder<Command<false>>("commands", (command) => {
+  loadFilesFromBot<Command<false>>("commands", (command) => {
     if ("disable" in command) return;
     cache.commands.set(command.data.name, command);
-    log.info(`Loaded ${log.color("command")} ${command.data.name}`);
+    log.info(`Loaded ${cyan("command")} ${command.data.name}`);
   }),
   // /events/
-  loadFilesFromFolder<Event<keyof EventHandlers>>("events", (event) => {
+  loadFilesFromBot<Event<keyof EventHandlers>>("events", (event) => {
     if ("disable" in event) return;
     cache.events.set(event.name, event);
-    log.info(`Loaded ${log.color("event")} ${event.name}`);
+    log.info(`Loaded ${cyan("event")} ${event.name}`);
   }),
   // /tasks/
-  loadFilesFromFolder<Task>("tasks", (task) => {
+  loadFilesFromBot<Task>("tasks", (task) => {
     if ("disable" in task) return;
     cache.tasks.set(task.name, task);
-    log.info(`Loaded ${log.color("task")} ${task.name}`);
+    log.info(`Loaded ${cyan("task")} ${task.name}`);
   }),
   // /monitors/
-  loadFilesFromFolder<Monitor<keyof EventHandlers>>("monitors", (monitor) => {
+  loadFilesFromBot<Monitor<keyof EventHandlers>>("monitors", (monitor) => {
     if ("disable" in monitor) return;
     cache.monitors.set(monitor.name, monitor);
-    log.info(`Loaded ${log.color("monitor")} ${monitor.name}`);
+    log.info(`Loaded ${cyan("monitor")} ${monitor.name}`);
   }),
 ]);
 

@@ -2,7 +2,6 @@ import type { Command } from "../../types/command.ts";
 import { Category, Configuration, toCapitalCase } from "utils";
 import { getChannel, getUser } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
-
 import {
   addTag,
   editTag,
@@ -12,7 +11,6 @@ import {
   passTag,
   removeTag,
 } from "../../../database/controllers/tag_controller.ts";
-
 import { db } from "../../../database/db.ts";
 
 enum Arguments {

@@ -1,7 +1,8 @@
 import type { Event } from "../../types/event.ts";
-import type { BotWithCache } from "cache_plugin";
 import type { Payload } from "../../types/task.ts";
-import { cache, logger, LogLevels } from "utils";
+import type { BotWithCache } from "cache_plugin";
+import { cache, Configuration, logger, LogLevels } from "utils";
+import { cyan } from "fmt/colors";
 
 export default <Event<"ready">> {
   name: "ready",
@@ -9,17 +10,19 @@ export default <Event<"ready">> {
     const uptime = Date.now();
     registerTasks(bot as BotWithCache, payload, uptime);
     // LOG
-    logger.info(`Loaded -> ${payload.guilds.length} guilds`);
-    logger.info(`Loaded -> ${cache.commands.size} regular commands`);
-    logger.info(`Loaded -> ${cache.slashCommands.size} slash commands`);
-    logger.info(`Loaded -> ${cache.events.size} events`);
-    logger.info(`Loaded -> ${cache.monitors.size} monitors`);
-    logger.info(`Loaded -> ${cache.tasks.size} tasks`);
+    logger.info(`Loaded -> ${cyan(payload.guilds.length.toString())} guilds`);
+    logger.info(`Loaded -> ${cyan(cache.commands.size.toString())} regular commands`);
+    logger.info(`Loaded -> ${cyan(cache.slashCommands.size.toString())} slash commands`);
+    logger.info(`Loaded -> ${cyan(cache.events.size.toString())} events`);
+    logger.info(`Loaded -> ${cyan(cache.monitors.size.toString())} monitors`);
+    logger.info(`Loaded -> ${cyan(cache.tasks.size.toString())} tasks`);
     logger.info(`Shard: ${payload.shardId + 1} of ${bot.botGatewayData?.shards} shards`);
-    logger.info(`API version: ${payload.v}`);
+    logger.info(`API version: ${cyan(payload.v.toString())}`);
     logger.info(`Running OS: ${Deno.build.env} ${Deno.build.os} ${Deno.build.arch}`);
     logger.info(`Logged in ${payload.user.username} ${payload.applicationId}`);
-    logger.info(...Object.entries(Deno.version));
+    logger.info(`Bot version: ${cyan(Configuration.VERSION)}`);
+    logger.info(`Discordeno version: ${cyan(bot.constants.DISCORDENO_VERSION)}`);
+    logger.info(...Object.entries(Deno.version).map((a, b) => `${a}: ${b}`));
   },
 };
 

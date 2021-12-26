@@ -1,6 +1,6 @@
+import type { Milliseconds } from "utils";
 import type { DiscordenoUser } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
-import type { Milliseconds } from "utils";
 
 export interface Payload {
   shardId: number;

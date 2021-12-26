@@ -1,9 +1,9 @@
 import type { Command } from "../../types/command.ts";
-import type { Embed } from "discordeno";
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
+import type { Embed } from "discordeno";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
-import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
+import { default as f } from "axiod";
 
 async function getPokemonFromApi(pokemon: string | number) {
   const pokeAPI = "https://pokeapi.co/api/v2";

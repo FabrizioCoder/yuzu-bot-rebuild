@@ -80,4 +80,18 @@ export default <Command<false>> {
 6. Enjoy
 
 ### FAQ
-> no faq btw
+
+#### Q: How do I run the bot?
+- A: Write on the command line (on the root directory) this line:
+`deno run --allow-net --allow-read --allow-env --no-check --import-map ./import_map.json src/bot/mod.ts`
+
+#### Q: is Deno better than node?
+- A: I don't now
+
+#### Q: What extensions do I need?
+1. Some Deno extension (atom ide deno etc)
+2. Prettier extension
+
+#### How do I write imports in a proper way?
+1. Import types before functions/variables
+2. no spacing beetween inline imports ^
