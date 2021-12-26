@@ -92,6 +92,6 @@ export default <Command<false>> {
 1. Some Deno extension (atom ide deno etc)
 2. Prettier extension
 
-#### How do I write imports in a proper way?
+#### Q: How do I write imports in a proper way?
 1. Import types before functions/variables
 2. no spacing beetween inline imports ^
