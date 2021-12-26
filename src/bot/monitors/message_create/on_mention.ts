@@ -11,7 +11,7 @@ export default <Monitor<"messageCreate">> {
     const mention = new RegExp(`^<@!?${bot.id.toString()}>( |)$`);
 
     if (message.content.match(mention)) {
-      await sendMessage(bot, message.channelId, `Mi prefix es ${prefix}`);
+      await sendMessage(bot, message.channelId, { content: `Mi prefix es ${prefix}` });
     }
   },
 };

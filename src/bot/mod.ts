@@ -8,7 +8,7 @@ import { cache, Configuration, loadFilesFromFolder, logger } from "../utils/mod.
 import { createBot, startBot } from "discordeno";
 import { enableCachePlugin } from "cache_plugin";
 
-import "dotenv/load";
+import "https://deno.land/x/dotenv/load.ts";
 
 const log = logger.create({ name: "Handler" });
 

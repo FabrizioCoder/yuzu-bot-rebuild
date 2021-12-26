@@ -1,5 +1,6 @@
 import type { Event } from "../../types/event.ts";
-import type { Embed, BotWithCache } from "discordeno";
+import type { Embed } from "discordeno";
+import type { BotWithCache } from "cache_plugin";
 import { cache, DiscordColors, logger } from "../../../utils/mod.ts";
 import { avatarURL, editMessage, sendMessage, getMessage, getUser } from "discordeno";
 import { getCollection, getStarboard } from "../../../database/controllers/starboard_controller.ts";

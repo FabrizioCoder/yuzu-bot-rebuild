@@ -14,7 +14,7 @@ import {
 
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "../../../utils/mod.ts";
 
-import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
+import { SafetyLevels, search } from "images";
 
 // enums
 enum ButtonEmojis {
@@ -54,7 +54,7 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-export default <Command<false>> {
+export default <Command<false>>{
   options: {
     guildOnly: false,
     adminOnly: false,
@@ -73,8 +73,8 @@ export default <Command<false>> {
 
     if (!option) return "Por favor escribe un texto";
 
-    const channel = bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
-    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+    const channel = bot.channels.get(message.channelId) ?? (await getChannel(bot, message.channelId));
+    const author = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
 
     if (!author) return;
 
@@ -158,7 +158,7 @@ export default <Command<false>> {
             if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
               // TODO: this is a little bit tough to read
               // NOTE: this will not stop the command in any case
-              await sendMessage(bot, message.channelId, "El número no existe en los resultados");
+              await sendMessage(bot, message.channelId, { content: "El número no existe en los resultados" });
               continue;
             }
             if (!isNaN(newIndex)) {

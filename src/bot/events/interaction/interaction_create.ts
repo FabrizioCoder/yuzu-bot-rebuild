@@ -16,7 +16,9 @@ export default <Event<"interactionCreate">> {
           await monitor.execute(bot, interaction);
         } catch (e: unknown) {
           if (e instanceof Error) {
-            await sendMessage(bot, Configuration.CHANNEL_ID, `${e.cause}\n${e.stack}`).catch(logger.error);
+            await sendMessage(bot, Configuration.CHANNEL_ID, {
+              content: `${e.cause}\n${e.stack}`,
+            }).catch(logger.error);
           }
         }
       });

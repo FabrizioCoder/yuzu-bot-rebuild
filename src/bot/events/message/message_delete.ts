@@ -20,7 +20,9 @@ export default <Event<"messageDelete">> {
           await monitor.execute(bot, payload, message);
         } catch (e) {
           if (e instanceof Error) {
-            await sendMessage(bot, Configuration.CHANNEL_ID, `${e.cause}\n${e.stack}`).catch(logger.error);
+            await sendMessage(bot, Configuration.CHANNEL_ID, {
+              content: `${e.cause}\n${e.stack}`,
+            }).catch(logger.error);
           }
         }
       });

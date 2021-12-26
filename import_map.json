@@ -4,9 +4,9 @@
     "./": "./",
     "path": "https://deno.land/std@0.119.0/path/mod.ts",
     "fmt/colors": "https://deno.land/std@0.117.0/fmt/colors.ts",
-    "discordeno": "https://deno.land/x/discordeno@13.0.0-rc15/mod.ts",
-    "cache_plugin": "https://deno.land/x/discordeno_cache_plugin@0.0.18/mod.ts",
+    "discordeno": "https://deno.land/x/discordeno@13.0.0-rc18/mod.ts",
+    "cache_plugin": "https://deno.land/x/discordeno_cache_plugin@0.0.21/mod.ts",
     "permissions_plugin": "https://deno.land/x/discordeno_permissions_plugin@0.0.15/mod.ts",
-    "dotenv/load": "https://deno.land/x/dotenv/load.ts"
+    "images": "https://deno.land/x/ddgimages@v1.1.1/mod.ts"
   }
 }

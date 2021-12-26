@@ -14,7 +14,7 @@ import {
 
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "../../../utils/mod.ts";
 
-import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
+import { SafetyLevels, search } from "images";
 
 // enums
 enum ButtonEmojis {

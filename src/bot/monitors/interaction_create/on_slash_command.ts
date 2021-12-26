@@ -1,13 +1,13 @@
 import type { Monitor } from "../../types/monitor.ts";
-import type { BotWithCache } from "discordeno";
+import type { BotWithCache } from "cache_plugin";
 import { cache, Configuration } from "../../../utils/mod.ts";
 import {
-  botHasGuildPermissions,
   InteractionResponseTypes,
   InteractionTypes,
   sendInteractionResponse,
   sendMessage,
 } from "discordeno";
+import { botHasGuildPermissions } from "permissions_plugin";
 
 export default <Monitor<"interactionCreate">> {
   name: "onSlashCommand",

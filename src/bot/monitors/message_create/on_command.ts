@@ -1,9 +1,10 @@
 import type { Monitor } from "../../types/monitor.ts";
-import type { BotWithCache } from "discordeno";
+import type { BotWithCache } from "cache_plugin";
 import { cache, Configuration } from "../../../utils/mod.ts";
 import { getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
 import { db } from "../../../database/db.ts";
-import { botHasGuildPermissions, sendMessage } from "discordeno";
+import { sendMessage } from "discordeno";
+import { botHasGuildPermissions } from "permissions_plugin";
 
 // get a prefix from a given guildId
 async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Configuration.PREFIX) {
@@ -44,17 +45,17 @@ export default <Monitor<"messageCreate">> {
     // CHECKS
 
     if (!command) {
-      await sendMessage(bot, message.channelId, "Ese comando no existe! 🔒");
+      await sendMessage(bot, message.channelId, { content: "Ese comando no existe! 🔒" });
       return;
     }
 
     if (!message.guildId && command.options?.guildOnly) {
-      await sendMessage(bot, message.channelId, "Este comando solo funciona en servidores...");
+      await sendMessage(bot, message.channelId, { content: "Este comando solo funciona en servidores..." });
       return;
     }
 
     if (message.authorId !== Configuration.OWNER_ID && command.options?.adminOnly) {
-      await sendMessage(bot, message.channelId, "Debes ser dev para usar el comando...");
+      await sendMessage(bot, message.channelId, { content: "Debes ser dev para usar el comando..." });
       return;
     }
 
@@ -74,7 +75,7 @@ export default <Monitor<"messageCreate">> {
       const canSendEmbeds = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["EMBED_LINKS"]);
 
       if (typeof output !== "string" && !canSendEmbeds) {
-        await sendMessage(bot, message.channelId, "No puedo enviar embeds...");
+        await sendMessage(bot, message.channelId, { content: "No puedo enviar embeds..." });
         return;
       }
     }
