@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import { Category } from "../../../utils/mod.ts";
+import { Category } from "@utils";
 import { ApplicationCommandTypes } from "discordeno";
 import { SafetyLevels, search } from "https://deno.land/x/ddgimages@v1.1.1/mod.ts";
 

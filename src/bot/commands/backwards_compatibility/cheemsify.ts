@@ -1,5 +1,5 @@
 import type { Command } from "../../types/command.ts";
-import { Category, cheemsify } from "../../../utils/mod.ts";
+import { Category, cheemsify } from "utils";
 
 export default <Command<false>> {
   options: {

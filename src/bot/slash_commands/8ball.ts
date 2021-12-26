@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "discordeno";
-import { Category, randomHex } from "../../utils/mod.ts";
+import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
 const rpts = ["Sí", "No", "Tal vez", "No sé", "¡Claro!", "Podría ser", "Es poco probable", "Quizás"] as const;

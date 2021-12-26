@@ -1,7 +1,7 @@
 import type { Event } from "../../types/event.ts";
 import type { BotWithCache } from "cache_plugin";
 import type { Payload } from "../../types/task.ts";
-import { cache, logger, LogLevels } from "../../../utils/mod.ts";
+import { cache, logger, LogLevels } from "utils";
 
 export default <Event<"ready">> {
   name: "ready",

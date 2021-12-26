@@ -3,12 +3,12 @@ import type { Event } from "./types/event.ts";
 import type { Task } from "./types/task.ts";
 import type { Monitor } from "./types/monitor.ts";
 import type { EventHandlers } from "discordeno";
-
-import { cache, Configuration, loadFilesFromFolder, logger } from "../utils/mod.ts";
+import { cache, Configuration, loadFilesFromFolder, logger } from "utils";
 import { createBot, startBot } from "discordeno";
 import { enableCachePlugin } from "cache_plugin";
+import { config } from "dotenv";
 
-import "https://deno.land/x/dotenv/load.ts";
+config();
 
 const log = logger.create({ name: "Handler" });
 

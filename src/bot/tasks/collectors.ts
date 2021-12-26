@@ -1,5 +1,5 @@
 import type { Task } from "../types/task.ts";
-import { cache, Milliseconds } from "../../utils/mod.ts";
+import { cache, Milliseconds } from "utils";
 
 export default <Task> {
   name: "collectors",

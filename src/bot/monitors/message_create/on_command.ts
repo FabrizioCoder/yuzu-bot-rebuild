@@ -1,6 +1,6 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { BotWithCache } from "cache_plugin";
-import { cache, Configuration } from "../../../utils/mod.ts";
+import { cache, Configuration } from "@utils";
 import { getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
 import { db } from "../../../database/db.ts";
 import { sendMessage } from "discordeno";

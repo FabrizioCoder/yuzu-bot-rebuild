@@ -1,5 +1,5 @@
 import type { Task } from "../types/task.ts";
-import { cache, Milliseconds, Configuration } from "../../utils/mod.ts";
+import { cache, Milliseconds, Configuration } from "utils";
 import { ActivityTypes, editBotStatus } from "discordeno";
 
 export default <Task> {

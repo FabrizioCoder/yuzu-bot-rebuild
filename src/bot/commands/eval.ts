@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "discordeno";
-import { Category, DiscordColors } from "../../utils/mod.ts";
+import { Category, DiscordColors } from "utils";
 
 export default <Command<false>> {
   options: {

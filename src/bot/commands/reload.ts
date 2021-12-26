@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import { cache, Category } from "../../utils/mod.ts";
+import { cache, Category } from "utils";
 import { upsertApplicationCommands } from "discordeno";
 
 export default <Command<false>> {

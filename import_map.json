@@ -7,6 +7,9 @@
     "discordeno": "https://deno.land/x/discordeno@13.0.0-rc18/mod.ts",
     "cache_plugin": "https://deno.land/x/discordeno_cache_plugin@0.0.21/mod.ts",
     "permissions_plugin": "https://deno.land/x/discordeno_permissions_plugin@0.0.15/mod.ts",
-    "images": "https://deno.land/x/ddgimages@v1.1.1/mod.ts"
+    "mongo": "https://deno.land/x/mongo@v0.29.0/mod.ts",
+    "images": "https://deno.land/x/ddgimages@v1.1.1/mod.ts",
+    "dotenv": "https://deno.land/x/dotenv@v3.1.0/mod.ts",
+    "utils": "./src/utils/mod.ts"
   }
 }

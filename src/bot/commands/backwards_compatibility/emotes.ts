@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "discordeno";
-import { Category, randomHex } from "../../../utils/mod.ts";
+import { Category, randomHex } from "utils";
 import { createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 

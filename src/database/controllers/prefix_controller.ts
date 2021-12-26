@@ -1,4 +1,4 @@
-import type { Database, Collection as MongoCollection } from "https://deno.land/x/mongo/mod.ts";
+import type { Database, Collection as MongoCollection } from "mongo";
 import type { PrefixSchema } from "../models/prefix_model.ts";
 
 type Collection<T = PrefixSchema> = MongoCollection<T>;

@@ -1,5 +1,5 @@
 import type { Command } from "../types/command.ts";
-import { Category } from "../../utils/mod.ts";
+import { Category } from "utils";
 import { getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 

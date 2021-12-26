@@ -12,7 +12,7 @@ import {
   sendMessage,
 } from "discordeno";
 
-import { Category, Milliseconds, needButton, needMessage, randomHex } from "../../../utils/mod.ts";
+import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
 
 import { SafetyLevels, search } from "images";
 

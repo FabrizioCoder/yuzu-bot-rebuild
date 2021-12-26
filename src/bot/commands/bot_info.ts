@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import type { Embed } from "discordeno";
-import { Category, DiscordColors, snowflakeToTimestamp, toCapitalCase } from "../../utils/mod.ts";
+import { Category, DiscordColors, snowflakeToTimestamp, toCapitalCase } from "utils";
 import { avatarURL, getUser } from "discordeno";
 
 export default <Command<false>> {

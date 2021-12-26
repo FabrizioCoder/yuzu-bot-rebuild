@@ -1,5 +1,5 @@
 import type { Event } from "../../types/event.ts";
-import { cache, Configuration, logger } from "../../../utils/mod.ts";
+import { cache, Configuration, logger } from "utils";
 import { sendMessage } from "discordeno";
 
 export default <Event<"messageDelete">> {
