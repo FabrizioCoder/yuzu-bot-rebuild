@@ -6,6 +6,7 @@ export * from "./std/handler.ts";
 export * from "./std/range.ts";
 export * from "./std/snowflake.ts";
 export * from "./std/cheemsify.ts";
+export * from "./std/logger.ts";
 
 // collectors
 export * from "./collectors/needButton.ts";

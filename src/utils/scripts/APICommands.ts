@@ -2,7 +2,8 @@ import type { Embed } from "../../../deps.ts";
 import { ApplicationCommandOptionTypes, getUser } from "../../../deps.ts";
 import { Category, DiscordColors, userMention } from "../constants.ts";
 import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
-import * as cache from "../cache.ts";
+import { commands, slashCommands } from "../cache.ts";
+import { logger } from "../std/logger.ts";
 
 const api = "https://nekos.life/api/v2/";
 const endpointsActionPairs = {
@@ -21,7 +22,7 @@ try {
   Object.keys(endpointsActionPairs).forEach((cmd) => {
     const commandName = cmd.slice(4, cmd.length);
 
-    cache.slashCommands.set(commandName, {
+    slashCommands.set(commandName, {
       options: {
         guildOnly: false,
         adminOnly: false,
@@ -80,7 +81,7 @@ try {
         };
       },
     });
-    cache.commands.set(commandName, {
+    commands.set(commandName, {
       data: {
         name: commandName,
       },
@@ -128,5 +129,5 @@ try {
     });
   });
 } catch (error) {
-  console.error(error);
+  logger.error(error);
 }

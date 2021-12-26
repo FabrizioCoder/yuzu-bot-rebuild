@@ -1,16 +1,27 @@
-import { join } from "https://deno.land/std@0.113.0/path/mod.ts";
+import { dirname, fromFileUrl, join, relative, resolve } from "https://deno.land/std@0.119.0/path/mod.ts";
 
-export async function loadFilesFromFolder<T>(dir: string, fn: (file: T) => void) {
-  // reading all of the directories
-  for await (const file of Deno.readDir(`./src/${dir}`)) {
-    // if is a subdirectory
-    if (!file.name.endsWith(".ts")) {
-      loadFilesFromFolder(join(dir, file.name), fn);
+export async function load<T>(dir: string, fn: (file: T) => void) {
+  // getting the absolute path of the given directory
+  // NOTE: the directory has to be inside the /bot/ folder
+  const fromRoot = resolve("./src/bot/", dir);
+
+  // read all of the files inside
+  for await (const file of Deno.readDir(fromRoot)) {
+    // if is a directory file recursively read all of the files inside the directory/subdirectory
+    if (file.isDirectory) {
+      load(join(dir, file.name), fn);
       continue;
     }
-    const { default: struct }: { default?: T } = await import(`../../${dir}/${file.name}`);
+    // otherwise read from the path of this file to the absolute path of the given directory
+    // this should give us a relative path coming from an absolute path
+    const mod = join(relative(dirname(fromFileUrl(import.meta.url)), fromRoot), file.name);
+    const { default: struct }: { default?: T } = await import(mod.replace("\\", "/"));
+
+    // if the file has a default export finally respond the callback
     if (struct) {
       fn(struct);
     }
   }
 }
+
+export { load as loadFilesFromFolder };

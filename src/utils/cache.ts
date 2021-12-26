@@ -1,8 +1,8 @@
-import type { Command } from "../types/command.ts";
-import type { Event } from "../types/event.ts";
-import type { Monitor } from "../types/monitor.ts";
-import type { Task } from "../types/task.ts";
-import type { ButtonCollector, MessageCollector } from "../types/collector.ts";
+import type { Command } from "../bot/types/command.ts";
+import type { Event } from "../bot/types/event.ts";
+import type { Monitor } from "../bot/types/monitor.ts";
+import type { Task } from "../bot/types/task.ts";
+import type { ButtonCollector, MessageCollector } from "../bot/types/collector.ts";
 import type { DiscordenoAttachment, DiscordenoMessage, EventHandlers } from "../../deps.ts";
 import { Collection } from "../../deps.ts";
 

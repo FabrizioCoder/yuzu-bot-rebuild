@@ -2,3 +2,5 @@
 config.json
 validator.ts
 structures.ts
+rest/
+import_map.json
