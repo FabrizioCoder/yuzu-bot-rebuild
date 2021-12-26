@@ -1,9 +1,9 @@
 import type { Embed } from "discordeno";
-import { ApplicationCommandOptionTypes, getUser } from "discordeno";
 import { Category, DiscordColors, userMention } from "../constants.ts";
-import { default as f } from "https://deno.land/x/axiod@0.23.1/mod.ts";
 import { commands, slashCommands } from "../cache.ts";
 import { logger } from "../std/logger.ts";
+import { ApplicationCommandOptionTypes, getUser } from "discordeno";
+import { default as f } from "axiod";
 
 const api = "https://nekos.life/api/v2/";
 const endpointsActionPairs = {

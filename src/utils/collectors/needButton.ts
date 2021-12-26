@@ -1,5 +1,5 @@
-import type { DiscordenoInteraction } from "discordeno";
 import type { ButtonCollectorOptions, ButtonCollectorReturn, CollectButtonOptions } from "../../bot/types/collector.ts";
+import type { DiscordenoInteraction } from "discordeno";
 import { Milliseconds } from "../constants.ts";
 import * as cache from "../cache.ts";
 

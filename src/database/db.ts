@@ -5,9 +5,8 @@ import "https://deno.land/x/dotenv@v3.1.0/load.ts";
 
 let db: Database | undefined;
 
-const client = new MongoClient();
-
 if (!db) {
+  const client = new MongoClient();
   await start(client);
   db = getDatabase(client, "azucluster");
 }
