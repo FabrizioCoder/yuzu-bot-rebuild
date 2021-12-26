@@ -1,7 +1,7 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { Embed, SelectMenuComponent } from "discordeno";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
-import { cache, Category } from "@utils";
+import { cache, Category } from "utils";
 
 export default <Monitor<"interactionCreate">> {
   name: "onSelectMenu",

@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "discordeno";
 
-import { Category, randomHex } from "@utils";
+import { Category, randomHex } from "utils";
 
 import {
   ApplicationCommandOptionTypes,

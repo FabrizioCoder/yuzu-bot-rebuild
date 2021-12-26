@@ -1,5 +1,5 @@
 import type { Monitor } from "../../types/monitor.ts";
-import { processButtonCollectors } from "@utils";
+import { processButtonCollectors } from "utils";
 import { InteractionTypes, MessageComponentTypes } from "discordeno";
 
 export default <Monitor<"interactionCreate">> {

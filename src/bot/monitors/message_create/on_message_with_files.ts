@@ -1,5 +1,5 @@
 import type { Monitor } from "../../types/monitor.ts";
-import { cache } from "@utils";
+import { cache } from "utils";
 
 export default <Monitor<"messageCreate">> {
   name: "attachmentMonitor",

@@ -1,6 +1,6 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "discordeno";
-import { cache, Category, randomHex } from "@utils";
+import { cache, Category, randomHex } from "utils";
 import { avatarURL } from "discordeno";
 
 export default <Command> {

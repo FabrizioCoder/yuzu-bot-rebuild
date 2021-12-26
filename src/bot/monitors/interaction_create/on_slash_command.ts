@@ -1,6 +1,6 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { BotWithCache } from "cache_plugin";
-import { cache, Configuration } from "@utils";
+import { cache, Configuration } from "utils";
 import {
   InteractionResponseTypes,
   InteractionTypes,
