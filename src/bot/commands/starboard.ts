@@ -35,7 +35,7 @@ export default <Command<false>> {
 
     if (!channelId) return;
 
-    const channel = bot.channels.get(channelId) ?? (await getChannel(bot, channelId));
+    const channel = bot.channels.get(channelId) ?? await getChannel(bot, channelId);
 
     const isStaff = hasGuildPermissions(bot, guild.id, message.authorId, ["MANAGE_GUILD"]);
 
