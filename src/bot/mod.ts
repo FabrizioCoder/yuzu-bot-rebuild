@@ -10,6 +10,7 @@ import { cyan } from "fmt/colors";
 
 import "https://deno.land/x/dotenv@v3.1.0/load.ts";
 
+const time = Date.now();
 const log = logger.create({ name: "Handler" });
 
 await Promise.all([
@@ -44,6 +45,8 @@ await Promise.all([
     log.info(`Loaded ${cyan("monitor")} ${monitor.name}`);
   }),
 ]);
+
+logger.info(`Loaded in ${Date.now() - time} ms`);
 
 // dynamic commands
 await import("../utils/scripts/APICommands.ts");
