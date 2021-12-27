@@ -22,7 +22,7 @@ export default <Event<"ready">> {
     logger.info(`Logged in ${payload.user.username} ${payload.applicationId}`);
     logger.info(`Bot version: ${cyan(Configuration.VERSION)}`);
     logger.info(`Discordeno version: ${cyan(bot.constants.DISCORDENO_VERSION)}`);
-    logger.info(...Object.entries(Deno.version).map((a, b) => `${a}: ${b}`));
+    logger.info(...Object.entries(Deno.version).map(([a, b]) => `${a}: ${cyan(b)}`));
   },
 };
 

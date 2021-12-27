@@ -47,7 +47,7 @@ export default <Event<"reactionAdd">> {
         },
       ],
       footer: {
-        text: `⭐ ${user.username}#${user.discriminator}`,
+        text: `⭐ ${user.username}#${user.discriminator} (${message.attachments.length} attachments)`,
         iconUrl: avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 }),
       },
       description:
@@ -55,6 +55,11 @@ export default <Event<"reactionAdd">> {
         `[Jump to!](https://discord.com/channels/${guildId}/${channelId}/${messageId})\n` +
         `${message.content}\n`,
     };
+
+    // add an image!
+    if (message.attachments.length > 0) {
+      embed.image = { url: message.attachments[0].url };
+    }
 
     // if we already sended a message, edit the message with the new count!
     if (cache.alreadySendedInStarboard.has(messageId)) {
