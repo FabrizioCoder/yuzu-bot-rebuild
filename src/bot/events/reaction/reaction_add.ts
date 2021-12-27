@@ -39,7 +39,7 @@ export default <Event<"reactionAdd">> {
       fields: [
         {
           name: "Total:",
-          value: message.reactions?.length?.toString() ?? "Sin resultados",
+          value: reaction?.count.toString() ?? "Sin resultados",
         },
         {
           name: "Emoji:",
