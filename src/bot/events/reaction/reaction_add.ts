@@ -43,7 +43,7 @@ export default <Event<"reactionAdd">> {
         },
         {
           name: "Emoji:",
-          value: `<${emoji.animated ? "a" : ""}:${emoji.name}:${emoji.id}>`,
+          value: emoji.id ? `<${emoji.animated ? "a" : ""}:${emoji.name}:${emoji.id}>` : emoji.name!,
         },
       ],
       footer: {
