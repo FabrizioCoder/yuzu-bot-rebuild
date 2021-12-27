@@ -25,7 +25,7 @@ export default <Event<"reactionAdd">> {
     );
 
     // if the emoji didn't reach enough reactions just ignore
-    if (reaction && starboard.count > reaction.count) return;
+    if (starboard.count > (reaction?.count ?? 0)) return;
 
     const embed: Embed = {
       color: DiscordColors.Yellow,
