@@ -67,3 +67,9 @@ export const mention = /^<(@&|@|#|@!)\d{18}>/gim;
 export const roleMention = /^<(@&)\d{18}>/gim;
 export const userMention = /^<(@|@!)\d{18}>/gim;
 export const chanMention = /^<(#)\d{18}>/gim;
+
+
+export enum Api {
+  Nekos = "https://nekos.life/api/v2/",
+  PokeApi = "https://pokeapi.co/api/v2",
+}

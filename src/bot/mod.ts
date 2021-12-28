@@ -8,7 +8,7 @@ import { createBot, startBot } from "discordeno";
 import { enableCachePlugin } from "cache_plugin";
 import { cyan } from "fmt/colors";
 
-import "https://deno.land/x/dotenv@v3.1.0/load.ts";
+import "dotenv/load";
 
 const time = Date.now();
 const log = logger.create({ name: "Handler" });

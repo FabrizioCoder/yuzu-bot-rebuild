@@ -1,11 +1,10 @@
 import type { Embed } from "discordeno";
-import { Category, DiscordColors, userMention } from "../constants.ts";
+import { Api, Category, DiscordColors, userMention } from "../constants.ts";
 import { commands, slashCommands } from "../cache.ts";
 import { logger } from "../std/logger.ts";
 import { ApplicationCommandOptionTypes, getUser } from "discordeno";
 import { default as f } from "axiod";
 
-const api = "https://nekos.life/api/v2/";
 const endpointsActionPairs = {
   "img/hug": "hugs",
   "img/kiss": "kisses",
@@ -49,7 +48,7 @@ try {
       async execute(bot, i) {
         // utilities
         type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
-        const { data } = await f.get<Image | undefined>(api + cmd);
+        const { data } = await f.get<Image | undefined>(Api.Nekos + cmd);
 
         const option = i.data?.options?.[0];
 
@@ -98,7 +97,7 @@ try {
       async execute(bot, msg, { args }) {
         // utilities
         type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
-        const { data } = await f.get<Image | undefined>(api + cmd);
+        const { data } = await f.get<Image | undefined>(Api.Nekos + cmd);
 
         const search = args.join(" ").match(userMention);
 

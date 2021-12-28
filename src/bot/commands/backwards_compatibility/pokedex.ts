@@ -1,14 +1,12 @@
 import type { Command } from "../../types/command.ts";
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
 import type { Embed } from "discordeno";
-import { Category, randomHex } from "utils";
+import { Api, Category, randomHex } from "utils";
 import { default as f } from "axiod";
 
 async function getPokemonFromApi(pokemon: string | number) {
-  const pokeAPI = "https://pokeapi.co/api/v2";
-
   try {
-    const { data } = await f.get<Pokemon>(`${pokeAPI}/pokemon/${pokemon}`);
+    const { data } = await f.get<Pokemon>(`${Api.PokeApi}/pokemon/${pokemon}`);
 
     return Promise.resolve(data);
   } catch (_) {

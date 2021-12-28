@@ -11,6 +11,7 @@
     "mongo": "https://deno.land/x/mongo@v0.29.0/mod.ts",
     "images": "https://deno.land/x/ddgimages@v1.1.1/mod.ts",
     "dotenv": "https://deno.land/x/dotenv@v3.1.0/mod.ts",
+    "dotenv/load": "https://deno.land/x/dotenv@v3.1.0/load.ts",
     "utils": "./src/utils/mod.ts"
   }
 }

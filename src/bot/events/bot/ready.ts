@@ -54,15 +54,10 @@ function registerTasks(bot: BotWithCache, payload: Payload, ...args: number[]) {
   });
 }
 
-function clearTasks() {
-  for (const timeout of cache.runningTasks.initialTimeouts) {
-    clearTimeout(timeout);
-  }
-
-  for (const task of cache.runningTasks.intervals) {
-    clearInterval(task);
-  }
-
+// TODO: use this function to clear tasks
+function _() {
+  cache.runningTasks.initialTimeouts.forEach(clearTimeout);
+  cache.runningTasks.intervals.forEach(clearInterval);
   cache.tasks.clear();
   cache.runningTasks.initialTimeouts.clear();
 }

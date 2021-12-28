@@ -8,6 +8,7 @@ export default <Task> {
   execute(bot, _payload) {
     const gCount = bot.guilds.size;
     const uCount = bot.guilds.map((guild) => guild.memberCount).reduce((a, b) => a + b, 0);
+
     const activities = [
       `${bot.gateway.shards.size} shards`,
       `${uCount.toLocaleString("de-CH")} users`,
