@@ -2,7 +2,7 @@ import type { Command } from "../../types/command.ts";
 import type { Embed } from "discordeno";
 import { Category, randomHex } from "utils";
 import { createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
-import { hasGuildPermissions } from "permissions_plugin";
+import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";
 
 export default <Command<false>> {
   options: {
@@ -26,14 +26,21 @@ export default <Command<false>> {
 
     if (!guild || !message.member) return;
 
-    const canManageEmojis = hasGuildPermissions(bot, guild, message.member, ["MANAGE_EMOJIS"]);
+    if (option === "hide" || option === "remove" || option === "add") {
+      const canManageEmojis = hasGuildPermissions(bot, guild, message.member, ["MANAGE_EMOJIS"]);
+
+      if (!canManageEmojis) {
+        return "No posees permisos suficientes";
+      }
+      const botCanManageEmojis = botHasGuildPermissions(bot, guild, ["MANAGE_EMOJIS"]);
+
+      if (!botCanManageEmojis) {
+        return "No poseo suficientes permisos";
+      }
+    }
 
     switch (option?.toLowerCase()) {
       case "hide": {
-        if (!canManageEmojis) {
-          return "No posees permisos suficientes";
-        }
-
         const [name, role] = options as [string | undefined, string | undefined];
 
         // enforce to add an emoji of 2 characters
@@ -56,10 +63,6 @@ export default <Command<false>> {
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;
       }
       case "remove": {
-        if (!canManageEmojis) {
-          return "No posees permisos suficientes";
-        }
-
         const [name] = <[string | undefined]>options;
 
         // enforce to add an emoji of 2 characters
@@ -76,10 +79,6 @@ export default <Command<false>> {
         return `Elminé el emoji ${emoji.name}`;
       }
       case "add": {
-        if (!canManageEmojis) {
-          return "No posees permisos suficientes";
-        }
-
         const [name, image] = options as [string | undefined, string | undefined];
 
         // enforce to add an emoji of 2 characters

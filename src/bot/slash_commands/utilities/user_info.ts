@@ -3,7 +3,7 @@ import type { Embed } from "discordeno";
 import { Category, DiscordColors, snowflakeToTimestamp } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember, getUser } from "discordeno";
 
-export default <Command> {
+export default <Command>{
   options: {
     guildOnly: false,
     information: {
@@ -29,12 +29,11 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.User) {
-      const user =
-        bot.users.get(BigInt(option.value as string)) ??
-        await getUser(bot, BigInt(option.value as string)) ??
-        interaction.user;
+      const user = bot.users.get(BigInt(option.value as string));
 
-      if (!user) return "No encontré al usuario";
+      if (!user) {
+        return "No encontré al usuario";
+      }
 
       const embed: Embed = {
         author: {
@@ -76,29 +75,30 @@ export default <Command> {
 
       if (interaction.guildId) {
         // get the same user as a member object
-        const member = await getMember(bot, interaction.guildId, user.id);
+        const member = bot.members.get(user.id) ?? await getMember(bot, interaction.guildId, user.id);
 
-        if (member.premiumSince) {
-          embed.fields?.push({
-            name: "Mejora el servidor desde:",
-            value: `<t:${BigInt(member.premiumSince) / 1000n}> <- <t:${BigInt(member.premiumSince) / 1000n}:R>`,
-          });
+        if (member.guildId === interaction.guildId) {
+          if (member.premiumSince)
+            embed.fields?.push({
+              name: "Mejora el servidor desde:",
+              value: `<t:${BigInt(member.premiumSince) / 1000n}> <- <t:${BigInt(member.premiumSince) / 1000n}:R>`,
+            });
+
+          embed.fields?.push(
+            {
+              name: "Se unió al servidor en:",
+              value: `<t:${BigInt(member.joinedAt) / 1000n}> <- <t:${BigInt(member.joinedAt) / 1000n}:R>`,
+            },
+            {
+              name: "Apodo",
+              value: member.nick ?? user.username,
+            },
+            {
+              name: `Roles: [${member.roles.length}]`,
+              value: `@everyone ${member.roles.map((r) => `<@&${r}>`).join(" ")}`,
+            }
+          );
         }
-
-        embed.fields?.push(
-          {
-            name: "Se unió al servidor en:",
-            value: `<t:${BigInt(member.joinedAt) / 1000n}> <- <t:${BigInt(member.joinedAt) / 1000n}:R>`,
-          },
-          {
-            name: "Apodo",
-            value: member.nick ?? user.username,
-          },
-          {
-            name: `Roles: [${member.roles.length}]`,
-            value: `@everyone ${member.roles.map((r) => `<@&${r}>`).join(" ")}`,
-          }
-        );
       }
 
       return embed;
