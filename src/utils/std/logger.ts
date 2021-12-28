@@ -45,7 +45,7 @@ export const logger = {
 
   // create a custom logger
   create(data: { name?: string, level?: LogLevels } = {}): typeof this & typeof data {
-    return Object.assign(Object.create(logger), data);
+    return Object.assign(Object.create(this), data);
   },
 
   // methods
