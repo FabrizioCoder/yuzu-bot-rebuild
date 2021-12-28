@@ -12,7 +12,7 @@ import { botHasGuildPermissions } from "permissions_plugin";
 export default <Monitor<"interactionCreate">> {
   name: "onSlashCommand",
   type: "interactionCreate",
-  ignoreDM: true,
+  ignoreDM: false,
   ignoreBots: true,
   async execute(bot, interaction) {
     if (interaction.type !== InteractionTypes.ApplicationCommand) return;

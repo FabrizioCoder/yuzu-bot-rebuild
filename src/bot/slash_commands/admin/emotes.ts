@@ -93,7 +93,8 @@ export default <Command> {
     if (!guild) return;
 
     if (option.name !== "display") {
-      const isStaff = hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["MANAGE_EMOJIS"]);
+      const isStaff = interaction.member ? hasGuildPermissions(bot, interaction.guildId, interaction.member, ["MANAGE_EMOJIS"]) : false;
+
       if (!isStaff) return "No posees suficientes permisos";
     }
 

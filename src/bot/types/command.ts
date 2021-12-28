@@ -42,7 +42,6 @@ type CommandArguments<Slash> = Slash extends true
 // now supports both slash commands and regular commands
 export interface Command<Slash extends boolean = true> {
   data: CommandData<Slash>;
-  disabled?: "on" | "off";
   options?: CommandOptions
   category?: Category;
   execute(

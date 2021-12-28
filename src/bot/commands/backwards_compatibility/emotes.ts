@@ -24,9 +24,9 @@ export default <Command<false>> {
 
     const guild = bot.guilds.get(message.guildId) ?? await getGuild(bot, message.guildId);
 
-    if (!guild) return;
+    if (!guild || !message.member) return;
 
-    const canManageEmojis = hasGuildPermissions(bot, message.guildId, message.authorId, ["MANAGE_EMOJIS"]);
+    const canManageEmojis = hasGuildPermissions(bot, guild, message.member, ["MANAGE_EMOJIS"]);
 
     switch (option?.toLowerCase()) {
       case "hide": {

@@ -9,12 +9,12 @@ export default <Task> {
     const gCount = bot.guilds.size;
     const uCount = bot.guilds.map((guild) => guild.memberCount).reduce((a, b) => a + b, 0);
     const activities = [
-      "!help /help",
       `${bot.gateway.shards.size} shards`,
       `${uCount.toLocaleString("de-CH")} users`,
       `${gCount.toLocaleString("de-CH")} servers`,
       `${cache.slashCommands.size} slash commands and ${cache.commands.size} commands`,
       `Bot using v${Configuration.VERSION}`,
+      "!help /help",
     ];
 
     editBotStatus(bot, {
@@ -22,7 +22,7 @@ export default <Task> {
       activities: [
         {
           createdAt: Date.now(),
-          name: activities[Math.floor(Math.random() * activities.length - 1) + 1],
+          name: activities[Math.floor(Math.random() * activities.length)],
           type: ActivityTypes.Listening,
         },
       ],

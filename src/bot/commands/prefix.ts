@@ -33,7 +33,7 @@ export default <Command<false>> {
       return "El prefix no puede contener caracteres especiales";
     }
 
-    const isStaff = hasGuildPermissions(bot, message.guildId, message.authorId, ["MANAGE_GUILD"]);
+    const isStaff = message.member ? hasGuildPermissions(bot, message.guildId, message.member, ["MANAGE_GUILD"]) : false;
 
     if (!isStaff) {
       return "No posees suficientes permisos";

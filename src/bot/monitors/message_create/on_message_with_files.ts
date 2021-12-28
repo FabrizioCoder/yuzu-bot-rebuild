@@ -4,8 +4,8 @@ import { cache } from "utils";
 export default <Monitor<"messageCreate">> {
   name: "attachmentMonitor",
   type: "messageCreate",
-  ignoreDM: false,
-  ignoreBots: true,
+  ignoreDM: true,
+  ignoreBots: false,
   execute(_bot, message) {
     const hasFile = message.attachments.length > 0;
 

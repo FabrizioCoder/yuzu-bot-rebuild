@@ -11,9 +11,11 @@ export default <Event<"messageCreate">> {
         try {
           if (monitor.ignoreBots && message.isBot) {
             return;
+          } else if (monitor.ignoreDM && !message.guildId) {
+            return;
+          } else {
+            await monitor.execute(bot, message);
           }
-
-          await monitor.execute(bot, message);
         } catch (e: unknown) {
           if (e instanceof Error) {
             await sendMessage(bot, Configuration.CHANNEL_ID, {

@@ -70,7 +70,7 @@ export default <Command<false>> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = hasGuildPermissions(bot, message.guildId, message.authorId, ["ADMINISTRATOR"]);
+        const isAdmin = message.member ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"]) : false;
 
         if (BigInt(tag.user) !== message.authorId && !isAdmin && message.authorId !== Configuration.OWNER_ID) {
           return "El tag no te pertenece";
@@ -137,7 +137,7 @@ export default <Command<false>> {
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = hasGuildPermissions(bot, message.guildId, message.authorId, ["ADMINISTRATOR"]);
+        const isAdmin = message.member ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"]) : false;
 
         if (BigInt(tag.user) !== message.authorId && !isAdmin) {
           return "El tag no te pertenece";

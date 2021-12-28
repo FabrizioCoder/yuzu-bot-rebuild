@@ -33,11 +33,12 @@ export default <Command<false>> {
 
     const channelId = message.mentionedChannelIds?.[0];
 
-    if (!channelId) return;
+    if (!channelId) {
+      return "Debes mencionar al menos la id de un canal";
+    }
 
     const channel = bot.channels.get(channelId) ?? await getChannel(bot, channelId);
-
-    const isStaff = hasGuildPermissions(bot, guild.id, message.authorId, ["MANAGE_GUILD"]);
+    const isStaff = message.member ? hasGuildPermissions(bot, guild, message.member, ["MANAGE_GUILD"]) : false;
 
     if (!isStaff) {
       return "No posees suficientes permisos";

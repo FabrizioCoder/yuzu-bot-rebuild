@@ -4,7 +4,7 @@ import { sendMessage } from "discordeno";
 
 export default <Task> {
   name: "uptime",
-  interval: Milliseconds.Hour,
+  interval: Milliseconds.Hour * 12,
   async execute(bot, _payload, uptime) {
     const uptimeMessage =
       "El bot ha estado encendido desde:\n" +

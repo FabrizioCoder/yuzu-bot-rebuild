@@ -1,12 +1,12 @@
 import type { Event } from "../../types/event.ts";
 import type { Embed } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
-import { cache, DiscordColors, logger } from "utils";
+import { cache, DiscordColors } from "utils";
 import { avatarURL, editMessage, sendMessage, getMessage, getUser } from "discordeno";
 import { getCollection, getStarboard } from "../../../database/controllers/starboard_controller.ts";
 import { db } from "../../../database/db.ts";
 
-export default <Event<"reactionAdd">> {
+export default <Event<"reactionAdd">>{
   name: "reactionAdd",
   async execute(bot: BotWithCache, { channelId, guildId, messageId, emoji }) {
     if (!db || !guildId) return;
@@ -19,15 +19,18 @@ export default <Event<"reactionAdd">> {
     const message = await getMessage(bot, channelId, messageId);
     const user = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
-    // debug for now
+    // get the reaction
     const reaction = message.reactions?.find(
-      (r) => r.emoji.id?.toString() === starboard.emojiId || r.emoji.name === "⭐"
+      (r) => r.emoji.id?.toString() === starboard.emojiId || r.emoji.name === starboard.emojiId || r.emoji.name === "⭐"
     );
 
     // if the emoji didn't reach enough reactions just ignore
-    if (starboard.count > (reaction?.count ?? 0)) return;
+    if (starboard.count > (reaction?.count ?? 0)) {
+      return;
+    }
 
     const embed: Embed = {
+      // usually the starboard color
       color: DiscordColors.Yellow,
       author: {
         name: `${user.username}#${user.discriminator}`,
@@ -44,21 +47,27 @@ export default <Event<"reactionAdd">> {
         {
           name: "Emoji:",
           value: emoji.id ? `<${emoji.animated ? "a" : ""}:${emoji.name}:${emoji.id}>` : emoji.name!,
+        }, // NOTE: emoji.name and emoji.id can't be undefined at the same time
+        {
+          name: "Info:",
+          value:
+            `<t:${Math.floor(message.timestamp / 1000)}:R>\n` +
+            `[Jump to!](https://discord.com/channels/${guildId}/${channelId}/${messageId})\n`,
         },
       ],
       footer: {
-        text: `⭐ ${user.username}#${user.discriminator} (${message.attachments.length} attachments)`,
-        iconUrl: avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 }),
+        text:
+          `${message.isBot ? "Sended by a bot" : "Sended by a user"} ⭐ ` +
+          `${message.attachments.length ?? message.embeds.filter((e) => e.image).length} attachments`,
       },
-      description:
-        `<t:${Math.floor(message.timestamp / 1000)}:R>\n` +
-        `[Jump to!](https://discord.com/channels/${guildId}/${channelId}/${messageId})\n` +
-        `${message.content}\n`,
+      description: message.content,
     };
 
     // add an image!
     if (message.attachments.length > 0) {
       embed.image = { url: message.attachments[0].url };
+    } else if (message.embeds[0]?.image?.url) {
+      embed.image = { url: message.embeds[0].image.url };
     }
 
     // if we already sended a message, edit the message with the new count!
@@ -66,7 +75,7 @@ export default <Event<"reactionAdd">> {
       const response = cache.alreadySendedInStarboard.get(messageId);
 
       if (response) {
-        await editMessage(bot, response.channelId, response.id, { embeds: [embed] }).catch(() => {});
+        await editMessage(bot, response.channelId, response.id, { embeds: [embed] }).catch((o_O) => {});
       }
 
       return;
@@ -75,6 +84,6 @@ export default <Event<"reactionAdd">> {
     // otherwise send a new message
     sendMessage(bot, BigInt(starboard.channelId), { embeds: [embed] })
       .then((msg) => cache.alreadySendedInStarboard.set(messageId, msg))
-      .catch(logger.error);
+      .catch(() => cache.alreadySendedInStarboard.delete(messageId));
   },
 };

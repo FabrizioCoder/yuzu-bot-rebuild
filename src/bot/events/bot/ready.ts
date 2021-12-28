@@ -1,7 +1,7 @@
 import type { Event } from "../../types/event.ts";
 import type { Payload } from "../../types/task.ts";
 import type { BotWithCache } from "cache_plugin";
-import { cache, Configuration, logger, LogLevels } from "utils";
+import { cache, Configuration, logger } from "utils";
 import { cyan } from "fmt/colors";
 
 export default <Event<"ready">> {
@@ -10,19 +10,21 @@ export default <Event<"ready">> {
     const uptime = Date.now();
     registerTasks(bot as BotWithCache, payload, uptime);
     // LOG
-    logger.info(`Loaded -> ${cyan(payload.guilds.length.toString())} guilds`);
-    logger.info(`Loaded -> ${cyan(cache.commands.size.toString())} regular commands`);
-    logger.info(`Loaded -> ${cyan(cache.slashCommands.size.toString())} slash commands`);
-    logger.info(`Loaded -> ${cyan(cache.events.size.toString())} events`);
-    logger.info(`Loaded -> ${cyan(cache.monitors.size.toString())} monitors`);
-    logger.info(`Loaded -> ${cyan(cache.tasks.size.toString())} tasks`);
-    logger.info(`Shard: ${payload.shardId + 1} of ${bot.botGatewayData?.shards} shards`);
-    logger.info(`API version: ${cyan(payload.v.toString())}`);
-    logger.info(`Running OS: ${Deno.build.env} ${Deno.build.os} ${Deno.build.arch}`);
-    logger.info(`Logged in ${payload.user.username} ${payload.applicationId}`);
-    logger.info(`Bot version: ${cyan(Configuration.VERSION)}`);
-    logger.info(`Discordeno version: ${cyan(bot.constants.DISCORDENO_VERSION)}`);
-    logger.info(...Object.entries(Deno.version).map(([a, b]) => `${a}: ${cyan(b)}`));
+    const log = logger.create({ name: "Gateaway" });
+
+    log.info(`Loaded -> ${cyan(payload.guilds.length.toString())} guilds`);
+    log.info(`Loaded -> ${cyan(cache.commands.size.toString())} regular commands`);
+    log.info(`Loaded -> ${cyan(cache.slashCommands.size.toString())} slash commands`);
+    log.info(`Loaded -> ${cyan(cache.events.size.toString())} events`);
+    log.info(`Loaded -> ${cyan(cache.monitors.size.toString())} monitors`);
+    log.info(`Loaded -> ${cyan(cache.tasks.size.toString())} tasks`);
+    log.info(`Shard: ${payload.shardId + 1} of ${bot.botGatewayData?.shards} shards`);
+    log.info(`API version: ${cyan(payload.v.toString())}`);
+    log.info(`Running OS: ${Deno.build.env} ${Deno.build.os} ${Deno.build.arch}`);
+    log.info(`Logged in ${payload.user.username} ${payload.applicationId}`);
+    log.info(`Bot version: ${cyan(Configuration.VERSION)}`);
+    log.info(`Discordeno version: ${cyan(bot.constants.DISCORDENO_VERSION)}`);
+    log.info(...Object.entries(Deno.version).map(([a, b]) => `${a}: ${cyan(b)}`));
   },
 };
 

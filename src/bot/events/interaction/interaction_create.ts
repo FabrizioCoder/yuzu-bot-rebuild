@@ -11,9 +11,11 @@ export default <Event<"interactionCreate">> {
         try {
           if (monitor.ignoreBots && interaction.user.bot) {
             return;
+          } else if (monitor.ignoreDM && !interaction.guildId) {
+            return;
+          } else {
+            await monitor.execute(bot, interaction);
           }
-
-          await monitor.execute(bot, interaction);
         } catch (e: unknown) {
           if (e instanceof Error) {
             await sendMessage(bot, Configuration.CHANNEL_ID, {
