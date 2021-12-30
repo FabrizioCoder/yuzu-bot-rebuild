@@ -37,7 +37,7 @@ export default <Event<"reactionAdd">>{
 
       if (!emojisAreEqual) return;
     } catch {
-      return "No se pudo convertir la id del emoji";
+      return;
     }
 
     const embed: Embed = {
