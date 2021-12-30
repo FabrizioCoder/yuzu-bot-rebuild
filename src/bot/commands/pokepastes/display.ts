@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import { Category } from "utils";
 import { sendMessage } from "discordeno";
-import { getPaste, parseTeamToString } from "poke_deno";
+import { getRawPaste } from "poke_deno";
 
 export default <Command<false>> {
   options: {
@@ -29,17 +29,15 @@ export default <Command<false>> {
       return "Link no encontrado";
     }
 
-    const { paste } = await getPaste(pasteId);
-
-    const pasteString = parseTeamToString(paste.pokes);
+    const { paste } = await getRawPaste(pasteId);
 
     if (isMobileVersion) {
       await sendMessage(bot, message.channelId, {
-        content: `\`\`\`ml\n${pasteString}\`\`\``,
+        content: `\`\`\`ml\n${paste}\`\`\``,
       });
       // end
     } else {
-      const file = new Blob([pasteString], { type: "text/plain" });
+      const file = new Blob([paste], { type: "text/plain" });
 
       await sendMessage(bot, message.channelId, {
         file: [{ blob: file, name: "Pokepaste.ml" }],
