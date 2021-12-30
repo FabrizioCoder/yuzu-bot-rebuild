@@ -1,10 +1,9 @@
 import type { Command } from "../../types/command.ts";
-// import type { Embed } from "discordeno";
 import { Category } from "utils";
 import { sendMessage } from "discordeno";
 import { getPaste, parseTeamToString } from "poke_deno";
 
-export default <Command<false>>{
+export default <Command<false>> {
   options: {
     guildOnly: false,
     adminOnly: false,
@@ -19,23 +18,33 @@ export default <Command<false>>{
     name: "paste",
   },
   async execute(bot, message, { args }) {
-    const [link] = args;
+    const [head, ...tail] = args;
 
+    const isMobileVersion = head === "--mobile" || head === "-m";
+    const link = isMobileVersion ? tail[0] : head;
     const idRegex = new RegExp("(?:.es/)(.+)", "g");
     const pasteId = idRegex.exec(link)?.[1];
 
-    if (pasteId) {
-      const { paste } = await getPaste(pasteId);
+    if (!pasteId) {
+      return "Link no encontrado";
+    }
 
-      const pasteString = parseTeamToString(paste.pokes);
+    const { paste } = await getPaste(pasteId);
 
+    const pasteString = parseTeamToString(paste.pokes);
+
+    if (isMobileVersion) {
+      await sendMessage(bot, message.channelId, {
+        content: `\`\`\`ml\n${pasteString}\`\`\``,
+      });
+      // end
+    } else {
       const file = new Blob([pasteString], { type: "text/plain" });
 
       await sendMessage(bot, message.channelId, {
         file: [{ blob: file, name: "Pokepaste.ml" }],
       });
-      return;
+      // end
     }
-    return "Link no encontrado";
   },
 };
