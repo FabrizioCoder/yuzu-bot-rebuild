@@ -1,4 +1,4 @@
-import { join, resolve } from "path";
+import { resolve, join, relative, dirname, fromFileUrl } from "path";
 
 export async function load<T>(root: string, dir: string, fn: (f: T) => void) {
   // getting the absolute path of the given directory
@@ -10,10 +10,12 @@ export async function load<T>(root: string, dir: string, fn: (f: T) => void) {
       await load(root, join(dir, file.name), fn);
       continue;
     }
-    // finally execute the file
-    const { default: struct }: { default?: T } = await import(join("file:///", rootDir, file.name));
+    // otherwise read from the path of this file to the absolute path of the given directory
+    // this should give us a relative path coming from an absolute path
+    const rel = join(relative(dirname(fromFileUrl(import.meta.url)), rootDir), file.name);
+    const mod = await import(rel.replace("\\", "/"));
 
-    if (struct) fn(struct);
+    if (mod.default) fn(mod.default);
   }
 }
 

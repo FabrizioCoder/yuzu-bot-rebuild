@@ -212,7 +212,7 @@ export default <Command<false>>{
             components: [{ type: 1, components: buttons }], // edited buttons
           },
         });
-      } catch (_) {
+      } catch {
         break;
       }
     } while (true);

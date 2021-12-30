@@ -29,6 +29,17 @@ export default <Event<"reactionAdd">>{
       return;
     }
 
+    // if the emojis aren't equal
+    // convert to bigint first then compare
+    try {
+      const emojisAreEqual =
+        starboard.emojiId === reaction?.emoji.name || BigInt(starboard.emojiId) === reaction?.emoji.id;
+
+      if (!emojisAreEqual) return;
+    } catch {
+      return "No se pudo convertir la id del emoji";
+    }
+
     const embed: Embed = {
       // usually the starboard color
       color: DiscordColors.Yellow,
@@ -75,7 +86,7 @@ export default <Event<"reactionAdd">>{
       const response = cache.alreadySendedInStarboard.get(messageId);
 
       if (response) {
-        await editMessage(bot, response.channelId, response.id, { embeds: [embed] }).catch((o_O) => {});
+        await editMessage(bot, response.channelId, response.id, { embeds: [embed] }).catch(() => {});
       }
 
       return;

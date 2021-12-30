@@ -1,7 +1,7 @@
 import type { Embed } from "discordeno";
 import { Api, Category, DiscordColors, userMention } from "../constants.ts";
 import { commands, slashCommands } from "../cache.ts";
-import { logger } from "../std/logger.ts";
+import { logger, LogLevels } from "../std/logger.ts";
 import { ApplicationCommandOptionTypes, getUser } from "discordeno";
 import { default as f } from "axiod";
 
@@ -127,6 +127,8 @@ try {
       },
     });
   });
-} catch (error) {
+} catch (error: unknown) {
   logger.error(error);
+} finally {
+  logger.log.call({ name: "Nekos API" }, LogLevels.Info, "Loaded API commands!");
 }
