@@ -1,7 +1,7 @@
 import type { Command } from "../../types/command.ts";
 import type { Embed } from "discordeno";
 import { Category, randomHex } from "utils";
-import { createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
+import { createEmoji, deleteEmoji, editEmoji } from "discordeno";
 import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";
 
 export default <Command<false>> {
@@ -17,12 +17,9 @@ export default <Command<false>> {
   data: {
     name: "emotes",
   },
-  async execute(bot, message, { args }) {
+  using: ["guild"],
+  async execute(bot, message, { args }, { guild }) {
     const [option, ...options] = args;
-
-    if (!message.guildId) return;
-
-    const guild = bot.guilds.get(message.guildId) ?? await getGuild(bot, message.guildId);
 
     if (!guild || !message.member) return;
 
@@ -56,7 +53,7 @@ export default <Command<false>> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        await editEmoji(bot, message.guildId, emoji.id, {
+        await editEmoji(bot, guild.id, emoji.id, {
           roles: emoji.roles ? [BigInt(role), ...emoji.roles] : [BigInt(role)],
         });
 
@@ -74,7 +71,7 @@ export default <Command<false>> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        await deleteEmoji(bot, message.guildId, BigInt(emoji.id));
+        await deleteEmoji(bot, guild.id, BigInt(emoji.id));
 
         return `Elminé el emoji ${emoji.name}`;
       }
@@ -88,7 +85,7 @@ export default <Command<false>> {
 
         if (!image) return "Debes enviar un link con una imágen";
 
-        const emoji = await createEmoji(bot, message.guildId, {
+        const emoji = await createEmoji(bot, guild.id, {
           name,
           image,
         });

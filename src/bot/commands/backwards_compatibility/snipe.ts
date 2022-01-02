@@ -16,24 +16,23 @@ export default <Command<false>> {
   data: {
     name: "snipe",
   },
-  async execute(bot, m) {
+  using: ["user"],
+  async execute(bot, m, { args: _args }, { user }) {
     const message = cache.lastMessages.get(m.channelId);
 
     if (!message) {
       return "No existe un mensaje eliminado";
     }
 
-    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
-
-    if (!author) return;
+    if (!user) return;
 
     if (message.content.length >= 4096) return;
 
     return <Embed> {
       author: {
-        name: `${author.username}#${author.discriminator}`,
-        iconUrl: avatarURL(bot, author.id, author.discriminator, {
-          avatar: author.avatar,
+        name: `${user.username}#${user.discriminator}`,
+        iconUrl: avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
           size: 512,
         }),
       },

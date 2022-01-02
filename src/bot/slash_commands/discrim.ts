@@ -34,7 +34,7 @@ export default <Command> {
       if (u.discriminator === <number> option.value) return `${u.username}#${u.discriminator}`;
     });
 
-    return <Embed>{
+    return <Embed> {
       color: randomHex(),
       description: users.join(", ") ?? "Sin resultados",
       footer: {

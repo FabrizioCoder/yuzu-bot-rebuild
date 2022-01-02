@@ -5,8 +5,6 @@ import {
   avatarURL,
   ButtonStyles,
   deleteMessage,
-  getChannel,
-  getUser,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
@@ -65,18 +63,16 @@ export default <Command<false>>{
   data: {
     name: "image",
   },
-  async execute(bot, message, { args }) {
+  using: ["channel", "user"],
+  async execute(bot, message, { args }, { user, channel }) {
     const option = args.join(" ");
 
     if (!option) return "Por favor escribe un texto";
 
-    const channel = bot.channels.get(message.channelId) ?? (await getChannel(bot, message.channelId));
-    const author = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
-
-    if (!author) return;
+    if (!user || !channel) return;
 
     // get an nsfw output if the currentChannel is nsfw
-    const results = await search(option, channel?.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
+    const results = await search(option, channel.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
     const limit = results.length - 1;
 
     // this is the base embed to send
@@ -95,8 +91,8 @@ export default <Command<false>>{
       ],
       author: {
         name: results[0].source,
-        iconUrl: avatarURL(bot, author.id, author.discriminator, {
-          avatar: author.avatar,
+        iconUrl: avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
           size: 512,
         }),
       },
@@ -118,7 +114,7 @@ export default <Command<false>>{
     // listen to buttons forever
     do {
       try {
-        const button = await needButton(message.authorId, msg.id, {
+        const button = await needButton(user.id, msg.id, {
           duration: Milliseconds.Minute * 5,
           amount: 1,
         });
@@ -143,7 +139,7 @@ export default <Command<false>>{
               content: `Envía un número desde 0 hasta ${limit}`,
             });
 
-            const response = await needMessage(message.authorId, message.channelId);
+            const response = await needMessage(user.id, message.channelId);
 
             if (tempMessage) {
               await deleteMessage(bot, message.channelId, tempMessage.id);
@@ -189,8 +185,8 @@ export default <Command<false>>{
           },
           author: {
             name: result.source,
-            iconUrl: avatarURL(bot, author.id, author.discriminator, {
-              avatar: author.avatar,
+            iconUrl: avatarURL(bot, user.id, user.discriminator, {
+              avatar: user.avatar,
               size: 512,
             }),
           },

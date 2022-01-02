@@ -3,7 +3,7 @@ import type { Embed } from "discordeno";
 import { Category, DiscordColors, snowflakeToTimestamp } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno";
 
-export default <Command>{
+export default <Command> {
   options: {
     isGuildOnly: false,
     information: {

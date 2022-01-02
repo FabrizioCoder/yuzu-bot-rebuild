@@ -6,7 +6,6 @@ import {
   avatarURL,
   ButtonStyles,
   deleteMessage,
-  getChannel,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
@@ -80,19 +79,18 @@ export default <Command> {
       },
     ],
   },
-  async execute(bot, interaction) {
+  using: ["channel"],
+  async execute(bot, interaction, { channel }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
       return "Por favor escribe un texto";
     }
 
-    if (!interaction.channelId) return;
-
-    const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
+    if (!channel) return;
 
     // get an nsfw output if the currentChannel is nsfw
-    const results = await search(option.value as string, channel?.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
+    const results = await search(option.value as string, channel.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
     const limit = results.length - 1;
 
     // this is the base embed to send
@@ -157,14 +155,14 @@ export default <Command> {
               type: InteractionResponseTypes.DeferredUpdateMessage,
             });
 
-            const tempMessage = await sendMessage(bot, interaction.channelId, {
+            const tempMessage = await sendMessage(bot, channel.id, {
               content: `Envía un número desde 0 hasta ${limit}`,
             });
 
-            const response = await needMessage(interaction.user.id, interaction.channelId);
+            const response = await needMessage(interaction.user.id, channel.id);
 
             if (tempMessage) {
-              await deleteMessage(bot, interaction.channelId, tempMessage.id);
+              await deleteMessage(bot, channel.id, tempMessage.id);
             }
 
             const newIndex = parseInt(response.content);
@@ -196,7 +194,7 @@ export default <Command> {
             const toDelete = button?.interaction?.message?.id;
 
             if (toDelete) {
-              await deleteMessage(bot, interaction.channelId, toDelete);
+              await deleteMessage(bot, channel.id, toDelete);
             }
 
             await sendInteractionResponse(bot, interaction.id, interaction.token, {

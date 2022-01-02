@@ -1,7 +1,14 @@
 import type { Monitor } from "../../types/monitor.ts";
 import type { BotWithCache } from "cache_plugin";
 import { cache, Configuration } from "utils";
-import { sendMessage } from "discordeno";
+import {
+  getChannel,
+  getGuild,
+  getMember,
+  getMessage,
+  getUser,
+  sendMessage,
+} from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
 import { getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
 import { db } from "../../../database/db.ts";
@@ -20,7 +27,7 @@ export default <Monitor<"messageCreate">> {
   type: "messageCreate",
   isGuildOnly: false,
   ignoreBots: true,
-  async execute(bot, message) {
+  async execute(bot: BotWithCache, message) {
     if (message.guildId) {
       const canSendMessages = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["SEND_MESSAGES"]);
 
@@ -49,7 +56,37 @@ export default <Monitor<"messageCreate">> {
       return;
     }
 
-    if (!message.guildId && command.options?.guildOnly) {
+    // TODO: make this more readable
+    const structs = {
+      channel: command.using?.includes("channel")
+        ? message.channelId
+          ? bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId)
+          : undefined
+        : undefined,
+
+      guild: command.using?.includes("guild")
+        ? message.guildId
+          ? bot.guilds.get(message.guildId) ?? await getGuild(bot, message.guildId)
+          : undefined
+        : undefined,
+
+      member: command.using?.includes("member")
+        ? message.member && message.guildId
+          ? bot.members.get(message.member.id) ?? await getMember(bot, message.guildId, message.member.id)
+          : undefined
+        : undefined,
+
+      message: command.using?.includes("message")
+        ? bot.messages.get(message.id) ?? await getMessage(bot, message.channelId, message.id)
+        : undefined,
+
+      user: command.using?.includes("user")
+        ? bot.users.get(message.authorId) ?? await getUser(bot, message.authorId)
+        : undefined,
+    };
+
+
+    if (!message.guildId && command.options?.isGuildOnly) {
       await sendMessage(bot, message.channelId, { content: "Este comando solo funciona en servidores..." });
       return;
     }
@@ -67,7 +104,7 @@ export default <Monitor<"messageCreate">> {
         `en el ${message.guildId ? "servidor" : "dm"} ${message.guildId ?? message.channelId}`,
     });
 
-    const output = await command.execute(bot as BotWithCache, message, { args, prefix });
+    const output = await command.execute(bot as BotWithCache, message, { args, prefix }, structs);
 
     // PERMISSIONS
 

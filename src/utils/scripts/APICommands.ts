@@ -24,7 +24,6 @@ try {
     slashCommands.set(commandName, {
       options: {
         isGuildOnly: false,
-        isAdminOnly: false,
         information: {
           descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
           usage: `[@User]`,

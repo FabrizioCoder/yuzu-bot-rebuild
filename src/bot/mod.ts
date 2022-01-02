@@ -62,11 +62,7 @@ const bot = createBot({
 });
 
 // start the bot
-await startBot(
-  enableCachePlugin(
-    bot
-  )
-);
+await startBot(enableCachePlugin(bot));
 
 // start the database
 await import("../database/db.ts");

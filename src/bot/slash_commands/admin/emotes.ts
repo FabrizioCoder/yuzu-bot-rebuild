@@ -7,7 +7,6 @@ import {
   createEmoji,
   deleteEmoji,
   editEmoji,
-  getGuild,
 } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 
@@ -82,18 +81,16 @@ export default <Command> {
       },
     ],
   },
-  async execute(bot, interaction) {
+  using: ["guild"],
+  async execute(bot, interaction, { guild }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.SubCommand) return;
-    if (!interaction.guildId) return;
-
-    const guild = bot.guilds.get(interaction.guildId) ?? await getGuild(bot, interaction.guildId);
 
     if (!guild) return;
 
     if (option.name !== "display") {
-      const isStaff = interaction.member ? hasGuildPermissions(bot, interaction.guildId, interaction.member, ["MANAGE_EMOJIS"]) : false;
+      const isStaff = interaction.member ? hasGuildPermissions(bot, guild.id, interaction.member, ["MANAGE_EMOJIS"]) : false;
 
       if (!isStaff) return "No posees suficientes permisos";
     }
@@ -113,7 +110,7 @@ export default <Command> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        await editEmoji(bot, interaction.guildId, emoji.id, {
+        await editEmoji(bot, guild.id, emoji.id, {
           roles: emoji.roles ? [BigInt(role), ...emoji.roles] : [BigInt(role)],
         });
 
@@ -131,7 +128,7 @@ export default <Command> {
 
         if (!emoji || !emoji.id) return "No se encontró el emoji";
 
-        await deleteEmoji(bot, interaction.guildId, BigInt(emoji.id));
+        await deleteEmoji(bot, guild.id, BigInt(emoji.id));
 
         return `Elminé el emoji ${emoji.name}`;
       }
@@ -142,7 +139,7 @@ export default <Command> {
           return "El emoji debe tener al menos 2 caracteres";
         }
 
-        const emoji = await createEmoji(bot, interaction.guildId, {
+        const emoji = await createEmoji(bot, guild.id, {
           name,
           image,
         });

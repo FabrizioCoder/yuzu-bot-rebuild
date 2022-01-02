@@ -1,6 +1,5 @@
 import type { Command } from "../types/command.ts";
 import { Category } from "utils";
-import { getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 import {
   editStarboard,
@@ -24,11 +23,9 @@ export default <Command<false>> {
   data: {
     name: "starboard",
   },
-  async execute(bot, message, { args }) {
+  using: ["channel", "guild"],
+  async execute(bot, message, { args }, { channel, guild }) {
     if (!db) return;
-
-    const guild = bot.guilds.get(message.guildId!) ?? await getGuild(bot, message.guildId!);
-
     if (!guild) return;
 
     const channelId = message.mentionedChannelIds?.[0];
@@ -37,14 +34,13 @@ export default <Command<false>> {
       return "Debes mencionar al menos la id de un canal";
     }
 
-    const channel = bot.channels.get(channelId) ?? await getChannel(bot, channelId);
     const isStaff = message.member ? hasGuildPermissions(bot, guild, message.member, ["MANAGE_GUILD"]) : false;
 
     if (!isStaff) {
       return "No posees suficientes permisos";
     }
 
-    if (channel.guildId !== message.guildId!) {
+    if (channel?.guildId !== message.guildId!) {
       return "El canal debe pertenecer al servidor...";
     }
 

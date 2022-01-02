@@ -39,7 +39,8 @@ export default <Command<false>> {
   data: {
     name: "tag",
   },
-  async execute(bot, message, { args }) {
+  using: ["channel"],
+  async execute(bot, message, { args }, { channel }) {
     const [option, ...options] = args;
 
     if (!option) return;
@@ -177,7 +178,6 @@ export default <Command<false>> {
           return "No encontré ese tag";
         }
 
-        const channel = bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
         const safe = !channel?.nsfw;
 
         if (tag.nsfw && safe) {

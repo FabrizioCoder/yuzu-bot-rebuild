@@ -1,6 +1,6 @@
 import type { Command } from "../types/command.ts";
 import { Category, Configuration, toCapitalCase } from "utils";
-import { ApplicationCommandOptionTypes, getChannel, getUser } from "discordeno";
+import { ApplicationCommandOptionTypes, getUser } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 import {
   addTag,
@@ -163,12 +163,17 @@ export default <Command> {
       },
     ],
   },
-  async execute(bot, interaction) {
+  using: ["channel"],
+  async execute(bot, interaction, { channel }) {
+    if (!db) return;
+
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.SubCommand) return;
-    if (!interaction.guildId) return;
-    if (!db) return;
+
+    if (!interaction.guildId) {
+      return;
+    }
 
     const search = Arguments[toCapitalCase(option.name) as keyof typeof Arguments];
 
@@ -297,7 +302,6 @@ export default <Command> {
 
         if (!tag) return "No encontré ese tag";
 
-        const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
         const safe = !channel?.nsfw;
 
         if (tag.nsfw && safe) {

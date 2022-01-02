@@ -16,7 +16,8 @@ export default <Command<false>> {
   data: {
     name: "help",
   },
-  async execute(bot, message, { prefix }) {
+  using: ["user"],
+  async execute(bot, message, { prefix }, { user }) {
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",
@@ -40,16 +41,15 @@ export default <Command<false>> {
         }),
     };
     const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
-    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
-    if (!author || !me) return;
+    if (!user || !me) return;
 
     const embed: Embed = {
       color: DiscordColors.Blurple,
       author: {
-        name: author.username,
-        iconUrl: avatarURL(bot, author.id, author.discriminator, {
-          avatar: author.avatar,
+        name: user.username,
+        iconUrl: avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
           size: 512,
         }),
       },
@@ -61,9 +61,9 @@ export default <Command<false>> {
       },
       description: `Mi prefix es: ${prefix}\n${cache.slashCommands.size + cache.commands.size} comandos`,
       footer: {
-        text: `${author.id} <> Required [] Optional`,
-        iconUrl: avatarURL(bot, author.id, author.discriminator, {
-          avatar: author.avatar,
+        text: `${user.id} <> Required [] Optional`,
+        iconUrl: avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
           size: 512,
         }),
       },
