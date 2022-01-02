@@ -16,6 +16,7 @@ enum ButtonEmojis {
   Back = "⏪",
   Next = "⏩",
   Page = "🔢",
+  Random = "🔀",
   Xsign = "✖️",
 }
 
@@ -157,6 +158,11 @@ export default <Command<false>>{
             if (!isNaN(newIndex)) {
               index = newIndex;
             }
+            break;
+          }
+
+          case "random": {
+            index = Math.floor(Math.random() * limit);
             break;
           }
 
