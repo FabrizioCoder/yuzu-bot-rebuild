@@ -7,7 +7,7 @@ const rpts = ["Sí", "No", "Tal vez", "No sé", "¡Claro!", "Podría ser", "Es p
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "🎱 Responde al usuario una pregunta de sí/no",
       short: "🎱 Responde al usuario",

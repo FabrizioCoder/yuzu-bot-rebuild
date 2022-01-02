@@ -5,7 +5,7 @@ import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno"
 
 export default <Command>{
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Busca un usuario",
       short: "Busca un usuario",
@@ -28,80 +28,80 @@ export default <Command>{
   async execute(bot, interaction) {
     const option = interaction.data?.options?.[0];
 
-    if (option?.type === ApplicationCommandOptionTypes.User) {
-      const user = bot.users.get(BigInt(option.value as string));
+    if (option?.type !== ApplicationCommandOptionTypes.User) return;
 
-      if (!user) {
-        return "No encontré al usuario";
-      }
+    const user = bot.users.get(BigInt(option.value as string));
 
-      const embed: Embed = {
-        author: {
-          name: `${user.username}#${user.discriminator}`,
-          iconUrl: avatarURL(bot, user.id, user.discriminator, {
-            avatar: user.avatar,
-            size: 512,
-          }),
-          url: avatarURL(bot, user.id, user.discriminator, {
-            avatar: user.avatar,
-            size: 2048, // Discord will resize this fyi
-          }),
-        },
-        thumbnail: {
-          url: avatarURL(bot, user.id, user.discriminator, {
-            avatar: user.avatar,
-            size: 512,
-          }),
-        },
-        fields: [
-          {
-            name: "¿Es bot?",
-            value: user.bot ? "Sí" : "No",
-          },
-          {
-            name: "Se unió a Discord en:",
-            value: `<t:${snowflakeToTimestamp(user.id) / 1000n}> <- <t:${snowflakeToTimestamp(user.id) / 1000n}:R>`,
-          },
-        ],
-        color: DiscordColors.Blurple,
-        footer: {
-          text: user.id.toString(),
-          iconUrl: avatarURL(bot, user.id, user.discriminator, {
-            avatar: user.avatar,
-            size: 512,
-          }),
-        },
-      };
-
-      if (interaction.guildId) {
-        // get the same user as a member object
-        const member = bot.members.get(user.id) ?? await getMember(bot, interaction.guildId, user.id);
-
-        if (member.guildId === interaction.guildId) {
-          if (member.premiumSince)
-            embed.fields?.push({
-              name: "Mejora el servidor desde:",
-              value: `<t:${BigInt(member.premiumSince) / 1000n}> <- <t:${BigInt(member.premiumSince) / 1000n}:R>`,
-            });
-
-          embed.fields?.push(
-            {
-              name: "Se unió al servidor en:",
-              value: `<t:${BigInt(member.joinedAt) / 1000n}> <- <t:${BigInt(member.joinedAt) / 1000n}:R>`,
-            },
-            {
-              name: "Apodo",
-              value: member.nick ?? user.username,
-            },
-            {
-              name: `Roles: [${member.roles.length}]`,
-              value: `@everyone ${member.roles.map((r) => `<@&${r}>`).join(" ")}`,
-            }
-          );
-        }
-      }
-
-      return embed;
+    if (!user) {
+      return "No encontré al usuario";
     }
+
+    const embed: Embed = {
+      author: {
+        name: `${user.username}#${user.discriminator}`,
+        iconUrl: avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
+          size: 512,
+        }),
+        url: avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
+          size: 2048, // Discord will resize this fyi
+        }),
+      },
+      thumbnail: {
+        url: avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
+          size: 512,
+        }),
+      },
+      fields: [
+        {
+          name: "¿Es bot?",
+          value: user.bot ? "Sí" : "No",
+        },
+        {
+          name: "Se unió a Discord en:",
+          value: `<t:${snowflakeToTimestamp(user.id) / 1000n}> <- <t:${snowflakeToTimestamp(user.id) / 1000n}:R>`,
+        },
+      ],
+      color: DiscordColors.Blurple,
+      footer: {
+        text: user.id.toString(),
+        iconUrl: avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
+          size: 512,
+        }),
+      },
+    };
+
+    if (interaction.guildId) {
+      // get the same user as a member object
+      const member = bot.members.get(user.id) ?? await getMember(bot, interaction.guildId, user.id);
+
+      if (member.guildId === interaction.guildId) {
+        if (member.premiumSince)
+          embed.fields?.push({
+            name: "Mejora el servidor desde:",
+            value: `<t:${BigInt(member.premiumSince) / 1000n}> <- <t:${BigInt(member.premiumSince) / 1000n}:R>`,
+          });
+
+        embed.fields?.push(
+          {
+            name: "Se unió al servidor en:",
+            value: `<t:${BigInt(member.joinedAt) / 1000n}> <- <t:${BigInt(member.joinedAt) / 1000n}:R>`,
+          },
+          {
+            name: "Apodo",
+            value: member.nick ?? user.username,
+          },
+          {
+            name: `Roles: [${member.roles.length}]`,
+            value: `@everyone ${member.roles.map((r) => `<@&${r}>`).join(" ")}`,
+          }
+        );
+      }
+    }
+
+    return embed;
   },
 };

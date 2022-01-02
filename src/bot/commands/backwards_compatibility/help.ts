@@ -5,8 +5,8 @@ import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "discorde
 
 export default <Command<false>> {
   options: {
-    guildOnly: true,
-    adminOnly: false,
+    isGuildOnly: true,
+    isAdminOnly: false,
     information: {
       descr: "📕 Ayuda del bot...",
       short: "📕 Ayuda del bot",

@@ -14,10 +14,10 @@ interface Information {
   short: string; // short description
 }
 
-// /commands and !commands
+/* /commands and !commands */
 interface CommandOptions {
-  guildOnly: boolean; // if the command can be executed on dm
-  adminOnly: boolean;
+  isGuildOnly: boolean; // if the command can be executed on dm
+  isAdminOnly: boolean;
   information?: Partial<Information>;
 }
 
@@ -35,6 +35,7 @@ type CommandData<Slash> = Slash extends true
   ? MakeRequired<EditGlobalApplicationCommand, "name" | "description">
   : Pick<MakeRequired<EditGlobalApplicationCommand, "name">, "name">;
 
+/* the arguments of the callback function */
 type CommandArguments<Slash> = Slash extends true
   ? [bot: BotWithCache, interaction: DiscordenoInteraction]
   : [bot: BotWithCache, message: DiscordenoMessage, args: CommandArgs];

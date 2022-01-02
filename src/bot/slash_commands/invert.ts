@@ -4,7 +4,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Invierte un texto hacia arriba",
       short: "Invierte un texto hacia arriba",
@@ -28,8 +28,8 @@ export default <Command> {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) return;
-    const mapping =
-      "¡\"#$%⅋,)(*+'-˙/0ƖᄅƐㄣϛ9ㄥ86:;<=>¿@∀qƆpƎℲפHIſʞ˥WNOԀQɹS┴∩ΛMX⅄Z[/]^_`ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz{|}~";
+
+    const mapping = "¡\"#$%⅋,)(*+'-˙/0ƖᄅƐㄣϛ9ㄥ86:;<=>¿@∀qƆpƎℲפHIſʞ˥WNOԀQɹS┴∩ΛMX⅄Z[/]^_`ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz{|}~";
     const offset = "!".charCodeAt(0); // Start with the character '!'
 
     if ((option.value as string).length < 1) {
@@ -38,8 +38,7 @@ export default <Command> {
 
     return (option.value as string)
       .split("")
-      .map((c) => c.charCodeAt(0) - offset)
-      .map((c) => mapping[c] ?? " ")
+      .map((c) => mapping[c.charCodeAt(0) - offset] ?? " ")
       .reverse()
       .join("");
   },

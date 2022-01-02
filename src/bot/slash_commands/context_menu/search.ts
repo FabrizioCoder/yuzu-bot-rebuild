@@ -5,7 +5,7 @@ import { SafetyLevels, search } from "images";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Click encima de un mensaje para buscar una imagen",
       short: "Click encima de un mensaje",

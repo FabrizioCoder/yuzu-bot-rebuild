@@ -4,8 +4,8 @@ import { deleteMessage } from "discordeno";
 
 export default <Command<false>> {
   options: {
-    guildOnly: false,
-    adminOnly: false,
+    isGuildOnly: false,
+    isAdminOnly: false,
     information: {
       descr: "Hace que el bot diga algo muy malo",
       short: "Escribir el mensaje del bot",

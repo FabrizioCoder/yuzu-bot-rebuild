@@ -18,8 +18,8 @@ interface Song {
 
 export default <Command<false>> {
   options: {
-    guildOnly: false,
-    adminOnly: false,
+    isGuildOnly: false,
+    isAdminOnly: false,
     information: {
       descr: "Busca letras de canciones",
       short: "Busca letras de canciones",
@@ -33,27 +33,27 @@ export default <Command<false>> {
   async execute(_bot, _message, { args }) {
     const option = args.join(" ");
 
-    if (option) {
-      const { data } = await f.get<Song>(`https://some-random-api.ml/lyrics/?title=${option}`);
+    if (!option) return;
 
-      if (!data || "error" in data) return "No pude encontrar esa canción";
+    const { data } = await f.get<Song>(`https://some-random-api.ml/lyrics/?title=${option}`);
 
-      const embed: Embed = {
-        title: data.title,
-        color: randomHex(),
-        author: {
-          iconUrl: data.thumbnail.genius,
-          name: data.author,
-        },
-      };
+    if (!data || "error" in data) return "No pude encontrar esa canción";
 
-      if (data.lyrics.length > 2048) {
-        return "La canción excede el límite de caracteres";
-      }
+    const embed: Embed = {
+      title: data.title,
+      color: randomHex(),
+      author: {
+        iconUrl: data.thumbnail.genius,
+        name: data.author,
+      },
+    };
 
-      embed.footer = { text: data.lyrics };
-
-      return embed;
+    if (data.lyrics.length > 2048) {
+      return "La canción excede el límite de caracteres";
     }
+
+    embed.footer = { text: data.lyrics };
+
+    return embed;
   },
 };

@@ -5,7 +5,7 @@ import { avatarURL } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Busca el último mensaje eliminado en el canal",
       short: "Busca mensajes eliminados",

@@ -4,7 +4,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Hace que el bot diga algo muy malo",
       short: "Escribir el mensaje del bot",

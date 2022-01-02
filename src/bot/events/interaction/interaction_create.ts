@@ -11,7 +11,7 @@ export default <Event<"interactionCreate">> {
         try {
           if (monitor.ignoreBots && interaction.user.bot) {
             return;
-          } else if (monitor.ignoreDM && !interaction.guildId) {
+          } else if (monitor.isGuildOnly && !interaction.guildId) {
             return;
           } else {
             await monitor.execute(bot, interaction);

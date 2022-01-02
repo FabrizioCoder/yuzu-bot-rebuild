@@ -6,8 +6,8 @@ import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin"
 
 export default <Command<false>> {
   options: {
-    guildOnly: true,
-    adminOnly: false,
+    isGuildOnly: true,
+    isAdminOnly: false,
     information: {
       descr: "Muestra, añade y remueve emotes",
       usage: "emotes | add | remove | hide | display [name] [url]",
@@ -26,7 +26,7 @@ export default <Command<false>> {
 
     if (!guild || !message.member) return;
 
-    if (option === "hide" || option === "remove" || option === "add") {
+    if (option.toLowerCase() === "hide" || option.toLowerCase() === "remove" || option.toLowerCase() === "add") {
       const canManageEmojis = hasGuildPermissions(bot, guild, message.member, ["MANAGE_EMOJIS"]);
 
       if (!canManageEmojis) {
@@ -81,7 +81,7 @@ export default <Command<false>> {
       case "add": {
         const [name, image] = options as [string | undefined, string | undefined];
 
-        // enforce to add an emoji of 2 characters
+        // enforce to add an emoji of at least 2 characters
         if (!name || name.length < 2) {
           return "El emoji debe tener al menos 2 caracteres";
         }

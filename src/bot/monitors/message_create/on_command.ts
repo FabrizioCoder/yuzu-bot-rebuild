@@ -18,7 +18,7 @@ async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Config
 export default <Monitor<"messageCreate">> {
   name: "commandMonitor",
   type: "messageCreate",
-  ignoreDM: false,
+  isGuildOnly: false,
   ignoreBots: true,
   async execute(bot, message) {
     if (message.guildId) {
@@ -54,7 +54,7 @@ export default <Monitor<"messageCreate">> {
       return;
     }
 
-    if (message.authorId !== Configuration.OWNER_ID && command.options?.adminOnly) {
+    if (message.authorId !== Configuration.OWNER_ID && command.options?.isAdminOnly) {
       await sendMessage(bot, message.channelId, { content: "Debes ser dev para usar el comando..." });
       return;
     }

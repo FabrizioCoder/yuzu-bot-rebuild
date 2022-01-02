@@ -4,15 +4,15 @@ import { Category, DiscordColors } from "utils";
 
 export default <Command<false>> {
   options: {
-    guildOnly: true,
-    adminOnly: true,
+    isGuildOnly: true,
+    isAdminOnly: true,
   },
   category: Category.Owner,
   data: {
     name: "eval",
   },
   execute(bot, _message, { args }) {
-    const ms = Date.now();
+    const time = Date.now();
     const input = args?.join(" ");
 
     if (!input) return "Escribe algo.";
@@ -32,7 +32,7 @@ export default <Command<false>> {
           },
           {
             name: "Latencia ⌛",
-            value: `\`\`\`ts\n${Date.now() - ms}ms\`\`\``,
+            value: `\`\`\`ts\n${Date.now() - time}ms\`\`\``,
           },
           {
             name: "Entrada 📥",

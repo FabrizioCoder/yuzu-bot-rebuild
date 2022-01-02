@@ -19,7 +19,7 @@ interface Song {
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Busca letras de canciones",
       short: "Busca letras de canciones",
@@ -42,27 +42,29 @@ export default <Command> {
   async execute(_bot, interaction) {
     const option = interaction.data?.options?.[0];
 
-    if (option?.type === ApplicationCommandOptionTypes.String) {
-      const { data } = await f.get<Song>(`https://some-random-api.ml/lyrics/?title=${option.value as string}`);
+    if (option?.type !== ApplicationCommandOptionTypes.String) return;
 
-      if (!data || "error" in data) return "No pude encontrar esa canción";
+    const { data } = await f.get<Song>(`https://some-random-api.ml/lyrics/?title=${option.value as string}`);
 
-      const embed: Embed = {
-        title: data.title,
-        color: randomHex(),
-        author: {
-          iconUrl: data.thumbnail.genius,
-          name: data.author,
-        },
-      };
-
-      if (data.lyrics.length > 2048) {
-        return "La canción excede el límite de caracteres";
-      }
-
-      embed.footer = { text: data.lyrics };
-
-      return embed;
+    if (!data || "error" in data) {
+      return "No pude encontrar esa canción";
     }
+
+    const embed: Embed = {
+      title: data.title,
+      color: randomHex(),
+      author: {
+        iconUrl: data.thumbnail.genius,
+        name: data.author,
+      },
+    };
+
+    if (data.lyrics.length > 2048) {
+      return "La canción excede el límite de caracteres";
+    }
+
+    embed.footer = { text: data.lyrics };
+
+    return embed;
   },
 };

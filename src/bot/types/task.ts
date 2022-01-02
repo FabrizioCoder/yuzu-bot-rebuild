@@ -2,7 +2,7 @@ import type { Milliseconds } from "utils";
 import type { DiscordenoUser } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
 
-export interface Payload {
+export interface ReadyPayload {
   shardId: number;
   v: number;
   user: DiscordenoUser;
@@ -17,5 +17,5 @@ export interface Task {
   name: string;
   interval: Milliseconds;
   // botId uptime and anothe ruseful ids
-  execute: (bot: BotWithCache, payload: Payload, ...args: number[]) => void | Promise<void> | Promise<void>;
+  execute: (bot: BotWithCache, payload: ReadyPayload, ...args: number[]) => void | Promise<void> | Promise<void>;
 }

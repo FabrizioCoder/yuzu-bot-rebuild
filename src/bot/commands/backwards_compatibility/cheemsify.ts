@@ -3,8 +3,8 @@ import { Category, cheemsify } from "utils";
 
 export default <Command<false>> {
   options: {
-    guildOnly: false,
-    adminOnly: false,
+    isGuildOnly: false,
+    isAdminOnly: false,
     information: {
       descr: "Conviertem un temxtom am imdiomam cheems",
       short: "Conviertem un temxtom am imdiomam cheems",

@@ -5,7 +5,7 @@ import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: true,
+    isGuildOnly: true,
     information: {
       descr: "📗 Encuentra un comando del bot...",
       short: "📗 Encuentra un comando del bot...",
@@ -57,9 +57,7 @@ export default <Command> {
         },
         {
           name: "Uso del comando:",
-          value: `${"description" in command.data ? "/" : "!"}${command.data.name} ${
-            command.options?.information?.usage
-          }`,
+          value: `${"description" in command.data ? "/" : "!"}${command.data.name} ${command.options?.information?.usage}`,
           inline: true,
         },
         {

@@ -8,7 +8,7 @@ export interface Monitor<T extends keyof EventHandlers> extends Omit<Event<T>, "
   name: string;
 
   ignoreBots: boolean; // if the author is a bot
-  ignoreDM: boolean; // if the monitor is executed on dm
+  isGuildOnly: boolean; // if the monitor is executed on dm
 
   type?: T; // the monitor event
 }

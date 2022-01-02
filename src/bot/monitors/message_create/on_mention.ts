@@ -4,7 +4,7 @@ import { sendMessage } from "discordeno";
 export default <Monitor<"messageCreate">> {
   name: "mentionMonitor",
   type: "messageCreate",
-  ignoreDM: false,
+  isGuildOnly: false,
   ignoreBots: true,
   async execute(bot, message) {
     const prefix = "!";

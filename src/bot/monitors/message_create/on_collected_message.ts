@@ -4,7 +4,7 @@ import { cache } from "utils";
 export default <Monitor<"messageCreate">> {
   name: "messageMonitor",
   type: "messageCreate",
-  ignoreDM: true,
+  isGuildOnly: true,
   ignoreBots: true,
   execute(_bot, message) {
     const collector = cache.collectors.messages.get(message.authorId);

@@ -26,8 +26,8 @@ enum Arguments {
 
 export default <Command<false>> {
   options: {
-    guildOnly: false,
-    adminOnly: false,
+    isGuildOnly: false,
+    isAdminOnly: false,
     information: {
       descr: "Crea, edita, borra o modifica tags",
       short: "Crea, edita, borra o modifica tags",

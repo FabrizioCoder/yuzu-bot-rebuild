@@ -12,7 +12,7 @@ import { botHasGuildPermissions } from "permissions_plugin";
 export default <Monitor<"interactionCreate">> {
   name: "onSlashCommand",
   type: "interactionCreate",
-  ignoreDM: false,
+  isGuildOnly: false,
   ignoreBots: true,
   async execute(bot, interaction) {
     if (interaction.type !== InteractionTypes.ApplicationCommand) return;
@@ -38,7 +38,7 @@ export default <Monitor<"interactionCreate">> {
 
     // CHECKS
 
-    if (!interaction.guildId && command.options?.guildOnly) {
+    if (!interaction.guildId && command.options?.isGuildOnly) {
       await sendInteractionResponse(bot, interaction.id, interaction.token, {
         type: InteractionResponseTypes.DeferredChannelMessageWithSource,
         data: {

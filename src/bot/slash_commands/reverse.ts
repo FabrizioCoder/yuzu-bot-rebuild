@@ -4,7 +4,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Invierte un texto",
       short: "Invierte un texto",

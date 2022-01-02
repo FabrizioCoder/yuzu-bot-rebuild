@@ -13,7 +13,7 @@ import { hasGuildPermissions } from "permissions_plugin";
 
 export default <Command> {
   options: {
-    guildOnly: true,
+    isGuildOnly: true,
     information: {
       descr: "Muestra, añade y remueve emotes",
       usage: "emotes | add | remove | hide | display [name] [url]",
@@ -104,7 +104,7 @@ export default <Command> {
           string,
           string // role id
         ];
-        // enforce to add an emoji of 2 characters
+        // enforce to add an emoji of at least 2 characters
         if (name.length < 2) {
           return "El emoji debe tener al menos 2 caracteres";
         }

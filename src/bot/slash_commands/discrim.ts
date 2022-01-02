@@ -5,7 +5,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Encuentra a usuarios con el mismo tag",
       short: "Encuentra a usuarios con el mismo tag",
@@ -28,18 +28,18 @@ export default <Command> {
   async execute(bot, interaction) {
     const option = interaction.data?.options?.[0];
 
-    if (option?.type === ApplicationCommandOptionTypes.Integer) {
-      const users = bot.users
-        .filter((u) => u.discriminator === <number>option.value)
-        .map((u) => `${u.username}#${u.discriminator}`);
+    if (option?.type !== ApplicationCommandOptionTypes.Integer) return;
 
-      return <Embed> {
-        color: randomHex(),
-        description: users.join(", ") ?? "Sin resultados",
-        footer: {
-          text: `${users.length} usuario(s) con el tag ${option.value}`,
-        },
-      };
-    }
+    const users = bot.users.map((u) => {
+      if (u.discriminator === <number> option.value) return `${u.username}#${u.discriminator}`;
+    });
+
+    return <Embed>{
+      color: randomHex(),
+      description: users.join(", ") ?? "Sin resultados",
+      footer: {
+        text: `${users.length} usuario(s) con el tag ${option.value}`,
+      },
+    };
   },
 };

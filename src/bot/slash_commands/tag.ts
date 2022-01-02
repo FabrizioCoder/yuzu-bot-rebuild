@@ -26,7 +26,7 @@ enum Arguments {
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Crea, edita, borra o modifica tags",
       short: "Crea, edita, borra o modifica tags",

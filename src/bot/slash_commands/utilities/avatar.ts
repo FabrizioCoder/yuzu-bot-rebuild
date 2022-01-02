@@ -5,7 +5,7 @@ import { ApplicationCommandOptionTypes, avatarURL, getUser } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Busca el avatar de un usuario",
       short: "Busca avatares",

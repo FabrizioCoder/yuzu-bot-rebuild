@@ -11,7 +11,7 @@ import {
 
 export default <Command> {
   options: {
-    guildOnly: true,
+    isGuildOnly: false,
     information: {
       descr: "\\📕 Ayuda del bot...",
       short: "\\📕 Ayuda del bot",

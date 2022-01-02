@@ -6,8 +6,8 @@ import { db } from "../../database/db.ts";
 
 export default <Command<false>> {
   options: {
-    guildOnly: true,
-    adminOnly: false,
+    isGuildOnly: true,
+    isAdminOnly: false,
     information: {
       descr: "Actualiza el prefix del servidor",
       short: "Actualiza el prefix del servidor",

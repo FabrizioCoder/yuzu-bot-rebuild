@@ -6,7 +6,7 @@ import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } f
 export default <Monitor<"interactionCreate">> {
   name: "onSelectMenu",
   type: "interactionCreate",
-  ignoreDM: false,
+  isGuildOnly: false,
   ignoreBots: true,
   async execute(bot, interaction) {
     if (interaction.type !== InteractionTypes.MessageComponent) return;

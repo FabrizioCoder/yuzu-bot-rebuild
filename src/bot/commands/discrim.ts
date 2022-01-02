@@ -4,8 +4,8 @@ import { Category, randomHex } from "utils";
 
 export default <Command<false>> {
   options: {
-    guildOnly: false,
-    adminOnly: false,
+    isGuildOnly: false,
+    isAdminOnly: false,
     information: {
       descr: "Encuentra a usuarios con el mismo tag",
       short: "Encuentra a usuarios con el mismo tag",
@@ -17,14 +17,14 @@ export default <Command<false>> {
     name: "discrim",
   },
   async execute(bot, _message, { args }) {
-    const tag = parseInt(args[0]);
+    const discriminator = parseInt(args[0]);
 
     if (args[0].length !== 4) {
       return "El tag debe tener 4 dígitos";
     }
 
     const users = bot.users.map((u) => {
-      if (u.discriminator === tag) return `${u.username}#${u.discriminator}`;
+      if (u.discriminator === discriminator) return `${u.username}#${u.discriminator}`;
     });
 
     return <Embed> {

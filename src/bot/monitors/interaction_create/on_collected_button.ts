@@ -5,7 +5,7 @@ import { InteractionTypes, MessageComponentTypes } from "discordeno";
 export default <Monitor<"interactionCreate">> {
   name: "onButtonCollected",
   type: "interactionCreate",
-  ignoreDM: true,
+  isGuildOnly: true,
   ignoreBots: true,
   execute(_bot, interaction) {
     const { type, data } = interaction;

@@ -4,8 +4,8 @@ import { upsertApplicationCommands } from "discordeno";
 
 export default <Command<false>> {
   options: {
-    guildOnly: true,
-    adminOnly: true,
+    isGuildOnly: true,
+    isAdminOnly: true,
     information: {
       descr: "...",
       short: "..",

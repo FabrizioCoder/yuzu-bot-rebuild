@@ -4,7 +4,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Conviertem un temxtom am imdiomam cheems",
       short: "Conviertem un temxtom am imdiomam cheems",

@@ -16,7 +16,7 @@ export default <Task> {
       `${cache.slashCommands.size} slash commands and ${cache.commands.size} commands`,
       `Bot using v${Configuration.VERSION}`,
       "!help /help",
-    ];
+    ] as const;
 
     editBotStatus(bot, {
       status: "online",

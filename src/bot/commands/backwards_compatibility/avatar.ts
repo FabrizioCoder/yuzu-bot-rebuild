@@ -5,8 +5,8 @@ import { avatarURL, getUser } from "discordeno";
 
 export default <Command<false>> {
   options: {
-    guildOnly: false,
-    adminOnly: false,
+    isGuildOnly: false,
+    isAdminOnly: false,
     information: {
       descr: "Busca el avatar de un usuario",
       short: "Busca avatares",
@@ -18,9 +18,9 @@ export default <Command<false>> {
     name: "avatar",
   },
   async execute(bot, message, { args }) {
-    const option = /\d{18}/g.exec(args.join(" "))?.[0];
+    const givenId = /\d{18}/g.exec(args.join(" "))?.[0];
 
-    const userId = BigInt(option ?? message.authorId.toString());
+    const userId = BigInt(givenId ?? message.authorId.toString());
     const user = bot.users.get(userId) ?? await getUser(bot, userId);
 
     if (!user) return "El usuario no se encontró";

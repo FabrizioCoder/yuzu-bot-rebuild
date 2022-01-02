@@ -5,8 +5,8 @@ import { avatarURL, getUser } from "discordeno";
 
 export default <Command<false>> {
   options: {
-    guildOnly: false,
-    adminOnly: false,
+    isGuildOnly: false,
+    isAdminOnly: false,
     information: {
       descr: "Estadísticas para nerds",
       short: "Estadísticas para nerds",
@@ -26,6 +26,7 @@ export default <Command<false>> {
     const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
     const botCreatedAt = snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000n;
 
+    // memory usage
     const memory = Object.entries(Deno.memoryUsage()).map(
       ([k, v]: [string, number]) => `${toCapitalCase(k)} -> ${(((v / 1024 / 1024) * 100) / 100) | 0} MB`
     );

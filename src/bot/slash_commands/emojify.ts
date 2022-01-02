@@ -4,7 +4,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
 
 export default <Command> {
   options: {
-    guildOnly: false,
+    isGuildOnly: false,
     information: {
       descr: "Convierte un texto a emojis",
       short: "Reemplaza texto por emojis",

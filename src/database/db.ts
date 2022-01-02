@@ -7,17 +7,9 @@ let db: Database | undefined;
 
 if (!db) {
   const client = new MongoClient();
-  await start(client);
-  db = getDatabase(client, "azucluster");
-}
+  await client.connect(Deno.env.get("DB")!);
 
-export function start(client: MongoClient) {
-  // Connecting to a Mongo Atlas Database
-  return client.connect(Deno.env.get("DB")!);
-}
-
-export function getDatabase(client: MongoClient, str: string) {
-  return client.database(str);
+  db = client.database("azucluster");
 }
 
 export { db };

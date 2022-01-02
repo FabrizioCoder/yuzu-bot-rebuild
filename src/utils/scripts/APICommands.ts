@@ -23,8 +23,8 @@ try {
 
     slashCommands.set(commandName, {
       options: {
-        guildOnly: false,
-        adminOnly: false,
+        isGuildOnly: false,
+        isAdminOnly: false,
         information: {
           descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
           usage: `[@User]`,
@@ -85,8 +85,8 @@ try {
         name: commandName,
       },
       options: {
-        guildOnly: false,
-        adminOnly: false,
+        isGuildOnly: false,
+        isAdminOnly: false,
         information: {
           descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
           usage: `[@User]`,

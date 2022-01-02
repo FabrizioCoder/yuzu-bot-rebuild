@@ -4,7 +4,7 @@ import { cache } from "utils";
 export default <Monitor<"messageDelete">> {
   name: "messageSniper",
   type: "messageDelete",
-  ignoreDM: true,
+  isGuildOnly: true,
   ignoreBots: true,
   async execute(_bot, _payload, message) {
     if (message) {

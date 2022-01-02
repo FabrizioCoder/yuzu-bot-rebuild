@@ -11,7 +11,7 @@ export default <Event<"messageCreate">> {
         try {
           if (monitor.ignoreBots && message.isBot) {
             return;
-          } else if (monitor.ignoreDM && !message.guildId) {
+          } else if (monitor.isGuildOnly && !message.guildId) {
             return;
           } else {
             await monitor.execute(bot, message);

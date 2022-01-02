@@ -12,8 +12,8 @@ import { db } from "../../database/db.ts";
 
 export default <Command<false>> {
   options: {
-    guildOnly: true,
-    adminOnly: false,
+    isGuildOnly: true,
+    isAdminOnly: false,
     information: {
       descr: "Configura un canal para enviar mensajes starboard ⭐",
       short: "Configura un canal para enviar mensajes starboard ⭐",

@@ -1,5 +1,5 @@
 import type { Event } from "../../types/event.ts";
-import type { Payload } from "../../types/task.ts";
+import type { ReadyPayload } from "../../types/task.ts";
 import type { BotWithCache } from "cache_plugin";
 import { cache, Configuration, logger } from "utils";
 import { cyan } from "fmt/colors";
@@ -29,7 +29,7 @@ export default <Event<"ready">> {
 };
 
 // inspired by Discordeno template
-function registerTasks(bot: BotWithCache, payload: Payload, ...args: number[]) {
+function registerTasks(bot: BotWithCache, payload: ReadyPayload, ...args: number[]) {
   return cache.tasks.forEach((task) => {
     cache.runningTasks.initialTimeouts.add(
       setTimeout(async () => {
