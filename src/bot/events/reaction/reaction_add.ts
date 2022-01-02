@@ -16,7 +16,7 @@ export default <Event<"reactionAdd">>{
     if (!starboard) return;
 
     // use this rather than the cache!
-    const message = await getMessage(bot, channelId, messageId);
+    const message = bot.messages.get(messageId) ?? await getMessage(bot, channelId, messageId);
     const user = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
     // get the reaction

@@ -6,8 +6,8 @@ export default <Event<"messageCreate">> {
   name: "messageCreate",
   execute(bot, message) {
     cache.monitors
-      .filter((monitor) => monitor.type === "messageCreate")
       .forEach(async (monitor) => {
+        if (monitor.type !== "messageCreate") return;
         try {
           if (monitor.ignoreBots && message.isBot) {
             return;

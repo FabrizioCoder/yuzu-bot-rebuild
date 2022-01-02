@@ -23,7 +23,9 @@ export default <Command<false>> {
       return "El tag debe tener 4 dígitos";
     }
 
-    const users = bot.users.filter((u) => u.discriminator === tag).map((u) => `${u.username}#${u.discriminator}`);
+    const users = bot.users.map((u) => {
+      if (u.discriminator === tag) return `${u.username}#${u.discriminator}`;
+    });
 
     return <Embed> {
       color: randomHex(),

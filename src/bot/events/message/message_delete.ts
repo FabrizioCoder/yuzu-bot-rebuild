@@ -6,8 +6,8 @@ export default <Event<"messageDelete">> {
   name: "messageDelete",
   execute(bot, payload, message) {
     cache.monitors
-      .filter((monitor) => monitor.type === "messageDelete")
       .forEach(async (monitor) => {
+        if (monitor.type !== "messageDelete") return;
         try {
           if (!message) {
             return;
