@@ -1,5 +1,6 @@
 import type { Command } from "../types/command.ts";
 import { Category } from "utils";
+import { getChannel } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 import {
   editStarboard,
@@ -23,8 +24,8 @@ export default <Command<false>> {
   data: {
     name: "starboard",
   },
-  using: ["channel", "guild"],
-  async execute(bot, message, { args }, { channel, guild }) {
+  using: ["guild"],
+  async execute(bot, message, { args }, { guild }) {
     if (!db) return;
     if (!guild) return;
 
@@ -35,6 +36,7 @@ export default <Command<false>> {
     }
 
     const isStaff = message.member ? hasGuildPermissions(bot, guild, message.member, ["MANAGE_GUILD"]) : false;
+    const channel = bot.channels.get(channelId) ?? await getChannel(bot, channelId);
 
     if (!isStaff) {
       return "No posees suficientes permisos";
@@ -58,17 +60,11 @@ export default <Command<false>> {
 
       return `El canal del starboard será <#${newStarboard?.channelId}> y tendrá el emoji ${emoji?.name ?? "⭐"}`;
     } else {
-      await editStarboard(
-        getCollection(db),
-        {
-          guildId: guild.id.toString(),
-        },
-        {
-          count,
-          channelId: channel.id.toString(),
-          emojiId: !emoji ? "⭐" : emoji.id ? emoji.id.toString() : emoji.name,
-        }
-      );
+      await editStarboard(getCollection(db), { guildId: guild.id.toString(), }, {
+        count,
+        channelId: channel.id.toString(),
+        emojiId: !emoji ? "⭐" : emoji.id ? emoji.id.toString() : emoji.name,
+      });
 
       const newStarboard = await getStarboard(getCollection(db), guild.id);
 

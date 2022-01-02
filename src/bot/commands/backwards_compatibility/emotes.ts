@@ -23,7 +23,7 @@ export default <Command<false>> {
 
     if (!guild || !message.member) return;
 
-    if (option.toLowerCase() === "hide" || option.toLowerCase() === "remove" || option.toLowerCase() === "add") {
+    if (option?.toLowerCase() === "hide" || option?.toLowerCase() === "remove" || option?.toLowerCase() === "add") {
       const canManageEmojis = hasGuildPermissions(bot, guild, message.member, ["MANAGE_EMOJIS"]);
 
       if (!canManageEmojis) {
