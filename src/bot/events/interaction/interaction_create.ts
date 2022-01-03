@@ -7,7 +7,7 @@ export default <Event> {
   execute(bot, interaction) {
     cache.monitors
       .forEach(async (monitor) => {
-        if (monitor.type !== "interactionCreate") return;
+        if (monitor.event !== "interactionCreate") return;
         try {
           if (monitor.ignoreBots && interaction.user.bot) {
             return;
