@@ -27,6 +27,10 @@ export function isInvite(str: string) {
   return /(https:\/\/)?.*(discord.*\.?g.*g.*|invite\/*)\/?.+/gim.test(str);
 }
 
+export function maskify(str: string) {
+  return str.replace(/.(?=.{4,}$)/g, '#');
+}
+
 export function isURL(str: string) {
   return /^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/.test(str);
 }

@@ -2,7 +2,6 @@ import type { Command } from "./types/command.ts";
 import type { Event } from "./types/event.ts";
 import type { Task } from "./types/task.ts";
 import type { Monitor } from "./types/monitor.ts";
-import type { EventHandlers } from "discordeno";
 import { cache, Configuration, loadFilesFromBot, logger } from "utils";
 import { createBot, startBot } from "discordeno";
 import { enableCachePlugin } from "cache_plugin";
@@ -27,7 +26,7 @@ await Promise.all([
     log.info(`Loaded ${cyan("command")} ${command.data.name}`);
   }),
   // /events/
-  loadFilesFromBot<Event<keyof EventHandlers>>("events", (event) => {
+  loadFilesFromBot<Event>("events", (event) => {
     if ("disable" in event) return;
     cache.events.set(event.name, event);
     log.info(`Loaded ${cyan("event")} ${event.name}`);
@@ -39,7 +38,7 @@ await Promise.all([
     log.info(`Loaded ${cyan("task")} ${task.name}`);
   }),
   // /monitors/
-  loadFilesFromBot<Monitor<keyof EventHandlers>>("monitors", (monitor) => {
+  loadFilesFromBot<Monitor>("monitors", (monitor) => {
     if ("disable" in monitor) return;
     cache.monitors.set(monitor.name, monitor);
     log.info(`Loaded ${cyan("monitor")} ${monitor.name}`);

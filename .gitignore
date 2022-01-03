@@ -2,3 +2,4 @@
 config.json
 reaction_remove.ts
 create_command.ts
+utility.ts

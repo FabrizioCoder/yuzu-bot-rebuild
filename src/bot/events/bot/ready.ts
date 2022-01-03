@@ -4,7 +4,7 @@ import type { BotWithCache } from "cache_plugin";
 import { cache, Configuration, logger } from "utils";
 import { cyan } from "fmt/colors";
 
-export default <Event<"ready">> {
+export default <Event> {
   name: "ready",
   execute(bot, payload) {
     const uptime = Date.now();

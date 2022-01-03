@@ -2,7 +2,7 @@ import type { Event } from "../../types/event.ts";
 import { cache, Configuration, logger } from "utils";
 import { sendMessage } from "discordeno";
 
-export default <Event<"messageCreate">> {
+export default <Event> {
   name: "messageCreate",
   execute(bot, message) {
     cache.monitors

@@ -3,9 +3,9 @@ import type { Embed, SelectMenuComponent } from "discordeno";
 import { cache, Category } from "utils";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
 
-export default <Monitor<"interactionCreate">> {
+export default <Monitor> {
   name: "onSelectMenu",
-  type: "interactionCreate",
+  event: "interactionCreate",
   isGuildOnly: false,
   ignoreBots: true,
   async execute(bot, interaction) {

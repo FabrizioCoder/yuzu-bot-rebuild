@@ -1,14 +1,15 @@
-import type { Event } from "./event.ts";
 import type { EventHandlers } from "discordeno";
 
-// ex: Monitor<'messageCreate'>
+type Values<T> = T[keyof T];
 
-export interface Monitor<T extends keyof EventHandlers> extends Omit<Event<T>, "name"> {
-  // arbitrary name
-  name: string;
+type Variants<Dictionary extends EventHandlers> = Values<{
+  [Prop in keyof Dictionary]: {
+    name: string,
+    event: Prop,
+    execute: Dictionary[Prop],
+    ignoreBots: boolean, // if the author is a bot
+    isGuildOnly: boolean // if the monitor is executed on dm
+  };
+}>;
 
-  ignoreBots: boolean; // if the author is a bot
-  isGuildOnly: boolean; // if the monitor is executed on dm
-
-  type?: T; // the monitor event
-}
+export type Monitor = Variants<EventHandlers>;

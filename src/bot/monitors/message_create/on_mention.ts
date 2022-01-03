@@ -1,9 +1,9 @@
 import type { Monitor } from "../../types/monitor.ts";
 import { sendMessage } from "discordeno";
 
-export default <Monitor<"messageCreate">> {
+export default <Monitor> {
   name: "mentionMonitor",
-  type: "messageCreate",
+  event: "messageCreate",
   isGuildOnly: false,
   ignoreBots: true,
   async execute(bot, message) {

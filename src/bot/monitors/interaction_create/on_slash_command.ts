@@ -14,9 +14,9 @@ import {
 } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
 
-export default <Monitor<"interactionCreate">> {
+export default <Monitor> {
   name: "onSlashCommand",
-  type: "interactionCreate",
+  event: "interactionCreate",
   isGuildOnly: false,
   ignoreBots: true,
   async execute(bot: BotWithCache, interaction) {

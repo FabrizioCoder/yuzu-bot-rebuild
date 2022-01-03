@@ -6,7 +6,10 @@ export default <Command<false>> {
   data: {
     name: "ping",
   },
-  async execute() {
-    return "pong!";
+  using: ["user"],
+  async execute(_bot, _message, _args, { user }) {
+    if (user) {
+      return `Ping ${user.username}#${user.discriminator}!`;
+    }
   },
 };

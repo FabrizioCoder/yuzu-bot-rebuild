@@ -2,9 +2,9 @@ import type { Monitor } from "../../types/monitor.ts";
 import { processButtonCollectors } from "utils";
 import { InteractionTypes, MessageComponentTypes } from "discordeno";
 
-export default <Monitor<"interactionCreate">> {
+export default <Monitor> {
   name: "onButtonCollected",
-  type: "interactionCreate",
+  event: "interactionCreate",
   isGuildOnly: true,
   ignoreBots: true,
   execute(_bot, interaction) {

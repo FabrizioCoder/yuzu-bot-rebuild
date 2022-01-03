@@ -6,7 +6,7 @@ import { avatarURL, editMessage, sendMessage, getMessage, getUser } from "discor
 import { getCollection, getStarboard } from "../../../database/controllers/starboard_controller.ts";
 import { db } from "../../../database/db.ts";
 
-export default <Event<"reactionAdd">>{
+export default <Event> {
   name: "reactionAdd",
   async execute(bot: BotWithCache, { channelId, guildId, messageId, emoji }) {
     if (!db || !guildId) return;
@@ -57,7 +57,7 @@ export default <Event<"reactionAdd">>{
         },
         {
           name: "Emoji:",
-          value: emoji.id ? `<${emoji.animated ? "a" : ""}:${emoji.name}:${emoji.id}>` : emoji.name!,
+          value: reaction.emoji.id ? `<${reaction.emoji.animated ? "a" : ""}:${reaction.emoji.name}:${reaction.emoji.id}>` : reaction.emoji.name!,
         }, // NOTE: emoji.name and emoji.id can't be undefined at the same time
         {
           name: "Info:",

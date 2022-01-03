@@ -1,9 +1,9 @@
 import type { Monitor } from "../../types/monitor.ts";
 import { cache } from "utils";
 
-export default <Monitor<"messageCreate">> {
+export default <Monitor> {
   name: "attachmentMonitor",
-  type: "messageCreate",
+  event: "messageCreate",
   isGuildOnly: true,
   ignoreBots: false,
   execute(_bot, message) {

@@ -22,9 +22,9 @@ async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Config
   return customPrefix;
 }
 
-export default <Monitor<"messageCreate">> {
+export default <Monitor> {
   name: "commandMonitor",
-  type: "messageCreate",
+  event: "messageCreate",
   isGuildOnly: false,
   ignoreBots: true,
   async execute(bot: BotWithCache, message) {
