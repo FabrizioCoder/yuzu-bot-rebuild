@@ -13,10 +13,10 @@ export const slashCommands: Collection<string, Command<true>> = new Collection()
 export const commands: Collection<string, Command<false>> = new Collection();
 
 // events
-export const events: Collection<string, Event<keyof EventHandlers>> = new Collection();
+export const events: Collection<string, Event> = new Collection();
 
 // monitors
-export const monitors: Collection<string, Monitor<keyof EventHandlers>> = new Collection();
+export const monitors: Collection<string, Monitor> = new Collection();
 
 // tasks
 export const tasks: Collection<string, Task> = new Collection();
