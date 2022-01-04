@@ -1,4 +1,4 @@
-import { type Context, Command, Option, SubcommandOption } from "oasis";
+import { type Context, Command, Option, OptionIn } from "oasis";
 import { Category, Configuration, toCapitalCase } from "utils";
 import { ApplicationCommandOptionTypes, getChannel, getUser } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
@@ -45,13 +45,13 @@ enum Arguments {
   name: "add",
   description: "Añade un tag",
 })
-@SubcommandOption("add", {
+@OptionIn("add", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
   description: "El nombre del tag",
 })
-@SubcommandOption("add", {
+@OptionIn("add", {
   type: ApplicationCommandOptionTypes.String,
   name: "content",
   required: true,
@@ -62,7 +62,7 @@ enum Arguments {
   name: "remove",
   description: "Remueve un tag",
 })
-@SubcommandOption("remove", {
+@OptionIn("remove", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
@@ -73,13 +73,13 @@ enum Arguments {
   name: "give",
   description: "Da un tag a un usuario",
 })
-@SubcommandOption("give", {
+@OptionIn("give", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
   description: "El nombre del tag",
 })
-@SubcommandOption("give", {
+@OptionIn("give", {
   type: ApplicationCommandOptionTypes.User,
   name: "user",
   required: true,
@@ -90,13 +90,13 @@ enum Arguments {
   name: "edit",
   description: "Edita un tag",
 })
-@SubcommandOption("edit", {
+@OptionIn("edit", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
   description: "El nombre del tag",
 })
-@SubcommandOption("edit", {
+@OptionIn("edit", {
   type: ApplicationCommandOptionTypes.String,
   name: "content",
   required: true,
@@ -107,7 +107,7 @@ enum Arguments {
   name: "list",
   description: "Encuentra todos tus tags en el servidor",
 })
-@SubcommandOption("list", {
+@OptionIn("list", {
   type: ApplicationCommandOptionTypes.User,
   name: "user",
   required: false,
@@ -118,7 +118,7 @@ enum Arguments {
   name: "nsfw",
   description: "Marca un tag como nsfw",
 })
-@SubcommandOption("nsfw", {
+@OptionIn("nsfw", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
@@ -129,7 +129,7 @@ enum Arguments {
   name: "owner",
   description: "Busca el dueño de un tag",
 })
-@SubcommandOption("owner", {
+@OptionIn("owner", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
@@ -140,7 +140,7 @@ enum Arguments {
   name: "display",
   description: "Busca un tag",
 })
-@SubcommandOption("hide", {
+@OptionIn("hide", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,

@@ -1,4 +1,4 @@
-import type { Command } from "../types/command.ts";
+import type { Command } from "../../types/command.ts";
 import { Category, isInvite } from "utils";
 import { deleteMessage } from "discordeno";
 

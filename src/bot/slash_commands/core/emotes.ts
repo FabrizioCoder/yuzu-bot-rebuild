@@ -1,4 +1,4 @@
-import { type Context, Command, MessageEmbed, Option, SubcommandOption } from "oasis";
+import { type Context, Command, MessageEmbed, Option, OptionIn } from "oasis";
 import { Category, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,
@@ -26,13 +26,13 @@ import { hasGuildPermissions } from "permissions_plugin";
   description: "Añade un emoji",
   options: [],
 })
-@SubcommandOption("add", {
+@OptionIn("add", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
   description: "El nombre del emoji",
 })
-@SubcommandOption("add", {
+@OptionIn("add", {
   type: ApplicationCommandOptionTypes.String,
   name: "url",
   required: true,
@@ -44,7 +44,7 @@ import { hasGuildPermissions } from "permissions_plugin";
   description: "Remueve un emoji",
   options: [],
 })
-@SubcommandOption("remove", {
+@OptionIn("remove", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
@@ -56,13 +56,13 @@ import { hasGuildPermissions } from "permissions_plugin";
   description: "Limita un emoji a un rol",
   options: [],
 })
-@SubcommandOption("hide", {
+@OptionIn("hide", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
   description: "El nombre del emoji",
 })
-@SubcommandOption("hide", {
+@OptionIn("hide", {
   type: ApplicationCommandOptionTypes.Role,
   name: "role",
   required: true,

@@ -1,8 +1,8 @@
-import type { Command } from "../types/command.ts";
+import type { Command } from "../../types/command.ts";
 import { Category, isNotAscii } from "utils";
 import { hasGuildPermissions } from "permissions_plugin";
-import { addPrefix, editPrefix, getCollection, getPrefix } from "../../database/controllers/prefix_controller.ts";
-import { db } from "../../database/db.ts";
+import { addPrefix, editPrefix, getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
+import { db } from "../../../database/db.ts";
 
 export default <Command<false>> {
   options: {
