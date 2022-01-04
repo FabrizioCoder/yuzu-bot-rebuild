@@ -37,7 +37,7 @@ export default class {
       size: 2048,
     });
 
-    const embed = MessageEmbed
+    return MessageEmbed
       .new()
       .author(`Dueño: ${user.username}#${user.discriminator}`, avatar)
       .color(DiscordColors.Blurple)
@@ -45,7 +45,5 @@ export default class {
       .description(`[Referencia](https://www.google.com/searchbyimage?image_url=${avatar})\n[Avatar URL](${avatar})`)
       .image(avatar)
       .end();
-
-    return embed;
   }
 }
