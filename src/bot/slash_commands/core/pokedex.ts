@@ -89,4 +89,4 @@ export default abstract class {
 
     return embed;
   }
-};
+}

@@ -86,7 +86,9 @@ export default abstract class {
       return;
     }
 
-    if (!interaction.guildId) return;
+    if (!interaction.guildId) {
+      return;
+    }
 
     const guild = bot.guilds.get(interaction.guildId) ?? await getGuild(bot, interaction.guildId);
 

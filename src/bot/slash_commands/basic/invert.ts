@@ -39,4 +39,4 @@ export default abstract class {
       .reverse()
       .join("");
   }
-};
+}

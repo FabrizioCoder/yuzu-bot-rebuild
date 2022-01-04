@@ -1,5 +1,4 @@
-import type { Command } from "../../types/command.ts";
-import type { Embed, SelectMenuComponent } from "discordeno";
+import { type Context, Command, MessageEmbed } from "oasis";
 import { cache, Category, CategoryEmoji, DiscordColors } from "utils";
 import {
   avatarURL,
@@ -7,23 +6,21 @@ import {
   InteractionResponseTypes,
   MessageComponentTypes,
   sendInteractionResponse,
+  type SelectMenuComponent,
 } from "discordeno";
 
-export default <Command> {
-  options: {
-    isGuildOnly: false,
-    information: {
-      descr: "\\📕 Ayuda del bot...",
-      short: "\\📕 Ayuda del bot",
-      usage: "...",
-    },
-  },
+@Command({
+  name: "help",
+  description: "📕 Ayuda del bot...",
   category: Category.Info,
-  data: {
-    name: "help",
-    description: "📕 Ayuda del bot...",
+  meta: {
+    descr: "\\📕 Ayuda del bot...",
+    short: "\\📕 Ayuda del bot",
+    usage: "...",
   },
-  async execute({ bot, interaction }) {
+})
+export default abstract class {
+  static async execute({ bot, interaction }: Context) {
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",
@@ -49,45 +46,33 @@ export default <Command> {
 
     const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
 
-    if (!me) return;
+    if (!me) {
+      return;
+    }
 
-    const embed: Embed = {
-      color: DiscordColors.Blurple,
-      author: {
-        name: interaction.user.username,
-        iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
-          avatar: interaction.user.avatar,
-          size: 512,
-        }),
-      },
-      thumbnail: {
-        url: avatarURL(bot, me.id, me.discriminator, {
-          avatar: me.avatar,
-          size: 512,
-        }),
-      },
-      description: `${cache.slashCommands.size + cache.commands.size} comandos`,
-      footer: {
-        text: `${interaction.user.id} <> Required [] Optional`,
-        iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
-          avatar: interaction.user.avatar,
-          size: 512,
-        }),
-      },
-    };
+    const avatar = avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+      avatar: interaction.user.avatar,
+    });
+
+    const embed = MessageEmbed
+      .new()
+      .color(DiscordColors.Blurple)
+      .author(interaction.user.username, avatar)
+      .thumbnail(avatar)
+      .description(`${cache.slashCommands.size + cache.commands.size} comandos`)
+      .footer(`${interaction.user.id} <> Required [] Optional`, avatar)
+      .end();
 
     await sendInteractionResponse(bot, interaction.id, interaction.token, {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
       data: {
         embeds: [embed],
-        components: [
-          {
-            type: MessageComponentTypes.ActionRow,
-            components: [menu],
-          },
-        ],
+        components: [{
+          type: MessageComponentTypes.ActionRow,
+          components: [menu],
+        }],
       },
     });
     return;
-  },
-};
+  }
+}

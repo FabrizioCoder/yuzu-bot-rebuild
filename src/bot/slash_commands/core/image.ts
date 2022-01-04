@@ -221,4 +221,4 @@ export default abstract class {
       }
     } while (true);
   }
-};
+}

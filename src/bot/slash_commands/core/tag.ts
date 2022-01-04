@@ -10,8 +10,8 @@ import {
   getTag,
   passTag,
   removeTag,
-} from "../../database/controllers/tag_controller.ts";
-import { db } from "../../database/db.ts";
+} from "../../../database/controllers/tag_controller.ts";
+import { db } from "../../../database/db.ts";
 
 enum Arguments {
   Add,
@@ -173,10 +173,7 @@ export default abstract class {
 
     const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
 
-    // search
-    const search = Arguments[toCapitalCase(option.name) as keyof typeof Arguments];
-
-    switch (search) {
+    switch (Arguments[toCapitalCase(option.name) as keyof typeof Arguments]) {
       case Arguments.Add: {
         const [name, content] = option.options?.map((o) => o.value) as [string, string];
         const tag = await getTag(getCollection(db), name, interaction.guildId);
