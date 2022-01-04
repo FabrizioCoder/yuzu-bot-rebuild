@@ -55,9 +55,9 @@ export default abstract class {
       return;
     }
 
-    const channelId = options?.[0];
+    const channelId = options?.[0]?.value as string | undefined;
 
-    if (!channelId || typeof channelId !== "string") {
+    if (!channelId) {
       return "Debes mencionar al menos la id de un canal";
     }
 
@@ -72,11 +72,11 @@ export default abstract class {
       return "El canal debe pertenecer al servidor...";
     }
 
-    const count = options[2] ?? 5;
+    const count = (options?.[2]?.value) ?? 5;
 
     if (typeof count !== "number") return;
 
-    const emoji = guild.emojis.find((emoji) => emoji.name === (typeof options[1] !== "string" ? undefined : options[1]));
+    const emoji = guild.emojis.find((emoji) => emoji.name === (typeof options?.[1]?.value !== "string" ? undefined : options[1].value));
     const starboard = await getStarboard(getCollection(db), guild.id);
 
     if (count < 1) {

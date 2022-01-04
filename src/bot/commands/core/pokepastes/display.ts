@@ -1,24 +1,20 @@
-import type { Command } from "../../types/command.ts";
+import { type Context, Command } from "oasis";
 import { Category } from "utils";
 import { sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";
 
-export default <Command<false>> {
-  options: {
-    isGuildOnly: false,
-    isAdminOnly: false,
-    information: {
-      descr: "pokepast.es wrapper",
-      short: "pokepast.es wrapper",
-      usage: "<Link>",
-    },
-  },
+@Command({
+  name: "paste",
   category: Category.Info,
-  data: {
-    name: "paste",
+  meta: {
+    descr: "pokepast.es wrapper",
+    short: "pokepast.es wrapper",
+    usage: "<Link>",
   },
-  async execute({ bot, message, args }) {
-    const [first, second] = args.args;
+})
+export default abstract class {
+  static async execute({ bot, message, args: { args } }: Context<false>) {
+    const [first, second] = args;
 
     const hasMobileFlag = first === "--mobile" || first === "-m";
     const link = hasMobileFlag ? second : first;
@@ -33,14 +29,14 @@ export default <Command<false>> {
 
     if (hasMobileFlag) {
       await sendMessage(bot, message.channelId, {
-        content: `\`\`\`ml\n${paste}\`\`\``,
+        content: `\`\`\`md\n${paste}\`\`\``,
       });
     } else {
       const file = new Blob([paste], { type: "text/plain" });
 
       await sendMessage(bot, message.channelId, {
-        file: [{ blob: file, name: "Pokepaste.ml" }],
+        file: [{ blob: file, name: "Pokepaste.md" }],
       });
     }
-  },
-};
+  }
+}
