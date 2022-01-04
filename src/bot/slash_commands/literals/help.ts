@@ -1,4 +1,4 @@
-import type { Command } from "../types/command.ts";
+import type { Command } from "../../types/command.ts";
 import type { Embed, SelectMenuComponent } from "discordeno";
 import { cache, Category, CategoryEmoji, DiscordColors } from "utils";
 import {

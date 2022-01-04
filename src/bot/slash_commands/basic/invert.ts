@@ -1,33 +1,30 @@
-import type { Command } from "../types/command.ts";
+import { type Context, Command } from "oasis";
 import { Category } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-export default <Command> {
-  options: {
-    isGuildOnly: false,
-    information: {
-      descr: "Invierte un texto hacia arriba",
-      short: "Invierte un texto hacia arriba",
-      usage: "<Input>",
-    },
+@Command({
+  name: "invert",
+  description: "Invierte un texto",
+  meta: {
+    descr: "Invierte un texto hacia arriba",
+    short: "Invierte un texto hacia arriba",
+    usage: "<Input>",
   },
   category: Category.Fun,
-  data: {
-    name: "invert",
-    description: "Invierte un texto",
-    options: [
-      {
-        type: ApplicationCommandOptionTypes.String,
-        required: true,
-        name: "input",
-        description: "Invert 🔃",
-      },
-    ],
-  },
-  async execute({ interaction }) {
+  options: [{
+    type: ApplicationCommandOptionTypes.String,
+    required: true,
+    name: "input",
+    description: "Invert 🔃",
+  }],
+})
+export default abstract class {
+  static execute({ interaction }: Context) {
     const option = interaction.data?.options?.[0];
 
-    if (option?.type !== ApplicationCommandOptionTypes.String) return;
+    if (option?.type !== ApplicationCommandOptionTypes.String) {
+      return;
+    }
 
     const mapping = "¡\"#$%⅋,)(*+'-˙/0ƖᄅƐㄣϛ9ㄥ86:;<=>¿@∀qƆpƎℲפHIſʞ˥WNOԀQɹS┴∩ΛMX⅄Z[/]^_`ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz{|}~";
     const offset = "!".charCodeAt(0); // Start with the character '!'
@@ -41,5 +38,5 @@ export default <Command> {
       .map((c) => mapping[c.charCodeAt(0) - offset] ?? " ")
       .reverse()
       .join("");
-  },
+  }
 };

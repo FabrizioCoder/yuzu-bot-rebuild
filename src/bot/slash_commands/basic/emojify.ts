@@ -1,30 +1,25 @@
-import type { Command } from "../types/command.ts";
+import { type Context, Command } from "oasis";
 import { Category, rangeChar } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-export default <Command> {
-  options: {
-    isGuildOnly: false,
-    information: {
-      descr: "Convierte un texto a emojis",
-      short: "Reemplaza texto por emojis",
-      usage: "<Text>",
-    },
+@Command({
+  name: "emojify",
+  description: "Convierte un texto a emojis",
+  meta: {
+    descr: "Convierte un texto a emojis",
+    short: "Reemplaza texto por emojis",
+    usage: "<Text>",
   },
   category: Category.Fun,
-  data: {
-    name: "emojify",
-    description: "Convierte un texto a emojis",
-    options: [
-      {
-        type: ApplicationCommandOptionTypes.String,
-        name: "input",
-        required: true,
-        description: "Emojify 🔠",
-      },
-    ],
-  },
-  async execute({ interaction }) {
+  options: [{
+    type: ApplicationCommandOptionTypes.String,
+    name: "input",
+    required: true,
+    description: "Emojify 🔠",
+  }],
+})
+export default abstract class {
+  static execute({ interaction }: Context) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
@@ -54,5 +49,5 @@ export default <Command> {
       .split("")
       .map((c) => (c.toLowerCase() in mapping ? mapping[c.toLowerCase()] : c))
       .join("");
-  },
-};
+  }
+}

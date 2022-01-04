@@ -100,10 +100,10 @@ export const logger = {
         return console.warn(...toLog);
 
       case LogLevels.Error:
-        return logger.error(...toLog);
+        return console.error(...toLog);
 
       case LogLevels.Fatal:
-        return logger.error(...toLog);
+        return console.error(...toLog);
 
       default:
         return console.log(...toLog);

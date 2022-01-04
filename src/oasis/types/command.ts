@@ -28,5 +28,6 @@ export interface MessageCommand {
   category: number;
 }
 
-export type SlashContext<T extends boolean = true> = T extends true ? SlashCommandContext : MessageCommandContext;
-export type MessageContext<T extends boolean = false> = T extends true ? SlashCommandContext : MessageCommandContext;
+export type Context<T extends boolean = true> = T extends true
+  ? SlashCommandContext
+  : MessageCommandContext;

@@ -1,6 +1,4 @@
-/* Expermiental */
-
-import { type SlashContext, Command, MessageEmbed } from "oasis";
+import { type Context, Command, MessageEmbed } from "oasis";
 import { ApplicationCommandOptionTypes, avatarURL, getUser } from "discordeno";
 import { Category, DiscordColors } from "utils";
 
@@ -20,7 +18,7 @@ import { Category, DiscordColors } from "utils";
   }],
 })
 export default abstract class {
-  static async execute({ bot, interaction }: SlashContext) {
+  static async execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.User) {

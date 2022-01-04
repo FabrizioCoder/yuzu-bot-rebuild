@@ -1,11 +1,12 @@
-import type { Command } from "../../types/command.ts";
-import type { ButtonComponent, Embed } from "discordeno";
+import type { ButtonComponent } from "discordeno";
+import { type Context, Command, MessageEmbed} from "oasis";
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,
   avatarURL,
   ButtonStyles,
   deleteMessage,
+  getChannel,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
@@ -57,72 +58,81 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-export default <Command> {
-  options: {
-    isGuildOnly: false,
-    information: {
-      descr: "Busca imágenes en internet",
-      short: "Busca imágenes",
-      usage: "<Search>",
-    },
+@Command({
+  name: "image",
+  description: "Busca imágenes en internet",
+  meta: {
+    descr: "Busca imágenes en internet",
+    short: "Busca imágenes",
+    usage: "<Search>",
   },
   category: Category.Util,
-  data: {
-    name: "image",
-    description: "Busca imágenes en internet",
-    options: [
-      {
-        type: ApplicationCommandOptionTypes.String,
-        required: true,
-        name: "search",
-        description: "Búsqueda",
-      },
-    ],
-  },
-  using: ["channel"],
-  async execute({ bot, interaction, structs: { channel } }) {
+  options: [{
+    type: ApplicationCommandOptionTypes.String,
+    required: true,
+    name: "search",
+    description: "Búsqueda",
+  }],
+})
+export default abstract class {
+  static async execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
       return "Por favor escribe un texto";
     }
 
-    if (!channel) return;
+    if (!interaction.channelId) {
+      return;
+    }
+
+    const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
+
+    if (!channel) {
+      return;
+    }
 
     // get an nsfw output if the currentChannel is nsfw
     const results = await search(option.value as string, channel.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
     const limit = results.length - 1;
 
-    // this is the base embed to send
-    const embed: Embed = {
-      color: randomHex(),
-      image: {
-        url: results[0].image,
-        height: results[0].height,
-        width: results[0].width,
-      },
-      fields: [
-        {
-          name: "Búsqueda segura",
-          value: channel?.nsfw ? "No" : "Sí",
-        },
-      ],
-      author: {
-        name: results[0].source,
-        iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
-          avatar: interaction.user.avatar,
-          size: 512,
-        }),
-      },
-      footer: { text: `Results for ${option.value}` },
-    };
+    // // this is the base embed to send
+    // const embed: Embed = {
+    //   color: randomHex(),
+    //   image: {
+    //     url: results[0].image,
+    //     height: results[0].height,
+    //     width: results[0].width,
+    //   },
+    //   fields: [
+    //     {
+    //       name: "Búsqueda segura",
+    //       value: channel?.nsfw ? "No" : "Sí",
+    //     },
+    //   ],
+    //   author: {
+    //     name: results[0].source,
+    //     iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+    //       avatar: interaction.user.avatar,
+    //       size: 512,
+    //     }),
+    //   },
+    //   footer: { text: `Results for ${option.value}` },
+    // };
+    const embed = MessageEmbed
+      .new()
+      .color(randomHex())
+      .image(results[0].image)
+      .field("Búsqueda segura", channel.nsfw ? "No" : "Sí")
+      .author(
+        results[0].source,
+        avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar })
+      )
+      .footer(`Results for ${option.value}`);
 
     const message = await sendInteractionResponse(bot, interaction.id, interaction.token, {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-      data: {
-        embeds: [embed],
-        components: [{ type: 1, components: buttons }],
-      },
+      data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
     });
 
     // stuff to help the button collector
@@ -211,22 +221,9 @@ export default <Command> {
         }
         const result = results[index];
 
-        // create a copy of the embed rewritting the footer & image
-        const copy = Object.assign(Object.create(embed) as Embed, {
-          image: {
-            url: result.image,
-          },
-          footer: {
-            text: `📜: ${index}/${limit}`,
-          },
-          author: {
-            name: result.source,
-            iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
-              avatar: interaction.user.avatar,
-              size: 512,
-            }),
-          },
-        });
+        embed.image(result.image);
+        embed.footer(`📜: ${index}/${limit}`);
+        embed.author(result.source);
 
         // disable buttons to prevent the user to throw an unexpected result
         const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
@@ -239,14 +236,11 @@ export default <Command> {
         // edit the message the component is attached to
         await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
           type: InteractionResponseTypes.UpdateMessage,
-          data: {
-            embeds: [copy],
-            components: [{ type: 1, components: buttons }], // edited buttons
-          },
+          data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
         });
       } catch {
         break;
       }
     } while (true);
-  },
+  }
 };

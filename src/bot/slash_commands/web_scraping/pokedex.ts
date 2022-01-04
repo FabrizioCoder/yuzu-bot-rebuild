@@ -1,6 +1,5 @@
-import type { Command } from "../../types/command.ts";
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
-import type { Embed } from "discordeno";
+import { type Context, Command, MessageEmbed } from "oasis";
 import { Api, Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 import { default as f } from "axiod";
@@ -44,26 +43,28 @@ function parsePokemonWeight(weight: number) {
 }
 
 // Command...
-
-export default <Command> {
-  options: {
-    isGuildOnly: false,
-    information: {
-      descr: "Comando para buscar un pokémon por su nombre o id",
-      short: "Busca pokemones",
-      usage: "<Nombre o id>",
-    },
+@Command({
+  name: "dex",
+  description: "Comando para buscar un pokémon por su nombre o id",
+  meta: {
+    descr: "Comando para buscar un pokémon por su nombre o id",
+    short: "Busca pokemones",
+    usage: "<Nombre o id>",
   },
   category: Category.Util,
-  data: {
-    name: "dex",
-    description: "Comando para buscar un pokémon por su nombre o id",
-  },
-  async execute({ interaction }) {
+  options: [{
+    name: "search",
+    description: "🔎",
+    required: true,
+    type: ApplicationCommandOptionTypes.String,
+  }]
+})
+export default abstract class {
+  static async execute({ interaction }: Context) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
-      return "Debes ingresar más información del pokémon para buscarlo.";
+      return;
     }
 
     const target = parseMessageToPokemon(option.value as string);
@@ -73,34 +74,19 @@ export default <Command> {
       return "No se pudo encontrar información sobre el pokémon.";
     }
 
-    return <Embed> {
-      title: `${poke.name[0]?.toUpperCase() + poke.name.slice(1)} #${poke.id}`,
-      color: randomHex(),
-      footer: {
-        text: "Thanks to PokéAPI for existing!",
-        url: "https://pokeapi.co/static/pokeapi_256.888baca4.png",
-      },
-      description: poke.stats.map((value) => `${value.stat.name}: \`${value.base_stat}\``).join("\n"),
-      fields: [
-        {
-          name: "Abilities",
-          value: poke.abilities.map((ab) => ab.ability.name).join(" "),
-        },
-        {
-          name: "Types",
-          value: poke.types.map((tp) => tp.type.name).join(" "),
-        },
-        {
-          name: "Etc",
-          value: [`**Weight**: ${parsePokemonWeight(poke.weight)}kg`, `**Height**: ${poke.height}`].join("\n"),
-        },
-      ],
-      image: {
-        url: poke.sprites.front_default,
-      },
-      thumbnail: {
-        url: poke.sprites.front_shiny,
-      },
-    };
-  },
+    const embed = MessageEmbed
+      .new()
+      .title(`${poke.name[0]?.toUpperCase() + poke.name.slice(1)} #${poke.id}`)
+      .color(randomHex())
+      .footer("Thanks to PokéAPI for existing!", "https://pokeapi.co/static/pokeapi_256.888baca4.png")
+      .description(poke.stats.map((value) => `${value.stat.name}: \`${value.base_stat}\``).join("\n"))
+      .field("Abilities", poke.abilities.map((ab) => ab.ability.name).join(" "))
+      .field("Types", poke.types.map((tp) => tp.type.name).join(" "))
+      .field("Etc", `**Weight**: ${parsePokemonWeight(poke.weight)}kg\n**Height**: ${poke.height}`)
+      .image(poke.sprites.front_default)
+      .thumbnail(poke.sprites.front_shiny)
+      .end();
+
+    return embed;
+  }
 };

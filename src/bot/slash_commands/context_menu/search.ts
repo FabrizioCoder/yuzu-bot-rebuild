@@ -1,23 +1,20 @@
-import type { Command } from "../../types/command.ts";
+import { type Context, Command } from "oasis";
 import { Category } from "utils";
 import { ApplicationCommandTypes } from "discordeno";
 import { SafetyLevels, search } from "images";
 
-export default <Command> {
-  options: {
-    isGuildOnly: false,
-    information: {
-      descr: "Click encima de un mensaje para buscar una imagen",
-      short: "Click encima de un mensaje",
-      usage: "<Input>",
-    },
+@Command({
+  name: "search",
+  meta: {
+    descr: "Click encima de un mensaje para buscar una imagen",
+    short: "Click encima de un mensaje",
+    usage: "<Input>",
   },
   category: Category.Util,
-  data: {
-    type: ApplicationCommandTypes.Message,
-    name: "search",
-  },
-  async execute({ interaction }) {
+  data: { type: ApplicationCommandTypes.Message },
+})
+export default abstract class {
+  static async execute({ interaction }: Context) {
     const message = interaction.data?.resolved?.messages?.first();
 
     if (message) {
@@ -27,5 +24,5 @@ export default <Command> {
         return result.image;
       }
     }
-  },
-};
+  }
+}
