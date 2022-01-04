@@ -9,7 +9,7 @@ export interface CreateCommand {
   isGuildOnly?: boolean;
   isAdminOnly?: boolean;
   category: number;
-  options: ApplicationCommandOption[];
+  options?: ApplicationCommandOption[];
 }
 
 export function Command(o: CreateCommand) {
