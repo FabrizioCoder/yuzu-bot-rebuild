@@ -18,7 +18,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
   name: "input",
   description: "📝📝📝📝📝",
 })
-export default abstract class {
+export default class {
   static execute({ interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

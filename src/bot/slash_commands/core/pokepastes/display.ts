@@ -23,7 +23,7 @@ import { getRawPaste } from "poke_deno";
   name: "plaintext",
   description: "To send in plain text or a file",
 })
-export default abstract class {
+export default class {
   static async execute({ bot, interaction }: Context) {
     if (!interaction.channelId) return;
 

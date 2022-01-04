@@ -18,7 +18,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
   name: "discrim",
   description: "#️⃣ Tag",
 })
-export default abstract class {
+export default class {
   static execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

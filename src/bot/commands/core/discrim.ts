@@ -10,7 +10,7 @@ import { Category, randomHex } from "utils";
   },
   category: Category.Util,
 })
-export default abstract class {
+export default class {
   static execute({ bot, args: { args: [fst] } }: Context<false>) {
 
     if (fst.length !== 4) {

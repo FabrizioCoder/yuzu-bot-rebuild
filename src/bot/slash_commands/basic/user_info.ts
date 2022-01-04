@@ -18,7 +18,7 @@ import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno"
   name: "user",
   description: "Usuario 👥",
 })
-export default abstract class {
+export default class {
   static async execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

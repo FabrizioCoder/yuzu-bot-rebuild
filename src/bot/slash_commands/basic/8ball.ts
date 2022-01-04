@@ -29,7 +29,7 @@ const rpts = <const> [
   name: "question",
   description: "🎱 Question ",
 })
-export default abstract class {
+export default class {
   static execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

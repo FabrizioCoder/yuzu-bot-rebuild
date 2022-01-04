@@ -19,7 +19,7 @@ import {
     usage: "...",
   },
 })
-export default abstract class {
+export default class {
   static async execute({ bot, interaction }: Context) {
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,

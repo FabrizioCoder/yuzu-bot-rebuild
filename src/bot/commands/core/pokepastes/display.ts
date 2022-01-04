@@ -12,7 +12,7 @@ import { getRawPaste } from "poke_deno";
     usage: "<Link>",
   },
 })
-export default abstract class {
+export default class {
   static async execute({ bot, message, args: { args } }: Context<false>) {
     const [first, second] = args;
 

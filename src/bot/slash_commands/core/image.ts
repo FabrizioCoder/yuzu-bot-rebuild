@@ -74,7 +74,7 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   name: "search",
   description: "Búsqueda",
 })
-export default abstract class {
+export default class {
   static async execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

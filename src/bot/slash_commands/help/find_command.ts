@@ -19,7 +19,7 @@ import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
   required: true,
   description: "El comando a buscar",
 })
-export default abstract class {
+export default class {
   static execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

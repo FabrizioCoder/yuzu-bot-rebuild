@@ -7,7 +7,7 @@ import { Category, Configuration, DiscordColors } from "utils";
   isAdminOnly: true,
   category: Category.Owner
 })
-export default abstract class {
+export default class {
   @Stop<false>((ctx) => ctx.message.authorId !== Configuration.OWNER_ID)
   static execute({ bot, message, args: { args } }: Context<false>) {
     const time = Date.now();

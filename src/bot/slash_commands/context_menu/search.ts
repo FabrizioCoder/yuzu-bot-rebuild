@@ -13,7 +13,7 @@ import { SafetyLevels, search } from "images";
   category: Category.Util,
   data: { type: ApplicationCommandTypes.Message },
 })
-export default abstract class {
+export default class {
   static async execute({ interaction }: Context) {
     const message = interaction.data?.resolved?.messages?.first();
 

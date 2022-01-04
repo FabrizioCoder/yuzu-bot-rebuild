@@ -73,7 +73,7 @@ import { hasGuildPermissions } from "permissions_plugin";
   name: "display",
   description: "Muestra todos los emojis del servidor",
 })
-export default abstract class {
+export default class {
   static async execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

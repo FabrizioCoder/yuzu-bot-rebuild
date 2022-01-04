@@ -18,7 +18,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
   required: true,
   description: "Emojify 🔠",
 })
-export default abstract class {
+export default class {
   static execute({ interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

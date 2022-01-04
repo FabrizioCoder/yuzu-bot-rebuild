@@ -33,7 +33,7 @@ interface Song {
   name: "search",
   description: "Lyrics",
 })
-export default abstract class {
+export default class {
   static async execute({ interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

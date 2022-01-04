@@ -5,7 +5,7 @@ import { Category, Configuration } from "utils";
   name: "ping",
   category: Category.Owner,
 })
-export default abstract class {
+export default class {
   @Stop<false>((ctx) => ctx.message.authorId !== Configuration.OWNER_ID)
   static execute({ message }: Context<false>) {
     return `Pong! ${message.tag}`;

@@ -146,7 +146,7 @@ enum Arguments {
   required: true,
   description: "El nombre del tag",
 })
-export default abstract class {
+export default class {
   static async execute({ bot, interaction }: Context) {
     if (!db) return;
 

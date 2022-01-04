@@ -37,7 +37,7 @@ import { db } from "../../../database/db.ts";
   name: "count",
   description: "Min count of reactions",
 })
-export default abstract class {
+export default class {
   static async execute({ bot, interaction }: Context) {
     if (!db) return;
 

@@ -59,7 +59,7 @@ function parsePokemonWeight(weight: number) {
   required: true,
   type: ApplicationCommandOptionTypes.String,
 })
-export default abstract class {
+export default class {
   static async execute({ interaction }: Context) {
     const option = interaction.data?.options?.[0];
 

@@ -11,7 +11,7 @@ import { avatarURL, sendMessage } from "discordeno";
     short: "Busca mensajes eliminados",
   },
 })
-export default abstract class {
+export default class {
   static async execute({ bot, interaction }: Context) {
     if (!interaction.channelId) return;
 
