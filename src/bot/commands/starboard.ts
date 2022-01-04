@@ -25,7 +25,7 @@ export default <Command<false>> {
     name: "starboard",
   },
   using: ["guild"],
-  async execute(bot, message, { args }, { guild }) {
+  async execute({ bot, message, args: { args }, structs: { guild } }) {
     if (!db) return;
     if (!guild) return;
 

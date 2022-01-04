@@ -164,7 +164,7 @@ export default <Command> {
     ],
   },
   using: ["channel"],
-  async execute(bot, interaction, { channel }) {
+  async execute({ bot, interaction, structs: { channel } }) {
     if (!db) return;
 
     const option = interaction.data?.options?.[0];

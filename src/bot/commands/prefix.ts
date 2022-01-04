@@ -18,7 +18,7 @@ export default <Command<false>> {
   data: {
     name: "prefix",
   },
-  async execute(bot, message, { args, prefix }) {
+  async execute({ bot, message, args: { args, prefix } }) {
     if (!db || !message.guildId) return;
 
     const [input] = args;

@@ -18,8 +18,8 @@ export default <Command<false>> {
     name: "emotes",
   },
   using: ["guild"],
-  async execute(bot, message, { args }, { guild }) {
-    const [option, ...options] = args;
+  async execute({ bot, message, args, structs: { guild } }) {
+    const [option, ...options] = args.args;
 
     if (!guild || !message.member) return;
 

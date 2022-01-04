@@ -16,10 +16,10 @@ export default <Command<false>> {
   data: {
     name: "discrim",
   },
-  async execute(bot, _message, { args }) {
-    const discriminator = parseInt(args[0]);
+  async execute({ bot, args: { args: [fst] } }) {
+    const discriminator = parseInt(fst);
 
-    if (args[0].length !== 4) {
+    if (fst.length !== 4) {
       return "El tag debe tener 4 dígitos";
     }
 
@@ -31,7 +31,7 @@ export default <Command<false>> {
       color: randomHex(),
       description: users.join("\n") ?? "Sin resultados",
       footer: {
-        text: `${users.length} usuario(s) con el tag ${args[0]}`,
+        text: `${users.length} usuario(s) con el tag ${fst}`,
       },
     };
   },

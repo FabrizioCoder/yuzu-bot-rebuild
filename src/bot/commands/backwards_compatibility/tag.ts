@@ -40,8 +40,8 @@ export default <Command<false>> {
     name: "tag",
   },
   using: ["channel"],
-  async execute(bot, message, { args }, { channel }) {
-    const [option, ...options] = args;
+  async execute({ bot, message, args, structs: { channel } }) {
+    const [option, ...options] = args.args;
 
     if (!option) return;
     if (!message.guildId) return;

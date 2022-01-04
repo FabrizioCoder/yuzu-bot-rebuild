@@ -82,7 +82,7 @@ export default <Command> {
     ],
   },
   using: ["guild"],
-  async execute(bot, interaction, { guild }) {
+  async execute({ bot, interaction, structs: { guild } }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.SubCommand) return;

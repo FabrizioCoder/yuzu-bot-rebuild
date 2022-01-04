@@ -59,7 +59,7 @@ export default <Command> {
     name: "dex",
     description: "Comando para buscar un pokémon por su nombre o id",
   },
-  async execute(_bot, interaction) {
+  async execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {

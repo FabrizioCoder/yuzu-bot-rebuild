@@ -95,11 +95,7 @@ export default <Monitor> {
         `en el ${interaction.guildId ? "servidor" : "dm"} ${interaction.guildId ?? interaction.channelId}`,
     });
 
-    const output = await command.execute(
-      bot,
-      interaction,
-      structs,
-    );
+    const output = await command.execute({ bot, interaction, structs });
 
     // PERMISSIONS
 

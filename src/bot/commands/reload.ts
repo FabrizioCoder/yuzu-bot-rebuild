@@ -16,7 +16,7 @@ export default <Command<false>> {
   data: {
     name: "reload",
   },
-  async execute(bot) {
+  async execute({ bot }) {
     const commands = cache.slashCommands.map((c) => c.data);
 
     await upsertApplicationCommands(bot, commands);

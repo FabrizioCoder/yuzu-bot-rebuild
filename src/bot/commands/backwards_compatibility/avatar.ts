@@ -17,8 +17,8 @@ export default <Command<false>> {
   data: {
     name: "avatar",
   },
-  async execute(bot, message, { args }) {
-    const givenId = /\d{18}/g.exec(args.join(" "))?.[0];
+  async execute({ bot, message, args }) {
+    const givenId = /\d{18}/g.exec(args.args.join(" "))?.[0];
 
     const userId = BigInt(givenId ?? message.authorId.toString());
     const user = bot.users.get(userId) ?? await getUser(bot, userId);

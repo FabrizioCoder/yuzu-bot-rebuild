@@ -104,7 +104,12 @@ export default <Monitor> {
         `en el ${message.guildId ? "servidor" : "dm"} ${message.guildId ?? message.channelId}`,
     });
 
-    const output = await command.execute(bot as BotWithCache, message, { args, prefix }, structs);
+    const output = await command.execute({
+      bot: bot as BotWithCache,
+      message,
+      args: { args, prefix },
+      structs,
+    });
 
     // PERMISSIONS
 

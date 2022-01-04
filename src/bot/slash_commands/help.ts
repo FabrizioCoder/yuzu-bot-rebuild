@@ -23,7 +23,7 @@ export default <Command> {
     name: "help",
     description: "📕 Ayuda del bot...",
   },
-  async execute(bot, interaction) {
+  async execute({ bot, interaction }) {
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",

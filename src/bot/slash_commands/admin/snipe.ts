@@ -16,7 +16,7 @@ export default <Command> {
     name: "snipe",
     description: "Busca el último mensaje eliminado en el canal",
   },
-  async execute(bot, interaction) {
+  async execute({ bot, interaction }) {
     if (!interaction.channelId) return;
 
     const message = cache.lastMessages.get(interaction.channelId);

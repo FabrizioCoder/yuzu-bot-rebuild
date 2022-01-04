@@ -44,12 +44,12 @@ try {
         ],
       },
 
-      async execute(bot, i) {
+      async execute({ bot, interaction }) {
         // utilities
         type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
         const { data } = await f.get<Image | undefined>(Api.Nekos + cmd);
 
-        const option = i.data?.options?.[0];
+        const option = interaction.data?.options?.[0];
 
         if (option?.type !== ApplicationCommandOptionTypes.User) return;
 
@@ -60,7 +60,7 @@ try {
           return "No encontré una imagen para mostrar";
         }
 
-        if (userId === i.user.id) {
+        if (userId === interaction.user.id) {
           return "¿?";
         }
 
@@ -71,7 +71,7 @@ try {
         return <Embed> {
           description: getDescription(
             endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
-            i.user.id,
+            interaction.user.id,
             user.id
           ),
           color: DiscordColors.Blurple,
@@ -93,7 +93,7 @@ try {
         },
       },
       category: Category.Interaction,
-      async execute(bot, msg, { args }) {
+      async execute({ bot, message, args: { args } }) {
         // utilities
         type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
         const { data } = await f.get<Image | undefined>(Api.Nekos + cmd);
@@ -110,7 +110,7 @@ try {
           return "No encontré una imagen para mostrar";
         }
 
-        if (userId === msg.authorId) {
+        if (userId === message.authorId) {
           return "¿?";
         }
 
@@ -118,7 +118,7 @@ try {
           description: getDescription(
             endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
             userId,
-            userId === msg.authorId ? bot.id : msg.authorId
+            userId === message.authorId ? bot.id : message.authorId
           ),
           color: DiscordColors.Blurple,
           image: { url: data.url },

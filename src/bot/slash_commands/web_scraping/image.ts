@@ -80,7 +80,7 @@ export default <Command> {
     ],
   },
   using: ["channel"],
-  async execute(bot, interaction, { channel }) {
+  async execute({ bot, interaction, structs: { channel } }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {

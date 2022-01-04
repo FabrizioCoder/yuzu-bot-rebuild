@@ -7,7 +7,7 @@ export default <Command<false>> {
     name: "ping",
   },
   using: ["user"],
-  async execute(_bot, _message, _args, { user }) {
+  async execute({ structs: { user } }) {
     if (user) {
       return `Ping ${user.username}#${user.discriminator}!`;
     }

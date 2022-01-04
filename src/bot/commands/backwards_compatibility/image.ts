@@ -65,8 +65,8 @@ export default <Command<false>>{
     name: "image",
   },
   using: ["channel", "user"],
-  async execute(bot, message, { args }, { user, channel }) {
-    const option = args.join(" ");
+  async execute({ bot, message, args, structs: { user, channel }}) {
+    const option = args.args.join(" ");
 
     if (!option) return "Por favor escribe un texto";
 

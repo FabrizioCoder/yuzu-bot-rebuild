@@ -14,7 +14,7 @@ export default <Command<false>> {
   },
   data: { name: "say" },
   category: Category.Fun,
-  async execute(bot, message, { args }) {
+  async execute({ bot, message, args: { args } }) {
     const toSend = args.join(" ");
 
     if (!toSend) {

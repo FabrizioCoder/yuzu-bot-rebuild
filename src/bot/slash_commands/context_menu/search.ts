@@ -17,7 +17,7 @@ export default <Command> {
     type: ApplicationCommandTypes.Message,
     name: "search",
   },
-  async execute(_bot, interaction) {
+  async execute({ interaction }) {
     const message = interaction.data?.resolved?.messages?.first();
 
     if (message) {

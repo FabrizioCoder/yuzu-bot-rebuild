@@ -11,9 +11,9 @@ export default <Command<false>> {
   data: {
     name: "eval",
   },
-  execute(bot, _message, { args }) {
+  execute({ bot, args }) {
     const time = Date.now();
-    const input = args?.join(" ");
+    const input = args.args.join(" ");
 
     if (!input) return "Escribe algo.";
 

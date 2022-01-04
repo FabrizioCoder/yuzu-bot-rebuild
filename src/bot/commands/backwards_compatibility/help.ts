@@ -17,7 +17,7 @@ export default <Command<false>> {
     name: "help",
   },
   using: ["user"],
-  async execute(bot, message, { prefix }, { user }) {
+  async execute({ bot, message, args, structs: { user } }) {
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",
@@ -59,7 +59,7 @@ export default <Command<false>> {
           size: 512,
         }),
       },
-      description: `Mi prefix es: ${prefix}\n${cache.slashCommands.size + cache.commands.size} comandos`,
+      description: `Mi prefix es: ${args.prefix}\n${cache.slashCommands.size + cache.commands.size} comandos`,
       footer: {
         text: `${user.id} <> Required [] Optional`,
         iconUrl: avatarURL(bot, user.id, user.discriminator, {

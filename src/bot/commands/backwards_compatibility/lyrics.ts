@@ -30,8 +30,8 @@ export default <Command<false>> {
   data: {
     name: "lyrics",
   },
-  async execute(_bot, _message, { args }) {
-    const option = args.join(" ");
+  async execute({ args }) {
+    const option = args.args.join(" ");
 
     if (!option) return;
 

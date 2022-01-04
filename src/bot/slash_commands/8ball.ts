@@ -27,7 +27,7 @@ export default <Command> {
       },
     ],
   },
-  async execute(bot, interaction) {
+  async execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type === ApplicationCommandOptionTypes.String) {

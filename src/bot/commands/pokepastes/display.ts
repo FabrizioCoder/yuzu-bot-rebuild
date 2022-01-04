@@ -17,8 +17,8 @@ export default <Command<false>> {
   data: {
     name: "paste",
   },
-  async execute(bot, message, { args }) {
-    const [first, second] = args;
+  async execute({ bot, message, args }) {
+    const [first, second] = args.args;
 
     const hasMobileFlag = first === "--mobile" || first === "-m";
     const link = hasMobileFlag ? second : first;

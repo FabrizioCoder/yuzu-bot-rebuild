@@ -58,8 +58,8 @@ export default <Command<false>> {
   data: {
     name: "dex",
   },
-  async execute(_bot, _message, { args }) {
-    const option = args.join(" ");
+  async execute({ args }) {
+    const option = args.args.join(" ");
 
     if (!option) {
       return "Debes ingresar más información del pokémon para buscarlo.";

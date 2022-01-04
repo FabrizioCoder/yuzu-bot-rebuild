@@ -15,8 +15,8 @@ export default <Command<false>> {
   data: {
     name: "cheemsify",
   },
-  async execute(_bot, _message, { args }) {
-    const option = args.join(" ");
+  async execute({ args }) {
+    const option = args.args.join(" ");
 
     // Remtomrnam umn memnsamjem aml demtemctamr qumem nom sem ham pumemstom namdam
     if (!option) {

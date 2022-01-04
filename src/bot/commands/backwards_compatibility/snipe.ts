@@ -17,7 +17,7 @@ export default <Command<false>> {
     name: "snipe",
   },
   using: ["user"],
-  async execute(bot, m, { args: _args }, { user }) {
+  async execute({ bot, message: m, structs: { user } }) {
     const message = cache.lastMessages.get(m.channelId);
 
     if (!message) {

@@ -12,43 +12,43 @@ import type {
 } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
 
-interface Information {
+export interface Information {
   descr: string; // description
   usage: string; // duh
   short: string; // short description
 }
 
 /* /commands and !commands */
-interface CommandOptions {
+export interface CommandOptions {
   isGuildOnly: boolean; // if the command can be executed on dm
   isAdminOnly: boolean;
   information?: Partial<Information>;
 }
 
-interface CommandArgs {
+export interface CommandArgs {
   args: string[];
   prefix: string;
 }
 
-type Content =
+export type Content =
   | Embed
   | string
   | undefined;
 
-type CommandData<Slash> = Slash extends true
+export type CommandData<Slash> = Slash extends true
   ? MakeRequired<EditGlobalApplicationCommand, "name">
   : Pick<MakeRequired<EditGlobalApplicationCommand, "name">, "name">;
 
 /* the arguments of the callback function */
-type CommandArguments<Slash> = Slash extends true
-  ? [bot: BotWithCache, interaction: DiscordenoInteraction]
-  : [bot: BotWithCache, message: DiscordenoMessage];
+export type CommandArguments<Slash> = Slash extends true
+  ? { bot: BotWithCache, interaction: DiscordenoInteraction }
+  : { bot: BotWithCache, message: DiscordenoMessage };
 
-type ParsedCommandArguments<Slash> = Slash extends true
-  ? [bot: BotWithCache, interaction: DiscordenoInteraction, structs: Structs]
-  : [bot: BotWithCache, message: DiscordenoMessage, args: CommandArgs, structs: Structs]
+export type ParsedCommandArguments<Slash> = Slash extends true
+  ? { bot: BotWithCache, interaction: DiscordenoInteraction, structs: Structs }
+  : { bot: BotWithCache, message: DiscordenoMessage, args: CommandArgs, structs: Structs };
 
-interface Structs {
+export interface Structs {
   channel?: DiscordenoChannel;
   guild?: DiscordenoGuild;
   member?: DiscordenoMember;
@@ -56,7 +56,7 @@ interface Structs {
   user?: DiscordenoUser;
 }
 
-type Using =
+export type Using =
   | "channel"
   | "guild"
   | "member"
@@ -70,5 +70,5 @@ export interface Command<Slash extends boolean = true> {
   category?: Category;
   using?: Using[];
 
-  execute(...args: ParsedCommandArguments<Slash>): Content | Promise<Content> | PromiseLike<Content>;
+  execute(ctx: ParsedCommandArguments<Slash>): Content | Promise<Content> | PromiseLike<Content>;
 }

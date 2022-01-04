@@ -17,7 +17,7 @@ export default <Command<false>> {
   data: {
     name: "botinfo",
   },
-  async execute(bot, message) {
+  async execute({ bot, message }) {
     // test guilds
     if (message.guildId === 882096686334345216n) return;
     if (message.guildId === 916940037176836096n) return;
