@@ -25,7 +25,7 @@ export default class {
       return;
     }
 
-    const userId = !option.value ? interaction.user.id : BigInt(option.value as string);
+    const userId = !option ? interaction.user.id : BigInt(option.value as string);
     const user = bot.users.get(userId) ?? await getUser(bot, userId);
 
     if (!user) {
