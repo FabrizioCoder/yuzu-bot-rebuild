@@ -1,4 +1,4 @@
-import { type Context, Command, MessageEmbed } from "oasis";
+import { type Context, Command, MessageEmbed, Option } from "oasis";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
@@ -22,12 +22,12 @@ const rpts = <const> [
     usage: "<Input>",
   },
   category: Category.Fun,
-  options: [{
-    type: ApplicationCommandOptionTypes.String,
-    required: true,
-    name: "question",
-    description: "🎱 Question ",
-  }],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "question",
+  description: "🎱 Question ",
 })
 export default abstract class {
   static execute({ bot, interaction }: Context) {

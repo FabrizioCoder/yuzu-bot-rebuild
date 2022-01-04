@@ -1,4 +1,4 @@
-import { type Context, Command, MessageEmbed } from "oasis";
+import { type Context, Command, MessageEmbed, Option } from "oasis";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
@@ -11,12 +11,12 @@ import { ApplicationCommandOptionTypes } from "discordeno";
     usage: "<Tag>",
   },
   category: Category.Util,
-  options: [{
-    type: ApplicationCommandOptionTypes.Integer,
-    required: true,
-    name: "discrim",
-    description: "#️⃣ Tag",
-  }],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.Integer,
+  required: true,
+  name: "discrim",
+  description: "#️⃣ Tag",
 })
 export default abstract class {
   static execute({ bot, interaction }: Context) {

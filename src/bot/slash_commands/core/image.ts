@@ -1,5 +1,5 @@
 import type { ButtonComponent } from "discordeno";
-import { type Context, Command, MessageEmbed} from "oasis";
+import { type Context, Command, MessageEmbed, Option } from "oasis";
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,
@@ -67,12 +67,12 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
     usage: "<Search>",
   },
   category: Category.Util,
-  options: [{
-    type: ApplicationCommandOptionTypes.String,
-    required: true,
-    name: "search",
-    description: "Búsqueda",
-  }],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "search",
+  description: "Búsqueda",
 })
 export default abstract class {
   static async execute({ bot, interaction }: Context) {

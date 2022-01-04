@@ -1,4 +1,4 @@
-import { type Context, Command } from "oasis";
+import { type Context, Command, Option } from "oasis";
 import { Category } from "utils";
 import { ApplicationCommandOptionTypes, getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
@@ -20,24 +20,22 @@ import { db } from "../../../database/db.ts";
     short: "Configura un canal para enviar mensajes starboard ⭐",
     usage: "<Channel> [emoji] [count]",
   },
-  options: [
-    {
-      type: ApplicationCommandOptionTypes.Channel,
-      name: "channel",
-      required: true,
-      description: "The channel",
-    },
-    {
-      type: ApplicationCommandOptionTypes.String,
-      name: "emoji",
-      description: "The emoji",
-    },
-    {
-      type: ApplicationCommandOptionTypes.Integer,
-      name: "count",
-      description: "Min count of reactions",
-    }
-  ]
+})
+@Option({
+  type: ApplicationCommandOptionTypes.Channel,
+  name: "channel",
+  required: true,
+  description: "The channel",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  name: "emoji",
+  description: "The emoji",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.Integer,
+  name: "count",
+  description: "Min count of reactions",
 })
 export default abstract class {
   static async execute({ bot, interaction }: Context) {

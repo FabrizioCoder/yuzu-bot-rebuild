@@ -1,4 +1,4 @@
-import { type Context, Command } from "oasis";
+import { type Context, Command, Option } from "oasis";
 import { Category } from "utils";
 import { ApplicationCommandOptionTypes, sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";
@@ -11,19 +11,17 @@ import { getRawPaste } from "poke_deno";
     short: "pokepast.es wrapper",
     usage: "<Link>",
   },
-  options: [
-    {
-      type: ApplicationCommandOptionTypes.String,
-      name: "link",
-      required: true,
-      description: "Link from pokepast.es"
-    },
-    {
-      type: ApplicationCommandOptionTypes.Boolean,
-      name: "plaintext",
-      description: "To send in plain text or a file",
-    },
-  ],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  name: "link",
+  required: true,
+  description: "Link from pokepast.es"
+})
+@Option({
+  type: ApplicationCommandOptionTypes.Boolean,
+  name: "plaintext",
+  description: "To send in plain text or a file",
 })
 export default abstract class {
   static async execute({ bot, interaction }: Context) {

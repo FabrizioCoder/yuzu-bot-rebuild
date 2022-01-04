@@ -1,5 +1,5 @@
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
-import { type Context, Command, MessageEmbed } from "oasis";
+import { type Context, Command, MessageEmbed, Option } from "oasis";
 import { Api, Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 import { default as f } from "axiod";
@@ -52,12 +52,12 @@ function parsePokemonWeight(weight: number) {
     usage: "<Nombre o id>",
   },
   category: Category.Util,
-  options: [{
-    name: "search",
-    description: "🔎",
-    required: true,
-    type: ApplicationCommandOptionTypes.String,
-  }]
+})
+@Option({
+  name: "search",
+  description: "🔎",
+  required: true,
+  type: ApplicationCommandOptionTypes.String,
 })
 export default abstract class {
   static async execute({ interaction }: Context) {

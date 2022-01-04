@@ -1,4 +1,4 @@
-import { type Context, Command, MessageEmbed } from "oasis";
+import { type Context, Command, MessageEmbed, Option } from "oasis";
 import { cache, Category, DiscordColors } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
@@ -12,12 +12,12 @@ import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
     usage: "<Command>",
   },
   category: Category.Info,
-  options: [{
-    type: ApplicationCommandOptionTypes.String,
-    name: "name",
-    required: true,
-    description: "El comando a buscar",
-  }],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El comando a buscar",
 })
 export default abstract class {
   static execute({ bot, interaction }: Context) {

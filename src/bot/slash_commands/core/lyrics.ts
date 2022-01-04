@@ -1,6 +1,6 @@
 /* TODO: check for long song lyrics */
 
-import { type Context, Command, MessageEmbed} from "oasis";
+import { type Context, Command, MessageEmbed, Option } from "oasis";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 import { default as f } from "axiod";
@@ -26,12 +26,12 @@ interface Song {
     usage: "[@Mención]",
   },
   category: Category.Util,
-  options: [{
-    type: ApplicationCommandOptionTypes.String,
-    required: true,
-    name: "search",
-    description: "Lyrics",
-  }],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "search",
+  description: "Lyrics",
 })
 export default abstract class {
   static async execute({ interaction }: Context) {

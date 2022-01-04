@@ -1,4 +1,4 @@
-import { Command, type Context, MessageEmbed } from "oasis";
+import { Command, type Context, MessageEmbed, Option } from "oasis";
 import { Category, DiscordColors, snowflakeToTimestamp } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno";
 
@@ -11,12 +11,12 @@ import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno"
     usage: "<User>",
   },
   category: Category.Info,
-  options: [{
-    type: ApplicationCommandOptionTypes.User,
-    required: true,
-    name: "user",
-    description: "Usuario 👥",
-  }],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.User,
+  required: true,
+  name: "user",
+  description: "Usuario 👥",
 })
 export default abstract class {
   static async execute({ bot, interaction }: Context) {

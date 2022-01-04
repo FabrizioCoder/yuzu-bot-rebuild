@@ -17,7 +17,7 @@ export function Command(o: CreateCommand) {
     (target as any).data = {
       name: o.name,
       description: o.description,
-      options: o.options,
+      options: o.options ?? [],
       ...o.data
     };
     (target as any).options = {
@@ -35,7 +35,7 @@ export function CacheCommand(cache: Map<string, SlashCommand | MessageCommand>, 
       data: {
         name: o.name,
         description: o.description,
-        options: o.options,
+        options: o.options ?? [],
         ...o.data,
       },
       options: {

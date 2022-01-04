@@ -1,4 +1,4 @@
-import { type Context, Command, MessageEmbed } from "oasis";
+import { type Context, Command, MessageEmbed, Option, SubcommandOption } from "oasis";
 import { Category, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,
@@ -19,64 +19,59 @@ import { hasGuildPermissions } from "permissions_plugin";
     descr: "Muestra, añade y remueve emotes",
     usage: "emotes | add | remove | hide | display [name] [url]",
   },
-  options: [
-    {
-      type: ApplicationCommandOptionTypes.SubCommand,
-      name: "add",
-      description: "Añade un emoji",
-      options: [
-        {
-          type: ApplicationCommandOptionTypes.String,
-          name: "name",
-          required: true,
-          description: "El nombre del emoji",
-        },
-        {
-          type: ApplicationCommandOptionTypes.String,
-          name: "url",
-          required: true,
-          description: "El link del emoji",
-        },
-      ],
-    },
-    {
-      type: ApplicationCommandOptionTypes.SubCommand,
-      name: "remove",
-      description: "Remueve un emoji",
-      options: [
-        {
-          type: ApplicationCommandOptionTypes.String,
-          name: "name",
-          required: true,
-          description: "El nombre del emoji",
-        },
-      ],
-    },
-    {
-      type: ApplicationCommandOptionTypes.SubCommand,
-      name: "hide",
-      description: "Limita un emoji a un rol",
-      options: [
-        {
-          type: ApplicationCommandOptionTypes.String,
-          name: "name",
-          required: true,
-          description: "El nombre del emoji",
-        },
-        {
-          type: ApplicationCommandOptionTypes.Role,
-          name: "role",
-          required: true,
-          description: "El nombre del rol",
-        },
-      ],
-    },
-    {
-      type: ApplicationCommandOptionTypes.SubCommand,
-      name: "display",
-      description: "Muestra todos los emojis del servidor",
-    },
-  ],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "add",
+  description: "Añade un emoji",
+  options: [],
+})
+@SubcommandOption("add", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del emoji",
+})
+@SubcommandOption("add", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "url",
+  required: true,
+  description: "El link del emoji",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "remove",
+  description: "Remueve un emoji",
+  options: [],
+})
+@SubcommandOption("remove", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del emoji",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "hide",
+  description: "Limita un emoji a un rol",
+  options: [],
+})
+@SubcommandOption("hide", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del emoji",
+})
+@SubcommandOption("hide", {
+  type: ApplicationCommandOptionTypes.Role,
+  name: "role",
+  required: true,
+  description: "El nombre del rol",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "display",
+  description: "Muestra todos los emojis del servidor",
 })
 export default abstract class {
   static async execute({ bot, interaction }: Context) {

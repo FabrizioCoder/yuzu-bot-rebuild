@@ -1,4 +1,4 @@
-import { type Context, Command } from "oasis";
+import { type Context, Command, Option } from "oasis";
 import { Category, isInvite } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
@@ -11,12 +11,12 @@ import { ApplicationCommandOptionTypes } from "discordeno";
     usage: "<Input>",
   },
   category: Category.Fun,
-  options: [{
-    type: ApplicationCommandOptionTypes.String,
-    required: true,
-    name: "input",
-    description: "📝📝📝📝📝",
-  }],
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "input",
+  description: "📝📝📝📝📝",
 })
 export default abstract class {
   static execute({ interaction }: Context) {
