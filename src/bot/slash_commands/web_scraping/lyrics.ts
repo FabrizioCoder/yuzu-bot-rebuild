@@ -34,7 +34,7 @@ interface Song {
   }],
 })
 export default abstract class {
-  async execute({ interaction }: Context) {
+  static async execute({ interaction }: Context) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {

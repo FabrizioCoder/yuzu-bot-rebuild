@@ -97,28 +97,6 @@ export default abstract class {
     const limit = results.length - 1;
 
     // // this is the base embed to send
-    // const embed: Embed = {
-    //   color: randomHex(),
-    //   image: {
-    //     url: results[0].image,
-    //     height: results[0].height,
-    //     width: results[0].width,
-    //   },
-    //   fields: [
-    //     {
-    //       name: "Búsqueda segura",
-    //       value: channel?.nsfw ? "No" : "Sí",
-    //     },
-    //   ],
-    //   author: {
-    //     name: results[0].source,
-    //     iconUrl: avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
-    //       avatar: interaction.user.avatar,
-    //       size: 512,
-    //     }),
-    //   },
-    //   footer: { text: `Results for ${option.value}` },
-    // };
     const embed = MessageEmbed
       .new()
       .color(randomHex())

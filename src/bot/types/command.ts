@@ -45,7 +45,7 @@ export type CommandArguments<Slash> = Slash extends true
   : { bot: BotWithCache, message: DiscordenoMessage };
 
 export type ParsedCommandArguments<Slash> = Slash extends true
-  ? { bot: BotWithCache, interaction: DiscordenoInteraction, structs: Structs }
+  ? { bot: BotWithCache, interaction: DiscordenoInteraction }
   : { bot: BotWithCache, message: DiscordenoMessage, args: CommandArgs, structs: Structs };
 
 export interface Structs {
