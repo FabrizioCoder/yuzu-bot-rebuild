@@ -7,7 +7,7 @@ export function OptionIn(name: string, option: ApplicationCommandOption) {
       .find((o: ApplicationCommandOption) => o.name === name);
 
     subcommand.options ??= [];
-    subcommand.options.push(option);
+    subcommand.options.unshift(option);
     return target;
   }
 }
