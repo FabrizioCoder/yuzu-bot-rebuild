@@ -18,7 +18,7 @@
 ### Example using decorators
 ```ts
 // on root directory:
-// deno run -A ./import_map.json src/bot/mod.ts
+// deno run -A --no-check ./import_map.json src/bot/mod.ts
 import type { Context } from "oasis"
 import { Command, Stop } from "oasis"
 import { Category, Configuration } from "utils"
@@ -33,7 +33,8 @@ class Ping {
 }
 export default Ping
 ```
-* Permissions required: `--allow-net --allow-read --allow-env --no-check --import-map`
+* Permissions required: `--allow-net --allow-read --allow-env`
+* Recommended flags: `--no-check --import-map`
 
 ### How to start?
 - Fork the repo from this branch
