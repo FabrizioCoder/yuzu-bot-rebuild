@@ -37,7 +37,6 @@ import { db } from "../../../database/db.ts";
     usage: "<Channel> [emoji] [count]",
   },
 })
-
 export default class {
   static async execute({ bot, interaction }: Context) {
     if (!db) return;
