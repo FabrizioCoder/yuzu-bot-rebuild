@@ -14,11 +14,13 @@ export interface CreateCommand {
 
 export function Command(o: CreateCommand) {
   return function(target: any) {
-    (target as any).data = {
-      name: o.name,
-      description: o.description,
-      ...o.data
-    };
+    (target as any).data = { ...o.data };
+    (target as any).data.name = o.name;
+
+    if (o.description) {
+      (target as any).data.description = o.description;
+    }
+
     (target as any).options = {
       isGuildOnly: !!o.isGuildOnly,
       isAdminOnly: !!o.isAdminOnly,
