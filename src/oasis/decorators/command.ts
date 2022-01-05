@@ -17,7 +17,6 @@ export function Command(o: CreateCommand) {
     (target as any).data = {
       name: o.name,
       description: o.description,
-      options: o.options ?? [],
       ...o.data
     };
     (target as any).options = {
@@ -26,6 +25,8 @@ export function Command(o: CreateCommand) {
       information: o.meta
     };
     (target as any).category = o.category;
+
+    if (o.options) (target as any).options = o.options;
 
     return target;
   }
