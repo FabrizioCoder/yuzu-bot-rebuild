@@ -4,6 +4,7 @@ import { ApplicationCommandTypes } from "discordeno";
 import { SafetyLevels, search } from "images";
 
 @Command({
+  type: ApplicationCommandTypes.Message,
   name: "search",
   meta: {
     descr: "Click encima de un mensaje para buscar una imagen",
@@ -11,7 +12,6 @@ import { SafetyLevels, search } from "images";
     usage: "<Input>",
   },
   category: Category.Util,
-  data: { type: ApplicationCommandTypes.Message },
 })
 export default class {
   static async execute({ interaction }: Context) {

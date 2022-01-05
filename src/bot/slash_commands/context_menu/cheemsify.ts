@@ -3,6 +3,7 @@ import { Category, cheemsify } from "utils";
 import { ApplicationCommandTypes } from "discordeno";
 
 @Command({
+  type: ApplicationCommandTypes.Message,
   name: "cheemsify",
   meta: {
     descr: "Click y conviertem un temxtom am imdiomam cheems",
@@ -10,7 +11,6 @@ import { ApplicationCommandTypes } from "discordeno";
     usage: "<Input>",
   },
   category: Category.Fun,
-  data: { type: ApplicationCommandTypes.Message }
 })
 export default class {
   static execute({ interaction }: Context) {
