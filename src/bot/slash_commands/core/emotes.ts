@@ -12,7 +12,7 @@ import { hasGuildPermissions } from "permissions_plugin";
 
 // display
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
+  type: ApplicationCommandOptionTypes.SubCommandGroup,
   name: "display",
   description: "Muestra todos los emojis del servidor",
 })
@@ -30,7 +30,7 @@ import { hasGuildPermissions } from "permissions_plugin";
   description: "El nombre del emoji",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
+  type: ApplicationCommandOptionTypes.SubCommandGroup,
   name: "hide",
   description: "Limita un emoji a un rol",
 })
@@ -42,7 +42,7 @@ import { hasGuildPermissions } from "permissions_plugin";
   description: "El nombre del emoji",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
+  type: ApplicationCommandOptionTypes.SubCommandGroup,
   name: "remove",
   description: "Remueve un emoji",
 })
@@ -60,7 +60,7 @@ import { hasGuildPermissions } from "permissions_plugin";
   description: "El nombre del emoji",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
+  type: ApplicationCommandOptionTypes.SubCommandGroup,
   name: "add",
   description: "Añade un emoji",
 })
@@ -78,7 +78,7 @@ export default class {
   static async execute({ bot, interaction }: Context) {
     const option = interaction.data?.options?.[0];
 
-    if (option?.type !== ApplicationCommandOptionTypes.SubCommand) {
+    if (option?.type !== ApplicationCommandOptionTypes.SubCommandGroup) {
       return;
     }
 
