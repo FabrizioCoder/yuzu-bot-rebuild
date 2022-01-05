@@ -1,11 +1,9 @@
+/* TODO: delete this in favor of oasis */
+
 import type { Category } from "utils";
 import type {
-  DiscordenoChannel,
-  DiscordenoGuild,
   DiscordenoInteraction,
-  DiscordenoMember,
   DiscordenoMessage,
-  DiscordenoUser,
   EditGlobalApplicationCommand,
   Embed,
   MakeRequired,
@@ -46,29 +44,12 @@ export type CommandArguments<Slash> = Slash extends true
 
 export type ParsedCommandArguments<Slash> = Slash extends true
   ? { bot: BotWithCache, interaction: DiscordenoInteraction }
-  : { bot: BotWithCache, message: DiscordenoMessage, args: CommandArgs, structs: Structs };
-
-export interface Structs {
-  channel?: DiscordenoChannel;
-  guild?: DiscordenoGuild;
-  member?: DiscordenoMember;
-  message?: DiscordenoMessage;
-  user?: DiscordenoUser;
-}
-
-export type Using =
-  | "channel"
-  | "guild"
-  | "member"
-  | "message"
-  | "user";
+  : { bot: BotWithCache, message: DiscordenoMessage, args: CommandArgs };
 
 // now supports both slash commands and regular commands
 export interface Command<Slash extends boolean = true> {
   data: CommandData<Slash>;
   options?: Slash extends true ? Omit<CommandOptions, "isAdminOnly"> : CommandOptions;
   category?: Category;
-  using?: Using[];
-
   execute(ctx: ParsedCommandArguments<Slash>): Content | Promise<Content> | PromiseLike<Content>;
 }

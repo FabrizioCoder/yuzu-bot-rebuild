@@ -62,7 +62,7 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 })
 export default class {
-  async execute({ bot, message, args }: Context<false>) {
+  static async execute({ bot, message, args }: Context<false>) {
     const option = args.args.join(" ");
 
     if (!option) return "Por favor escribe un texto";

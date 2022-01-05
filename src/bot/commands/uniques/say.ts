@@ -1,20 +1,18 @@
-import type { Command } from "../../types/command.ts";
+import { type Context, Command } from "oasis";
 import { Category, isInvite } from "utils";
 import { deleteMessage } from "discordeno";
 
-export default <Command<false>> {
-  options: {
-    isGuildOnly: false,
-    isAdminOnly: false,
-    information: {
-      descr: "Hace que el bot diga algo muy malo",
-      short: "Escribir el mensaje del bot",
-      usage: "<Input>",
-    },
+@Command({
+  name: "say",
+  meta: {
+    descr: "Hace que el bot diga algo muy malo",
+    short: "Escribir el mensaje del bot",
+    usage: "<Input>",
   },
-  data: { name: "say" },
   category: Category.Fun,
-  async execute({ bot, message, args: { args } }) {
+})
+export default class {
+  async execute({ bot, message, args: { args } }: Context<false>) {
     const toSend = args.join(" ");
 
     if (!toSend) {
@@ -28,5 +26,5 @@ export default <Command<false>> {
     await deleteMessage(bot, message.channelId, message.id).catch(() => {});
 
     return toSend;
-  },
-};
+  }
+}
