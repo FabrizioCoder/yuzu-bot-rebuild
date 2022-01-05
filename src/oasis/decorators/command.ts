@@ -17,7 +17,7 @@ export function Command(o: CreateCommand) {
     (target as any).data = {
       name: o.name,
       description: o.description,
-      options: o.options,
+      options: o.options ?? [],
       ...o.data
     };
     (target as any).options = {
