@@ -1,7 +1,9 @@
 import type { Information } from "../types/command.ts";
 import type { ApplicationCommandOption, EditGlobalApplicationCommand } from "discordeno";
+import { ApplicationCommandTypes } from "discordeno";
 
 export interface CreateCommand {
+  type?: ApplicationCommandTypes,
   name: string;
   description?: string;
   data?: Omit<EditGlobalApplicationCommand, "name" | "description" | "options">;
@@ -16,6 +18,7 @@ export function Command(o: CreateCommand) {
   return function(target: any) {
     (target as any).data = { ...o.data };
     (target as any).data.name = o.name;
+    (target as any).data.type = o.type === undefined ? ApplicationCommandTypes.ChatInput : o.type;
 
     if (o.description) {
       (target as any).data.description = o.description;
