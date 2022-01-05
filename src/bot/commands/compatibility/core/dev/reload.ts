@@ -17,7 +17,7 @@ export default abstract class {
   static async execute({ bot, message }: Context<false>) {
     const commands = cache.slashCommands.map((c) => c.data);
 
-    const file = new Blob([ Deno.inspect(commands) ]);
+    const file = new Blob([ Deno.inspect(commands, {  }) ]);
 
     await sendMessage(bot, message.channelId, {
       content: `OK! Loading ⌛... \`${commands.map((c) => c.name).join(" ")}\``,

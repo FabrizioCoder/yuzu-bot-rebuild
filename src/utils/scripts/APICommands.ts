@@ -2,7 +2,7 @@ import type { Embed } from "discordeno";
 import { Api, Category, DiscordColors, userMention } from "../constants.ts";
 import { commands, slashCommands } from "../cache.ts";
 import { logger, LogLevels } from "../std/logger.ts";
-import { ApplicationCommandOptionTypes, getUser } from "discordeno";
+import { ApplicationCommandTypes, ApplicationCommandOptionTypes, getUser } from "discordeno";
 import { default as f } from "axiod";
 
 const endpointsActionPairs = {
@@ -32,6 +32,7 @@ try {
       },
       category: Category.Interaction,
       data: {
+        type: ApplicationCommandTypes.ChatInput,
         name: commandName,
         description: `${commandName} a user`,
         options: [
