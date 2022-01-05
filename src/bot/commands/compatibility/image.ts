@@ -1,10 +1,12 @@
-import type { Command } from "../../types/command.ts";
-import type { ButtonComponent, Embed } from "discordeno";
+import type { ButtonComponent } from "discordeno";
+import { type Context, Command, MessageEmbed } from "oasis";
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
 import {
   avatarURL,
   ButtonStyles,
   deleteMessage,
+  getChannel,
+  getUser,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
@@ -50,59 +52,45 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-export default <Command<false>>{
-  options: {
-    isGuildOnly: false,
-    isAdminOnly: false,
-    information: {
-      descr: "Busca imágenes en internet",
-      short: "Busca imágenes",
-      usage: "<Search>",
-    },
-  },
+@Command({
+  name: "image",
   category: Category.Util,
-  data: {
-    name: "image",
+  meta: {
+    descr: "Busca imágenes en internet",
+    short: "Busca imágenes",
+    usage: "<Search>",
   },
-  using: ["channel", "user"],
-  async execute({ bot, message, args, structs: { user, channel }}) {
+})
+export default class {
+  async execute({ bot, message, args }: Context<false>) {
     const option = args.args.join(" ");
 
     if (!option) return "Por favor escribe un texto";
 
-    if (!user || !channel) return;
+    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+    const channel =  bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
+
+    if (!author || !channel) return;
 
     // get an nsfw output if the currentChannel is nsfw
     const results = await search(option, channel.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
     const limit = results.length - 1;
 
     // this is the base embed to send
-    const embed: Embed = {
-      color: randomHex(),
-      image: {
-        url: results[0].image,
-        height: results[0].height,
-        width: results[0].width,
-      },
-      fields: [
-        {
-          name: "Búsqueda segura",
-          value: channel?.nsfw ? "No" : "Sí",
-        },
-      ],
-      author: {
-        name: results[0].source,
-        iconUrl: avatarURL(bot, user.id, user.discriminator, {
-          avatar: user.avatar,
-          size: 512,
-        }),
-      },
-      footer: { text: `Results for ${option}` },
-    };
+    const embed = MessageEmbed
+      .new()
+      .color(randomHex())
+      .image(results[0].image)
+      .field("Búsqueda segura", channel.nsfw ? "No" : "Sí")
+      .author(
+        results[0].source,
+        avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }),
+      )
+      .footer(`Results for ${option}`);
 
     // this should work even if sendInteractionResponse() returns Promise<any>
     const msg = await sendMessage(bot, message.channelId, {
-      embeds: [embed],
+      embeds: [embed.end()],
       components: [{ type: 1, components: buttons }],
     });
 
@@ -115,7 +103,7 @@ export default <Command<false>>{
     // listen to buttons forever
     do {
       try {
-        const button = await needButton(user.id, msg.id, {
+        const button = await needButton(author.id, msg.id, {
           duration: Milliseconds.Minute * 5,
           amount: 1,
         });
@@ -140,7 +128,7 @@ export default <Command<false>>{
               content: `Envía un número desde 0 hasta ${limit}`,
             });
 
-            const response = await needMessage(user.id, message.channelId);
+            const response = await needMessage(author.id, message.channelId);
 
             if (tempMessage) {
               await deleteMessage(bot, message.channelId, tempMessage.id);
@@ -182,21 +170,9 @@ export default <Command<false>>{
         const result = results[index];
 
         // create a copy of the embed rewritting the footer & image
-        const copy = Object.assign(Object.create(embed) as Embed, {
-          image: {
-            url: result.image,
-          },
-          footer: {
-            text: `📜: ${index}/${limit}`,
-          },
-          author: {
-            name: result.source,
-            iconUrl: avatarURL(bot, user.id, user.discriminator, {
-              avatar: user.avatar,
-              size: 512,
-            }),
-          },
-        });
+        embed.image(result.image);
+        embed.footer(`📜: ${index}/${limit}`);
+        embed.author(result.source);
 
         // disable buttons to prevent the user to throw an unexpected result
         const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
@@ -210,7 +186,7 @@ export default <Command<false>>{
         await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
           type: InteractionResponseTypes.UpdateMessage,
           data: {
-            embeds: [copy],
+            embeds: [embed.end()],
             components: [{ type: 1, components: buttons }], // edited buttons
           },
         });
@@ -218,5 +194,5 @@ export default <Command<false>>{
         break;
       }
     } while (true);
-  },
-};
+  }
+}

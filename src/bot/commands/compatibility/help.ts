@@ -1,25 +1,21 @@
+import type { SelectMenuComponent } from "discordeno";
 import { type Context, Command, MessageEmbed } from "oasis";
 import { cache, Category, CategoryEmoji, DiscordColors } from "utils";
-import {
-  avatarURL,
-  InteractionResponseTypes,
-  MessageComponentTypes,
-  sendInteractionResponse,
-  type SelectMenuComponent,
-} from "discordeno";
+import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "discordeno";
 
 @Command({
   name: "help",
-  description: "📕 Ayuda del bot...",
-  category: Category.Info,
+  isGuildOnly: true,
   meta: {
-    descr: "\\📕 Ayuda del bot...",
-    short: "\\📕 Ayuda del bot",
-    usage: "...",
+    descr: "📕 Ayuda del bot...",
+    short: "📕 Ayuda del bot",
   },
+  category: Category.Info,
 })
 export default class {
-  static async execute({ bot, interaction }: Context) {
+  static async execute({ bot, message, args }: Context<false>) {
+    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",
@@ -43,29 +39,29 @@ export default class {
         }),
     };
 
-    const avatar = avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
-      avatar: interaction.user.avatar,
+    if (!author) {
+      return;
+    }
+
+    const avatar = avatarURL(bot, author.id, author.discriminator, {
+      avatar: author.avatar,
+      size: 512,
     });
 
     const embed = MessageEmbed
-      .new()
       .color(DiscordColors.Blurple)
-      .author(interaction.user.username, avatar)
+      .author(author.username, avatar)
       .thumbnail(avatar)
-      .description(`${cache.slashCommands.size + cache.commands.size} comandos`)
-      .footer(`${interaction.user.id} <> Required [] Optional`, avatar)
+      .description(`Mi prefix es: ${args.prefix}\n${cache.slashCommands.size + cache.commands.size} comandos`)
+      .footer(`${author.id} <> Required [] Optional`, avatar)
       .end();
 
-    await sendInteractionResponse(bot, interaction.id, interaction.token, {
-      type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-      data: {
-        embeds: [embed],
-        components: [{
-          type: MessageComponentTypes.ActionRow,
-          components: [menu],
-        }],
-      },
+    await sendMessage(bot, message.channelId, {
+      embeds: [embed],
+      components: [{
+        type: MessageComponentTypes.ActionRow,
+        components: [menu],
+      }],
     });
-    return;
   }
 }

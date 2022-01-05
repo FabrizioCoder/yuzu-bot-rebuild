@@ -1,27 +1,30 @@
-import type { Command } from "../../types/command.ts";
-import type { Embed } from "discordeno";
+import { type Context, Command, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
-import { createEmoji, deleteEmoji, editEmoji } from "discordeno";
+import { createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
 import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";
 
-export default <Command<false>> {
-  options: {
-    isGuildOnly: true,
-    isAdminOnly: false,
-    information: {
-      descr: "Muestra, añade y remueve emotes",
-      usage: "emotes | add | remove | hide | display [name] [url]",
-    },
+@Command({
+  name: "emotes",
+  isGuildOnly: true,
+  meta: {
+    descr: "Muestra, añade y remueve emotes",
+    usage: "emotes | add | remove | hide | display [name] [url]",
   },
   category: Category.Config,
-  data: {
-    name: "emotes",
-  },
-  using: ["guild"],
-  async execute({ bot, message, args, structs: { guild } }) {
+})
+export default class {
+  static async execute({ bot, message, args }: Context<false>) {
     const [option, ...options] = args.args;
 
-    if (!guild || !message.member) return;
+    if (!message.guildId) {
+      return;
+    }
+
+    const guild = bot.guilds.get(message.guildId) ?? await getGuild(bot, message.guildId);
+
+    if (!guild || !message.member) {
+      return;
+    }
 
     if (option?.toLowerCase() === "hide" || option?.toLowerCase() === "remove" || option?.toLowerCase() === "add") {
       const canManageEmojis = hasGuildPermissions(bot, guild, message.member, ["MANAGE_EMOJIS"]);
@@ -97,14 +100,13 @@ export default <Command<false>> {
       default: {
         const emojis = guild.emojis.map((e) => `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`);
 
-        return <Embed> {
-          color: randomHex(),
-          description: `Emotes: ${emojis.join(" ")}`,
-          footer: {
-            text: guild.id.toString(),
-          },
-        };
+        return MessageEmbed
+          .new()
+          .color(randomHex())
+          .description(`Emotes: ${emojis.join(" ")}`)
+          .footer(`${guild.id}`)
+          .end();
       }
     }
-  },
-};
+  }
+}

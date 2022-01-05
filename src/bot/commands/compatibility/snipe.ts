@@ -1,6 +1,6 @@
 import { type Context, Command, MessageEmbed } from "oasis";
 import { cache, Category, randomHex } from "utils";
-import { avatarURL, sendMessage } from "discordeno";
+import { avatarURL, sendMessage, getUser } from "discordeno";
 
 @Command({
   name: "snipe",
@@ -12,26 +12,26 @@ import { avatarURL, sendMessage } from "discordeno";
   },
 })
 export default class {
-  static async execute({ bot, interaction }: Context) {
-    if (!interaction.channelId) return;
+  static async execute({ bot, message }: Context<false>) {
+    const sniped = cache.lastMessages.get(message.channelId);
 
-    const message = cache.lastMessages.get(interaction.channelId);
-
-    if (!message) {
+    if (!sniped) {
       return "No existe un mensaje eliminado";
     }
 
-    if (message.content.length >= 4096) {
-      const file = new Blob([message.content]);
+    if (sniped.content.length >= 4096) {
+      const file = new Blob([sniped.content]);
 
-      await sendMessage(bot, interaction.channelId, { file: [{ name: "Content.txt", blob: file }] });
+      await sendMessage(bot, message.channelId, { file: [{ name: "Content.txt", blob: file }] });
 
       return "Mensaje largo recibido!";
     }
 
+    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+
     return MessageEmbed
       .new()
-      .author(message.tag, avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar }))
+      .author(message.tag, avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }))
       .color(randomHex())
       .description(message.content)
       .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`)

@@ -96,7 +96,7 @@ export default class {
     const results = await search(option.value as string, channel.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
     const limit = results.length - 1;
 
-    // // this is the base embed to send
+    // this is the base embed to send
     const embed = MessageEmbed
       .new()
       .color(randomHex())
@@ -104,7 +104,7 @@ export default class {
       .field("Búsqueda segura", channel.nsfw ? "No" : "Sí")
       .author(
         results[0].source,
-        avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar })
+        avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar }),
       )
       .footer(`Results for ${option.value}`);
 

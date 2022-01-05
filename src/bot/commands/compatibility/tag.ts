@@ -1,4 +1,4 @@
-import type { Command } from "../../types/command.ts";
+import { type Context, Command } from "oasis";
 import { Category, Configuration, toCapitalCase } from "utils";
 import { getChannel, getUser } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
@@ -24,27 +24,23 @@ enum Arguments {
   Display,
 }
 
-export default <Command<false>> {
-  options: {
-    isGuildOnly: false,
-    isAdminOnly: false,
-    information: {
-      descr: "Crea, edita, borra o modifica tags",
-      short: "Crea, edita, borra o modifica tags",
-      usage:
-        "[add(name, content) | remove(name) | give(name, @user) | edit(name, content) | list() | nsfw(name) | owner(name)] [search] ...",
-    },
+@Command({
+  name: "t",
+  isGuildOnly: true,
+  meta: {
+    descr: "Crea, edita, borra o modifica tags",
+    short: "Crea, edita, borra o modifica tags",
+    usage:
+      "[add(name, content) | remove(name) | give(name, @user) | edit(name, content) | list() | nsfw(name) | owner(name)] [search] ...",
   },
   category: Category.Fun,
-  data: {
-    name: "tag",
-  },
-  using: ["channel"],
-  async execute({ bot, message, args, structs: { channel } }) {
+})
+export default class {
+  async execute({ bot, message, args }: Context<false>) {
     const [option, ...options] = args.args;
 
-    if (!option) return;
     if (!message.guildId) return;
+    if (!option) return;
     if (!db) return;
 
     const search = Arguments[toCapitalCase(option) as keyof typeof Arguments];
@@ -178,6 +174,7 @@ export default <Command<false>> {
           return "No encontré ese tag";
         }
 
+        const channel = bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
         const safe = !channel?.nsfw;
 
         if (tag.nsfw && safe) {
@@ -187,5 +184,5 @@ export default <Command<false>> {
         return tag.content;
       }
     }
-  },
-};
+  }
+}
