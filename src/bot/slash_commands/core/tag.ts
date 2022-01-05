@@ -31,7 +31,7 @@ enum Arguments {
   description: "El nombre del tag",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommandGroup,
+  type: ApplicationCommandOptionTypes.SubCommand,
   name: "display",
   description: "Busca un tag",
 })
@@ -43,7 +43,7 @@ enum Arguments {
   description: "El nombre del tag",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommandGroup,
+  type: ApplicationCommandOptionTypes.SubCommand,
   name: "owner",
   description: "Busca el dueño de un tag",
 })
@@ -55,7 +55,7 @@ enum Arguments {
   description: "El nombre del tag",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommandGroup,
+  type: ApplicationCommandOptionTypes.SubCommand,
   name: "nsfw",
   description: "Marca un tag como nsfw",
 })
@@ -67,7 +67,7 @@ enum Arguments {
   description: "El usuario al que opcionalmente verificar",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommandGroup,
+  type: ApplicationCommandOptionTypes.SubCommand,
   name: "list",
   description: "Encuentra todos tus tags en el servidor",
 })
@@ -85,7 +85,7 @@ enum Arguments {
   description: "El nombre del tag",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommandGroup,
+  type: ApplicationCommandOptionTypes.SubCommand,
   name: "edit",
   description: "Edita un tag",
 })
@@ -103,7 +103,7 @@ enum Arguments {
   description: "El nombre del tag",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommandGroup,
+  type: ApplicationCommandOptionTypes.SubCommand,
   name: "give",
   description: "Da un tag a un usuario",
 })
@@ -115,7 +115,7 @@ enum Arguments {
   description: "El nombre del tag",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommandGroup,
+  type: ApplicationCommandOptionTypes.SubCommand,
   name: "remove",
   description: "Remueve un tag",
 })
@@ -133,7 +133,7 @@ enum Arguments {
   description: "El nombre del tag",
 })
 @Option({
-  type: ApplicationCommandOptionTypes.SubCommandGroup,
+  type: ApplicationCommandOptionTypes.SubCommand,
   name: "add",
   description: "Añade un tag",
 })
@@ -159,7 +159,7 @@ export default class {
 
     const option = interaction.data?.options?.[0];
 
-    if (option?.type !== ApplicationCommandOptionTypes.SubCommandGroup) return;
+    if (option?.type !== ApplicationCommandOptionTypes.SubCommand) return;
 
     if (!interaction.guildId || !interaction.channelId) {
       return;
