@@ -24,6 +24,8 @@ export default abstract class {
       file: [{ blob: file, name: "Data.js" }],
     });
 
-    await upsertApplicationCommands(bot, commands);
+    const loaded = await upsertApplicationCommands(bot, commands);
+
+    return loaded.map((cmd) => `\`${cmd.name}\``).join(" ");
   }
 }
