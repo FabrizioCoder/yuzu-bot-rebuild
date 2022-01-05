@@ -1,7 +1,6 @@
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
-import { type Context, Command, MessageEmbed, Option } from "oasis";
+import { type Context, Command, MessageEmbed } from "oasis";
 import { Api, Category, randomHex } from "utils";
-import { ApplicationCommandOptionTypes } from "discordeno";
 import { default as f } from "axiod";
 
 async function getPokemonFromApi(pokemon: string | number) {
@@ -45,19 +44,12 @@ function parsePokemonWeight(weight: number) {
 // Command...
 @Command({
   name: "dex",
-  description: "Comando para buscar un pokémon por su nombre o id",
   meta: {
     descr: "Comando para buscar un pokémon por su nombre o id",
     short: "Busca pokemones",
     usage: "<Nombre o id>",
   },
   category: Category.Util,
-})
-@Option({
-  name: "search",
-  description: "🔎",
-  required: true,
-  type: ApplicationCommandOptionTypes.String,
 })
 export default class {
   static async execute({ args: { args } }: Context<false>) {

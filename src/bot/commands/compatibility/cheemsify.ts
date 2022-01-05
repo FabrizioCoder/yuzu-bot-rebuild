@@ -3,7 +3,6 @@ import { Category, cheemsify } from "utils";
 
 @Command({
   name: "cheemsify",
-  description: "Conviertem un temxtom am imdiomam cheems",
   meta: {
     descr: "Conviertem un temxtom am imdiomam cheems",
     short: "Conviertem un temxtom am imdiomam cheems",

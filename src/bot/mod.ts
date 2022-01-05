@@ -16,7 +16,9 @@ const log = logger.create({ name: "Handler" });
 await Promise.all([
   // /slash_commands/
   loadFilesFromBot<Command>("slash_commands", (slashCommand) => {
-    // console.log(slashCommand.data);
+    slashCommand.data.options?.map((o) => {
+      if ("options" in o) console.log("options: for %s", o.name, o.options);
+    });
     cache.slashCommands.set(slashCommand.data.name, slashCommand);
     log.info(`Loaded ${cyan("slash command")} ${slashCommand.data.name}`);
   }),

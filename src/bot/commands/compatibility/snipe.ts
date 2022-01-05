@@ -4,7 +4,6 @@ import { avatarURL, sendMessage, getUser } from "discordeno";
 
 @Command({
   name: "snipe",
-  description: "Busca el último mensaje eliminado en el canal",
   category: Category.Util,
   meta: {
     descr: "Busca el último mensaje eliminado en el canal",
