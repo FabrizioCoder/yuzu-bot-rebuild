@@ -58,6 +58,12 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "search",
+  description: "Búsqueda",
+})
 @Command({
   name: "image",
   description: "Busca imágenes en internet",
@@ -67,12 +73,6 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
     usage: "<Search>",
   },
   category: Category.Util,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "search",
-  description: "Búsqueda",
 })
 export default class {
   static async execute({ bot, interaction }: Context) {

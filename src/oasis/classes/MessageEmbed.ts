@@ -1,4 +1,4 @@
-import { Embed } from "discordeno";
+import type { Embed } from "discordeno";
 
 export const MessageEmbed = {
   embed: <Embed> {},

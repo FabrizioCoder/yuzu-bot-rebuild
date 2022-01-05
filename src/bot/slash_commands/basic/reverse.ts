@@ -2,6 +2,12 @@ import { type Context, Command, Option } from "oasis";
 import { Category } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "input",
+  description: "Reverse 🔄",
+})
 @Command({
   name: "reverse",
   description: "Invierte un texto",
@@ -11,12 +17,6 @@ import { ApplicationCommandOptionTypes } from "discordeno";
     usage: "<Input>",
   },
   category: Category.Fun,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "input",
-  description: "Reverse 🔄",
 })
 export default class {
   static execute({ interaction }: Context) {

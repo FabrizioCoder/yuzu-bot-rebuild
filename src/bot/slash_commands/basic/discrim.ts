@@ -2,6 +2,12 @@ import { type Context, Command, MessageEmbed, Option } from "oasis";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
+@Option({
+  type: ApplicationCommandOptionTypes.Integer,
+  required: true,
+  name: "discrim",
+  description: "#️⃣ Tag",
+})
 @Command({
   name: "discrim",
   description: "Encuentra a usuarios con el mismo tag",
@@ -11,12 +17,6 @@ import { ApplicationCommandOptionTypes } from "discordeno";
     usage: "<Tag>",
   },
   category: Category.Util,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.Integer,
-  required: true,
-  name: "discrim",
-  description: "#️⃣ Tag",
 })
 export default class {
   static execute({ bot, interaction }: Context) {

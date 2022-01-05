@@ -10,6 +10,22 @@ import {
 } from "../../../database/controllers/starboard_controller.ts";
 import { db } from "../../../database/db.ts";
 
+@Option({
+  type: ApplicationCommandOptionTypes.Integer,
+  name: "count",
+  description: "Min count of reactions",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  name: "emoji",
+  description: "The emoji",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.Channel,
+  name: "channel",
+  required: true,
+  description: "The channel",
+})
 @Command({
   name: "starboard",
   description: "Configura un canal para enviar mensajes starboard ⭐",
@@ -21,22 +37,7 @@ import { db } from "../../../database/db.ts";
     usage: "<Channel> [emoji] [count]",
   },
 })
-@Option({
-  type: ApplicationCommandOptionTypes.Channel,
-  name: "channel",
-  required: true,
-  description: "The channel",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "emoji",
-  description: "The emoji",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.Integer,
-  name: "count",
-  description: "Min count of reactions",
-})
+
 export default class {
   static async execute({ bot, interaction }: Context) {
     if (!db) return;

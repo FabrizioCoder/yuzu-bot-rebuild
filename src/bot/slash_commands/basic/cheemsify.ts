@@ -2,6 +2,11 @@ import { type Context, Command, Option } from "oasis";
 import { Category, cheemsify } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  name: "input",
+  description: "Temxto a comvermtirm a imdioma cheems",
+})
 @Command({
   name: "cheemsify",
   description: "Conviertem un temxtom am imdiomam cheems",
@@ -11,11 +16,6 @@ import { ApplicationCommandOptionTypes } from "discordeno";
     usage: "<Text>",
   },
   category: Category.Fun,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "input",
-  description: "Temxto a comvermtirm a imdioma cheems",
 })
 export default class {
   static execute({ interaction }: Context) {

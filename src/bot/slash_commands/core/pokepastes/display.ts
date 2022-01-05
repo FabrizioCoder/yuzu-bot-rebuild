@@ -3,6 +3,17 @@ import { Category } from "utils";
 import { ApplicationCommandOptionTypes, sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";
 
+@Option({
+  type: ApplicationCommandOptionTypes.Boolean,
+  name: "plaintext",
+  description: "To send in plain text or a file",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  name: "link",
+  required: true,
+  description: "Link from pokepast.es"
+})
 @Command({
   name: "paste",
   description: "pokepast.es wrapper",
@@ -13,17 +24,7 @@ import { getRawPaste } from "poke_deno";
     usage: "<Link>",
   },
 })
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "link",
-  required: true,
-  description: "Link from pokepast.es"
-})
-@Option({
-  type: ApplicationCommandOptionTypes.Boolean,
-  name: "plaintext",
-  description: "To send in plain text or a file",
-})
+
 export default class {
   static async execute({ bot, interaction }: Context) {
     if (!interaction.channelId) return;

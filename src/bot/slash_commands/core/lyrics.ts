@@ -17,6 +17,12 @@ interface Song {
   error: string;
 }
 
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "search",
+  description: "Lyrics",
+})
 @Command({
   name: "lyrics",
   description: "Busca letras de canciones",
@@ -26,12 +32,6 @@ interface Song {
     usage: "[@Mención]",
   },
   category: Category.Util,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "search",
-  description: "Lyrics",
 })
 export default class {
   static async execute({ interaction }: Context) {

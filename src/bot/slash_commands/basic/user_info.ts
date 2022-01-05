@@ -2,6 +2,12 @@ import { Command, type Context, MessageEmbed, Option } from "oasis";
 import { Category, DiscordColors, snowflakeToTimestamp } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno";
 
+@Option({
+  type: ApplicationCommandOptionTypes.User,
+  required: true,
+  name: "user",
+  description: "Usuario 👥",
+})
 @Command({
   name: "user",
   description: "Busca un usuario",
@@ -11,12 +17,6 @@ import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno"
     usage: "<User>",
   },
   category: Category.Info,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.User,
-  required: true,
-  name: "user",
-  description: "Usuario 👥",
 })
 export default class {
   static async execute({ bot, interaction }: Context) {

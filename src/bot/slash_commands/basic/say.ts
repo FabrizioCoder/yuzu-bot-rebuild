@@ -2,6 +2,12 @@ import { type Context, Command, Option } from "oasis";
 import { Category, isInvite } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "input",
+  description: "📝📝📝📝📝",
+})
 @Command({
   name: "say",
   description: "Hace que el bot diga algo muy malo",
@@ -11,12 +17,6 @@ import { ApplicationCommandOptionTypes } from "discordeno";
     usage: "<Input>",
   },
   category: Category.Fun,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "input",
-  description: "📝📝📝📝📝",
 })
 export default class {
   static execute({ interaction }: Context) {

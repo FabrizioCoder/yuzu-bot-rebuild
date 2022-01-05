@@ -13,6 +13,12 @@ const rpts = <const> [
   "Quizás",
 ];
 
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  required: true,
+  name: "question",
+  description: "🎱 Question ",
+})
 @Command({
   name: `${rpts.length}ball`,
   description: "Responde al usuario con una pregunta de sí/no",
@@ -22,12 +28,6 @@ const rpts = <const> [
     usage: "<Input>",
   },
   category: Category.Fun,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "question",
-  description: "🎱 Question ",
 })
 export default class {
   static execute({ bot, interaction }: Context) {

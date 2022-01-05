@@ -23,7 +23,120 @@ enum Arguments {
   Owner,
   Display,
 }
-
+// display
+@OptionIn("display", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del tag",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "display",
+  description: "Busca un tag",
+})
+// owner
+@OptionIn("owner", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del tag",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "owner",
+  description: "Busca el dueño de un tag",
+})
+// nsfw
+@OptionIn("nsfw", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del tag",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "nsfw",
+  description: "Marca un tag como nsfw",
+})
+// list
+@OptionIn("list", {
+  type: ApplicationCommandOptionTypes.User,
+  name: "user",
+  required: false,
+  description: "El usuario al que opcionalmente verificar",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "list",
+  description: "Encuentra todos tus tags en el servidor",
+})
+// edit
+@OptionIn("edit", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "content",
+  required: true,
+  description: "El contenido del tag",
+})
+@OptionIn("edit", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del tag",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "edit",
+  description: "Edita un tag",
+})
+// give
+@OptionIn("give", {
+  type: ApplicationCommandOptionTypes.User,
+  name: "user",
+  required: true,
+  description: "El usuario que recibirá el tag",
+})
+@OptionIn("give", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del tag",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "give",
+  description: "Da un tag a un usuario",
+})
+// remove
+@OptionIn("remove", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del tag",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "remove",
+  description: "Remueve un tag",
+})
+// add
+@OptionIn("add", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "content",
+  required: true,
+  description: "El contenido del tag",
+})
+@OptionIn("add", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del tag",
+})
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "add",
+  description: "Añade un tag",
+})
 @Command({
   name: "tag",
   description: "Crea, edita, borra o modifica tags",
@@ -39,112 +152,6 @@ enum Arguments {
       owner(name)] [search] ...",
   },
   category: Category.Fun,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "add",
-  description: "Añade un tag",
-})
-@OptionIn("add", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@OptionIn("add", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "content",
-  required: true,
-  description: "El contenido del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "remove",
-  description: "Remueve un tag",
-})
-@OptionIn("remove", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "give",
-  description: "Da un tag a un usuario",
-})
-@OptionIn("give", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@OptionIn("give", {
-  type: ApplicationCommandOptionTypes.User,
-  name: "user",
-  required: true,
-  description: "El usuario que recibirá el tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "edit",
-  description: "Edita un tag",
-})
-@OptionIn("edit", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@OptionIn("edit", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "content",
-  required: true,
-  description: "El contenido del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "list",
-  description: "Encuentra todos tus tags en el servidor",
-})
-@OptionIn("list", {
-  type: ApplicationCommandOptionTypes.User,
-  name: "user",
-  required: false,
-  description: "El usuario al que opcionalmente verificar",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "nsfw",
-  description: "Marca un tag como nsfw",
-})
-@OptionIn("nsfw", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "owner",
-  description: "Busca el dueño de un tag",
-})
-@OptionIn("owner", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "display",
-  description: "Busca un tag",
-})
-@OptionIn("hide", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
 })
 export default class {
   static async execute({ bot, interaction }: Context) {

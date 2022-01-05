@@ -16,31 +16,27 @@ const log = logger.create({ name: "Handler" });
 await Promise.all([
   // /slash_commands/
   loadFilesFromBot<Command>("slash_commands", (slashCommand) => {
-    if ("disable" in slashCommand) return;
+    console.log(slashCommand.data);
     cache.slashCommands.set(slashCommand.data.name, slashCommand);
     log.info(`Loaded ${cyan("slash command")} ${slashCommand.data.name}`);
   }),
   // /commands/
   loadFilesFromBot<Command<false>>("commands", (command) => {
-    if ("disable" in command) return;
     cache.commands.set(command.data.name, command);
     log.info(`Loaded ${cyan("command")} ${command.data.name}`);
   }),
   // /events/
   loadFilesFromBot<Event>("events", (event) => {
-    if ("disable" in event) return;
     cache.events.set(event.name, event);
     log.info(`Loaded ${cyan("event")} ${event.name}`);
   }),
   // /tasks/
   loadFilesFromBot<Task>("tasks", (task) => {
-    if ("disable" in task) return;
     cache.tasks.set(task.name, task);
     log.info(`Loaded ${cyan("task")} ${task.name}`);
   }),
   // /monitors/
   loadFilesFromBot<Monitor>("monitors", (monitor) => {
-    if ("disable" in monitor) return;
     cache.monitors.set(monitor.name, monitor);
     log.info(`Loaded ${cyan("monitor")} ${monitor.name}`);
   }),

@@ -1,9 +1,13 @@
 import type { ApplicationCommandOption } from "discordeno";
 
 export function OptionIn(name: string, option: ApplicationCommandOption) {
-  return function(target: Function) {
-    const options = (target as { data?: { options?: ApplicationCommandOption[] } })?.data?.options;
+  return function(target: any) {
+    const subcommand = (target as any)
+      .data.options
+      .find((o: ApplicationCommandOption) => o.name === name);
 
-    options?.find((o) => o.name === name)?.options?.push(option);
+    subcommand.options ??= [];
+    subcommand.options.push(option);
+    return target;
   }
 }

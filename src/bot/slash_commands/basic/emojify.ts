@@ -2,6 +2,12 @@ import { type Context, Command, Option } from "oasis";
 import { Category, rangeChar } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
+@Option({
+  type: ApplicationCommandOptionTypes.String,
+  name: "input",
+  required: true,
+  description: "Emojify 🔠",
+})
 @Command({
   name: "emojify",
   description: "Convierte un texto a emojis",
@@ -11,12 +17,6 @@ import { ApplicationCommandOptionTypes } from "discordeno";
     usage: "<Text>",
   },
   category: Category.Fun,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "input",
-  required: true,
-  description: "Emojify 🔠",
 })
 export default class {
   static execute({ interaction }: Context) {

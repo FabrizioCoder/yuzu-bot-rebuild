@@ -10,41 +10,20 @@ import {
 } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 
-@Command({
-  name: "emotes",
-  description: "Muestra, añade y remueve emotes",
-  isGuildOnly: true,
-  category: Category.Config,
-  meta: {
-    descr: "Muestra, añade y remueve emotes",
-    usage: "emotes | add | remove | hide | display [name] [url]",
-  },
-})
+// display
 @Option({
   type: ApplicationCommandOptionTypes.SubCommand,
-  name: "add",
-  description: "Añade un emoji",
-  options: [],
+  name: "display",
+  description: "Muestra todos los emojis del servidor",
 })
-@OptionIn("add", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
+// hide
+@OptionIn("hide", {
+  type: ApplicationCommandOptionTypes.Role,
+  name: "role",
   required: true,
-  description: "El nombre del emoji",
+  description: "El nombre del rol",
 })
-@OptionIn("add", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "url",
-  required: true,
-  description: "El link del emoji",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "remove",
-  description: "Remueve un emoji",
-  options: [],
-})
-@OptionIn("remove", {
+@OptionIn("hide", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
@@ -54,24 +33,46 @@ import { hasGuildPermissions } from "permissions_plugin";
   type: ApplicationCommandOptionTypes.SubCommand,
   name: "hide",
   description: "Limita un emoji a un rol",
-  options: [],
 })
-@OptionIn("hide", {
+// remove
+@OptionIn("remove", {
   type: ApplicationCommandOptionTypes.String,
   name: "name",
   required: true,
   description: "El nombre del emoji",
 })
-@OptionIn("hide", {
-  type: ApplicationCommandOptionTypes.Role,
-  name: "role",
+@Option({
+  type: ApplicationCommandOptionTypes.SubCommand,
+  name: "remove",
+  description: "Remueve un emoji",
+})
+// add
+@OptionIn("add", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "url",
   required: true,
-  description: "El nombre del rol",
+  description: "El link del emoji",
+})
+@OptionIn("add", {
+  type: ApplicationCommandOptionTypes.String,
+  name: "name",
+  required: true,
+  description: "El nombre del emoji",
 })
 @Option({
   type: ApplicationCommandOptionTypes.SubCommand,
-  name: "display",
-  description: "Muestra todos los emojis del servidor",
+  name: "add",
+  description: "Añade un emoji",
+})
+@Command({
+  name: "emotes",
+  description: "Muestra, añade y remueve emotes",
+  isGuildOnly: true,
+  category: Category.Config,
+  meta: {
+    descr: "Muestra, añade y remueve emotes",
+    usage: "emotes | add | remove | hide | display [name] [url]",
+  },
 })
 export default class {
   static async execute({ bot, interaction }: Context) {

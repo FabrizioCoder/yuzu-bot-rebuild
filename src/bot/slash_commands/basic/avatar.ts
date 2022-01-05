@@ -2,6 +2,11 @@ import { type Context, Command, MessageEmbed, Option } from "oasis";
 import { ApplicationCommandOptionTypes, avatarURL, getUser } from "discordeno";
 import { Category, DiscordColors } from "utils";
 
+@Option({
+  type: ApplicationCommandOptionTypes.User,
+  name: "target",
+  description: "The user",
+})
 @Command({
   name: "avatar",
   description: "Busca el avatar de un usuario",
@@ -11,11 +16,6 @@ import { Category, DiscordColors } from "utils";
     usage: "[@Mención]",
   },
   category: Category.Info,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.User,
-  name: "target",
-  description: "The user",
 })
 export default class {
   static async execute({ bot, interaction }: Context) {
