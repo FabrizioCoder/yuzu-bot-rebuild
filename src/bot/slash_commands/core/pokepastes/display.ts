@@ -5,6 +5,7 @@ import { getRawPaste } from "poke_deno";
 
 @Command({
   name: "paste",
+  description: "pokepast.es wrapper",
   category: Category.Info,
   meta: {
     descr: "pokepast.es wrapper",
