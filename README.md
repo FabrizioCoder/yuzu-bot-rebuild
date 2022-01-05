@@ -1,23 +1,41 @@
-# Yuzu's Discord bot Functional rewrite
+# Yuzu's Discord bot v2
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Le-Val/yuzu-bot-rebuild?color=lightblue&label=Files)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Le-Val/yuzu-bot-rebuild)
 ![GitHub](https://img.shields.io/github/license/Le-Val/yuzu-bot-rebuild)
 [![GitHub issues](https://img.shields.io/github/issues/Le-Val/yuzu-bot-rebuild?color=lightblue&label=Issues)](https://github.com/Le-Val/yuzu-bot-rebuild/issues)
 - my discord: `Yuzu#1401`
-- [support the proyect](https://top.gg/bot/893319907981283340)
+- [support the proyect by inviting the bot](https://top.gg/bot/893319907981283340)
 
 ### Features
+- Functional - Prototypical - Lightweight
+- No event emitters just good stuff
+- Easy-to-use command system & decorators
+- Events, Commands, Monitors & Tasks handlers
+- 25 unique commands (50 in total)
+- Powerful command system
 
-- Functional - Lightweight
-- No event emitters
-- Easy-to-use command system
-- Events, Commands, Monitors & Tasks
-- Collectors for buttons or messages
-- Support for slash commands
+### Example using decorators
+```ts
+// on root directory:
+// deno run -A ./import_map.json src/bot/mod.ts
+import type { Context } from "oasis"
+import { Command, Stop } from "oasis"
+import { Category, Configuration } from "utils"
+
+@Command({ name: "ping", description: "Replies pong! 🏓", category: Category.Owner })
+class Ping {
+  // limit the command to the owner of the bot!
+  @Stop((ctx) => ctx.interaction.user.id !== Configuration.OWNER_ID)
+  static execute({ interaction }: Context) {
+    return `Pong! ${interaction.user.username}`
+  }
+}
+export default Ping
+```
+* Permissions required: `--allow-net --allow-read --allow-env --no-check --import-map`
 
 ### How to start?
-
 - Fork the repo from this branch
 - Clone my code
 - Install the [Deno](https://deno.land/) runtime
@@ -26,7 +44,6 @@
 - Execute the bot using `deno run`
 
 ### Set up the .env file
-
 - Create a file in the root directory named `.env`
 - Copy and paste your Discord token
 
@@ -35,40 +52,10 @@ TOKEN=YOURTOKEN
 ```
 
 ### How to write a command
-
 1. create a file in the /slash_commands/ folder
-2. put the following code:
-
-```ts
-// slash_commands/ping.ts
-import type { Command } from "../types/command.ts";
-
-// slash command:
-export default <Command> {
-  data: {
-    name: "ping",
-    description: "🏓🏓🏓",
-  },
-  execute: (bot, interaction) => "pong!",
-};
-```
-
-```ts
-// commands/ping.ts
-import type { Command } from "../types/command.ts";
-
-// non-slash command:
-export default <Command<false>> {
-  data: {
-    name: "ping",
-  },
-  execute: (bot, message) => "pong!",
-};
-```
-
+2. write code (see example above)
 3. do something in the execute() function
-
-- the return type is `string | Embed` the reply will be deferred by default
+- the return type is `string | Embed` the reply will be **deferred by default**
 - the callback will be exactly the same as the interactionCreate event
 
 ### Heroku
@@ -81,17 +68,10 @@ export default <Command<false>> {
 
 ### FAQ
 
-#### Q: How do I run the bot?
-- A: Write on the command line (on the root directory) this line:
-`deno run --allow-net --allow-read --allow-env --no-check --import-map ./import_map.json src/bot/mod.ts`
-
-#### Q: is Deno better than node?
-- A: I don't now
-
 #### Q: What extensions do I need?
 1. Some Deno extension (atom ide deno etc)
 2. Prettier extension
 
 #### Q: How do I write imports in a proper way?
 1. Import types before functions/variables
-2. no spacing beetween inline imports ^
+2. no newlines in imports ^
