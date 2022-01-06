@@ -16,7 +16,6 @@ const log = logger.create({ name: "Handler" });
 await Promise.all([
   // /slash_commands/
   loadFilesFromBot<Command>("slash_commands", (slashCommand) => {
-    console.log(slashCommand.data)
     cache.slashCommands.set(slashCommand.data.name, slashCommand);
     log.info(`Loaded ${cyan("slash command")} ${slashCommand.data.name}`);
   }),
@@ -24,7 +23,7 @@ await Promise.all([
   loadFilesFromBot<Command<false>>("commands", (command) => {
     cache.commands.set(command.data.name, command);
     log.info(`Loaded ${cyan("command")} ${command.data.name}`);
-  }),
+  }), 
   // /events/
   loadFilesFromBot<Event>("events", (event) => {
     cache.events.set(event.name, event);

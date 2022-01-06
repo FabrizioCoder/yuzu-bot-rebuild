@@ -14,11 +14,12 @@ export const MessageEmbed = {
     return this;
   },
   field(name: string, value: string, inline = false) {
+    this.embed.fields ??= [];
     this.embed.fields?.push({ name, value, inline });
     return this;
   },
   fields(fields: { name: string; value: string; inline: boolean }[]) {
-    this.embed.fields = fields;
+    this.embed.fields = [...fields, ...this.embed.fields ?? []];
     return this;
   },
   timestamp(timestamp: string | number | Date) {
