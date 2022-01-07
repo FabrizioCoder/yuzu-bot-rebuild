@@ -116,13 +116,13 @@ export default class {
     const currentPageIndex = 0;
 
     // execute the 'loop'
-    read(message.id, message.channelId, message.authorId, currentPageIndex, Milliseconds.Minute * 5);
+    read(sended.id, sended.channelId, message.authorId, currentPageIndex, Milliseconds.Minute * 5);
 
     // do a recursive function instead of a while(true) loop
     // highly recommended
-    function read(messageId: bigint, channelId: bigint, authorId: bigint, acc: number, time: Milliseconds) {
+    function read(sendedMessageId: bigint, sendedMessageChannelId: bigint, sendedMessageAuthorId: bigint, acc: number, time: Milliseconds) {
       // important: Button from the cache if the timer is gone just pass! #243
-      needButton(authorId, messageId, { duration: time, amount: 1 })
+      needButton(sendedMessageAuthorId, sendedMessageId, { duration: time, amount: 1 })
         .then(async (button) => {
           switch (button.customId) {
             case "back": {
@@ -140,14 +140,14 @@ export default class {
                 type: InteractionResponseTypes.DeferredUpdateMessage,
               });
 
-              const tempMessage = await sendMessage(bot, channelId, {
+              const tempMessage = await sendMessage(bot, sendedMessageChannelId, {
                 content: `Envía un número desde 0 hasta ${limit}`,
               });
 
-              const response = await needMessage(authorId, channelId);
+              const response = await needMessage(message.authorId, sendedMessageChannelId);
 
               if (tempMessage) {
-                await deleteMessage(bot, channelId, tempMessage.id);
+                await deleteMessage(bot, sendedMessageChannelId, tempMessage.id);
               }
 
               const newIndex = parseInt(response.content);
@@ -155,9 +155,9 @@ export default class {
               // if the page to go doesn't exists
               if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
                 // NOTE: this will not stop the command in any case
-                await sendMessage(bot, channelId, { content: "El número no existe en los resultados" });
+                await sendMessage(bot, sendedMessageChannelId, { content: "El número no existe en los resultados" });
                 // repeat w/ new index? (not necessary)
-                read(messageId, channelId, authorId, acc, time);
+                read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
               }
               if (!isNaN(newIndex)) {
                 acc = newIndex;
@@ -175,11 +175,11 @@ export default class {
                 acc >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
 
                 // edit the message the component is attached to
-                await editMessage(bot, channelId, messageId, {
+                await editMessage(bot, sendedMessageChannelId, sendedMessageAuthorId, {
                   embeds: [embed.end()],
                   components: [{ type: 1, components: buttons }],
                 });
-                read(messageId, channelId, authorId, acc, time);
+                read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
                 return;
               }
 
@@ -195,7 +195,7 @@ export default class {
               const toDelete = button?.interaction?.message?.id;
 
               if (toDelete) {
-                await deleteMessage(bot, channelId, toDelete);
+                await deleteMessage(bot, sendedMessageChannelId, toDelete);
               }
               return;
             }
@@ -221,11 +221,11 @@ export default class {
             type: InteractionResponseTypes.UpdateMessage,
             data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
           });
-          read(messageId, channelId, authorId, acc, time);
+          read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
         })
         .catch(async () => {
           // remove buttons
-          await editMessage(bot, channelId, messageId, { components: [] });
+          await editMessage(bot, sendedMessageChannelId, sendedMessageId, { components: [] });
           // do not repeat
           // pass
         });
