@@ -1,16 +1,12 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Stop } from "oasis";
-import { Category, Configuration, DiscordColors } from "utils";
+import { createMessageCommand, MessageEmbed, Stop } from "oasis";
+import { Category, DiscordColors } from "utils";
 
-@Command({
+export default createMessageCommand({
   name: "eval",
   isGuildOnly: false,
   isAdminOnly: true,
-  category: Category.Owner
-})
-export default class {
-  @Stop<false>((ctx) => ctx.message.authorId !== Configuration.OWNER_ID)
-  static execute({ bot, message, args: { args } }: Context<false>) {
+  category: Category.Owner,
+  execute({ bot, message, args: { args } }) {
     const time = Date.now();
     const input = args.join(" ");
 
@@ -36,5 +32,5 @@ export default class {
         return MessageEmbed.new({ description: "Error: " + error.message, color: DiscordColors.Red }).end();
       }
     }
-  }
-}
+  },
+});

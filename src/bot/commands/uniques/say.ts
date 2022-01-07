@@ -1,9 +1,8 @@
-import type { Context } from "oasis";
-import { Command } from "oasis";
+import { createMessageCommand } from "oasis";
 import { Category, isInvite } from "utils";
 import { deleteMessage } from "discordeno";
 
-@Command({
+export default createMessageCommand({
   name: "say",
   meta: {
     descr: "Hace que el bot diga algo muy malo",
@@ -11,9 +10,7 @@ import { deleteMessage } from "discordeno";
     usage: "<Input>",
   },
   category: Category.Fun,
-})
-export default class {
-  async execute({ bot, message, args: { args } }: Context<false>) {
+  async execute({ bot, message, args: { args } }) {
     const toSend = args.join(" ");
 
     if (!toSend) {
@@ -27,5 +24,5 @@ export default class {
     await deleteMessage(bot, message.channelId, message.id).catch(() => {});
 
     return toSend;
-  }
-}
+  },
+});

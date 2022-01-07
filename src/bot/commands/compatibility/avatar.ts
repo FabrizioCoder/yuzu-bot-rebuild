@@ -1,20 +1,16 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { avatarURL, getUser } from "discordeno";
 import { Category, DiscordColors } from "utils";
 
-@Command({
+export default createMessageCommand({
   name: "avatar",
-  description: "Busca el avatar de un usuario",
   meta: {
     descr: "Busca el avatar de un usuario",
     short: "Busca avatares",
     usage: "[@Mención]",
   },
   category: Category.Info,
-})
-export default class {
-  static async execute({ bot, message, args: { args } }: Context<false>) {
+  async execute({ bot, message, args: { args } }) {
     const givenId = /\d{18}/g.exec(args.join(" "))?.[0];
 
     const userId = BigInt(givenId ?? message.authorId.toString());
@@ -34,5 +30,5 @@ export default class {
       .description(`[Referencia](https://www.google.com/searchbyimage?image_url=${avatar})\n[Avatar URL](${avatar})`)
       .image(avatar)
       .end();
-  }
-}
+  },
+});

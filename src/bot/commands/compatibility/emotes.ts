@@ -1,10 +1,9 @@
-import type { Context } from "oasis";
 import { Category, randomHex } from "utils";
-import { Command, MessageEmbed } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
 import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";
 
-@Command({
+export default createMessageCommand({
   name: "emotes",
   isGuildOnly: true,
   meta: {
@@ -12,9 +11,7 @@ import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin"
     usage: "emotes | add | remove | hide | display [name] [url]",
   },
   category: Category.Config,
-})
-export default class {
-  static async execute({ bot, message, args }: Context<false>) {
+  async execute({ bot, message, args }) {
     const [option, ...options] = args.args;
 
     if (!message.guildId) {
@@ -109,5 +106,5 @@ export default class {
           .end();
       }
     }
-  }
-}
+  },
+});

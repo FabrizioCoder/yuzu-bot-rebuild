@@ -1,8 +1,7 @@
-import type { Context } from "oasis";
-import { Command } from "oasis";
+import { createMessageCommand } from "oasis";
 import { Category, cheemsify } from "utils";
 
-@Command({
+export default createMessageCommand({
   name: "cheemsify",
   meta: {
     descr: "Conviertem un temxtom am imdiomam cheems",
@@ -10,9 +9,7 @@ import { Category, cheemsify } from "utils";
     usage: "<Text>",
   },
   category: Category.Fun,
-})
-export default class {
-  static execute({ args }: Context<false>) {
+  execute({ args }) {
     const option = args.args.join(" ");
 
     // Remtomrnam umn memnsamjem aml demtemctamr qumem nom sem ham pumemstom namdam
@@ -23,5 +20,5 @@ export default class {
     // Enviam eml temxtom cheemsimfimcamdom
     // qumimtam lams memncimomnems pamram emvimtamr qumem memncimomnemn am umsumamrimoms
     return cheemsify(option);
-  }
-}
+  },
+});

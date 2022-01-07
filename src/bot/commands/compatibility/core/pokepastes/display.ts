@@ -1,10 +1,9 @@
-import type { Context } from "oasis";
-import { Command } from "oasis";
+import { createMessageCommand } from "oasis";
 import { Category } from "utils";
 import { sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";
 
-@Command({
+export default createMessageCommand({
   name: "paste",
   category: Category.Info,
   meta: {
@@ -12,9 +11,7 @@ import { getRawPaste } from "poke_deno";
     short: "pokepast.es wrapper",
     usage: "<Link>",
   },
-})
-export default class {
-  static async execute({ bot, message, args: { args } }: Context<false>) {
+  async execute({ bot, message, args: { args } }) {
     const [first, second] = args;
 
     const hasMobileFlag = first === "--mobile" || first === "-m";
@@ -39,5 +36,5 @@ export default class {
         file: [{ blob: file, name: "Pokepaste.md" }],
       });
     }
-  }
-}
+  },
+});

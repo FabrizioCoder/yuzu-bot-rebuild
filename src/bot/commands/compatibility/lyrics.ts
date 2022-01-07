@@ -1,7 +1,6 @@
 /* TODO: check for long song lyrics */
 
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
 import { default as f } from "axiod";
 
@@ -19,18 +18,15 @@ interface Song {
   error: string;
 }
 
-@Command({
+export default createMessageCommand({
   name: "lyrics",
-  description: "Busca letras de canciones",
   meta: {
     descr: "Busca letras de canciones",
     short: "Busca letras de canciones",
     usage: "[@Mención]",
   },
   category: Category.Util,
-})
-export default class {
-  static async execute({ args: { args } }: Context<false>) {
+  async execute({ args: { args } }) {
     const option = args.join(" ");
 
     if (!option) return;
@@ -54,5 +50,5 @@ export default class {
       .end();
 
     return embed;
-  }
-}
+  },
+});

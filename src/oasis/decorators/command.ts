@@ -1,17 +1,41 @@
-import type { Information } from "../types/command.ts";
-import type { ApplicationCommandOption, EditGlobalApplicationCommand } from "discordeno";
+import type { CreateCommand, MessageCommandContext, SlashCommandContext } from "../types/command.ts";
+import type { Embed } from "discordeno";
 import { ApplicationCommandTypes } from "discordeno";
 
-export interface CreateCommand {
-  type?: ApplicationCommandTypes,
-  name: string;
-  description?: string;
-  data?: Omit<EditGlobalApplicationCommand, "name" | "description" | "options">;
-  meta?: Partial<Information>;
-  isGuildOnly?: boolean;
-  isAdminOnly?: boolean;
-  category: number;
-  options?: ApplicationCommandOption[];
+export type O1 = Omit<CreateCommand, "data" | "type" | "description">
+  & { execute(ctx: MessageCommandContext): string | Embed | undefined | Promise<string | Embed | void> }
+
+export function createMessageCommand(o: O1) {
+  return {
+    data: {
+      name: o.name,
+    },
+    options: o.options ? o.options : {
+      isGuildOnly: !!o.isGuildOnly,
+      isAdminOnly: !!o.isAdminOnly,
+      information: o.meta,
+    },
+    category: o.category,
+  };
+}
+
+export type O2 = CreateCommand & { execute(ctx: SlashCommandContext): string | Embed | void }
+
+export function createCommand(o: O2) {
+  return {
+    data: {
+      name: o.name,
+      description: o.description,
+      type: o.type === undefined ?  ApplicationCommandTypes.ChatInput : o.type,
+      ...o.data,
+    },
+    options: o.options ? o.options : {
+      isGuildOnly: !!o.isGuildOnly,
+      isAdminOnly: !!o.isAdminOnly,
+      information: o.meta,
+    },
+    category: o.category,
+  };
 }
 
 export function Command(o: CreateCommand) {

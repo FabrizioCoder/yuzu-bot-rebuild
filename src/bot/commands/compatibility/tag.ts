@@ -1,5 +1,4 @@
-import type { Context } from "oasis";
-import { Command } from "oasis";
+import { createMessageCommand } from "oasis";
 import { Category, Configuration, toCapitalCase } from "utils";
 import { getChannel, getUser } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
@@ -25,7 +24,7 @@ enum Arguments {
   Display,
 }
 
-@Command({
+export default createMessageCommand({
   name: "t",
   isGuildOnly: true,
   meta: {
@@ -35,9 +34,7 @@ enum Arguments {
       "[add(name, content) | remove(name) | give(name, @user) | edit(name, content) | list() | nsfw(name) | owner(name)] [search] ...",
   },
   category: Category.Fun,
-})
-export default class {
-  static async execute({ bot, message, args }: Context<false>) {
+  async execute({ bot, message, args }) {
     const [option, ...options] = args.args;
 
     if (!message.guildId) return;
@@ -185,5 +182,5 @@ export default class {
         return tag.content;
       }
     }
-  }
-}
+  },
+});

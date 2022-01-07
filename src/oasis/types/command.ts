@@ -1,4 +1,10 @@
-import type { DiscordenoInteraction, DiscordenoMessage, EditGlobalApplicationCommand } from "discordeno";
+import type {
+  ApplicationCommandOption,
+  ApplicationCommandTypes,
+  DiscordenoInteraction,
+  DiscordenoMessage,
+  EditGlobalApplicationCommand,
+} from "discordeno";
 import type { BotWithCache } from "cache_plugin";
 
 export interface Information {
@@ -31,3 +37,15 @@ export interface MessageCommand {
 export type Context<T extends boolean = true> = T extends true
   ? SlashCommandContext
   : MessageCommandContext;
+
+export interface CreateCommand {
+  type?: ApplicationCommandTypes,
+  name: string;
+  description?: string;
+  data?: Omit<EditGlobalApplicationCommand, "name" | "description" | "options">;
+  meta?: Partial<Information>;
+  isGuildOnly?: boolean;
+  isAdminOnly?: boolean;
+  category: number;
+  options?: ApplicationCommandOption[];
+}

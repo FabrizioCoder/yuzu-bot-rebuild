@@ -1,6 +1,5 @@
 import type { ButtonComponent } from "discordeno";
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
 import {
   avatarURL,
@@ -61,18 +60,15 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-@Command({
+export default createMessageCommand({
   name: "image",
-  description: "Busca imágenes en internet",
   meta: { // help command ignore this
     descr: "Busca imágenes en internet",
     short: "Busca imágenes",
     usage: "<Search>",
   },
   category: Category.Util,
-})
-export default class {
-  static async execute({ bot, message, args: { args } }: Context<false>) {
+  async execute({ bot, message, args: { args } }) {
     const option = args[0];
 
     if (!option) {
@@ -230,5 +226,5 @@ export default class {
           // pass
         });
     }
-  }
-}
+  },
+});

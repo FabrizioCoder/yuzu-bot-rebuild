@@ -1,18 +1,15 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { cache, Category, randomHex } from "utils";
 import { avatarURL, sendMessage, getUser } from "discordeno";
 
-@Command({
+export default createMessageCommand({
   name: "snipe",
   category: Category.Util,
   meta: {
     descr: "Busca el último mensaje eliminado en el canal",
     short: "Busca mensajes eliminados",
   },
-})
-export default class {
-  static async execute({ bot, message }: Context<false>) {
+  async execute({ bot, message }) {
     const sniped = cache.lastMessages.get(message.channelId);
 
     if (!sniped) {
@@ -36,5 +33,5 @@ export default class {
       .description(message.content)
       .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`)
       .end();
-  }
-}
+  },
+});

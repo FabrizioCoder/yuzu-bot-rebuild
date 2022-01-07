@@ -1,11 +1,10 @@
-import type { Context } from "oasis";
-import { Command } from "oasis";
+import { createMessageCommand } from "oasis";
 import { Category, isNotAscii } from "utils";
 import { hasGuildPermissions } from "permissions_plugin";
 import { addPrefix, editPrefix, getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
 import { db } from "../../../database/db.ts";
 
-@Command({
+export default createMessageCommand({
   name: "prefix",
   isGuildOnly: true,
   meta: {
@@ -14,9 +13,7 @@ import { db } from "../../../database/db.ts";
     usage: "<Input>",
   },
   category: Category.Config,
-})
-export default class {
-  async execute({ bot, message, args: { args, prefix } }: Context<false>) {
+  async execute({ bot, message, args: { args, prefix } }) {
     if (!db || !message.guildId) {
       return;
     }
@@ -54,5 +51,5 @@ export default class {
 
       return `El prefix nuevo será ${newPrefix?.prefix}`;
     }
-  }
-}
+  },
+});

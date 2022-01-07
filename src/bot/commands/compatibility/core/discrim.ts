@@ -1,8 +1,7 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
 
-@Command({
+export default createMessageCommand({
   name: "discrim",
   meta: {
     descr: "Encuentra a usuarios con el mismo tag",
@@ -10,10 +9,7 @@ import { Category, randomHex } from "utils";
     usage: "<Tag>",
   },
   category: Category.Util,
-})
-export default class {
-  static execute({ bot, args: { args: [fst] } }: Context<false>) {
-
+  execute({ bot, args: { args: [fst] } }) {
     if (fst.length !== 4) {
       return "El tag debe tener 4 dígitos";
     }
@@ -32,5 +28,5 @@ export default class {
       .end()
 
     return embed;
-  }
-}
+  },
+});

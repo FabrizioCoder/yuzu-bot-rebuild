@@ -1,10 +1,9 @@
 import type { SelectMenuComponent } from "discordeno";
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { cache, Category, CategoryEmoji, DiscordColors } from "utils";
 import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "discordeno";
 
-@Command({
+export default createMessageCommand({
   name: "help",
   isGuildOnly: true,
   meta: {
@@ -12,9 +11,7 @@ import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "discorde
     short: "📕 Ayuda del bot",
   },
   category: Category.Info,
-})
-export default class {
-  static async execute({ bot, message, args }: Context<false>) {
+  async execute({ bot, message, args }) {
     const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
     const menu: SelectMenuComponent = {
@@ -64,5 +61,5 @@ export default class {
         components: [menu],
       }],
     });
-  }
-}
+  },
+});

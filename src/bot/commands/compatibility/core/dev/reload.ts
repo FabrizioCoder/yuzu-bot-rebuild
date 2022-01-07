@@ -1,9 +1,8 @@
-import type { Context } from "oasis";
-import { Command } from "oasis";
+import { createMessageCommand } from "oasis";
 import { cache, Category } from "utils";
 import { upsertApplicationCommands, sendMessage } from "discordeno";
 
-@Command({
+export default createMessageCommand({
   name: "reload",
   isGuildOnly: true,
   isAdminOnly: true,
@@ -13,9 +12,7 @@ import { upsertApplicationCommands, sendMessage } from "discordeno";
     usage: ".",
   },
   category: Category.Owner,
-})
-export default abstract class {
-  static async execute({ bot, message }: Context<false>) {
+  async execute({ bot, message }) {
     const commands = cache.slashCommands.map((c) => c.data);
 
     const file = new Blob([ Deno.inspect(commands, {  }) ]);
@@ -28,5 +25,5 @@ export default abstract class {
     const loaded = await upsertApplicationCommands(bot, commands);
 
     return loaded.map((cmd) => `\`${cmd.name}\``).join(" ");
-  }
-}
+  },
+});

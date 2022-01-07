@@ -1,6 +1,5 @@
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { Api, Category, randomHex } from "utils";
 import { default as f } from "axiod";
 
@@ -43,7 +42,7 @@ function parsePokemonWeight(weight: number) {
 }
 
 // Command...
-@Command({
+export default createMessageCommand({
   name: "dex",
   meta: {
     descr: "Comando para buscar un pokémon por su nombre o id",
@@ -51,9 +50,7 @@ function parsePokemonWeight(weight: number) {
     usage: "<Nombre o id>",
   },
   category: Category.Util,
-})
-export default class {
-  static async execute({ args: { args } }: Context<false>) {
+  async execute({ args: { args } }) {
     const option = args.join(" ");
 
     if (!option) {
@@ -81,5 +78,5 @@ export default class {
       .end();
 
     return embed;
-  }
-}
+  },
+});
