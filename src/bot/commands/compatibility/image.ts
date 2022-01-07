@@ -175,7 +175,7 @@ export default class {
                 acc >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
 
                 // edit the message the component is attached to
-                await editMessage(bot, sendedMessageChannelId, sendedMessageAuthorId, {
+                await editMessage(bot, sendedMessageChannelId, sendedMessageId, {
                   embeds: [embed.end()],
                   components: [{ type: 1, components: buttons }],
                 });
