@@ -148,14 +148,14 @@ export default class {
                 type: InteractionResponseTypes.DeferredUpdateMessage,
               });
 
-              const tempMessage = await sendMessage(bot, channel.id, {
+              const tempMessage = await sendMessage(bot, channelId, {
                 content: `Envía un número desde 0 hasta ${limit}`,
               });
 
-              const response = await needMessage(authorId, channel.id);
+              const response = await needMessage(authorId, channelId);
 
               if (tempMessage) {
-                await deleteMessage(bot, channel.id, tempMessage.id);
+                await deleteMessage(bot, channelId, tempMessage.id);
               }
 
               const newIndex = parseInt(response.content);
@@ -191,7 +191,7 @@ export default class {
                   embeds: [embed.end()],
                   components: [{ type: 1, components: buttons }],
                 });
-                read(messageId, channelId, authorId, newIndex, time);
+                read(messageId, channelId, authorId, acc, time);
                 return;
               }
 
@@ -207,7 +207,7 @@ export default class {
               const toDelete = button?.interaction?.message?.id;
 
               if (toDelete) {
-                await deleteMessage(bot, channel.id, toDelete);
+                await deleteMessage(bot, channelId, toDelete);
               }
 
               await sendInteractionResponse(bot, interaction.id, interaction.token, {
