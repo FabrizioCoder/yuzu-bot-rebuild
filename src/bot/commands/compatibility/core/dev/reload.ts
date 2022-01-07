@@ -1,4 +1,5 @@
-import { type Context, Command } from "oasis";
+import type { Context } from "oasis";
+import { Command } from "oasis";
 import { cache, Category } from "utils";
 import { upsertApplicationCommands, sendMessage } from "discordeno";
 

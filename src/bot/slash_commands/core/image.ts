@@ -1,11 +1,13 @@
 import type { ButtonComponent } from "discordeno";
-import { type Context, Command, MessageEmbed, Option } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed, Option } from "oasis";
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,
   avatarURL,
   ButtonStyles,
   deleteMessage,
+  editMessage,
   getChannel,
   InteractionResponseTypes,
   sendInteractionResponse,
@@ -22,7 +24,8 @@ enum ButtonEmojis {
   Xsign = "✖️",
 }
 
-// it makes sense ig
+// NOTE: using a tuple because the max size of buttons is 5
+// Do this outside of the func body
 const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent] = [
   {
     type: 2, // all buttons have type 2
@@ -67,7 +70,7 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
 @Command({
   name: "image",
   description: "Busca imágenes en internet",
-  meta: {
+  meta: { // help command ignore this
     descr: "Busca imágenes en internet",
     short: "Busca imágenes",
     usage: "<Search>",
@@ -79,7 +82,7 @@ export default class {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
-      return "Por favor escribe un texto";
+      return;
     }
 
     if (!interaction.channelId) {
@@ -107,118 +110,143 @@ export default class {
         avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar }),
       )
       .footer(`Results for ${option.value}`);
+      // do not .end this ^ for now
 
-    const message = await sendInteractionResponse(bot, interaction.id, interaction.token, {
+    const sended = await sendInteractionResponse(bot, interaction.id, interaction.token, {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
       data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
     });
 
     // stuff to help the button collector
-    if (!message) return;
+    if (!sended) return;
 
     // the current page index
-    let index = 0;
+    const currentPageIndex = 0;
 
-    // listen to buttons forever
-    do {
-      try {
-        const button = await needButton(interaction.user.id, message.id, {
-          duration: Milliseconds.Minute * 5,
-          amount: 1,
-        });
+    // execute the 'loop'
+    read(sended.id, sended.channelId, interaction.user.id, currentPageIndex, Milliseconds.Minute * 5);
 
-        switch (button.customId) {
-          case "back": {
-            if (index > 0) index--;
-            break;
-          }
-
-          case "next": {
-            if (index < limit) index++;
-            break;
-          }
-
-          case "page": {
-            await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
-              type: InteractionResponseTypes.DeferredUpdateMessage,
-            });
-
-            const tempMessage = await sendMessage(bot, channel.id, {
-              content: `Envía un número desde 0 hasta ${limit}`,
-            });
-
-            const response = await needMessage(interaction.user.id, channel.id);
-
-            if (tempMessage) {
-              await deleteMessage(bot, channel.id, tempMessage.id);
+    // do a recursive function instead of a while(true) loop
+    // highly recommended
+    function read(messageId: bigint, channelId: bigint, authorId: bigint, acc: number, time: Milliseconds) {
+      // important: Button from the cache if the timer is gone just pass! #243
+      needButton(authorId, messageId, { duration: time, amount: 1 })
+        .then(async (button) => {
+          switch (button.customId) {
+            case "back": {
+              if (acc > 0) acc--;
+              break;
             }
 
-            const newIndex = parseInt(response.content);
+            case "next": {
+              if (acc < limit) acc++;
+              break;
+            }
 
-            // if the page to go doesn't exists
-            if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
-              // TODO: this is a little bit tough to read
-              // NOTE: this will not stop the command in any case
+            case "page": {
+              await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
+                type: InteractionResponseTypes.DeferredUpdateMessage,
+              });
+
+              const tempMessage = await sendMessage(bot, channel.id, {
+                content: `Envía un número desde 0 hasta ${limit}`,
+              });
+
+              const response = await needMessage(authorId, channel.id);
+
+              if (tempMessage) {
+                await deleteMessage(bot, channel.id, tempMessage.id);
+              }
+
+              const newIndex = parseInt(response.content);
+
+              // if the page to go doesn't exists
+              if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
+                // NOTE: this will not stop the command in any case
+                await sendInteractionResponse(bot, interaction.id, interaction.token, {
+                  type: InteractionResponseTypes.ChannelMessageWithSource,
+                  private: true,
+                  data: { content: "El número no existe en los resultados" },
+                });
+                // repeat w/ new index? (not necessary)
+                read(messageId, channelId, authorId, acc, time);
+              }
+              if (!isNaN(newIndex)) {
+                acc = newIndex;
+                const result = results[acc];
+
+                embed.image(result.image);
+                embed.footer(`📜: ${acc}/${limit}`);
+                embed.author(result.source);
+
+                // disable buttons to prevent the user to throw an unexpected result
+                const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
+                const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
+
+                acc <= 0 ? (buttons[backButtonIndex].disabled = true) : (buttons[backButtonIndex].disabled = false);
+                acc >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
+
+                // edit the message the component is attached to
+                await editMessage(bot, channelId, messageId, {
+                  embeds: [embed.end()],
+                  components: [{ type: 1, components: buttons }],
+                });
+                read(messageId, channelId, authorId, newIndex, time);
+                return;
+              }
+
+              break;
+            }
+
+            case "random": {
+              acc = Math.floor(Math.random() * limit);
+              break;
+            }
+
+            case "delete": {
+              const toDelete = button?.interaction?.message?.id;
+
+              if (toDelete) {
+                await deleteMessage(bot, channel.id, toDelete);
+              }
+
               await sendInteractionResponse(bot, interaction.id, interaction.token, {
                 type: InteractionResponseTypes.ChannelMessageWithSource,
                 private: true,
-                data: { content: "El número no existe en los resultados" },
+                data: { content: "OK!" },
               });
-
-              continue;
-            }
-            if (!isNaN(newIndex)) {
-              index = newIndex;
-            }
-            break;
-          }
-
-          case "random": {
-            index = Math.floor(Math.random() * limit);
-            break;
-          }
-
-          case "delete": {
-            const toDelete = button?.interaction?.message?.id;
-
-            if (toDelete) {
-              await deleteMessage(bot, channel.id, toDelete);
+              return;
             }
 
-            await sendInteractionResponse(bot, interaction.id, interaction.token, {
-              type: InteractionResponseTypes.ChannelMessageWithSource,
-              private: true,
-              data: { content: "OK!" },
-            });
-
-            continue;
+            default:
+              break;
           }
+          const result = results[acc];
 
-          default:
-            break;
-        }
-        const result = results[index];
+          embed.image(result.image);
+          embed.footer(`📜: ${acc}/${limit}`);
+          embed.author(result.source);
 
-        embed.image(result.image);
-        embed.footer(`📜: ${index}/${limit}`);
-        embed.author(result.source);
+          // disable buttons to prevent the user to throw an unexpected result
+          const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
+          const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
 
-        // disable buttons to prevent the user to throw an unexpected result
-        const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
-        const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
+          acc <= 0 ? (buttons[backButtonIndex].disabled = true) : (buttons[backButtonIndex].disabled = false);
+          acc >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
 
-        index <= 0 ? (buttons[backButtonIndex].disabled = true) : (buttons[backButtonIndex].disabled = false);
-
-        index >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
-
-        // edit the message the component is attached to
-        await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
-          type: InteractionResponseTypes.UpdateMessage,
-          data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
+          // edit the message the component is attached to
+          await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
+            type: InteractionResponseTypes.UpdateMessage,
+            data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
+          });
+          read(messageId, channelId, authorId, acc, time);
+        })
+        .catch(async () => {
+          // remove buttons
+          await editMessage(bot, channelId, messageId, { components: [] });
+          // do not repeat
+          // pass
         });
-      } catch {
-        break;
-      }
-    } while (true);
+    }
   }
 }

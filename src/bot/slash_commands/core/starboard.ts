@@ -1,4 +1,5 @@
-import { type Context, Command, Option } from "oasis";
+import type { Context } from "oasis";
+import { Command, Option } from "oasis";
 import { Category } from "utils";
 import { ApplicationCommandOptionTypes, getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";

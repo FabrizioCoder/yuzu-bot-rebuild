@@ -1,5 +1,6 @@
 import type { SelectMenuComponent } from "discordeno";
-import { type Context, Command, MessageEmbed } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed } from "oasis";
 import { cache, Category, CategoryEmoji, DiscordColors } from "utils";
 import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "discordeno";
 

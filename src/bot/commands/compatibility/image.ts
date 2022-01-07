@@ -1,12 +1,13 @@
 import type { ButtonComponent } from "discordeno";
-import { type Context, Command, MessageEmbed } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed } from "oasis";
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
 import {
   avatarURL,
   ButtonStyles,
   deleteMessage,
+  editMessage,
   getChannel,
-  getUser,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
@@ -22,8 +23,9 @@ enum ButtonEmojis {
   Xsign = "✖️",
 }
 
-// it makes sense ig
-const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent] = [
+// NOTE: using a tuple because the max size of buttons is 5
+// Do this outside of the func body
+const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent] = [
   {
     type: 2, // all buttons have type 2
     label: ButtonEmojis.Back,
@@ -46,6 +48,12 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
   {
     type: 2,
+    label: ButtonEmojis.Random,
+    customId: "random",
+    style: ButtonStyles.Primary,
+  },
+  {
+    type: 2,
     label: ButtonEmojis.Xsign,
     customId: "delete",
     style: ButtonStyles.Danger,
@@ -54,23 +62,29 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
 
 @Command({
   name: "image",
-  category: Category.Util,
-  meta: {
+  description: "Busca imágenes en internet",
+  meta: { // help command ignore this
     descr: "Busca imágenes en internet",
     short: "Busca imágenes",
     usage: "<Search>",
   },
+  category: Category.Util,
 })
 export default class {
-  static async execute({ bot, message, args }: Context<false>) {
-    const option = args.args.join(" ");
+  static async execute({ bot, message, args: { args } }: Context<false>) {
+    const option = args[0];
 
-    if (!option) return "Por favor escribe un texto";
+    if (!option) {
+      return "Por favor escribe un texto";
+    }
+
+    const channel = bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
+
+    if (!channel) {
+      return;
+    }
 
     const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
-    const channel =  bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
-
-    if (!author || !channel) return;
 
     // get an nsfw output if the currentChannel is nsfw
     const results = await search(option, channel.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
@@ -87,112 +101,133 @@ export default class {
         avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }),
       )
       .footer(`Results for ${option}`);
+      // do not .end this ^ for now
 
-    // this should work even if sendInteractionResponse() returns Promise<any>
-    const msg = await sendMessage(bot, message.channelId, {
+    const sended = await sendMessage(bot, message.channelId, {
       embeds: [embed.end()],
       components: [{ type: 1, components: buttons }],
     });
 
     // stuff to help the button collector
-    if (!msg) return;
+    if (!sended) return;
 
     // the current page index
-    let index = 0;
+    const currentPageIndex = 0;
 
-    // listen to buttons forever
-    do {
-      try {
-        const button = await needButton(author.id, msg.id, {
-          duration: Milliseconds.Minute * 5,
-          amount: 1,
+    // execute the 'loop'
+    read(message.id, message.channelId, message.authorId, currentPageIndex, Milliseconds.Minute * 5);
+
+    // do a recursive function instead of a while(true) loop
+    // highly recommended
+    function read(messageId: bigint, channelId: bigint, authorId: bigint, acc: number, time: Milliseconds) {
+      // important: Button from the cache if the timer is gone just pass! #243
+      needButton(message.authorId, messageId, { duration: time, amount: 1 })
+        .then(async (button) => {
+          switch (button.customId) {
+            case "back": {
+              if (acc > 0) acc--;
+              break;
+            }
+
+            case "next": {
+              if (acc < limit) acc++;
+              break;
+            }
+
+            case "page": {
+              await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
+                type: InteractionResponseTypes.DeferredUpdateMessage,
+              });
+
+              const tempMessage = await sendMessage(bot, channel.id, {
+                content: `Envía un número desde 0 hasta ${limit}`,
+              });
+
+              const response = await needMessage(authorId, channel.id);
+
+              if (tempMessage) {
+                await deleteMessage(bot, channel.id, tempMessage.id);
+              }
+
+              const newIndex = parseInt(response.content);
+
+              // if the page to go doesn't exists
+              if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
+                // NOTE: this will not stop the command in any case
+                await sendMessage(bot, channelId, { content: "El número no existe en los resultados" });
+                // repeat w/ new index? (not necessary)
+                read(messageId, channelId, authorId, acc, time);
+              }
+              if (!isNaN(newIndex)) {
+                acc = newIndex;
+                const result = results[acc];
+
+                embed.image(result.image);
+                embed.footer(`📜: ${acc}/${limit}`);
+                embed.author(result.source);
+
+                // disable buttons to prevent the user to throw an unexpected result
+                const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
+                const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
+
+                acc <= 0 ? (buttons[backButtonIndex].disabled = true) : (buttons[backButtonIndex].disabled = false);
+                acc >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
+
+                // edit the message the component is attached to
+                await editMessage(bot, channelId, messageId, {
+                  embeds: [embed.end()],
+                  components: [{ type: 1, components: buttons }],
+                });
+                read(messageId, channelId, authorId, newIndex, time);
+                return;
+              }
+
+              break;
+            }
+
+            case "random": {
+              acc = Math.floor(Math.random() * limit);
+              break;
+            }
+
+            case "delete": {
+              const toDelete = button?.interaction?.message?.id;
+
+              if (toDelete) {
+                await deleteMessage(bot, channel.id, toDelete);
+              }
+              return;
+            }
+
+            default:
+              break;
+          }
+          const result = results[acc];
+
+          embed.image(result.image);
+          embed.footer(`📜: ${acc}/${limit}`);
+          embed.author(result.source);
+
+          // disable buttons to prevent the user to throw an unexpected result
+          const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
+          const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
+
+          acc <= 0 ? (buttons[backButtonIndex].disabled = true) : (buttons[backButtonIndex].disabled = false);
+          acc >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
+
+          // edit the message the component is attached to
+          await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
+            type: InteractionResponseTypes.UpdateMessage,
+            data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
+          });
+          read(messageId, channelId, authorId, acc, time);
+        })
+        .catch(async () => {
+          // remove buttons
+          await editMessage(bot, channelId, messageId, { components: [] });
+          // do not repeat
+          // pass
         });
-
-        switch (button.customId) {
-          case "back": {
-            if (index > 0) index--;
-            break;
-          }
-
-          case "next": {
-            if (index < limit) index++;
-            break;
-          }
-
-          case "page": {
-            await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
-              type: InteractionResponseTypes.DeferredUpdateMessage,
-            });
-
-            const tempMessage = await sendMessage(bot, message.channelId, {
-              content: `Envía un número desde 0 hasta ${limit}`,
-            });
-
-            const response = await needMessage(author.id, message.channelId);
-
-            if (tempMessage) {
-              await deleteMessage(bot, message.channelId, tempMessage.id);
-            }
-
-            const newIndex = parseInt(response.content);
-
-            // if the page to go doesn't exists
-            if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
-              // TODO: this is a little bit tough to read
-              // NOTE: this will not stop the command in any case
-              await sendMessage(bot, message.channelId, { content: "El número no existe en los resultados" });
-              continue;
-            }
-            if (!isNaN(newIndex)) {
-              index = newIndex;
-            }
-            break;
-          }
-
-          case "random": {
-            index = Math.floor(Math.random() * limit);
-            break;
-          }
-
-          case "delete": {
-            const toDelete = button.interaction.message?.id;
-
-            if (toDelete) {
-              await deleteMessage(bot, message.channelId, toDelete);
-            }
-
-            continue;
-          }
-
-          default:
-            break;
-        }
-        const result = results[index];
-
-        // create a copy of the embed rewritting the footer & image
-        embed.image(result.image);
-        embed.footer(`📜: ${index}/${limit}`);
-        embed.author(result.source);
-
-        // disable buttons to prevent the user to throw an unexpected result
-        const backButtonIndex = buttons.findIndex((b) => b.customId === "back");
-        const nextButtonIndex = buttons.findIndex((b) => b.customId === "next");
-
-        index <= 0 ? (buttons[backButtonIndex].disabled = true) : (buttons[backButtonIndex].disabled = false);
-
-        index >= limit ? (buttons[nextButtonIndex].disabled = true) : (buttons[nextButtonIndex].disabled = false);
-
-        // edit the message the component is attached to
-        await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
-          type: InteractionResponseTypes.UpdateMessage,
-          data: {
-            embeds: [embed.end()],
-            components: [{ type: 1, components: buttons }], // edited buttons
-          },
-        });
-      } catch {
-        break;
-      }
-    } while (true);
+    }
   }
 }

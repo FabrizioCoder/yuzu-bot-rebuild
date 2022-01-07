@@ -1,4 +1,5 @@
-import { type Context, Command, MessageEmbed } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed } from "oasis";
 import { cache, Category, randomHex } from "utils";
 import { avatarURL, sendMessage } from "discordeno";
 

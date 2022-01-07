@@ -1,4 +1,5 @@
-import { type Context, Command } from "oasis";
+import type { Context } from "oasis";
+import { Command } from "oasis";
 import { Category } from "utils";
 import { sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";

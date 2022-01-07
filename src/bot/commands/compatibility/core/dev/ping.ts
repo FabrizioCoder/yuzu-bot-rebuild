@@ -1,4 +1,5 @@
-import { type Context, Command, Stop } from "oasis";
+import type { Context } from "oasis";
+import { Command, Stop } from "oasis";
 import { Category, Configuration } from "utils";
 
 @Command({

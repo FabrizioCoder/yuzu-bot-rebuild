@@ -1,4 +1,5 @@
-import { type Context, Command, MessageEmbed, Option, OptionIn } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed, Option, OptionIn } from "oasis";
 import { Category, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,

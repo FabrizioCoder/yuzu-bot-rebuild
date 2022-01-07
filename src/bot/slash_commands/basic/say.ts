@@ -1,4 +1,5 @@
-import { type Context, Command, Option } from "oasis";
+import type { Context } from "oasis";
+import { Command, Option } from "oasis";
 import { Category, isInvite } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 

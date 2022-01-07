@@ -1,5 +1,6 @@
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
-import { type Context, Command, MessageEmbed } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed } from "oasis";
 import { Api, Category, randomHex } from "utils";
 import { default as f } from "axiod";
 

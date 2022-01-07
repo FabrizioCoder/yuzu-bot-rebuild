@@ -1,6 +1,7 @@
 /* TODO: check for long song lyrics */
 
-import { type Context, Command, MessageEmbed, Option } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed, Option } from "oasis";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 import { default as f } from "axiod";

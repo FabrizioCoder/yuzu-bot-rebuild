@@ -1,4 +1,5 @@
-import { type Context, Command, MessageEmbed } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
 
 @Command({

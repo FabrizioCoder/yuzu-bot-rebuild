@@ -1,4 +1,5 @@
-import { type Context, Command } from "oasis";
+import type { Context } from "oasis";
+import { Command } from "oasis";
 import { Category, isNotAscii } from "utils";
 import { hasGuildPermissions } from "permissions_plugin";
 import { addPrefix, editPrefix, getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";

@@ -1,4 +1,5 @@
-import { type Context, Command, MessageEmbed, Stop } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed, Stop } from "oasis";
 import { Category, Configuration, DiscordColors } from "utils";
 
 @Command({

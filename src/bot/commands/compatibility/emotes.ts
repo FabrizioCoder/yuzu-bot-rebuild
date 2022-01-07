@@ -1,5 +1,6 @@
-import { type Context, Command, MessageEmbed } from "oasis";
+import type { Context } from "oasis";
 import { Category, randomHex } from "utils";
+import { Command, MessageEmbed } from "oasis";
 import { createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
 import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";
 

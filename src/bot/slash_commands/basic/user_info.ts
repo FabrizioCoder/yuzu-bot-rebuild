@@ -1,4 +1,5 @@
-import { Command, type Context, MessageEmbed, Option } from "oasis";
+import type { Context } from "oasis";
+import { Command, MessageEmbed, Option } from "oasis";
 import { Category, DiscordColors, snowflakeToTimestamp } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno";
 
