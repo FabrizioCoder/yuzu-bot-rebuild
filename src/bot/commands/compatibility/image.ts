@@ -8,6 +8,7 @@ import {
   deleteMessage,
   editMessage,
   getChannel,
+  getUser,
   InteractionResponseTypes,
   sendInteractionResponse,
   sendMessage,
