@@ -35,6 +35,7 @@ export function createCommand(o: O2) {
       information: o.meta,
     },
     category: o.category,
+    execute: o.execute,
   };
 }
 
@@ -51,7 +52,7 @@ export function Command(o: CreateCommand) {
     (target as any).options = {
       isGuildOnly: !!o.isGuildOnly,
       isAdminOnly: !!o.isAdminOnly,
-      information: o.meta
+      information: o.meta,
     };
     (target as any).category = o.category;
 

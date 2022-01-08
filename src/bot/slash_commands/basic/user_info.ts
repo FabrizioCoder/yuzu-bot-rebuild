@@ -64,13 +64,13 @@ export default class {
         if (member.premiumSince) {
           embed.field(
             "Mejora el servidor desde:",
-            `<t:${member.premiumSince / 1000}> <- <t:${member.premiumSince / 1000}:R>`,
+            `<t:${Math.floor(member.premiumSince / 1000})> <- <t:${Math.floor(member.premiumSince / 1000)}:R>`,
           );
         }
 
         embed.field(
           "Se unió al servidor en:",
-          `<t:${member.joinedAt / 1000}> <- <t:${member.joinedAt / 1000}:R>`,
+          `<t:${Math.floor(member.joinedAt / 1000)}> <- <t:${Math.floor(member.joinedAt / 1000)}:R>`,
         );
 
         embed.field(
