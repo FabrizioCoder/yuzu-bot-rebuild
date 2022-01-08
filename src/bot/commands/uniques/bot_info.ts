@@ -18,7 +18,7 @@ export default abstract class {
   static async execute({ bot }: Context<false>) {
     // utility
     const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
-    const botCreatedAt = snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000n;
+    const botCreatedAt = snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000;
 
     if (!me) {
       return;

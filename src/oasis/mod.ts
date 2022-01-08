@@ -11,4 +11,4 @@ export * from "./decorators/stop.ts";
 export * from "./decorators/overwrite.ts";
 
 // classes
-export * from "./classes/MessageEmbed.ts";
+export * from "./classes/embed/MessageEmbed.ts";

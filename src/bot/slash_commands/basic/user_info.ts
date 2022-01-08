@@ -50,7 +50,7 @@ export default class {
       )
       .field(
         "Se unió a Discord en:",
-        `<t:${snowflakeToTimestamp(user.id) / 1000n}> <- <t:${snowflakeToTimestamp(user.id) / 1000n}:R>`,
+        `<t:${Math.floor(snowflakeToTimestamp(user.id) / 1000)}> <- <t:${Math.floor(snowflakeToTimestamp(user.id) / 1000)}:R>`,
       )
       .thumbnail(avatar)
       .author(`${user.username}#${user.discriminator}`, avatar, avatar);
