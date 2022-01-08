@@ -16,6 +16,7 @@ export function createMessageCommand(o: O1) {
       information: o.meta,
     },
     category: o.category,
+    execute: o.execute,
   };
 }
 
