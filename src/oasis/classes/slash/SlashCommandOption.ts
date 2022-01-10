@@ -65,6 +65,7 @@ export class OptionBuilder {
       type: this.type,
       name: this.name,
       description: this.description,
+      required: this.required,
     };
   }
 }
@@ -277,6 +278,7 @@ export class OptionBuilderNested {
       name: this.name,
       description: this.description,
       options: this.options?.map((o) => o.toJSON()) ?? [],
+      required: this.required,
     };
   }
 }
