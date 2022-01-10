@@ -1,26 +1,15 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Category, DiscordColors, snowflakeToTimestamp } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno";
 
-@Option({
-  type: ApplicationCommandOptionTypes.User,
-  required: true,
-  name: "user",
-  description: "Usuario 👥",
-})
-@Command({
-  name: "user",
-  description: "Busca un usuario",
+export default createCommand({
   meta: {
     descr: "Busca un usuario",
     short: "Busca un usuario",
     usage: "<User>",
   },
   category: Category.Info,
-})
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  async execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.User) {
@@ -37,8 +26,7 @@ export default class {
       avatar: user.avatar
     });
 
-    const embed = MessageEmbed
-      .new()
+    const embed = new MessageEmbed()
       .color(DiscordColors.Blurple)
       .footer(
         `${user.id}`,
@@ -64,7 +52,7 @@ export default class {
         if (member.premiumSince) {
           embed.field(
             "Mejora el servidor desde:",
-            `<t:${Math.floor(member.premiumSince / 1000})> <- <t:${Math.floor(member.premiumSince / 1000)}:R>`,
+            `<t:${Math.floor(member.premiumSince / 1000)})> <- <t:${Math.floor(member.premiumSince / 1000)}:R>`,
           );
         }
 
@@ -85,6 +73,11 @@ export default class {
       }
     }
 
-    return embed.end();
-  }
-}
+    return embed.embed;
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("userinfo")
+    .setDescription("Busca un usuario")
+    .addUserOption((o) => o.setName("user").setDescription("User to search 👥").setRequired(true))
+    .toJSON(),
+});

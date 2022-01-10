@@ -32,8 +32,7 @@ export default abstract class {
     // avatar
     const avatar = avatarURL(bot, me.id, me.discriminator, { avatar: me.avatar });
 
-    return MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .color(DiscordColors.Blurple)
       .thumbnail(avatar)
       .title(`Using ${bot.gateway.shards.size} shards`)
@@ -53,7 +52,8 @@ export default abstract class {
         `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`\n` +
         `[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`\n` +
         `[Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``,
-      )
-      .end();
+      );
+
+    return embed;
   }
 }

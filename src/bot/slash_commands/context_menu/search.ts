@@ -1,29 +1,28 @@
-import type { Context } from "oasis";
-import { Command } from "oasis";
+import { createCommand, MessageApplicationCommandBuilder } from "oasis";
 import { Category } from "utils";
-import { ApplicationCommandTypes } from "discordeno";
 import { SafetyLevels, search } from "images";
 
-@Command({
-  type: ApplicationCommandTypes.Message,
-  name: "search",
+export default createCommand({
   meta: {
     descr: "Click encima de un mensaje para buscar una imagen",
     short: "Click encima de un mensaje",
     usage: "<Input>",
   },
   category: Category.Util,
-})
-export default class {
-  static async execute({ interaction }: Context) {
+  async execute({ interaction }) {
     const message = interaction.data?.resolved?.messages?.first();
 
-    if (message) {
-      const [result] = await search(message.content, SafetyLevels.STRICT);
-
-      if (result) {
-        return result.image;
-      }
+    if (!message) {
+      return;
     }
-  }
-}
+
+    const [result, ..._results] = await search(message.content, SafetyLevels.STRICT);
+
+    if (result) {
+      return result.image;
+    }
+  },
+  data: new MessageApplicationCommandBuilder()
+    .setName("search")
+    .toJSON(),
+});

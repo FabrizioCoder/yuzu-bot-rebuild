@@ -1,26 +1,15 @@
-import type { Context } from "oasis";
-import { Command, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category, rangeChar } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "input",
-  required: true,
-  description: "Emojify 🔠",
-})
-@Command({
-  name: "emojify",
-  description: "Convierte un texto a emojis",
+export default createCommand({
   meta: {
     descr: "Convierte un texto a emojis",
     short: "Reemplaza texto por emojis",
     usage: "<Text>",
   },
   category: Category.Fun,
-})
-export default class {
-  static execute({ interaction }: Context) {
+  execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
@@ -50,5 +39,10 @@ export default class {
       .split("")
       .map((c) => (c.toLowerCase() in mapping ? mapping[c.toLowerCase()] : c))
       .join("");
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("emojify")
+    .setDescription("Convierte un texto a emojis")
+    .addStringOption((o) => o.setName("input").setDescription("Text to Emojify").setRequired(true))
+    .toJSON(),
+});

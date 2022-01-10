@@ -98,12 +98,12 @@ export default createMessageCommand({
       default: {
         const emojis = guild.emojis.map((e) => `<${e.animated ? "a:" : ":"}${e.name}:${e.id}>`);
 
-        return MessageEmbed
-          .new()
+        const { embed } = new MessageEmbed()
           .color(randomHex())
           .description(`Emotes: ${emojis.join(" ")}`)
-          .footer(`${guild.id}`)
-          .end();
+          .footer(`${guild.id}`);
+
+        return embed;
       }
     }
   },

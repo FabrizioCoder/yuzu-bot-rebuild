@@ -1,26 +1,15 @@
-import type { Context } from "oasis";
-import { Command, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder} from "oasis";
 import { Category, isInvite } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "input",
-  description: "📝📝📝📝📝",
-})
-@Command({
-  name: "say",
-  description: "Hace que el bot diga algo muy malo",
+export default createCommand({
   meta: {
     descr: "Hace que el bot diga algo muy malo",
     short: "Escribir el mensaje del bot",
     usage: "<Input>",
   },
   category: Category.Fun,
-})
-export default class {
-  static execute({ interaction }: Context) {
+  execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
     // type guard
@@ -28,10 +17,14 @@ export default class {
       return;
     }
 
-    if (typeof option.value === "string") {
-      if (isInvite(option.value)) return "No puedo enviar invites";
+    if (typeof option.value !== "string") return;
+    if (isInvite(option.value)) return "No puedo enviar invites";
 
-      return option.value;
-    }
-  }
-}
+    return option.value;
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("say")
+    .setDescription("Hace que el bot diga algo muy malo")
+    .addStringOption((o) => o.setName("input").setDescription("📝📝📝📝📝").setRequired(true))
+    .toJSON(),
+});

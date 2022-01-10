@@ -26,12 +26,12 @@ export default createMessageCommand({
 
     const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
 
-    return MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .author(message.tag, avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }))
       .color(randomHex())
       .description(message.content)
-      .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`)
-      .end();
+      .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`);
+
+    return embed;
   },
 });

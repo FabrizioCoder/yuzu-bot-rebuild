@@ -1,5 +1,4 @@
-import type { Context } from "oasis";
-import { Command, Option, OptionIn } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category, Configuration, toCapitalCase } from "utils";
 import { ApplicationCommandOptionTypes, getChannel, getUser } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
@@ -24,123 +23,8 @@ enum Arguments {
   Owner,
   Display,
 }
-// display
-@OptionIn("display", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "display",
-  description: "Busca un tag",
-})
-// owner
-@OptionIn("owner", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "owner",
-  description: "Busca el dueño de un tag",
-})
-// nsfw
-@OptionIn("nsfw", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "nsfw",
-  description: "Marca un tag como nsfw",
-})
-// list
-@OptionIn("list", {
-  type: ApplicationCommandOptionTypes.User,
-  name: "user",
-  required: false,
-  description: "El usuario al que opcionalmente verificar",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "list",
-  description: "Encuentra todos tus tags en el servidor",
-})
-// edit
-@OptionIn("edit", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "content",
-  required: true,
-  description: "El contenido del tag",
-})
-@OptionIn("edit", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "edit",
-  description: "Edita un tag",
-})
-// give
-@OptionIn("give", {
-  type: ApplicationCommandOptionTypes.User,
-  name: "user",
-  required: true,
-  description: "El usuario que recibirá el tag",
-})
-@OptionIn("give", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "give",
-  description: "Da un tag a un usuario",
-})
-// remove
-@OptionIn("remove", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "remove",
-  description: "Remueve un tag",
-})
-// add
-@OptionIn("add", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "content",
-  required: true,
-  description: "El contenido del tag",
-})
-@OptionIn("add", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del tag",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "add",
-  description: "Añade un tag",
-})
-@Command({
-  name: "tag",
-  description: "Crea, edita, borra o modifica tags",
+
+export default createCommand({
   meta: {
     descr: "Crea, edita, borra o modifica tags",
     short: "Crea, edita, borra o modifica tags",
@@ -153,9 +37,7 @@ enum Arguments {
       owner(name)] [search] ...",
   },
   category: Category.Fun,
-})
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  async execute({ bot, interaction }) {
     if (!db) return;
 
     const option = interaction.data?.options?.[0];
@@ -304,5 +186,60 @@ export default class {
         return tag.content;
       }
     }
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("tag")
+    .setDescription("Crea, edita, borra o modifica tags")
+    .addSubCommand((command) =>
+      command
+        .setName("add")
+        .setDescription("Add a tag")
+        .addStringOption((o) => o.setName("name").setDescription("Tag's name").setRequired(true))
+        .addStringOption((o) => o.setName("content").setDescription("Tag's content'").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("remove")
+        .setDescription("Remove a tag")
+        .addStringOption((o) => o.setName("name").setDescription("Tag's name").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("give")
+        .setDescription("Give a tag to a user as a gift")
+        .addStringOption((o) => o.setName("name").setDescription("Tag's name").setRequired(true))
+        .addUserOption((o) => o.setName("user").setDescription("User to gift the tag").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("edit")
+        .setDescription("Edit a tag")
+        .addStringOption((o) => o.setName("name").setDescription("Tag's name").setRequired(true))
+        .addStringOption((o) => o.setName("content").setDescription("Tag's (new) content'").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("list")
+        .setDescription("Find all of the tags in the current server")
+        .addUserOption((o) => o.setName("user").setDescription("(Optionally a user to search their tags)"))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("nsfw")
+        .setDescription("Set a tag as nsfw content")
+        .addStringOption((o) => o.setName("name").setDescription("Tag's name").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("owner")
+        .setDescription("Get the owner of the given tag")
+        .addStringOption((o) => o.setName("name").setDescription("Tag's name").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("display")
+        .setDescription("Display a tag")
+        .addStringOption((o) => o.setName("name").setDescription("Tag's name").setRequired(true))
+    )
+    .toJSON(),
+});

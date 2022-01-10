@@ -1,25 +1,15 @@
-import type { Context } from "oasis";
-import { Command, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category, cheemsify } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "input",
-  description: "Temxto a comvermtirm a imdioma cheems",
-})
-@Command({
-  name: "cheemsify",
-  description: "Conviertem un temxtom am imdiomam cheems",
+export default createCommand({
   meta: {
     descr: "Conviertem un temxtom am imdiomam cheems",
     short: "Conviertem un temxtom am imdiomam cheems",
     usage: "<Text>",
   },
   category: Category.Fun,
-})
-export default class {
-  static execute({ interaction }: Context) {
+  execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
     // Remtomrnam umn memnsamjem aml demtemctamr qumem nom sem ham pumemstom namdam
@@ -30,5 +20,10 @@ export default class {
     // Enviam eml temxtom cheemsimfimcamdom
     // qumimtam lams memncimomnems pamram emvimtamr qumem memncimomnemn am umsumamrimoms
     return cheemsify(option.value as string);
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("cheemsify")
+    .setDescription("Conviertem un temxtom am imdiomam cheems")
+    .addStringOption((o) => o.setName("input").setDescription("Temxto a comvermtirm a imdioma cheems").setRequired(true))
+    .toJSON(),
+});

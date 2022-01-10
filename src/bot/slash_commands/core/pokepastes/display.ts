@@ -1,33 +1,16 @@
-import type { Context } from "oasis";
-import { Command, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category } from "utils";
-import { ApplicationCommandOptionTypes, sendMessage } from "discordeno";
+import { sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";
 
-@Option({
-  type: ApplicationCommandOptionTypes.Boolean,
-  name: "plaintext",
-  description: "To send in plain text or a file",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "link",
-  required: true,
-  description: "Link from pokepast.es"
-})
-@Command({
-  name: "paste",
-  description: "pokepast.es wrapper",
-  category: Category.Info,
+export default createCommand({
   meta: {
     descr: "pokepast.es wrapper",
     short: "pokepast.es wrapper",
     usage: "<Link>",
   },
-})
-
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  category: Category.Info,
+  async execute({ bot, interaction }) {
     if (!interaction.channelId) return;
 
     const link = interaction.data?.options?.[0];
@@ -53,5 +36,11 @@ export default class {
         file: [{ blob: file, name: "Pokepaste.md" }],
       });
     }
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("paste")
+    .setDescription("pokepast.es wrapper!")
+    .addStringOption((o) => o.setName("link").setDescription("Link from https://pokepast.es/").setRequired(true))
+    .addBooleanOption((o) => o.setName("plaintext").setDescription("To send in plain text or inside a file"))
+    .toJSON(),
+});

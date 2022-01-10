@@ -46,13 +46,12 @@ export default createMessageCommand({
       size: 512,
     });
 
-    const embed = MessageEmbed
+    const { embed } = new MessageEmbed()
       .color(DiscordColors.Blurple)
       .author(author.username, avatar)
       .thumbnail(avatar)
       .description(`Mi prefix es: ${args.prefix}\n${cache.slashCommands.size + cache.commands.size} comandos`)
-      .footer(`${author.id} <> Required [] Optional`, avatar)
-      .end();
+      .footer(`${author.id} <> Required [] Optional`, avatar);
 
     await sendMessage(bot, message.channelId, {
       embeds: [embed],

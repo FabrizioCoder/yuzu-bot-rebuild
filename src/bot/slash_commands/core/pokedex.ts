@@ -1,6 +1,5 @@
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Api, Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 import { default as f } from "axiod";
@@ -43,25 +42,14 @@ function parsePokemonWeight(weight: number) {
   return strWeight;
 }
 
-// Command...
-@Option({
-  name: "search",
-  description: "🔎",
-  required: true,
-  type: ApplicationCommandOptionTypes.String,
-})
-@Command({
-  name: "dex",
-  description: "Comando para buscar un pokémon por su nombre o id",
+export default createCommand({
   meta: {
     descr: "Comando para buscar un pokémon por su nombre o id",
     short: "Busca pokemones",
     usage: "<Nombre o id>",
   },
   category: Category.Util,
-})
-export default class {
-  static async execute({ interaction }: Context) {
+  async execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
@@ -75,8 +63,7 @@ export default class {
       return "No se pudo encontrar información sobre el pokémon.";
     }
 
-    const embed = MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .title(`${poke.name[0]?.toUpperCase() + poke.name.slice(1)} #${poke.id}`)
       .color(randomHex())
       .footer("Thanks to PokéAPI for existing!", "https://pokeapi.co/static/pokeapi_256.888baca4.png")
@@ -85,9 +72,13 @@ export default class {
       .field("Types", poke.types.map((tp) => tp.type.name).join(" "))
       .field("Etc", `**Weight**: ${parsePokemonWeight(poke.weight)}kg\n**Height**: ${poke.height}`)
       .image(poke.sprites.front_default)
-      .thumbnail(poke.sprites.front_shiny)
-      .end();
+      .thumbnail(poke.sprites.front_shiny);
 
     return embed;
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("pokedex")
+    .setDescription("Comando para buscar un pokémon por su nombre o id")
+    .addStringOption((o) => o.setName("query").setDescription("Name or id").setRequired(true))
+    .toJSON(),
+});

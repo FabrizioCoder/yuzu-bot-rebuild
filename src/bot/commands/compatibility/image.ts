@@ -88,8 +88,7 @@ export default createMessageCommand({
     const limit = results.length - 1;
 
     // this is the base embed to send
-    const embed = MessageEmbed
-      .new()
+    const embed = new MessageEmbed()
       .color(randomHex())
       .image(results[0].image)
       .field("Búsqueda segura", channel.nsfw ? "No" : "Sí")
@@ -98,10 +97,10 @@ export default createMessageCommand({
         avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }),
       )
       .footer(`Results for ${option}`);
-      // do not .end this ^ for now
+      // do not end this ^ for now
 
     const sended = await sendMessage(bot, message.channelId, {
-      embeds: [embed.end()],
+      embeds: [embed.embed],
       components: [{ type: 1, components: buttons }],
     });
 
@@ -172,7 +171,7 @@ export default createMessageCommand({
 
                 // edit the message the component is attached to
                 await editMessage(bot, sendedMessageChannelId, sendedMessageId, {
-                  embeds: [embed.end()],
+                  embeds: [embed.embed],
                   components: [{ type: 1, components: buttons }],
                 });
                 read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
@@ -215,7 +214,7 @@ export default createMessageCommand({
           // edit the message the component is attached to
           await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
             type: InteractionResponseTypes.UpdateMessage,
-            data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
+            data: { embeds: [embed.embed], components: [{ type: 1, components: buttons }] },
           });
           read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
         })

@@ -64,8 +64,7 @@ export default createMessageCommand({
       return "No se pudo encontrar información sobre el pokémon.";
     }
 
-    const embed = MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .title(`${poke.name[0]?.toUpperCase() + poke.name.slice(1)} #${poke.id}`)
       .color(randomHex())
       .footer("Thanks to PokéAPI for existing!", "https://pokeapi.co/static/pokeapi_256.888baca4.png")
@@ -74,8 +73,7 @@ export default createMessageCommand({
       .field("Types", poke.types.map((tp) => tp.type.name).join(" "))
       .field("Etc", `**Weight**: ${parsePokemonWeight(poke.weight)}kg\n**Height**: ${poke.height}`)
       .image(poke.sprites.front_default)
-      .thumbnail(poke.sprites.front_shiny)
-      .end();
+      .thumbnail(poke.sprites.front_shiny);
 
     return embed;
   },

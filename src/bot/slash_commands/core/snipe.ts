@@ -1,19 +1,14 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { cache, Category, randomHex } from "utils";
 import { avatarURL, sendMessage } from "discordeno";
 
-@Command({
-  name: "snipe",
-  description: "Busca el último mensaje eliminado en el canal",
-  category: Category.Util,
+export default createCommand({
   meta: {
     descr: "Busca el último mensaje eliminado en el canal",
     short: "Busca mensajes eliminados",
   },
-})
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  category: Category.Util,
+  async execute({ bot, interaction }) {
     if (!interaction.channelId) return;
 
     const message = cache.lastMessages.get(interaction.channelId);
@@ -30,12 +25,16 @@ export default class {
       return "Mensaje largo recibido!";
     }
 
-    return MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .author(message.tag, avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar }))
       .color(randomHex())
       .description(message.content)
-      .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`)
-      .end();
-  }
-}
+      .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`);
+
+    return embed;
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("snipe")
+    .setDescription("Busca el último mensaje eliminado en el canal")
+    .toJSON(),
+});

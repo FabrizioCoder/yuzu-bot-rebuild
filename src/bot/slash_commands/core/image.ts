@@ -1,6 +1,5 @@
 import type { ButtonComponent } from "discordeno";
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,
@@ -61,24 +60,14 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "search",
-  description: "Búsqueda",
-})
-@Command({
-  name: "image",
-  description: "Busca imágenes en internet",
+export default createCommand({
   meta: { // help command ignore this
     descr: "Busca imágenes en internet",
     short: "Busca imágenes",
     usage: "<Search>",
   },
   category: Category.Util,
-})
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  async execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
@@ -100,8 +89,7 @@ export default class {
     const limit = results.length - 1;
 
     // this is the base embed to send
-    const embed = MessageEmbed
-      .new()
+    const embed = new MessageEmbed()
       .color(randomHex())
       .image(results[0].image)
       .field("Búsqueda segura", channel.nsfw ? "No" : "Sí")
@@ -110,11 +98,11 @@ export default class {
         avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar }),
       )
       .footer(`Results for ${option.value}`);
-      // do not .end this ^ for now
+      // do not end this ^ for now
 
     const sended = await sendInteractionResponse(bot, interaction.id, interaction.token, {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-      data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
+      data: { embeds: [embed.embed], components: [{ type: 1, components: buttons }] },
     });
 
     // stuff to help the button collector
@@ -188,7 +176,7 @@ export default class {
 
                 // edit the message the component is attached to
                 await editMessage(bot, sendedMessageChannelId, sendedMessageId, {
-                  embeds: [embed.end()],
+                  embeds: [embed.embed],
                   components: [{ type: 1, components: buttons }],
                 });
                 read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
@@ -232,7 +220,7 @@ export default class {
           // edit the message the component is attached to
           await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
             type: InteractionResponseTypes.UpdateMessage,
-            data: { embeds: [embed.end()], components: [{ type: 1, components: buttons }] },
+            data: { embeds: [embed.embed], components: [{ type: 1, components: buttons }] },
           });
           read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
         })
@@ -243,5 +231,10 @@ export default class {
           // pass
         });
     }
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("img")
+    .setDescription("Search images on google")
+    .addStringOption((o) => o.setName("query").setDescription("Search query").setRequired(true))
+    .toJSON(),
+});

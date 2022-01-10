@@ -1,11 +1,8 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { cache, Category, DiscordColors } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
-@Command({
-  name: "findcommand",
-  description: "📗 Encuentra un comando del bot...",
+export default createCommand({
   isGuildOnly: true,
   meta: {
     descr: "📗 Encuentra un comando del bot...",
@@ -13,15 +10,7 @@ import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
     usage: "<Command>",
   },
   category: Category.Info,
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El comando a buscar",
-})
-export default class {
-  static execute({ bot, interaction }: Context) {
+  execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
@@ -44,16 +33,19 @@ export default class {
     const commandDescription = "description" in command.data ? command.data.description : undefined;
     const commandMetaData = command.options?.information;
 
-    const embed = MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .color(DiscordColors.Blurple)
       .thumbnail(avatar)
       .footer("Optional [] Required <>", avatar)
       .field("Nombre del comando:", commandName, true)
       .field("Uso del comando:", `${prefix}${commandName} ${commandMetaData?.usage}`, true)
-      .field("Info del comando:", commandDescription ?? commandMetaData?.descr ?? commandMetaData?.short ?? "❓", true)
-      .end();
+      .field("Info del comando:", commandDescription ?? commandMetaData?.descr ?? commandMetaData?.short ?? "❓", true);
 
     return embed;
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("findcommand")
+    .setDescription("📗 Encuentra un comando del bot...")
+    .addStringOption((o) => o.setName("name").setDescription("Command's name to search for").setRequired(true))
+    .toJSON(),
+});

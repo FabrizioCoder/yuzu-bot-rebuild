@@ -1,25 +1,15 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { ApplicationCommandOptionTypes, avatarURL, getUser } from "discordeno";
 import { Category, DiscordColors } from "utils";
 
-@Option({
-  type: ApplicationCommandOptionTypes.User,
-  name: "target",
-  description: "The user",
-})
-@Command({
-  name: "avatar",
-  description: "Busca el avatar de un usuario",
+export default createCommand({
   meta: {
     descr: "Busca el avatar de un usuario",
     short: "Busca avatares",
     usage: "[@Mención]",
   },
   category: Category.Info,
-})
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  async execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.User) {
@@ -38,13 +28,18 @@ export default class {
       size: 2048,
     });
 
-    return MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .author(`Dueño: ${user.username}#${user.discriminator}`, avatar)
       .color(DiscordColors.Blurple)
       .title(`Avatar pedido por ${interaction.user.username}#${interaction.user.discriminator}`)
       .description(`[Referencia](https://www.google.com/searchbyimage?image_url=${avatar})\n[Avatar URL](${avatar})`)
-      .image(avatar)
-      .end();
-  }
-}
+      .image(avatar);
+
+    return embed;
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("avatar")
+    .setDescription("Busca el avatar de un usuario")
+    .addUserOption((o) => o.setName("target").setDescription("The user").setRequired(true))
+    .toJSON(),
+});

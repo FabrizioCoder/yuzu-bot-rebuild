@@ -1,26 +1,15 @@
-import type { Context } from "oasis";
-import { Command, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "input",
-  description: "Invert 🔃",
-})
-@Command({
-  name: "invert",
-  description: "Invierte un texto",
+export default createCommand({
   meta: {
     descr: "Invierte un texto hacia arriba",
     short: "Invierte un texto hacia arriba",
     usage: "<Input>",
   },
   category: Category.Fun,
-})
-export default class {
-  static execute({ interaction }: Context) {
+  execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
@@ -39,5 +28,10 @@ export default class {
       .map((c) => mapping[c.charCodeAt(0) - offset] ?? " ")
       .reverse()
       .join("");
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("invert")
+    .setDescription("Invierte un texto")
+    .addStringOption((o) => o.setName("input").setDescription("Text to invert 🔃").setRequired(true))
+    .toJSON(),
+});

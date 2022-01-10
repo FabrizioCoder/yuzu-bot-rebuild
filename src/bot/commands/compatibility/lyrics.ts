@@ -41,13 +41,11 @@ export default createMessageCommand({
       return "La canción excede el límite de caracteres";
     }
 
-    const embed = MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .color(randomHex())
       .title(data.title)
       .author(data.author, data.thumbnail.genius)
-      .footer(data.lyrics)
-      .end();
+      .footer(data.lyrics);
 
     return embed;
   },

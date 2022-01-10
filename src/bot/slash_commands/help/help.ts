@@ -1,5 +1,4 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { cache, Category, CategoryEmoji, DiscordColors } from "utils";
 import {
   avatarURL,
@@ -9,18 +8,14 @@ import {
   type SelectMenuComponent,
 } from "discordeno";
 
-@Command({
-  name: "help",
-  description: "📕 Ayuda del bot...",
-  category: Category.Info,
+export default createCommand({
   meta: {
     descr: "\\📕 Ayuda del bot...",
     short: "\\📕 Ayuda del bot",
     usage: "...",
   },
-})
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  category: Category.Info,
+  async execute({ bot, interaction }) {
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",
@@ -48,14 +43,12 @@ export default class {
       avatar: interaction.user.avatar,
     });
 
-    const embed = MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .color(DiscordColors.Blurple)
       .author(interaction.user.username, avatar)
       .thumbnail(avatar)
       .description(`${cache.slashCommands.size + cache.commands.size} comandos`)
-      .footer(`${interaction.user.id} <> Required [] Optional`, avatar)
-      .end();
+      .footer(`${interaction.user.id} <> Required [] Optional`, avatar);
 
     await sendInteractionResponse(bot, interaction.id, interaction.token, {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
@@ -68,5 +61,9 @@ export default class {
       },
     });
     return;
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("help")
+    .setDescription("\\📕 Ayuda del bot...")
+    .toJSON(),
+});

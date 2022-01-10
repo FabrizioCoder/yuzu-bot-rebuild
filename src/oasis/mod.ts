@@ -10,5 +10,10 @@ export * from "./decorators/before.ts";
 export * from "./decorators/stop.ts";
 export * from "./decorators/overwrite.ts";
 
-// classes
+// mixer
+export * from "./mixer/mod.ts";
+
+// Embed class & builders
 export * from "./classes/embed/MessageEmbed.ts";
+export * from "./classes/slash/SlashCommandOption.ts";
+export * from "./classes/slash/ApplicationCommand.ts";

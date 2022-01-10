@@ -15,8 +15,7 @@ export default createMessageCommand({
     try {
       const output = eval(input);
 
-      return MessageEmbed
-        .new()
+      const { embed } = new MessageEmbed()
         .color(DiscordColors.Blurple)
         .field("Javascript 🖥", `\`\`\`js\n${output}\`\`\``, true)
         .field("Tiempo ⌛", `\`\`\`ts\n${Date.now() - time}ms\`\`\``, true)
@@ -24,12 +23,13 @@ export default createMessageCommand({
         .field("Salida 📤", `\`\`\`ts\n${output}\`\`\``, true)
         .field("Tipo 📋", `\`\`\`ts\n${typeof output}\`\`\``, true)
         .author(`Bot id:${bot.id}`)
-        .footer(`Channel id: ${message.channelId}`)
-        .end();
+        .footer(`Channel id: ${message.channelId}`);
+
+      return embed;
 
     } catch (error: unknown) {
       if (error instanceof Error) {
-        return MessageEmbed.new({ description: "Error: " + error.message, color: DiscordColors.Red }).end();
+        return new MessageEmbed({ description: "Error: " + error.message, color: DiscordColors.Red }).embed;
       }
     }
   },

@@ -22,13 +22,13 @@ export default createMessageCommand({
 
     const avatar = avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 2048 });
 
-    return MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .author(`Dueño: ${user.username}#${user.discriminator}`, avatar)
       .color(DiscordColors.Blurple)
       .title(`Avatar pedido por ${message.tag}`)
       .description(`[Referencia](https://www.google.com/searchbyimage?image_url=${avatar})\n[Avatar URL](${avatar})`)
-      .image(avatar)
-      .end();
+      .image(avatar);
+
+    return embed;
   },
 });

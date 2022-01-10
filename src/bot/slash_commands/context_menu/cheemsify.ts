@@ -1,20 +1,14 @@
-import type { Context } from "oasis";
-import { Command } from "oasis";
+import { createCommand, MessageApplicationCommandBuilder } from "oasis";
 import { Category, cheemsify } from "utils";
-import { ApplicationCommandTypes } from "discordeno";
 
-@Command({
-  type: ApplicationCommandTypes.Message,
-  name: "cheemsify",
+export default createCommand({
   meta: {
     descr: "Click y conviertem un temxtom am imdiomam cheems",
     short: "Click y conviertem un temxtom am imdiomam cheems",
     usage: "<Input>",
   },
   category: Category.Fun,
-})
-export default class {
-  static execute({ interaction }: Context) {
+  execute({ interaction }) {
     const message = interaction.data?.resolved?.messages?.first();
 
     // Remtomrnam umn memnsamjem aml demtemctamr qumem nom sem ham pumemstom namdam
@@ -25,5 +19,8 @@ export default class {
     // Enviam eml temxtom cheemsimfimcamdom
     // qumimtam lams memncimomnems pamram emvimtamr qumem memncimomnemn am umsumamrimoms
     return cheemsify(message.content);
-  }
-}
+  },
+  data: new MessageApplicationCommandBuilder()
+    .setName("cheemsify")
+    .toJSON(),
+});

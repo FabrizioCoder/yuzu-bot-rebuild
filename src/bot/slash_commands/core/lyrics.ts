@@ -1,7 +1,6 @@
 /* TODO: check for long song lyrics */
 
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 import { default as f } from "axiod";
@@ -18,24 +17,14 @@ interface Song {
   error: string;
 }
 
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  required: true,
-  name: "search",
-  description: "Lyrics",
-})
-@Command({
-  name: "lyrics",
-  description: "Busca letras de canciones",
+export default createCommand({
   meta: {
     descr: "Busca letras de canciones",
     short: "Busca letras de canciones",
     usage: "[@Mención]",
   },
   category: Category.Util,
-})
-export default class {
-  static async execute({ interaction }: Context) {
+  async execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
@@ -52,14 +41,17 @@ export default class {
       return "La canción excede el límite de caracteres";
     }
 
-    const embed = MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .color(randomHex())
       .title(data.title)
       .author(data.author, data.thumbnail.genius)
-      .footer(data.lyrics)
-      .end();
+      .footer(data.lyrics);
 
     return embed;
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("lyrics")
+    .setDescription("Search for song lyrics")
+    .addStringOption((o) => o.setName("query").setDescription("Search query for lyrics").setRequired(true))
+    .toJSON(),
+});

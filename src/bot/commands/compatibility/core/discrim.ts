@@ -20,12 +20,10 @@ export default createMessageCommand({
       if (u.discriminator === discriminator) return `${u.username}#${u.discriminator}`;
     });
 
-    const embed = MessageEmbed
-      .new()
+    const { embed } = new MessageEmbed()
       .color(randomHex())
       .description(users.join(", ") ?? "Sin resultados")
-      .footer(`${users.length} usuario(s) con el tag ${discriminator}`)
-      .end()
+      .footer(`${users.length} usuario(s) con el tag ${discriminator}`);
 
     return embed;
   },

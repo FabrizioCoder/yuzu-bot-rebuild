@@ -1,5 +1,4 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Option, OptionIn } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,
@@ -11,72 +10,14 @@ import {
 } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 
-// display
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "display",
-  description: "Muestra todos los emojis del servidor",
-})
-// hide
-@OptionIn("hide", {
-  type: ApplicationCommandOptionTypes.Role,
-  name: "role",
-  required: true,
-  description: "El nombre del rol",
-})
-@OptionIn("hide", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del emoji",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "hide",
-  description: "Limita un emoji a un rol",
-})
-// remove
-@OptionIn("remove", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del emoji",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "remove",
-  description: "Remueve un emoji",
-})
-// add
-@OptionIn("add", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "url",
-  required: true,
-  description: "El link del emoji",
-})
-@OptionIn("add", {
-  type: ApplicationCommandOptionTypes.String,
-  name: "name",
-  required: true,
-  description: "El nombre del emoji",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.SubCommand,
-  name: "add",
-  description: "Añade un emoji",
-})
-@Command({
-  name: "emotes",
-  description: "Muestra, añade y remueve emotes",
+export default createCommand({
   isGuildOnly: true,
-  category: Category.Config,
   meta: {
     descr: "Muestra, añade y remueve emotes",
     usage: "emotes | add | remove | hide | display [name] [url]",
   },
-})
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  category: Category.Config,
+  async execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.SubCommand) {
@@ -163,16 +104,43 @@ export default class {
           avatar: interaction.user.avatar,
         });
 
-        const embed = MessageEmbed
-          .new()
+        const { embed } = new MessageEmbed()
           .author(`${interaction.user.username}#${interaction.user.discriminator}`, avatar)
           .color(randomHex())
           .description(`Emotes: ${emojis.join(" ")}`)
-          .footer(guild.id.toString())
-          .end();
+          .footer(guild.id.toString());
 
         return embed;
       }
     }
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("emotes")
+    .setDescription("Muestra, añade y remueve emotes")
+    .addSubCommand((command) =>
+      command
+        .setName("add")
+        .setDescription("Add an emoji")
+        .addStringOption((o) => o.setName("name").setDescription("Emoji's name").setRequired(true))
+        .addStringOption((o) => o.setName("link").setDescription("Emoji's link (url)").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("remove")
+        .setDescription("Remove an emoji")
+        .addStringOption((o) => o.setName("name").setDescription("Emoji's name").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("hide")
+        .setDescription("Hide an emoji")
+        .addStringOption((o) => o.setName("name").setDescription("Emoji's name").setRequired(true))
+        .addRoleOption((o) => o.setName("role").setDescription("Role's mention").setRequired(true))
+    )
+    .addSubCommand((command) =>
+      command
+        .setName("display")
+        .setDescription("Display all of the emojis in the current server")
+    )
+    .toJSON(),
+});

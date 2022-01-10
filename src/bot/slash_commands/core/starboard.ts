@@ -1,7 +1,6 @@
-import type { Context } from "oasis";
-import { Command, Option } from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category } from "utils";
-import { ApplicationCommandOptionTypes, getChannel, getGuild } from "discordeno";
+import { ChannelTypes, getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 import {
   editStarboard,
@@ -11,35 +10,15 @@ import {
 } from "../../../database/controllers/starboard_controller.ts";
 import { db } from "../../../database/db.ts";
 
-@Option({
-  type: ApplicationCommandOptionTypes.Integer,
-  name: "count",
-  description: "Min count of reactions",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.String,
-  name: "emoji",
-  description: "The emoji",
-})
-@Option({
-  type: ApplicationCommandOptionTypes.Channel,
-  name: "channel",
-  required: true,
-  description: "The channel",
-})
-@Command({
-  name: "starboard",
-  description: "Configura un canal para enviar mensajes starboard ⭐",
+export default createCommand({
   isGuildOnly: true,
-  category: Category.Config,
   meta: {
     descr: "Configura un canal para enviar mensajes starboard ⭐",
     short: "Configura un canal para enviar mensajes starboard ⭐",
     usage: "<Channel> [emoji] [count]",
   },
-})
-export default class {
-  static async execute({ bot, interaction }: Context) {
+  category: Category.Config,
+  async execute({ bot, interaction }) {
     if (!db) return;
 
     const options = interaction.data?.options;
@@ -100,5 +79,18 @@ export default class {
 
       return `El canal del starboard se editó a <#${newStarboard?.channelId}> y tendrá el emoji ${emoji?.name ?? "⭐"}`;
     }
-  }
-}
+  },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("starboard")
+    .setDescription("Set up a channel to send starboard messages ⭐")
+    .addChannelOption((option) =>
+      option
+        .setName("channel")
+        .setDescription("Channel to set")
+        .addChannelTypes(ChannelTypes.GuildText, ChannelTypes.GuildNews)
+        .setRequired(true)
+    )
+    .addStringOption((o) => o.setName("emoji").setDescription("The emoji (⭐ by default)"))
+    .addIntegerOption((o) => o.setName("count").setDescription("Min count of reactions").setMinValue(1).setMaxValue(15))
+    .toJSON(),
+});
