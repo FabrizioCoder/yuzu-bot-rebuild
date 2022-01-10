@@ -117,7 +117,11 @@ export default createMessageCommand({
     // highly recommended
     function read(sendedMessageId: bigint, sendedMessageChannelId: bigint, sendedMessageAuthorId: bigint, acc: number, time: Milliseconds) {
       // important: Button from the cache if the timer is gone just pass! #243
-      needButton(sendedMessageAuthorId, sendedMessageId, { duration: time, amount: 1 })
+      needButton(sendedMessageAuthorId, sendedMessageId, {
+        duration: time,
+        amount: 1,
+        filter: (_, user) => user?.id === message.authorId,
+      })
         .then(async (button) => {
           switch (button.customId) {
             case "back": {
@@ -148,13 +152,13 @@ export default createMessageCommand({
               const newIndex = parseInt(response.content);
 
               // if the page to go doesn't exists
-              if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
+              if (newIndex > limit || newIndex < 0) {
                 // NOTE: this will not stop the command in any case
                 await sendMessage(bot, sendedMessageChannelId, { content: "El número no existe en los resultados" });
                 // repeat w/ new index? (not necessary)
                 read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
               }
-              if (!isNaN(newIndex)) {
+              if (!isNaN(newIndex) && newIndex in results) {
                 acc = newIndex;
                 const result = results[acc];
 

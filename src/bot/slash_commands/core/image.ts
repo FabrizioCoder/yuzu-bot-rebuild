@@ -118,7 +118,11 @@ export default createCommand({
     // highly recommended
     function read(sendedMessageId: bigint, sendedMessageChannelId: bigint, sendedMessageAuthorId: bigint, acc: number, time: Milliseconds) {
       // important: Button from the cache if the timer is gone just pass! #243
-      needButton(sendedMessageAuthorId, sendedMessageId, { duration: time, amount: 1 })
+      needButton(sendedMessageAuthorId, sendedMessageId, {
+        duration: time,
+        amount: 1,
+        filter: (_, user) => user?.id === interaction.user.id,
+      })
         .then(async (button) => {
           switch (button.customId) {
             case "back": {
@@ -149,7 +153,7 @@ export default createCommand({
               const newIndex = parseInt(response.content);
 
               // if the page to go doesn't exists
-              if (!(newIndex in results) || newIndex > limit || newIndex < 0) {
+              if (newIndex > limit || newIndex < 0) {
                 // NOTE: this will not stop the command in any case
                 await sendInteractionResponse(bot, interaction.id, interaction.token, {
                   type: InteractionResponseTypes.ChannelMessageWithSource,
@@ -159,7 +163,7 @@ export default createCommand({
                 // repeat w/ new index? (not necessary)
                 read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
               }
-              if (!isNaN(newIndex)) {
+              if (!isNaN(newIndex) && newIndex in results) {
                 acc = newIndex;
                 const result = results[acc];
 
