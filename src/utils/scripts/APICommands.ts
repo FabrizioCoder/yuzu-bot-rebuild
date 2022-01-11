@@ -58,9 +58,8 @@ function setInteractionCommands(cmds: Map<string, unknown>) {
           ],
         },
         async execute({ bot, interaction }) {
-          // utilities
-          type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
-          const data = (await fetch(Api.Nekos + endpoint)) as Image | undefined;
+          type Image = { url: string };
+          const data = (await fetch(Api.Nekos + endpoint).then((a) => a.json())) as Image | undefined;
 
           // options
           const option = interaction.data?.options?.[0];
@@ -72,7 +71,7 @@ function setInteractionCommands(cmds: Map<string, unknown>) {
           const userId = BigInt(option.value as string);
           const user = bot.users.get(userId) ?? (await getUser(bot, userId));
 
-          if (!data?.url) {
+          if (!data) {
             return "No encontré una imagen para mostrar";
           }
 
@@ -113,11 +112,8 @@ function setMessageCommands(cmds: Map<string, unknown>) {
         category: Category.Interaction,
         name: commandName,
         async execute({ bot, message, args: { args } }) {
-          // utilities
-          type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
-          const data = (await fetch(Api.Nekos + endpoint)) as Image | undefined;
-
-          console.log(data);
+          type Image = { url: string };
+          const data = (await fetch(Api.Nekos + endpoint).then((a) => a.json())) as Image | undefined;
 
           // options
           const search = args.join(" ").match(userMention);
@@ -126,7 +122,7 @@ function setMessageCommands(cmds: Map<string, unknown>) {
           const userId = BigInt(search?.[0]?.match(/\d{18}/gi)?.[0]!);
           const user = bot.users.get(userId) ?? (await getUser(bot, userId));
 
-          if (!data?.url) {
+          if (!data) {
             return "No encontré una imagen para mostrar";
           }
 

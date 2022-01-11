@@ -1,23 +1,16 @@
-import { Configuration, loadDynamicCommands, logger } from "utils";
+import { Configuration, loadDynamicCommands } from "utils";
 import { cache, loadFilesFromBot } from "oasis";
 import { createBot, startBot } from "discordeno";
 import { enableCachePlugin } from "cache_plugin";
 import { startDatabase } from "../database/db.ts";
-import { cyan } from "fmt/colors";
 
 import "dotenv/load";
 
-const time = Date.now();
+const folders = ["slash_commands", "commands", "events", "tasks", "monitors"];
 
-await Promise.all([
-  loadFilesFromBot("slash_commands"),
-  loadFilesFromBot("commands"),
-  loadFilesFromBot("events"),
-  loadFilesFromBot("tasks"),
-  loadFilesFromBot("monitors"),
-]);
-
-logger.info(`Loaded ${cyan(cache.slashCommands.size.toString())} in ${Date.now() - time} ms`);
+for (const index in folders) {
+  await loadFilesFromBot(folders[index]);
+}
 
 // dynamic commands
 loadDynamicCommands();
