@@ -2,7 +2,7 @@ import { createCommand, MessageApplicationCommandBuilder } from "oasis";
 import { Category } from "utils";
 import { SafetyLevels, search } from "images";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Click encima de un mensaje para buscar una imagen",
     short: "Click encima de un mensaje",
@@ -22,7 +22,5 @@ export default createCommand({
       return result.image;
     }
   },
-  data: new MessageApplicationCommandBuilder()
-    .setName("search")
-    .toJSON(),
+  data: new MessageApplicationCommandBuilder().setName("search").toJSON(),
 });

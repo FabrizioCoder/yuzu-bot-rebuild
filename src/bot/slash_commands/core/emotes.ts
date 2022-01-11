@@ -1,16 +1,9 @@
 import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
-import {
-  ApplicationCommandOptionTypes,
-  avatarURL,
-  createEmoji,
-  deleteEmoji,
-  editEmoji,
-  getGuild,
-} from "discordeno";
+import { ApplicationCommandOptionTypes, avatarURL, createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 
-export default createCommand({
+createCommand({
   isGuildOnly: true,
   meta: {
     descr: "Muestra, añade y remueve emotes",
@@ -28,7 +21,7 @@ export default createCommand({
       return;
     }
 
-    const guild = bot.guilds.get(interaction.guildId) ?? await getGuild(bot, interaction.guildId);
+    const guild = bot.guilds.get(interaction.guildId) ?? (await getGuild(bot, interaction.guildId));
 
     if (!guild) {
       return;
@@ -66,7 +59,7 @@ export default createCommand({
         return `Limité el emoji ${emoji.name} al rol <@&${role}>`;
       }
       case "remove": {
-        const [name] = <[string]> option.options?.map((o) => o.value);
+        const [name] = <[string]>option.options?.map((o) => o.value);
 
         // enforce to add an emoji of 2 characters
         if (name.length < 2) {
@@ -138,9 +131,7 @@ export default createCommand({
         .addRoleOption((o) => o.setName("role").setDescription("Role's mention").setRequired(true))
     )
     .addSubCommand((command) =>
-      command
-        .setName("display")
-        .setDescription("Display all of the emojis in the current server")
+      command.setName("display").setDescription("Display all of the emojis in the current server")
     )
     .toJSON(),
 });

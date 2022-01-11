@@ -2,7 +2,7 @@ import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category, rangeChar } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Convierte un texto a emojis",
     short: "Reemplaza texto por emojis",

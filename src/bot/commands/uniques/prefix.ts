@@ -4,7 +4,7 @@ import { hasGuildPermissions } from "permissions_plugin";
 import { addPrefix, editPrefix, getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
 import { db } from "../../../database/db.ts";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "prefix",
   isGuildOnly: true,
   meta: {
@@ -32,7 +32,9 @@ export default createMessageCommand({
     const guildPrefix = await getPrefix(getCollection(db), message.guildId);
 
     // permission checks
-    const isStaff = message.member ? hasGuildPermissions(bot, message.guildId, message.member, ["MANAGE_GUILD"]) : false;
+    const isStaff = message.member
+      ? hasGuildPermissions(bot, message.guildId, message.member, ["MANAGE_GUILD"])
+      : false;
 
     if (!isStaff) {
       return "No posees suficientes permisos";

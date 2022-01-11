@@ -18,7 +18,7 @@ interface Song {
   error: string;
 }
 
-export default createMessageCommand({
+createMessageCommand({
   name: "lyrics",
   meta: {
     descr: "Busca letras de canciones",

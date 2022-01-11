@@ -1,8 +1,8 @@
-import { createCommand, ChatInputApplicationCommandBuilder} from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category, isInvite } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Hace que el bot diga algo muy malo",
     short: "Escribir el mensaje del bot",

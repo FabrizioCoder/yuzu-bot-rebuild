@@ -1,8 +1,8 @@
-import type { Task } from "../types/task.ts";
-import { Milliseconds, Configuration, logger } from "utils";
+import { createTask, Milliseconds } from "oasis";
+import { Configuration, logger } from "utils";
 import { sendMessage } from "discordeno";
 
-export default <Task> {
+createTask({
   name: "uptime",
   interval: Milliseconds.Hour * 12,
   async execute(bot, _payload, uptime) {
@@ -14,4 +14,4 @@ export default <Task> {
     // log
     await sendMessage(bot, Configuration.CHANNEL_ID, { content: uptimeMessage }).catch(logger.error);
   },
-};
+});

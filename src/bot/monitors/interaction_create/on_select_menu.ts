@@ -1,9 +1,9 @@
-import type { Monitor } from "../../types/monitor.ts";
 import type { Embed, SelectMenuComponent } from "discordeno";
-import { cache, Category } from "utils";
+import { cache, createMonitor } from "oasis";
+import { Category } from "utils";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
 
-export default <Monitor> {
+createMonitor({
   name: "onSelectMenu",
   event: "interactionCreate",
   isGuildOnly: false,
@@ -24,8 +24,10 @@ export default <Monitor> {
           .map(([_, cmd]) => cmd);
 
         const commandPairs = commands.map(
-          ({ data, options: opts }) =>
-            `\`${"description" in data ? "/" : "!"}${data.name}\` -> ${"description" in data ? data.description : opts?.information?.descr ?? opts?.information?.short}`
+          ({ data, meta }) =>
+            `\`${"description" in data ? "/" : "!"}${data.name}\` -> ${
+              "description" in data ? data.description : meta?.descr ?? meta?.short
+            }`
         );
 
         baseEmbed.title = String.raw`Información del comando 💣`;
@@ -55,4 +57,4 @@ export default <Monitor> {
       }
     }
   },
-};
+});

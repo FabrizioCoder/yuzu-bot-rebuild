@@ -1,134 +1,153 @@
-import type { Embed } from "discordeno";
 import { Api, Category, DiscordColors, userMention } from "../constants.ts";
-import { commands, slashCommands } from "../cache.ts";
-import { logger, LogLevels } from "../std/logger.ts";
+import { cache } from "oasis";
+import { createCommand, createMessageCommand, MessageEmbed } from "oasis";
 import { ApplicationCommandTypes, ApplicationCommandOptionTypes, getUser } from "discordeno";
-import { default as f } from "axiod";
 
-const endpointsActionPairs = {
-  "img/hug": "hugs",
-  "img/kiss": "kisses",
-  "img/poke": "pokes",
-  "img/tickle": "tickle",
-  "img/pat": "pats",
-  "img/cuddle": "cuddle",
-  "img/feed": "feeds",
-};
+// modify the endpointActionPairs to change the actions
+export function loadDynamicCommands() {
+  setInteractionCommands(cache.slashCommands);
+  setMessageCommands(cache.commands);
+}
 
-try {
-  const getDescription = (action: string, target: bigint, author: bigint) => `<@${author}> ${action} <@${target}>`;
+const endpointsActionPairs = new Map([
+  ["img/hug", "hugs"],
+  ["img/kiss", "kisses"],
+  ["img/poke", "pokes"],
+  ["img/tickle", "tickle"],
+  ["img/pat", "pats"],
+  ["img/cuddle", "cuddle"],
+  ["img/feed", "feeds"],
+] as const);
 
-  Object.keys(endpointsActionPairs).forEach((cmd) => {
-    const commandName = cmd.slice(4, cmd.length);
+function getDescription(action: string, target: bigint, author: bigint) {
+  return `<@${author}> ${action} <@${target}>`;
+}
 
-    slashCommands.set(commandName, {
-      options: {
+function getCommandName(endpointString: string) {
+  return endpointString.slice(4, endpointString.length);
+}
+
+function getActionFromCommandName(commandName: string) {
+  return endpointsActionPairs.get(`img/${commandName}` as any);
+}
+
+function setInteractionCommands(cmds: Map<string, unknown>) {
+  Array.from(endpointsActionPairs.keys()).forEach((endpoint) => {
+    const commandName = getCommandName(endpoint);
+    cmds.set(
+      commandName,
+      createCommand({
         isGuildOnly: false,
-        information: {
-          descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
-          usage: `[@User]`,
-          short: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
+        meta: {
+          descr: getActionFromCommandName(commandName),
+          short: getActionFromCommandName(commandName),
+          usage: "[@User]",
         },
-      },
-      category: Category.Interaction,
-      data: {
-        type: ApplicationCommandTypes.ChatInput,
-        name: commandName,
-        description: `${commandName} a user`,
-        options: [
-          {
-            type: ApplicationCommandOptionTypes.User,
-            name: "target",
-            required: true,
-            description: `The user to ${commandName}`,
-          },
-        ],
-      },
-
-      async execute({ bot, interaction }) {
-        // utilities
-        type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
-        const { data } = await f.get<Image | undefined>(Api.Nekos + cmd);
-
-        const option = interaction.data?.options?.[0];
-
-        if (option?.type !== ApplicationCommandOptionTypes.User) return;
-
-        const userId = BigInt(option.value as string);
-        const user = bot.users.get(userId) ?? await getUser(bot, userId);
-
-        if (!data?.url) {
-          return "No encontré una imagen para mostrar";
-        }
-
-        if (userId === interaction.user.id) {
-          return "¿?";
-        }
-
-        if (!user) {
-          return "Especifica correctamente el usuario";
-        }
-
-        return <Embed> {
-          description: getDescription(
-            endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
-            interaction.user.id,
-            user.id
-          ),
-          color: DiscordColors.Blurple,
-          image: { url: data.url },
-        };
-      },
-    });
-    commands.set(commandName, {
-      data: {
-        name: commandName,
-      },
-      options: {
-        isGuildOnly: false,
-        isAdminOnly: false,
-        information: {
-          descr: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
-          usage: `[@User]`,
-          short: `${endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs]}`,
+        category: Category.Interaction,
+        data: {
+          type: ApplicationCommandTypes.ChatInput,
+          name: commandName,
+          description: `${commandName} a user`,
+          options: [
+            {
+              type: ApplicationCommandOptionTypes.User,
+              name: "user",
+              required: true,
+              description: `User to ${commandName}`,
+            },
+          ],
         },
-      },
-      category: Category.Interaction,
-      async execute({ bot, message, args: { args } }) {
-        // utilities
-        type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
-        const { data } = await f.get<Image | undefined>(Api.Nekos + cmd);
+        async execute({ bot, interaction }) {
+          // utilities
+          type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
+          const data = (await fetch(Api.Nekos + endpoint)) as Image | undefined;
 
-        const search = args.join(" ").match(userMention);
+          // options
+          const option = interaction.data?.options?.[0];
 
-        if (!search) {
-          return "Especifica correctamente el usuario";
-        }
+          if (option?.type !== ApplicationCommandOptionTypes.User) {
+            return;
+          }
 
-        const userId = BigInt(search?.[0]?.match(/\d{18}/gi)?.[0]!);
+          const userId = BigInt(option.value as string);
+          const user = bot.users.get(userId) ?? (await getUser(bot, userId));
 
-        if (!data?.url) {
-          return "No encontré una imagen para mostrar";
-        }
+          if (!data?.url) {
+            return "No encontré una imagen para mostrar";
+          }
 
-        if (userId === message.authorId) {
-          return "¿?";
-        }
+          if (userId === interaction.user.id) {
+            return "No debes hacerlo contigo mismo";
+          }
 
-        return <Embed> {
-          description: getDescription(
-            endpointsActionPairs[`img/${commandName}` as keyof typeof endpointsActionPairs],
-            userId,
-            userId === message.authorId ? bot.id : message.authorId
-          ),
-          color: DiscordColors.Blurple,
-          image: { url: data.url },
-        };
-      },
-    });
+          if (!user) {
+            return "Especifica correctamente el usuario";
+          }
+
+          const description = String(getActionFromCommandName(commandName));
+
+          const { embed } = new MessageEmbed()
+            .color(DiscordColors.Blurple)
+            .image(data.url)
+            .description(getDescription(description, interaction.user.id, user.id));
+
+          return embed;
+        },
+      })
+    );
   });
-} catch (error: unknown) {
-  logger.error(error);
-} finally {
-  logger.log.call({ name: "Nekos API" }, LogLevels.Info, "Loaded API commands!");
+}
+
+function setMessageCommands(cmds: Map<string, unknown>) {
+  Array.from(endpointsActionPairs.keys()).forEach((endpoint) => {
+    const commandName = getCommandName(endpoint);
+    cmds.set(
+      commandName,
+      createMessageCommand({
+        isGuildOnly: false,
+        meta: {
+          descr: getActionFromCommandName(commandName),
+          short: getActionFromCommandName(commandName),
+          usage: "[@User]",
+        },
+        category: Category.Interaction,
+        name: commandName,
+        async execute({ bot, message, args: { args } }) {
+          // utilities
+          type Image = { url: string /*`https://cdn.nekos.life/${string}.gif`*/ };
+          const data = (await fetch(Api.Nekos + endpoint)) as Image | undefined;
+
+          console.log(data);
+
+          // options
+          const search = args.join(" ").match(userMention);
+
+          // get the user
+          const userId = BigInt(search?.[0]?.match(/\d{18}/gi)?.[0]!);
+          const user = bot.users.get(userId) ?? (await getUser(bot, userId));
+
+          if (!data?.url) {
+            return "No encontré una imagen para mostrar";
+          }
+
+          if (userId === message.authorId) {
+            return "No debes hacerlo contigo mismo";
+          }
+
+          if (!user) {
+            return "Especifica correctamente el usuario";
+          }
+
+          const description = String(getActionFromCommandName(commandName));
+
+          const { embed } = new MessageEmbed()
+            .color(DiscordColors.Blurple)
+            .image(data.url)
+            .description(getDescription(description, message.authorId, user.id));
+
+          return embed;
+        },
+      })
+    );
+  });
 }

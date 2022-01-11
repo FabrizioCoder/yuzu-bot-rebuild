@@ -31,7 +31,7 @@ class Ping {
     return `Pong! ${interaction.user.username}`
   }
 }
-export default Ping
+ Ping
 ```
 * Permissions required: `--allow-net --allow-read --allow-env`
 * Recommended flags: `--no-check --import-map`

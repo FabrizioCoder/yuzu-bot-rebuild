@@ -10,9 +10,7 @@ export function cheemsify(text: string) {
     const postfix = value[value.length - 1];
 
     // infimx ems lom quem vam enmemdiom (om seam lam m)
-    const infix = (
-      prefix.toUpperCase() === prefix ? "M" : "m"
-    );
+    const infix = prefix.toUpperCase() === prefix ? "M" : "m";
 
     // finamlmentem vomlvemoms am unir loms strings
     return prefix + infix + postfix;

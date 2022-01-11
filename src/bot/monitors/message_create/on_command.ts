@@ -1,6 +1,6 @@
-import type { Monitor } from "../../types/monitor.ts";
 import type { BotWithCache } from "cache_plugin";
-import { cache, Configuration } from "utils";
+import { cache, createMonitor } from "oasis";
+import { Configuration } from "utils";
 import { sendMessage } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
 import { getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
@@ -10,17 +10,17 @@ import { db } from "../../../database/db.ts";
 async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Configuration.PREFIX) {
   if (!id || !database) return prefix;
 
-  const { prefix: customPrefix } = await getPrefix(getCollection(database), id) ?? { prefix };
+  const { prefix: customPrefix } = (await getPrefix(getCollection(database), id)) ?? { prefix };
 
   return customPrefix;
 }
 
-export default <Monitor> {
+createMonitor({
   name: "commandMonitor",
   event: "messageCreate",
   isGuildOnly: false,
   ignoreBots: true,
-  async execute(bot: BotWithCache, message) {
+  async execute(bot, message) {
     if (message.guildId) {
       const canSendMessages = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["SEND_MESSAGES"]);
 
@@ -50,12 +50,12 @@ export default <Monitor> {
     }
 
     // TODO: make this more readable
-    if (!message.guildId && command.options?.isGuildOnly) {
+    if (!message.guildId && command.isGuildOnly) {
       await sendMessage(bot, message.channelId, { content: "Este comando solo funciona en servidores..." });
       return;
     }
 
-    if (message.authorId !== Configuration.OWNER_ID && command.options?.isAdminOnly) {
+    if (message.authorId !== Configuration.OWNER_ID && command.isAdminOnly) {
       await sendMessage(bot, message.channelId, { content: "Debes ser dev para usar el comando..." });
       return;
     }
@@ -96,6 +96,5 @@ export default <Monitor> {
     if (typeof output === "string") {
       await sendMessage(bot, message.channelId, { content: output, allowedMentions: { users: [], roles: [] } });
     }
-
   },
-};
+});

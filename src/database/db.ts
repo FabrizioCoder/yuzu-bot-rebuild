@@ -5,11 +5,13 @@ import "dotenv/load";
 
 let db: Database | undefined;
 
-if (!db) {
-  const client = new MongoClient();
-  await client.connect(Deno.env.get("DB")!);
+async function startDatabase() {
+  if (!db) {
+    const client = new MongoClient();
+    await client.connect(Deno.env.get("DB")!);
 
-  db = client.database("azucluster");
+    db = client.database("azucluster");
+  }
 }
 
-export { db };
+export { db, startDatabase };

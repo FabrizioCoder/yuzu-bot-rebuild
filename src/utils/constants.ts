@@ -31,14 +31,6 @@ export enum DiscordColors {
   Black = 0x000000,
 }
 
-export enum Milliseconds {
-  Week = 1000 * 60 * 60 * 24 * 7,
-  Day = 1000 * 60 * 60 * 24,
-  Hour = 1000 * 60 * 60,
-  Minute = 1000 * 60,
-  Second = 1000,
-}
-
 export enum Category {
   Config,
   Fun,
@@ -50,7 +42,7 @@ export enum Category {
 }
 
 // ids
-export const Configuration = <const> {
+export const Configuration = <const>{
   CHANNEL_ID: 895959965469134858n,
   GUILD_ID: 891367004903182336n,
   OWNER_ID: 774292293020155906n,
@@ -59,7 +51,7 @@ export const Configuration = <const> {
   // ETC
   PREFIX: "!",
   TOKEN: "........",
-  VERSION: "2.1.0",
+  VERSION: "2.2.0",
 };
 
 // utility to parse mentions
@@ -67,7 +59,6 @@ export const mention = /^<(@&|@|#|@!)\d{18}>/gim;
 export const roleMention = /^<(@&)\d{18}>/gim;
 export const userMention = /^<(@|@!)\d{18}>/gim;
 export const chanMention = /^<(#)\d{18}>/gim;
-
 
 export enum Api {
   Nekos = "https://nekos.life/api/v2/",

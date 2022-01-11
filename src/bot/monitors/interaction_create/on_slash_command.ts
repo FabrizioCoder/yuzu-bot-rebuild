@@ -1,20 +1,15 @@
-import type { Monitor } from "../../types/monitor.ts";
 import type { BotWithCache } from "cache_plugin";
-import { cache, Configuration } from "utils";
-import {
-  InteractionResponseTypes,
-  InteractionTypes,
-  sendInteractionResponse,
-  sendMessage,
-} from "discordeno";
+import { cache, createMonitor } from "oasis";
+import { Configuration } from "utils";
+import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse, sendMessage } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
 
-export default <Monitor> {
+createMonitor({
   name: "onSlashCommand",
   event: "interactionCreate",
   isGuildOnly: false,
   ignoreBots: true,
-  async execute(bot: BotWithCache, interaction) {
+  async execute(bot, interaction) {
     if (interaction.type !== InteractionTypes.ApplicationCommand) return;
 
     const command = cache.slashCommands.get(interaction.data?.name!);
@@ -38,7 +33,7 @@ export default <Monitor> {
 
     // CHECKS
 
-    if (!interaction.guildId && command.options?.isGuildOnly) {
+    if (!interaction.guildId && command.isGuildOnly) {
       await sendInteractionResponse(bot, interaction.id, interaction.token, {
         type: InteractionResponseTypes.DeferredChannelMessageWithSource,
         data: {
@@ -57,7 +52,7 @@ export default <Monitor> {
         `en el ${interaction.guildId ? "servidor" : "dm"} ${interaction.guildId ?? interaction.channelId}`,
     });
 
-    const output = await command.execute({ bot, interaction });
+    const output = await command.execute({ bot: bot as BotWithCache, interaction });
 
     // PERMISSIONS
 
@@ -89,4 +84,4 @@ export default <Monitor> {
       },
     });
   },
-};
+});

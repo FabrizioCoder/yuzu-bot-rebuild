@@ -1,14 +1,14 @@
-import type { Event } from "../../types/event.ts";
 import type { Embed } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
+import { createEvent } from "oasis";
 import { cache, DiscordColors } from "utils";
 import { avatarURL, editMessage, sendMessage, getMessage, getUser } from "discordeno";
 import { getCollection, getStarboard } from "../../../database/controllers/starboard_controller.ts";
 import { db } from "../../../database/db.ts";
 
-export default <Event> {
+createEvent({
   name: "reactionAdd",
-  async execute(bot: BotWithCache, { channelId, guildId, messageId, emoji }) {
+  async execute(bot, { channelId, guildId, messageId }) {
     if (!db || !guildId) return;
 
     const starboard = await getStarboard(getCollection(db), guildId);
@@ -16,8 +16,8 @@ export default <Event> {
     if (!starboard) return;
 
     // use this rather than the cache!
-    const message = bot.messages.get(messageId) ?? await getMessage(bot, channelId, messageId);
-    const user = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+    const message = (bot as BotWithCache).messages.get(messageId) ?? (await getMessage(bot, channelId, messageId));
+    const user = (bot as BotWithCache).users.get(message.authorId) ?? (await getUser(bot, message.authorId));
 
     // get the reaction
     const reaction = message.reactions?.find(
@@ -57,7 +57,9 @@ export default <Event> {
         },
         {
           name: "Emoji:",
-          value: reaction.emoji.id ? `<${reaction.emoji.animated ? "a" : ""}:${reaction.emoji.name}:${reaction.emoji.id}>` : reaction.emoji.name!,
+          value: reaction.emoji.id
+            ? `<${reaction.emoji.animated ? "a" : ""}:${reaction.emoji.name}:${reaction.emoji.id}>`
+            : reaction.emoji.name!,
         }, // NOTE: emoji.name and emoji.id can't be undefined at the same time
         {
           name: "Info:",
@@ -97,4 +99,4 @@ export default <Event> {
       .then((msg) => cache.alreadySendedInStarboard.set(messageId, msg))
       .catch(() => cache.alreadySendedInStarboard.delete(messageId));
   },
-};
+});

@@ -1,8 +1,8 @@
-import { createMessageCommand } from "oasis";
-import { cache, Category } from "utils";
+import { cache, createMessageCommand } from "oasis";
+import { Category } from "utils";
 import { upsertApplicationCommands, sendMessage } from "discordeno";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "reload",
   isGuildOnly: true,
   isAdminOnly: true,
@@ -15,7 +15,7 @@ export default createMessageCommand({
   async execute({ bot, message }) {
     const commands = cache.slashCommands.map((c) => c.data);
 
-    const file = new Blob([ Deno.inspect(commands, {  }) ]);
+    const file = new Blob([Deno.inspect(commands, {})]);
 
     await sendMessage(bot, message.channelId, {
       content: `OK! Loading ⌛... \`${commands.map((c) => c.name).join(" ")}\``,

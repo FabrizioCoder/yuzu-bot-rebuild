@@ -1,7 +1,6 @@
-import type { Monitor } from "../../types/monitor.ts";
-import { cache } from "utils";
+import { cache, createMonitor } from "oasis";
 
-export default <Monitor> {
+createMonitor({
   name: "messageMonitor",
   event: "messageCreate",
   isGuildOnly: true,
@@ -11,14 +10,11 @@ export default <Monitor> {
     if (!collector || message.channelId !== collector.channelId) return;
     if (!collector.filter(message)) return;
 
-    if (
-      collector.amount === 1 ||
-      collector.amount === collector.messages.length + 1
-    ) {
+    if (collector.amount === 1 || collector.amount === collector.messages.length + 1) {
       cache.collectors.messages.delete(message.authorId);
       return collector.resolve([...collector.messages, message]);
     }
 
     collector.messages.push(message);
   },
-};
+});

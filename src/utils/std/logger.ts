@@ -44,7 +44,7 @@ export const logger = {
   level: LogLevels.Info,
 
   // create a custom logger
-  create(data: { name?: string, level?: LogLevels } = {}): typeof this & typeof data {
+  create(data: { name?: string; level?: LogLevels } = {}): typeof this & typeof data {
     return Object.assign(Object.create(this), data);
   },
 

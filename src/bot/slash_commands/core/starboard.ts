@@ -10,7 +10,7 @@ import {
 } from "../../../database/controllers/starboard_controller.ts";
 import { db } from "../../../database/db.ts";
 
-export default createCommand({
+createCommand({
   isGuildOnly: true,
   meta: {
     descr: "Configura un canal para enviar mensajes starboard ⭐",
@@ -27,7 +27,7 @@ export default createCommand({
       return;
     }
 
-    const guild = bot.guilds.get(interaction.guildId) ?? await getGuild(bot, interaction.guildId);
+    const guild = bot.guilds.get(interaction.guildId) ?? (await getGuild(bot, interaction.guildId));
 
     if (!guild) {
       return;
@@ -40,7 +40,7 @@ export default createCommand({
     }
 
     const isStaff = interaction.member ? hasGuildPermissions(bot, guild, interaction.member, ["MANAGE_GUILD"]) : false;
-    const channel = bot.channels.get(BigInt(channelId)) ?? await getChannel(bot, BigInt(channelId));
+    const channel = bot.channels.get(BigInt(channelId)) ?? (await getChannel(bot, BigInt(channelId)));
 
     if (!isStaff) {
       return "No posees suficientes permisos";
@@ -50,11 +50,13 @@ export default createCommand({
       return "El canal debe pertenecer al servidor...";
     }
 
-    const count = (options?.[2]?.value) ?? 5;
+    const count = options?.[2]?.value ?? 5;
 
     if (typeof count !== "number") return;
 
-    const emoji = guild.emojis.find((emoji) => emoji.name === (typeof options?.[1]?.value !== "string" ? undefined : options[1].value));
+    const emoji = guild.emojis.find(
+      (emoji) => emoji.name === (typeof options?.[1]?.value !== "string" ? undefined : options[1].value)
+    );
     const starboard = await getStarboard(getCollection(db), guild.id);
 
     if (count < 1) {
@@ -69,11 +71,15 @@ export default createCommand({
 
       return `El canal del starboard será <#${newStarboard?.channelId}> y tendrá el emoji ${emoji?.name ?? "⭐"}`;
     } else {
-      await editStarboard(getCollection(db), { guildId: guild.id.toString(), }, {
-        count,
-        channelId: channel.id.toString(),
-        emojiId: !emoji ? "⭐" : emoji.id ? emoji.id.toString() : emoji.name,
-      });
+      await editStarboard(
+        getCollection(db),
+        { guildId: guild.id.toString() },
+        {
+          count,
+          channelId: channel.id.toString(),
+          emojiId: !emoji ? "⭐" : emoji.id ? emoji.id.toString() : emoji.name,
+        }
+      );
 
       const newStarboard = await getStarboard(getCollection(db), guild.id);
 

@@ -1,7 +1,7 @@
 import { createMessageCommand } from "oasis";
 import { Category, cheemsify } from "utils";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "cheemsify",
   meta: {
     descr: "Conviertem un temxtom am imdiomam cheems",

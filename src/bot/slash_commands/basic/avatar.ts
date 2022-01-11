@@ -2,7 +2,7 @@ import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from 
 import { ApplicationCommandOptionTypes, avatarURL, getUser } from "discordeno";
 import { Category, DiscordColors } from "utils";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Busca el avatar de un usuario",
     short: "Busca avatares",
@@ -17,7 +17,7 @@ export default createCommand({
     }
 
     const userId = !option ? interaction.user.id : BigInt(option.value as string);
-    const user = bot.users.get(userId) ?? await getUser(bot, userId);
+    const user = bot.users.get(userId) ?? (await getUser(bot, userId));
 
     if (!user) {
       return "Especifica el usuario correctamente";

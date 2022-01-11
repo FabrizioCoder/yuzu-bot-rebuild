@@ -1,6 +1,6 @@
 import type { ButtonComponent } from "discordeno";
-import { createMessageCommand, MessageEmbed } from "oasis";
-import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
+import { createMessageCommand, needButton, needMessage, MessageEmbed, Milliseconds } from "oasis";
+import { Category, randomHex } from "utils";
 import {
   avatarURL,
   ButtonStyles,
@@ -60,9 +60,10 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-export default createMessageCommand({
+createMessageCommand({
   name: "image",
-  meta: { // help command ignore this
+  meta: {
+    // help command ignore this
     descr: "Busca imágenes en internet",
     short: "Busca imágenes",
     usage: "<Search>",
@@ -75,13 +76,13 @@ export default createMessageCommand({
       return "Por favor escribe un texto";
     }
 
-    const channel = bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
+    const channel = bot.channels.get(message.channelId) ?? (await getChannel(bot, message.channelId));
 
     if (!channel) {
       return;
     }
 
-    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+    const author = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
 
     // get an nsfw output if the currentChannel is nsfw
     const results = await search(option, channel.nsfw ? SafetyLevels.STRICT : SafetyLevels.OFF);
@@ -92,12 +93,9 @@ export default createMessageCommand({
       .color(randomHex())
       .image(results[0].image)
       .field("Búsqueda segura", channel.nsfw ? "No" : "Sí")
-      .author(
-        results[0].source,
-        avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }),
-      )
+      .author(results[0].source, avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }))
       .footer(`Results for ${option}`);
-      // do not end this ^ for now
+    // do not end this ^ for now
 
     const sended = await sendMessage(bot, message.channelId, {
       embeds: [embed.embed],
@@ -115,7 +113,13 @@ export default createMessageCommand({
 
     // do a recursive function instead of a while(true) loop
     // highly recommended
-    function read(sendedMessageId: bigint, sendedMessageChannelId: bigint, sendedMessageAuthorId: bigint, acc: number, time: Milliseconds) {
+    function read(
+      sendedMessageId: bigint,
+      sendedMessageChannelId: bigint,
+      sendedMessageAuthorId: bigint,
+      acc: number,
+      time: Milliseconds
+    ) {
       // important: Button from the cache if the timer is gone just pass! #243
       needButton(sendedMessageAuthorId, sendedMessageId, {
         duration: time,

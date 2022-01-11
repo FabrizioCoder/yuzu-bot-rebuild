@@ -1,7 +1,6 @@
-import type { Task } from "../types/task.ts";
-import { cache, Milliseconds } from "utils";
+import { cache, createTask, Milliseconds } from "oasis";
 
-export default <Task> {
+createTask({
   name: "collectors",
   interval: Milliseconds.Minute,
   execute() {
@@ -17,4 +16,4 @@ export default <Task> {
       return collector.reject("The button was not pressed in time.");
     });
   },
-};
+});

@@ -2,7 +2,7 @@ import { createMessageCommand, MessageEmbed } from "oasis";
 import { avatarURL, getUser } from "discordeno";
 import { Category, DiscordColors } from "utils";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "avatar",
   meta: {
     descr: "Busca el avatar de un usuario",
@@ -14,7 +14,7 @@ export default createMessageCommand({
     const givenId = /\d{18}/g.exec(args.join(" "))?.[0];
 
     const userId = BigInt(givenId ?? message.authorId.toString());
-    const user = bot.users.get(userId) ?? await getUser(bot, userId);
+    const user = bot.users.get(userId) ?? (await getUser(bot, userId));
 
     if (!user) {
       return "El usuario no se encontró";

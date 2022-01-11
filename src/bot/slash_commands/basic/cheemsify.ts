@@ -2,7 +2,7 @@ import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category, cheemsify } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Conviertem un temxtom am imdiomam cheems",
     short: "Conviertem un temxtom am imdiomam cheems",
@@ -24,6 +24,8 @@ export default createCommand({
   data: new ChatInputApplicationCommandBuilder()
     .setName("cheemsify")
     .setDescription("Conviertem un temxtom am imdiomam cheems")
-    .addStringOption((o) => o.setName("input").setDescription("Temxto a comvermtirm a imdioma cheems").setRequired(true))
+    .addStringOption((o) =>
+      o.setName("input").setDescription("Temxto a comvermtirm a imdioma cheems").setRequired(true)
+    )
     .toJSON(),
 });

@@ -24,11 +24,12 @@ enum Arguments {
   Display,
 }
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Crea, edita, borra o modifica tags",
     short: "Crea, edita, borra o modifica tags",
-    usage: "[\
+    usage:
+      "[\
       add(name, content) |\
       remove(name) |\
       give(name, @user) |\
@@ -48,7 +49,7 @@ export default createCommand({
       return;
     }
 
-    const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
+    const channel = bot.channels.get(interaction.channelId) ?? (await getChannel(bot, interaction.channelId));
 
     switch (Arguments[toCapitalCase(option.name) as keyof typeof Arguments]) {
       case Arguments.Add: {
@@ -72,7 +73,9 @@ export default createCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = interaction.member ? hasGuildPermissions(bot, interaction.guildId, interaction.member, ["ADMINISTRATOR"]) : false;
+        const isAdmin = interaction.member
+          ? hasGuildPermissions(bot, interaction.guildId, interaction.member, ["ADMINISTRATOR"])
+          : false;
 
         if (BigInt(tag.user) !== interaction.user.id && !isAdmin && interaction.user.id !== Configuration.OWNER_ID) {
           return "El tag no te pertenece";
@@ -92,7 +95,7 @@ export default createCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        const user = bot.users.get(BigInt(userId)) ?? await getUser(bot, BigInt(userId));
+        const user = bot.users.get(BigInt(userId)) ?? (await getUser(bot, BigInt(userId)));
 
         if (!user || user.bot) return "No encontré ese usuario";
 
@@ -136,7 +139,9 @@ export default createCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = interaction.member ? hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["ADMINISTRATOR"]) : false;
+        const isAdmin = interaction.member
+          ? hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["ADMINISTRATOR"])
+          : false;
 
         if (BigInt(tag.user) !== interaction.user.id && !isAdmin) {
           return "El tag no te pertenece";

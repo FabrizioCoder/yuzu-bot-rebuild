@@ -1,8 +1,8 @@
-import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
-import { cache, Category, DiscordColors } from "utils";
+import { cache, createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { Category, DiscordColors } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
-export default createCommand({
+createCommand({
   isGuildOnly: true,
   meta: {
     descr: "📗 Encuentra un comando del bot...",
@@ -31,7 +31,7 @@ export default createCommand({
 
     const prefix = "description" in command.data ? "/" : "!";
     const commandDescription = "description" in command.data ? command.data.description : undefined;
-    const commandMetaData = command.options?.information;
+    const commandMetaData = command.meta;
 
     const { embed } = new MessageEmbed()
       .color(DiscordColors.Blurple)

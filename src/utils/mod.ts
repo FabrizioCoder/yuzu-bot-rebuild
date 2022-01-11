@@ -7,9 +7,7 @@ export * from "./std/snowflake.ts";
 export * from "./std/cheemsify.ts";
 export * from "./std/logger.ts";
 
-// collectors
-export * from "./collectors/needButton.ts";
-export * from "./collectors/needMessage.ts";
+export * from "./scripts/APICommands.ts";
 
 export * as cache from "./cache.ts";
 
@@ -27,7 +25,7 @@ export function isInvite(str: string) {
 }
 
 export function maskify(str: string) {
-  return str.replace(/.(?=.{4,}$)/g, '#');
+  return str.replace(/.(?=.{4,}$)/g, "#");
 }
 
 export function isURL(str: string) {

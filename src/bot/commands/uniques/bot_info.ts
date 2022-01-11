@@ -1,9 +1,8 @@
-import type { Context } from "oasis";
-import { Command, MessageEmbed, Stop } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, DiscordColors, snowflakeToTimestamp, toCapitalCase } from "utils";
 import { avatarURL, getUser } from "discordeno";
 
-@Command({
+createMessageCommand({
   name: "botinfo",
   category: Category.Info,
   meta: {
@@ -11,13 +10,9 @@ import { avatarURL, getUser } from "discordeno";
     short: "Estadísticas para nerds",
     usage: "lol",
   },
-})
-export default abstract class {
-  @Stop<false>((ctx) => ctx.message.guildId === 882096686334345216n)
-  @Stop<false>((ctx) => ctx.message.guildId === 916940037176836096n)
-  static async execute({ bot }: Context<false>) {
+  async execute({ bot }) {
     // utility
-    const me = bot.users.get(bot.id) ?? await getUser(bot, bot.id);
+    const me = bot.users.get(bot.id) ?? (await getUser(bot, bot.id));
     const botCreatedAt = Math.floor(snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000);
 
     if (!me) {
@@ -50,10 +45,10 @@ export default abstract class {
       .field(
         "Desarrollo",
         `[Deno](https://deno.land/) \\🦕 \`${Deno.version.deno}\`\n` +
-        `[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`\n` +
-        `[Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``,
+          `[Typescript](https://www.typescriptlang.org/) \`${Deno.version.typescript}\`\n` +
+          `[Discordeno](https://github.com/discordeno/discordeno) \`${bot.constants.DISCORDENO_VERSION}\``
       );
 
     return embed;
-  }
-}
+  },
+});

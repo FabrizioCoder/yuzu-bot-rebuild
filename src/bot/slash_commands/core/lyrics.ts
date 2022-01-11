@@ -17,7 +17,7 @@ interface Song {
   error: string;
 }
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Busca letras de canciones",
     short: "Busca letras de canciones",

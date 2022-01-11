@@ -1,8 +1,8 @@
-import type { Task } from "../types/task.ts";
-import { cache, Milliseconds, Configuration } from "utils";
+import { cache, createTask, Milliseconds } from "oasis";
+import { Configuration } from "utils";
 import { ActivityTypes, editBotStatus } from "discordeno";
 
-export default <Task> {
+createTask({
   name: "presences",
   interval: Milliseconds.Minute * 6,
   execute(bot, _payload) {
@@ -29,4 +29,4 @@ export default <Task> {
       ],
     });
   },
-};
+});

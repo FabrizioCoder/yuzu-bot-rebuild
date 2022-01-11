@@ -1,8 +1,7 @@
-import type { Monitor } from "../../types/monitor.ts";
-import { processButtonCollectors } from "utils";
+import { createMonitor, processButtonCollectors } from "oasis";
 import { InteractionTypes, MessageComponentTypes } from "discordeno";
 
-export default <Monitor> {
+createMonitor({
   name: "onButtonCollected",
   event: "interactionCreate",
   isGuildOnly: true,
@@ -20,4 +19,4 @@ export default <Monitor> {
 
     return;
   },
-};
+});

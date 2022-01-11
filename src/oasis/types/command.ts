@@ -4,6 +4,8 @@ import type {
   DiscordenoInteraction,
   DiscordenoMessage,
   EditGlobalApplicationCommand,
+  Embed,
+  MakeRequired,
 } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
 
@@ -14,19 +16,19 @@ export interface Information {
 }
 
 export interface SlashCommandContext {
-  bot: BotWithCache,
-  interaction: DiscordenoInteraction,
+  bot: BotWithCache;
+  interaction: DiscordenoInteraction;
 }
 
 export interface SlashCommand {
-  data: EditGlobalApplicationCommand,
+  data: EditGlobalApplicationCommand;
   category: number;
 }
 
 export interface MessageCommandContext {
   bot: BotWithCache;
   message: DiscordenoMessage;
-  args: { args: string[], prefix: string };
+  args: { args: string[]; prefix: string };
 }
 
 export interface MessageCommand {
@@ -34,12 +36,10 @@ export interface MessageCommand {
   category: number;
 }
 
-export type Context<T extends boolean = true> = T extends true
-  ? SlashCommandContext
-  : MessageCommandContext;
+export type Context<T extends boolean = true> = T extends true ? SlashCommandContext : MessageCommandContext;
 
 export interface CreateCommand {
-  type?: ApplicationCommandTypes,
+  type?: ApplicationCommandTypes;
   name: string;
   description?: string;
   data?: Omit<EditGlobalApplicationCommand, "name" | "description" | "options">;
@@ -48,4 +48,15 @@ export interface CreateCommand {
   isAdminOnly?: boolean;
   category: number;
   options?: ApplicationCommandOption[];
+}
+
+export interface FinalCommand<Slash extends boolean = true> {
+  data: Slash extends true ? MakeRequired<EditGlobalApplicationCommand, "name"> : { name: string };
+  category: number;
+  isGuildOnly: boolean;
+  isAdminOnly: boolean;
+  meta: Partial<Information>;
+  execute(
+    ctx: Slash extends true ? SlashCommandContext : MessageCommandContext
+  ): string | Embed | void | Promise<string | Embed | void>;
 }

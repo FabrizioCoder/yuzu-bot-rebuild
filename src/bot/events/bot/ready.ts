@@ -1,10 +1,10 @@
-import type { Event } from "../../types/event.ts";
-import type { ReadyPayload } from "../../types/task.ts";
 import type { BotWithCache } from "cache_plugin";
-import { cache, Configuration, logger } from "utils";
+import type { ReadyPayload } from "oasis";
+import { cache, createEvent } from "oasis";
+import { Configuration, logger } from "utils";
 import { cyan } from "fmt/colors";
 
-export default <Event> {
+createEvent({
   name: "ready",
   execute(bot, payload) {
     const uptime = Date.now();
@@ -26,7 +26,7 @@ export default <Event> {
     log.info(`Discordeno version: ${cyan(bot.constants.DISCORDENO_VERSION)}`);
     log.info(...Object.entries(Deno.version).map(([a, b]) => `${a}: ${cyan(b)}`));
   },
-};
+});
 
 // inspired by Discordeno template
 function registerTasks(bot: BotWithCache, payload: ReadyPayload, ...args: number[]) {
@@ -36,7 +36,7 @@ function registerTasks(bot: BotWithCache, payload: ReadyPayload, ...args: number
         logger.info(`Started Task ${task.name}`);
         try {
           await task.execute(bot, payload, ...args);
-        } catch (err: unknown) {
+        } catch (err) {
           if (err instanceof Error) logger.error(err.message);
         }
         cache.runningTasks.initialTimeouts.add(
@@ -44,7 +44,7 @@ function registerTasks(bot: BotWithCache, payload: ReadyPayload, ...args: number
             logger.info(`Started Task ${task.name}`);
             try {
               await task.execute(bot, payload, ...args);
-            } catch (err: unknown) {
+            } catch (err) {
               if (err instanceof Error) logger.error(err.message);
             }
           }, task.interval)

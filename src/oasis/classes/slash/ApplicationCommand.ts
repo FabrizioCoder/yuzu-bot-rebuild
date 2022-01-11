@@ -3,14 +3,14 @@ import { ApplicationCommandTypes } from "discordeno";
 import { OptionBased } from "./SlashCommandOption.ts";
 import { mix } from "../../mixer/mod.ts";
 
-export class ApplicationCommandBuilder implements EditGlobalApplicationCommand {
+export abstract class ApplicationCommandBuilder implements EditGlobalApplicationCommand {
   protected constructor(
     // required
     public type?: ApplicationCommandTypes,
     public name?: string,
     public description?: string,
     // non-required
-    public defaultPermission?: boolean,
+    public defaultPermission?: boolean
   ) {
     this.type = type;
     this.name = name;
@@ -19,15 +19,15 @@ export class ApplicationCommandBuilder implements EditGlobalApplicationCommand {
   }
 
   public setType(type: ApplicationCommandTypes) {
-    return this.type = type, this;
+    return (this.type = type), this;
   }
 
   public setName(name: string) {
-    return this.name = name, this;
+    return (this.name = name), this;
   }
 
   public setDescription(description: string) {
-    return this.description = description, this;
+    return (this.description = description), this;
   }
 }
 
@@ -35,17 +35,19 @@ export class MessageApplicationCommandBuilder {
   public constructor(
     // required
     public type?: ApplicationCommandTypes,
-    public name?: string,
+    public name?: string
   ) {
     this.type = ApplicationCommandTypes.Message;
     this.name = name;
   }
 
   public setName(name: string) {
-    return this.name = name, this;
+    return (this.name = name), this;
   }
 
-  public toJSON(): EditGlobalApplicationCommand {
+  public toJSON(): EditGlobalApplicationCommand & { name: string; type: ApplicationCommandTypes.Message } {
+    if (!this.name) throw new TypeError("Propety 'name' is required");
+
     return {
       type: ApplicationCommandTypes.Message,
       name: this.name,
@@ -60,7 +62,11 @@ export class MessageApplicationCommandBuilder {
 export class ChatInputApplicationCommandBuilder {
   public type: ApplicationCommandTypes.ChatInput = ApplicationCommandTypes.ChatInput;
 
-  public toJSON(): EditGlobalApplicationCommand {
+  public toJSON(): EditGlobalApplicationCommand & {
+    name: string;
+    description: string;
+    type: ApplicationCommandTypes.ChatInput;
+  } {
     if (!this.type) throw new TypeError("Propety 'type' is required");
     if (!this.name) throw new TypeError("Propety 'name' is required");
     if (!this.description) throw new TypeError("Propety 'description' is required");

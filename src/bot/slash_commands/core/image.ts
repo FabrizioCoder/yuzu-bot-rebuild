@@ -1,6 +1,13 @@
 import type { ButtonComponent } from "discordeno";
-import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
-import { Category, Milliseconds, needButton, needMessage, randomHex } from "utils";
+import {
+  createCommand,
+  ChatInputApplicationCommandBuilder,
+  needButton,
+  needMessage,
+  MessageEmbed,
+  Milliseconds,
+} from "oasis";
+import { Category, randomHex } from "utils";
 import {
   ApplicationCommandOptionTypes,
   avatarURL,
@@ -60,8 +67,9 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
-export default createCommand({
-  meta: { // help command ignore this
+createCommand({
+  meta: {
+    // help command ignore this
     descr: "Busca imágenes en internet",
     short: "Busca imágenes",
     usage: "<Search>",
@@ -78,7 +86,7 @@ export default createCommand({
       return;
     }
 
-    const channel = bot.channels.get(interaction.channelId) ?? await getChannel(bot, interaction.channelId);
+    const channel = bot.channels.get(interaction.channelId) ?? (await getChannel(bot, interaction.channelId));
 
     if (!channel) {
       return;
@@ -95,10 +103,10 @@ export default createCommand({
       .field("Búsqueda segura", channel.nsfw ? "No" : "Sí")
       .author(
         results[0].source,
-        avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar }),
+        avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar })
       )
       .footer(`Results for ${option.value}`);
-      // do not end this ^ for now
+    // do not end this ^ for now
 
     const sended = await sendInteractionResponse(bot, interaction.id, interaction.token, {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
@@ -116,7 +124,13 @@ export default createCommand({
 
     // do a recursive function instead of a while(true) loop
     // highly recommended
-    function read(sendedMessageId: bigint, sendedMessageChannelId: bigint, sendedMessageAuthorId: bigint, acc: number, time: Milliseconds) {
+    function read(
+      sendedMessageId: bigint,
+      sendedMessageChannelId: bigint,
+      sendedMessageAuthorId: bigint,
+      acc: number,
+      time: Milliseconds
+    ) {
       // important: Button from the cache if the timer is gone just pass! #243
       needButton(sendedMessageAuthorId, sendedMessageId, {
         duration: time,

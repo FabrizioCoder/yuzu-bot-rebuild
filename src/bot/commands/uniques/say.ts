@@ -2,7 +2,7 @@ import { createMessageCommand } from "oasis";
 import { Category, isInvite } from "utils";
 import { deleteMessage } from "discordeno";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "say",
   meta: {
     descr: "Hace que el bot diga algo muy malo",

@@ -24,7 +24,7 @@ enum Arguments {
   Display,
 }
 
-export default createMessageCommand({
+createMessageCommand({
   name: "t",
   isGuildOnly: true,
   meta: {
@@ -65,7 +65,9 @@ export default createMessageCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = message.member ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"]) : false;
+        const isAdmin = message.member
+          ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"])
+          : false;
 
         if (BigInt(tag.user) !== message.authorId && !isAdmin && message.authorId !== Configuration.OWNER_ID) {
           return "El tag no te pertenece";
@@ -85,7 +87,7 @@ export default createMessageCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        const user = bot.users.get(BigInt(userId)) ?? await getUser(bot, BigInt(userId));
+        const user = bot.users.get(BigInt(userId)) ?? (await getUser(bot, BigInt(userId)));
 
         if (!user || user.bot) return "No encontré ese usuario";
 
@@ -132,7 +134,9 @@ export default createMessageCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        const isAdmin = message.member ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"]) : false;
+        const isAdmin = message.member
+          ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"])
+          : false;
 
         if (BigInt(tag.user) !== message.authorId && !isAdmin) {
           return "El tag no te pertenece";
@@ -172,7 +176,7 @@ export default createMessageCommand({
           return "No encontré ese tag";
         }
 
-        const channel = bot.channels.get(message.channelId) ?? await getChannel(bot, message.channelId);
+        const channel = bot.channels.get(message.channelId) ?? (await getChannel(bot, message.channelId));
         const safe = !channel?.nsfw;
 
         if (tag.nsfw && safe) {

@@ -1,7 +1,7 @@
-import type { Monitor } from "../../types/monitor.ts";
+import { createMonitor } from "oasis";
 import { cache } from "utils";
 
-export default <Monitor> {
+createMonitor({
   name: "attachmentMonitor",
   event: "messageCreate",
   isGuildOnly: true,
@@ -11,7 +11,7 @@ export default <Monitor> {
 
     if (hasFile) {
       cache.lastAttachments.delete(message.channelId);
-      cache.lastAttachments.set(message.channelId, message.attachments)
+      cache.lastAttachments.set(message.channelId, message.attachments);
     }
   },
-};
+});

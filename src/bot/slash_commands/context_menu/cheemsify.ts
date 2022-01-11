@@ -1,7 +1,7 @@
 import { createCommand, MessageApplicationCommandBuilder } from "oasis";
 import { Category, cheemsify } from "utils";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Click y conviertem un temxtom am imdiomam cheems",
     short: "Click y conviertem un temxtom am imdiomam cheems",
@@ -20,7 +20,5 @@ export default createCommand({
     // qumimtam lams memncimomnems pamram emvimtamr qumem memncimomnemn am umsumamrimoms
     return cheemsify(message.content);
   },
-  data: new MessageApplicationCommandBuilder()
-    .setName("cheemsify")
-    .toJSON(),
+  data: new MessageApplicationCommandBuilder().setName("cheemsify").toJSON(),
 });

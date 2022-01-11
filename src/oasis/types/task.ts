@@ -1,4 +1,4 @@
-import type { Milliseconds } from "utils";
+import type { Milliseconds } from "../constants.ts";
 import type { DiscordenoUser } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
 

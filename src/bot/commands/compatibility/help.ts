@@ -1,9 +1,9 @@
 import type { SelectMenuComponent } from "discordeno";
-import { createMessageCommand, MessageEmbed } from "oasis";
-import { cache, Category, CategoryEmoji, DiscordColors } from "utils";
+import { cache, createMessageCommand, MessageEmbed } from "oasis";
+import { Category, CategoryEmoji, DiscordColors } from "utils";
 import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "discordeno";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "help",
   isGuildOnly: true,
   meta: {
@@ -12,7 +12,7 @@ export default createMessageCommand({
   },
   category: Category.Info,
   async execute({ bot, message, args }) {
-    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+    const author = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
 
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
@@ -55,10 +55,12 @@ export default createMessageCommand({
 
     await sendMessage(bot, message.channelId, {
       embeds: [embed],
-      components: [{
-        type: MessageComponentTypes.ActionRow,
-        components: [menu],
-      }],
+      components: [
+        {
+          type: MessageComponentTypes.ActionRow,
+          components: [menu],
+        },
+      ],
     });
   },
 });

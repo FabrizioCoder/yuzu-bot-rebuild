@@ -2,7 +2,7 @@ import { createMessageCommand, MessageEmbed } from "oasis";
 import { cache, Category, randomHex } from "utils";
 import { avatarURL, sendMessage, getUser } from "discordeno";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "snipe",
   category: Category.Util,
   meta: {
@@ -24,7 +24,7 @@ export default createMessageCommand({
       return "Mensaje largo recibido!";
     }
 
-    const author = bot.users.get(message.authorId) ?? await getUser(bot, message.authorId);
+    const author = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
 
     const { embed } = new MessageEmbed()
       .author(message.tag, avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }))

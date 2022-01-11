@@ -1,7 +1,7 @@
-import { createMessageCommand, MessageEmbed, Stop } from "oasis";
+import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, DiscordColors } from "utils";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "eval",
   isGuildOnly: false,
   isAdminOnly: true,
@@ -26,8 +26,7 @@ export default createMessageCommand({
         .footer(`Channel id: ${message.channelId}`);
 
       return embed;
-
-    } catch (error: unknown) {
+    } catch (error) {
       if (error instanceof Error) {
         return new MessageEmbed({ description: "Error: " + error.message, color: DiscordColors.Red }).embed;
       }

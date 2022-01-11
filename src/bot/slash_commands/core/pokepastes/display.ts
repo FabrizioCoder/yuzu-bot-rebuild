@@ -3,7 +3,7 @@ import { Category } from "utils";
 import { sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "pokepast.es wrapper",
     short: "pokepast.es wrapper",

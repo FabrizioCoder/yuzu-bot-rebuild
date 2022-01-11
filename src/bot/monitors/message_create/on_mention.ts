@@ -1,7 +1,7 @@
-import type { Monitor } from "../../types/monitor.ts";
+import { createMonitor } from "oasis";
 import { sendMessage } from "discordeno";
 
-export default <Monitor> {
+createMonitor({
   name: "mentionMonitor",
   event: "messageCreate",
   isGuildOnly: false,
@@ -14,4 +14,4 @@ export default <Monitor> {
       await sendMessage(bot, message.channelId, { content: `Mi prefix es ${prefix}` });
     }
   },
-};
+});

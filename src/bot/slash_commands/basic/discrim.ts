@@ -2,7 +2,7 @@ import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from 
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Encuentra a usuarios con el mismo tag",
     short: "Encuentra a usuarios con el mismo tag",
@@ -17,7 +17,7 @@ export default createCommand({
     }
 
     const users = bot.users.map((u) => {
-      if (u.discriminator === <number> option.value) return `${u.username}#${u.discriminator}`;
+      if (u.discriminator === <number>option.value) return `${u.username}#${u.discriminator}`;
     });
 
     const { embed } = new MessageEmbed()

@@ -3,7 +3,7 @@ import { createMessageCommand, MessageEmbed } from "oasis";
 import { createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
 import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";
 
-export default createMessageCommand({
+createMessageCommand({
   name: "emotes",
   isGuildOnly: true,
   meta: {
@@ -18,7 +18,7 @@ export default createMessageCommand({
       return;
     }
 
-    const guild = bot.guilds.get(message.guildId) ?? await getGuild(bot, message.guildId);
+    const guild = bot.guilds.get(message.guildId) ?? (await getGuild(bot, message.guildId));
 
     if (!guild || !message.member) {
       return;

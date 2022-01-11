@@ -1,14 +1,11 @@
-import type { Context } from "oasis";
-import { Command, Stop } from "oasis";
-import { Category, Configuration } from "utils";
+import { createMessageCommand } from "oasis";
+import { Category } from "utils";
 
-@Command({
+createMessageCommand({
+  isAdminOnly: true,
   name: "ping",
   category: Category.Owner,
-})
-export default class {
-  @Stop<false>((ctx) => ctx.message.authorId !== Configuration.OWNER_ID)
-  static execute({ message }: Context<false>) {
+  execute({ message }) {
     return `Pong! ${message.tag}`;
-  }
-}
+  },
+});

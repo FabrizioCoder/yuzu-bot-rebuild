@@ -20,12 +20,12 @@ function parseMessageToPokemon(message: string) {
   };
 
   if (!isNaN(parseInt(message))) {
-    return <PokemonTarget> Object.assign(base, {
+    return <PokemonTarget>Object.assign(base, {
       id: parseInt(message),
       specie: "",
     });
   } else {
-    return <PokemonTarget> Object.assign(base, {
+    return <PokemonTarget>Object.assign(base, {
       id: 0,
       specie: message.toLowerCase(),
     });
@@ -42,7 +42,7 @@ function parsePokemonWeight(weight: number) {
 }
 
 // Command...
-export default createMessageCommand({
+createMessageCommand({
   name: "dex",
   meta: {
     descr: "Comando para buscar un pokémon por su nombre o id",
@@ -58,7 +58,7 @@ export default createMessageCommand({
     }
 
     const target = parseMessageToPokemon(option);
-    const poke = await getPokemonFromApi(target.id) ?? await getPokemonFromApi(target.specie);
+    const poke = (await getPokemonFromApi(target.id)) ?? (await getPokemonFromApi(target.specie));
 
     if (!poke) {
       return "No se pudo encontrar información sobre el pokémon.";

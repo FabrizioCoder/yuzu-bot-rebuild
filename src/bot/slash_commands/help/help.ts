@@ -1,14 +1,9 @@
-import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
-import { cache, Category, CategoryEmoji, DiscordColors } from "utils";
-import {
-  avatarURL,
-  InteractionResponseTypes,
-  MessageComponentTypes,
-  sendInteractionResponse,
-  type SelectMenuComponent,
-} from "discordeno";
+import type { SelectMenuComponent } from "discordeno";
+import { cache, createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { Category, CategoryEmoji, DiscordColors } from "utils";
+import { avatarURL, InteractionResponseTypes, MessageComponentTypes, sendInteractionResponse } from "discordeno";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "\\📕 Ayuda del bot...",
     short: "\\📕 Ayuda del bot",
@@ -54,16 +49,15 @@ export default createCommand({
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
       data: {
         embeds: [embed],
-        components: [{
-          type: MessageComponentTypes.ActionRow,
-          components: [menu],
-        }],
+        components: [
+          {
+            type: MessageComponentTypes.ActionRow,
+            components: [menu],
+          },
+        ],
       },
     });
     return;
   },
-  data: new ChatInputApplicationCommandBuilder()
-    .setName("help")
-    .setDescription("\\📕 Ayuda del bot...")
-    .toJSON(),
+  data: new ChatInputApplicationCommandBuilder().setName("help").setDescription("\\📕 Ayuda del bot...").toJSON(),
 });

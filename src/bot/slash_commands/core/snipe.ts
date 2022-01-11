@@ -2,7 +2,7 @@ import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from 
 import { cache, Category, randomHex } from "utils";
 import { avatarURL, sendMessage } from "discordeno";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Busca el último mensaje eliminado en el canal",
     short: "Busca mensajes eliminados",
@@ -26,7 +26,10 @@ export default createCommand({
     }
 
     const { embed } = new MessageEmbed()
-      .author(message.tag, avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar }))
+      .author(
+        message.tag,
+        avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar })
+      )
       .color(randomHex())
       .description(message.content)
       .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`);

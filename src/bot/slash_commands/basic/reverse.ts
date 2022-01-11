@@ -1,8 +1,8 @@
-import { createCommand, ChatInputApplicationCommandBuilder} from "oasis";
+import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
-export default createCommand({
+createCommand({
   meta: {
     descr: "Invierte un texto",
     short: "Invierte un texto",
