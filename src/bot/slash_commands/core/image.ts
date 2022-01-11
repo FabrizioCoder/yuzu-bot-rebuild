@@ -22,40 +22,60 @@ import {
 import { SafetyLevels, search } from "images";
 
 // enums
-enum ButtonEmojis {
-  Back = "⏪",
-  Next = "⏩",
-  Page = "🔢",
-  Random = "🔀",
-  Xsign = "✖️",
-}
+const ButtonEmojis = <const>{
+  Back: {
+    id: "930546313890791444",
+    name: "left",
+    animated: false,
+  },
+  Next: {
+    id: "930546356408418395",
+    name: "right",
+    animated: false,
+  },
+  Page: {
+    id: "930558978721734797",
+    name: "chat_bubble",
+    animated: false,
+  },
+  Random: {
+    id: "930559182241955850",
+    name: "shuffle",
+    animated: false,
+  },
+  Xsign: "✖️",
+};
 
 // NOTE: using a tuple because the max size of buttons is 5
 // Do this outside of the func body
 const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent, ButtonComponent] = [
   {
     type: 2, // all buttons have type 2
-    label: ButtonEmojis.Back,
+    label: "",
+    emoji: ButtonEmojis.Back,
     customId: "back",
     style: ButtonStyles.Primary,
     disabled: true,
   },
   {
     type: 2,
-    label: ButtonEmojis.Next,
+    label: "",
+    emoji: ButtonEmojis.Next,
     customId: "next",
     style: ButtonStyles.Primary,
     disabled: false,
   },
   {
     type: 2,
-    label: ButtonEmojis.Page,
+    label: "",
+    emoji: ButtonEmojis.Page,
     customId: "page",
     style: ButtonStyles.Primary,
   },
   {
     type: 2,
-    label: ButtonEmojis.Random,
+    label: "",
+    emoji: ButtonEmojis.Random,
     customId: "random",
     style: ButtonStyles.Primary,
   },
