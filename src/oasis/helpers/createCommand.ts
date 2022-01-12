@@ -1,4 +1,4 @@
-import type { CreateCommand, SlashCommandContext, FinalCommand } from "../types/command.ts";
+import type { CreateCommand, SlashCommandContext, Command } from "../types/command.ts";
 import type { Embed, EditGlobalApplicationCommand, MakeRequired } from "discordeno";
 
 import { slashCommands } from "../cache.ts";
@@ -9,7 +9,7 @@ export function createCommand(
     data: MakeRequired<EditGlobalApplicationCommand, "name">;
   }
 ) {
-  const created: FinalCommand = {
+  const created: Command = {
     data: o.data,
     isGuildOnly: Boolean(o.isGuildOnly),
     isAdminOnly: Boolean(o.isAdminOnly),

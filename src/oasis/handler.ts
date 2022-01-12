@@ -13,11 +13,7 @@ export async function load(root: string, dir: string) {
     // otherwise read from the path of this file to the absolute path of the given directory
     // this should give us a relative path coming from an absolute path
     const rel = join(relative(dirname(fromFileUrl(import.meta.url)), rootDir), file.name);
-    const mod = await import(rel.replace("\\", "/")).catch(() => {});
+    const mod = await import(rel.replace("\\", "/"));
     mod;
   }
-}
-
-export function loadFilesFromBot(dir: string) {
-  return load("./src/bot", dir);
 }

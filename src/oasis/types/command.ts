@@ -50,7 +50,7 @@ export interface CreateCommand {
   options?: ApplicationCommandOption[];
 }
 
-export interface FinalCommand<Slash extends boolean = true> {
+export interface Command<Slash extends boolean = true> {
   data: Slash extends true ? MakeRequired<EditGlobalApplicationCommand, "name"> : { name: string };
   category: number;
   isGuildOnly: boolean;

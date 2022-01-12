@@ -54,9 +54,10 @@ createCommand({
 
     if (typeof count !== "number") return;
 
-    const emoji = guild.emojis.find(
-      (emoji) => emoji.name === (typeof options?.[1]?.value !== "string" ? undefined : options[1].value)
-    );
+    const emoji =
+      guild.emojis.find((emoji) => emoji.name === (options?.[1].value as string | undefined)) ??
+      bot.transformers.emoji(bot, { name: options?.[1].value as string });
+
     const starboard = await getStarboard(getCollection(db), guild.id);
 
     if (count < 1) {
@@ -65,7 +66,7 @@ createCommand({
 
     if (!starboard) {
       // set a new starboard
-      await setStarboard(getCollection(db), guild.id, channel.id, emoji?.id, count);
+      await setStarboard(getCollection(db), guild.id, channel.id, emoji?.id ?? emoji.name, count);
 
       const newStarboard = await getStarboard(getCollection(db), guild.id);
 

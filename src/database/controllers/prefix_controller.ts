@@ -8,9 +8,12 @@ export function getCollection(db: Database) {
 }
 
 export function getPrefix(collection: Collection, id: bigint) {
-  return collection.findOne({ server: id.toString() }, {
-    noCursorTimeout: false,
-  });
+  return collection.findOne(
+    { server: id.toString() },
+    {
+      noCursorTimeout: false,
+    }
+  );
 }
 
 export function addPrefix(collection: Collection, id: bigint, prefix: string) {

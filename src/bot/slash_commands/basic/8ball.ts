@@ -3,6 +3,7 @@ import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
 const rpts = <const>["Sí", "No", "Tal vez", "No sé", "¡Claro!", "Podría ser", "Es poco probable", "Quizás"];
+const name = <const>`${rpts.length}ball`;
 
 createCommand({
   meta: {
@@ -28,7 +29,7 @@ createCommand({
     }
   },
   data: new ChatInputApplicationCommandBuilder()
-    .setName(`${rpts.length}ball`)
+    .setName(name)
     .setDescription("Responde al usuario con una pregunta de sí/no")
     .addStringOption((o) => o.setName("question").setDescription("🎱 Question ").setRequired(true))
     .toJSON(),

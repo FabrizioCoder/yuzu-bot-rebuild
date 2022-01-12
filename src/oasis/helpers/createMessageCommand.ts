@@ -1,4 +1,4 @@
-import type { CreateCommand, FinalCommand, MessageCommandContext } from "../types/command.ts";
+import type { CreateCommand, Command, MessageCommandContext } from "../types/command.ts";
 import type { Embed } from "discordeno";
 
 import { commands } from "../cache.ts";
@@ -8,7 +8,7 @@ export function createMessageCommand(
     execute(ctx: MessageCommandContext): string | Embed | undefined | Promise<string | Embed | void>;
   }
 ) {
-  const created: FinalCommand<false> = {
+  const created: Command<false> = {
     data: {
       name: o.name,
     },

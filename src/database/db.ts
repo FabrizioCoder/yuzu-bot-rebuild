@@ -3,7 +3,7 @@ import { MongoClient } from "mongo";
 
 import "dotenv/load";
 
-let db: Database | undefined;
+let db: Database | undefined = undefined;
 
 async function startDatabase() {
   if (!db) {
