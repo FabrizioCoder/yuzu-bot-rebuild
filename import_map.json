@@ -2,7 +2,6 @@
   "imports": {
     "/": "./",
     "./": "./",
-    "axiod": "https://deno.land/x/axiod@0.23.1/mod.ts",
     "path": "https://deno.land/std@0.119.0/path/mod.ts",
     "fmt/colors": "https://deno.land/std@0.119.0/fmt/colors.ts",
     "fmt/printf": "https://deno.land/std@0.119.0/fmt/printf.ts",

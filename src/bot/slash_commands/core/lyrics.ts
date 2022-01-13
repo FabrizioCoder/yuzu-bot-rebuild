@@ -3,7 +3,6 @@
 import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
-import { default as f } from "axiod";
 
 interface Song {
   lyrics: string;
@@ -31,9 +30,11 @@ createCommand({
       return;
     }
 
-    const { data } = await f.get<Song>(`https://some-random-api.ml/lyrics/?title=${option.value as string}`);
+    const data: Song | undefined = await fetch(`https://some-random-api.ml/lyrics/?title=${option.value}`).then((a) =>
+      a.json()
+    );
 
-    if (!data || "error" in data) {
+    if (!data) {
       return "No pude encontrar esa canción";
     }
 

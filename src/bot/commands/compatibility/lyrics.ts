@@ -2,7 +2,6 @@
 
 import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
-import { default as f } from "axiod";
 
 /* data for the api */
 interface Song {
@@ -31,9 +30,11 @@ createMessageCommand({
 
     if (!option) return;
 
-    const { data } = await f.get<Song>(`https://some-random-api.ml/lyrics/?title=${option}`);
+    const data: Song | undefined = await fetch(`https://some-random-api.ml/lyrics/?title=${option}`).then((a) =>
+      a.json()
+    );
 
-    if (!data || "error" in data) {
+    if (!data) {
       return "No pude encontrar esa canción";
     }
 

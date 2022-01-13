@@ -2,11 +2,10 @@ import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
 import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Api, Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
-import { default as f } from "axiod";
 
 async function getPokemonFromApi(pokemon: string | number) {
   try {
-    const { data } = await f.get<Pokemon>(`${Api.PokeApi}/pokemon/${pokemon}`);
+    const data: Pokemon | undefined = await fetch(`${Api.PokeApi}/pokemon/${pokemon}`).then((a) => a.json());
 
     return Promise.resolve(data);
   } catch {

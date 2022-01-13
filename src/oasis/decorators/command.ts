@@ -1,7 +1,7 @@
 import type { CreateCommand } from "../types/command.ts";
 import { ApplicationCommandTypes } from "discordeno";
 
-export function Command(o: CreateCommand) {
+export function SetCommand(o: CreateCommand) {
   return function (target: Function) {
     (target as any).data = { ...o.data };
     (target as any).data.name = o.name;
