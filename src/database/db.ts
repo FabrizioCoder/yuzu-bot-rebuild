@@ -6,9 +6,11 @@ import "dotenv/load";
 let db: Database | undefined = undefined;
 
 async function startDatabase() {
-  if (!db) {
+  const secret = Deno.env.get("DB");
+
+  if (!db && secret) {
     const client = new MongoClient();
-    await client.connect(Deno.env.get("DB")!);
+    await client.connect(secret);
 
     db = client.database("azucluster");
   }

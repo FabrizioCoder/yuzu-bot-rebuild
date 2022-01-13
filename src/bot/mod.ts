@@ -7,7 +7,7 @@ import { startDatabase } from "../database/db.ts";
 
 import "dotenv/load";
 
-const folders = ["slash_commands", "commands", "events", "tasks", "monitors"];
+const folders = ["slash_commands", "commands", "events", "tasks", "monitors"] as const;
 
 for (const folder of folders) {
   await load("./src/bot", folder);
@@ -22,7 +22,7 @@ const bot = createBot({
     // transforms a Map<string, T> into a Record<string, T["execute"]>
     Array.from(cache.events.entries(), ([name, event]) => [name, event.execute])
   ),
-  token: Deno.env.get("TOKEN") ?? Configuration.TOKEN,
+  token: Deno.args[1] ?? Deno.env.get("TOKEN") ?? Configuration.TOKEN,
 });
 
 // start the bot
