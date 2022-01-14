@@ -158,6 +158,7 @@ createCommand({
         filter: (_, user) => user?.id === interaction.user.id,
       })
         .then(async (button) => {
+          if (button.user?.id !== interaction.user.id) return;
           switch (button.customId) {
             case "back": {
               if (acc > 0) acc--;
