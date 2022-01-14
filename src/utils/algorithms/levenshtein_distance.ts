@@ -1,6 +1,7 @@
 // type alias for empty strings
 
 export type EmptyString = "";
+export type NonNegativeNumber = number;
 
 // use this functions for more readability
 
@@ -12,7 +13,7 @@ function empty(x: ArrayLike<unknown>) {
   return x.length === 0;
 }
 
-export function compareDistance(a: EmptyString | string, b: EmptyString | string): number {
+export function compareDistance(a: EmptyString | string, b: EmptyString | string): NonNegativeNumber {
   if (empty(a) && b) {
     return b.length;
   }

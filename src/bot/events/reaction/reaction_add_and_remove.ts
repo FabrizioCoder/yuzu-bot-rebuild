@@ -29,6 +29,7 @@ const execute: Execute = async function (bot, { channelId, guildId, messageId })
 
     if (response) {
       await deleteMessage(bot, response.channelId, response.id);
+      cache.alreadySendedInStarboard.delete(messageId);
       return;
     }
   }
