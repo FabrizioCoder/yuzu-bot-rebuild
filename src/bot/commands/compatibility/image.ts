@@ -81,7 +81,7 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
 ];
 
 createMessageCommand({
-  names: ["image", "img", "im", "i"],
+  names: ["image", "im", "i"],
   meta: {
     // help command ignore this
     descr: "Busca imágenes en internet",
