@@ -90,7 +90,7 @@ createMessageCommand({
   },
   category: Category.Util,
   async execute({ bot, message, args: { args } }) {
-    const option = args[0];
+    const option = args.join(" ");
 
     if (!option) {
       return "Por favor escribe un texto";
