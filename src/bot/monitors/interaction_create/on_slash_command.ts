@@ -1,7 +1,6 @@
 import type { BotWithCache } from "cache_plugin";
 import { cache, createMonitor } from "oasis";
-import { Configuration } from "utils";
-import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse, sendMessage } from "discordeno";
+import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
 
 createMonitor({
@@ -45,13 +44,6 @@ createMonitor({
     }
 
     // END CHECKS
-
-    await sendMessage(bot, Configuration.CHANNEL_ID, {
-      content:
-        `Comando ${command.data.name} ejecutado por ${interaction.user.username}${interaction.user.discriminator} ` +
-        `en el ${interaction.guildId ? "servidor" : "dm"} ${interaction.guildId ?? interaction.channelId}`,
-    });
-
     const output = await command.execute({ bot: bot as BotWithCache, interaction });
 
     // PERMISSIONS

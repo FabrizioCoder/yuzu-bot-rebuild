@@ -1,4 +1,4 @@
-import { Api, Category, DiscordColors, userMention } from "../constants.ts";
+import { Api, Category, DiscordColors } from "../constants.ts";
 import { cache } from "oasis";
 import { createCommand, createMessageCommand, MessageEmbed } from "oasis";
 import { ApplicationCommandTypes, ApplicationCommandOptionTypes, getUser } from "discordeno";
@@ -116,10 +116,15 @@ function setMessageCommands(cmds: Map<string, unknown>) {
           const data = (await fetch(Api.Nekos + endpoint).then((a) => a.json())) as Image | undefined;
 
           // options
-          const search = args.join(" ").match(userMention);
+          const rawMention = args.join(" ");
+          const search = rawMention?.match(/\d{18}/gi)?.[0];
+
+          if (!search) {
+            return "Menciona a alguien";
+          }
 
           // get the user
-          const userId = BigInt(search?.[0]?.match(/\d{18}/gi)?.[0]!);
+          const userId = BigInt(search);
           const user = bot.users.get(userId) ?? (await getUser(bot, userId));
 
           if (!data) {

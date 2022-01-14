@@ -1,8 +1,9 @@
 import type { EventHandlers } from "discordeno";
+import type { BotWithCache as _ } from "cache_plugin";
 
 type Values<T> = T[keyof T];
 
-type Variants<Dictionary extends EventHandlers> = Values<
+type Variants<Dictionary extends Omit<EventHandlers, "debug">> = Values<
   {
     [Prop in keyof Dictionary]: {
       name: string;
@@ -14,4 +15,4 @@ type Variants<Dictionary extends EventHandlers> = Values<
   }
 >;
 
-export type Monitor = Variants<EventHandlers>;
+export type Monitor = Variants<Omit<EventHandlers, "debug">>;
