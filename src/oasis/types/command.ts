@@ -32,7 +32,7 @@ export interface MessageCommandContext {
 }
 
 export interface MessageCommand {
-  data: { name: string };
+  names: string[];
   category: number;
 }
 

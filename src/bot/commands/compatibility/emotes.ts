@@ -4,7 +4,7 @@ import { createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
 import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";
 
 createMessageCommand({
-  name: "emotes",
+  names: ["emotes", "emojis"],
   isGuildOnly: true,
   meta: {
     descr: "Muestra, añade y remueve emotes",

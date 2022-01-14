@@ -3,7 +3,7 @@ import { Category } from "utils";
 import { upsertApplicationCommands, sendMessage } from "discordeno";
 
 createMessageCommand({
-  name: "reload",
+  names: ["reload"],
   isGuildOnly: true,
   isAdminOnly: true,
   meta: {

@@ -43,7 +43,7 @@ createMonitor({
       return;
     }
 
-    const command = cache.commands.get(name);
+    const command = cache.commands.get(name) ?? cache.commands.get(cache.aliases.get(name) ?? "None");
 
     // CHECKS
 

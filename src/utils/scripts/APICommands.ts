@@ -110,7 +110,7 @@ function setMessageCommands(cmds: Map<string, unknown>) {
           usage: "[@User]",
         },
         category: Category.Interaction,
-        name: commandName,
+        names: [commandName],
         async execute({ bot, message, args: { args } }) {
           type Image = { url: string };
           const data = (await fetch(Api.Nekos + endpoint).then((a) => a.json())) as Image | undefined;

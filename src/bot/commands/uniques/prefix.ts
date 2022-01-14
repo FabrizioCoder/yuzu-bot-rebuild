@@ -5,7 +5,7 @@ import { addPrefix, editPrefix, getCollection, getPrefix } from "../../../databa
 import { db } from "../../../database/db.ts";
 
 createMessageCommand({
-  name: "prefix",
+  names: ["prefix", "setprefix"],
   isGuildOnly: true,
   meta: {
     descr: "Actualiza el prefix del servidor",

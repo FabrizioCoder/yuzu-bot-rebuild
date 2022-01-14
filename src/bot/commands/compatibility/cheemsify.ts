@@ -2,7 +2,7 @@ import { createMessageCommand } from "oasis";
 import { Category, cheemsify } from "utils";
 
 createMessageCommand({
-  name: "cheemsify",
+  names: ["cheemsify", "cheemsificar"],
   meta: {
     descr: "Conviertem un temxtom am imdiomam cheems",
     short: "Conviertem un temxtom am imdiomam cheems",

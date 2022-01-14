@@ -3,7 +3,7 @@ import { Category, DiscordColors, snowflakeToTimestamp, toCapitalCase } from "ut
 import { avatarURL, getUser } from "discordeno";
 
 createMessageCommand({
-  name: "botinfo",
+  names: ["info", "botinfo"],
   category: Category.Info,
   meta: {
     descr: "Estadísticas para nerds",

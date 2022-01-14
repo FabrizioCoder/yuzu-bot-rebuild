@@ -4,7 +4,7 @@ import { Category, CategoryEmoji, DiscordColors } from "utils";
 import { avatarURL, getUser, MessageComponentTypes, sendMessage } from "discordeno";
 
 createMessageCommand({
-  name: "help",
+  names: ["help"],
   isGuildOnly: true,
   meta: {
     descr: "📕 Ayuda del bot...",

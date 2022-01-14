@@ -3,7 +3,7 @@ import { cache, Category, randomHex } from "utils";
 import { avatarURL, sendMessage, getUser } from "discordeno";
 
 createMessageCommand({
-  name: "snipe",
+  names: ["snipe"],
   category: Category.Util,
   meta: {
     descr: "Busca el último mensaje eliminado en el canal",

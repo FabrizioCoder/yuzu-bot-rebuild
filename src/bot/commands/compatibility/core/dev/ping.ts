@@ -3,7 +3,7 @@ import { Category } from "utils";
 
 createMessageCommand({
   isAdminOnly: true,
-  name: "ping",
+  names: ["ping"],
   category: Category.Owner,
   execute({ message }) {
     return `Pong! ${message.tag}`;

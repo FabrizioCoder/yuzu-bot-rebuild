@@ -4,7 +4,7 @@ import { sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";
 
 createMessageCommand({
-  name: "paste",
+  names: ["paste"],
   category: Category.Info,
   meta: {
     descr: "pokepast.es wrapper",

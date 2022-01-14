@@ -11,6 +11,7 @@ export const slashCommands: Collection<string, Command> = new Collection();
 
 // regular commands
 export const commands: Collection<string, Command<false>> = new Collection();
+export const aliases: Collection<string, string> = new Collection();
 
 // events
 export const events: Collection<string, Event> = new Collection();

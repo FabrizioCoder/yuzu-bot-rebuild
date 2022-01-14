@@ -2,7 +2,7 @@ import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, DiscordColors } from "utils";
 
 createMessageCommand({
-  name: "eval",
+  names: ["eval"],
   isGuildOnly: false,
   isAdminOnly: true,
   category: Category.Owner,

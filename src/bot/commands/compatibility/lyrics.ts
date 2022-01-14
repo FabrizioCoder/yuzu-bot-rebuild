@@ -18,7 +18,7 @@ interface Song {
 }
 
 createMessageCommand({
-  name: "lyrics",
+  names: ["lyrics", "song"],
   meta: {
     descr: "Busca letras de canciones",
     short: "Busca letras de canciones",

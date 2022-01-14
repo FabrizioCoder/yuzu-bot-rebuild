@@ -1,15 +1,17 @@
 // type alias for empty strings
 
-export type EmptyString = "";
-export type NonNegativeNumber = number;
+type EmptyString = "";
+type EmptyArray = [];
+type NonNegativeNumber = number;
 
 // use this functions for more readability
-
 function equal(a: unknown, b: unknown): boolean {
   return a === b;
 }
 
-function empty(x: ArrayLike<unknown>) {
+function empty(x: string): x is EmptyString;
+function empty(x: unknown[]): x is EmptyArray;
+function empty(x: ArrayLike<unknown>): x is EmptyString | EmptyArray {
   return x.length === 0;
 }
 

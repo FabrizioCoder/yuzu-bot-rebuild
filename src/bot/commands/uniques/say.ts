@@ -3,7 +3,7 @@ import { Category, isInvite } from "utils";
 import { deleteMessage } from "discordeno";
 
 createMessageCommand({
-  name: "say",
+  names: ["say", "shadowsay", "esay"],
   meta: {
     descr: "Hace que el bot diga algo muy malo",
     short: "Escribir el mensaje del bot",

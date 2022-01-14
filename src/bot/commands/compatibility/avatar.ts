@@ -3,7 +3,7 @@ import { avatarURL, getUser } from "discordeno";
 import { Category, DiscordColors } from "utils";
 
 createMessageCommand({
-  name: "avatar",
+  names: ["avatar", "pfp", "avy", "profilepicture"],
   meta: {
     descr: "Busca el avatar de un usuario",
     short: "Busca avatares",

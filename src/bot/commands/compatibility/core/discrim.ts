@@ -2,7 +2,7 @@ import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
 
 createMessageCommand({
-  name: "discrim",
+  names: ["discrim"],
   meta: {
     descr: "Encuentra a usuarios con el mismo tag",
     short: "Encuentra a usuarios con el mismo tag",

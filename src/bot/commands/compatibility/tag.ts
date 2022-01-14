@@ -25,7 +25,7 @@ enum Arguments {
 }
 
 createMessageCommand({
-  name: "t",
+  names: ["tag", "t"],
   isGuildOnly: true,
   meta: {
     descr: "Crea, edita, borra o modifica tags",
