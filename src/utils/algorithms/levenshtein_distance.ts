@@ -1,21 +1,33 @@
-// type alias for empty strings
-
 type EmptyString = "";
 type EmptyArray = [];
-type NonNegativeNumber = number;
 
-// use this functions for more readability
-function equal(a: unknown, b: unknown): boolean {
-  return a === b;
-}
-
-function empty(x: string): x is EmptyString;
 function empty(x: unknown[]): x is EmptyArray;
-function empty(x: ArrayLike<unknown>): x is EmptyString | EmptyArray {
+function empty(x: string): x is EmptyString;
+function empty(x: ArrayLike<unknown>) {
   return x.length === 0;
 }
 
-export function compareDistance(a: EmptyString | string, b: EmptyString | string): NonNegativeNumber {
+function tail<T>(list: T[]): T[];
+function tail(list: string): string;
+function tail(list: unknown[]): unknown[];
+function tail(list: unknown[] | string) {
+  return list.slice(1);
+}
+
+function head<T>(list: T[]): T;
+function head(list: string): string;
+function head(list: unknown[]): unknown;
+function head(list: unknown[] | string) {
+  return list.at(0);
+}
+
+function substractPattern(str: string) {
+  return [head(str), tail(str)];
+}
+
+type NonNegativeNumber = number;
+
+export function compareDistance(a: string, b: string): NonNegativeNumber {
   if (empty(a) && b) {
     return b.length;
   }
@@ -24,12 +36,12 @@ export function compareDistance(a: EmptyString | string, b: EmptyString | string
     return a.length;
   }
 
-  if (equal(a, b)) {
+  const [first1, rest1] = substractPattern(a);
+  const [first2, rest2] = substractPattern(b);
+
+  if (a === b) {
     return 0;
   }
-
-  const [first1, rest1] = [a[0], a.slice(1)];
-  const [first2, rest2] = [b[0], b.slice(1)];
 
   if (first1 === first2) {
     const result = compareDistance(rest1, rest2);
