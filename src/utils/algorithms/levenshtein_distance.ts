@@ -36,12 +36,12 @@ export function compareDistance(a: string, b: string): NonNegativeNumber {
     return a.length;
   }
 
-  const [first1, rest1] = substractPattern(a);
-  const [first2, rest2] = substractPattern(b);
-
   if (a === b) {
     return 0;
   }
+
+  const [first1, rest1] = substractPattern(a);
+  const [first2, rest2] = substractPattern(b);
 
   if (first1 === first2) {
     const result = compareDistance(rest1, rest2);
