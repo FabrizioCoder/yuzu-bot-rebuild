@@ -147,7 +147,6 @@ createMessageCommand({
         filter: (_, user) => user?.id === message.authorId,
       })
         .then(async (button) => {
-          if (button.user?.id !== message.authorId) return;
           switch (button.customId) {
             case "back": {
               if (acc > 0) acc--;

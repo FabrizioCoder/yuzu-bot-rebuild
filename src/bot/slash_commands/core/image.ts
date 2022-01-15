@@ -155,10 +155,16 @@ createCommand({
       needButton(sendedMessageAuthorId, sendedMessageId, {
         duration: time,
         amount: 1,
-        filter: (_, user) => user?.id === interaction.user.id,
       })
         .then(async (button) => {
-          if (button.user?.id !== interaction.user.id) return;
+          if (button.user?.id !== interaction.user.id) {
+            await sendInteractionResponse(bot, interaction.id, interaction.token, {
+              type: InteractionResponseTypes.ChannelMessageWithSource,
+              private: true,
+              data: { content: "No puedes tocar ese botón!" },
+            });
+          }
+
           switch (button.customId) {
             case "back": {
               if (acc > 0) acc--;
