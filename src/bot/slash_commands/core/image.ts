@@ -163,6 +163,7 @@ createCommand({
               private: true,
               data: { content: "No puedes tocar ese botón!" },
             });
+            return;
           }
 
           switch (button.customId) {
