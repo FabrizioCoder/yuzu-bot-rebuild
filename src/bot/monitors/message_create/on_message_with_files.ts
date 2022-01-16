@@ -7,11 +7,14 @@ createMonitor({
   isGuildOnly: true,
   ignoreBots: false,
   execute(_bot, message) {
-    const hasFile = message.attachments.length > 0;
+    const hasFile = message.attachments.length > 0 || message.embeds.some((e) => e.image);
 
     if (hasFile) {
       cache.lastAttachments.delete(message.channelId);
-      cache.lastAttachments.set(message.channelId, message.attachments);
+      cache.lastAttachments.set(
+        message.channelId,
+        message.attachments.map((a) => a.url) ?? message.embeds.map((e) => e.image?.url)
+      );
     }
   },
 });

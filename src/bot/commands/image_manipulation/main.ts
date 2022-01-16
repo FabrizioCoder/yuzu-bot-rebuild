@@ -25,7 +25,7 @@ createMessageCommand({
   },
   category: Category.Image,
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
     const overlay = await fetch(Overlay.Israel)
       .then((i) => i.arrayBuffer())
@@ -37,13 +37,13 @@ createMessageCommand({
       user = bot.users.get(message.mentionedUserIds[0]) ?? (await getUser(bot, message.mentionedUserIds[0]));
     }
 
-    if (!user && !attachment) {
+    if (!user && !attachmentUrl) {
       return "Image not found in channel! try to mention a user";
     }
 
     const attachmentOrAvatar = user
       ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
-      : attachment!.url;
+      : attachmentUrl!;
 
     const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
       i.composite(overlay.opacity(0.5).cover(i.width, i.height));
@@ -65,7 +65,7 @@ createMessageCommand({
   },
   category: Category.Image,
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
     const overlay = await fetch(Overlay.Trans)
       .then((i) => i.arrayBuffer())
@@ -77,13 +77,13 @@ createMessageCommand({
       user = bot.users.get(message.mentionedUserIds[0]) ?? (await getUser(bot, message.mentionedUserIds[0]));
     }
 
-    if (!user && !attachment) {
+    if (!user && !attachmentUrl) {
       return "Image not found in channel! try to mention a user";
     }
 
     const attachmentOrAvatar = user
       ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
-      : attachment!.url;
+      : attachmentUrl!;
 
     const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
       i.composite(overlay.opacity(0.5).cover(i.width, i.height));
@@ -105,7 +105,7 @@ createMessageCommand({
   },
   category: Category.Image,
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
     const overlay = await fetch(Overlay.Ussr)
       .then((i) => i.arrayBuffer())
@@ -117,13 +117,13 @@ createMessageCommand({
       user = bot.users.get(message.mentionedUserIds[0]) ?? (await getUser(bot, message.mentionedUserIds[0]));
     }
 
-    if (!user && !attachment) {
+    if (!user && !attachmentUrl) {
       return "Image not found in channel! try to mention a user";
     }
 
     const attachmentOrAvatar = user
       ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
-      : attachment!.url;
+      : attachmentUrl!;
 
     const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
       i.composite(overlay.opacity(0.5).cover(i.width, i.height));
@@ -145,7 +145,7 @@ createMessageCommand({
   },
   category: Category.Image,
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
     const overlay = await fetch(Overlay.Lgbt)
       .then((i) => i.arrayBuffer())
@@ -157,13 +157,13 @@ createMessageCommand({
       user = bot.users.get(message.mentionedUserIds[0]) ?? (await getUser(bot, message.mentionedUserIds[0]));
     }
 
-    if (!user && !attachment) {
+    if (!user && !attachmentUrl) {
       return "Image not found in channel! try to mention a user";
     }
 
     const attachmentOrAvatar = user
       ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
-      : attachment!.url;
+      : attachmentUrl!;
 
     const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
       i.composite(overlay.opacity(0.5).cover(i.width, i.height));
@@ -185,11 +185,11 @@ createMessageCommand({
     usage: "rotate [last attachment on the channel]",
   },
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
-    if (!attachment) return "Image not found in channel!";
+    if (!attachmentUrl) return "Image not found in channel!";
 
-    const compressed = await decodeFromUrl(attachment.url, (i) => {
+    const compressed = await decodeFromUrl(attachmentUrl, (i) => {
       i.rotate(90);
       return i.encode();
     });
@@ -209,13 +209,13 @@ createMessageCommand({
     usage: "blur [last attachment on the channel]",
   },
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
-    if (!attachment) return "Image not found in channel!";
+    if (!attachmentUrl) return "Image not found in channel!";
 
     const strength = 2;
 
-    const compressed = await decodeFromUrl(attachment.url, (i) => {
+    const compressed = await decodeFromUrl(attachmentUrl, (i) => {
       i.opacity(1 / (2 * strength), true);
       for (let y = -strength; y <= strength; y += 2) {
         for (let x = -strength; x <= strength; x += 2) {
@@ -245,13 +245,13 @@ createMessageCommand({
     usage: "circleblur [last attachment on the channel]",
   },
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
-    if (!attachment) return "Image not found in channel!";
+    if (!attachmentUrl) return "Image not found in channel!";
 
     const strength = 1;
 
-    const compressed = await decodeFromUrl(attachment.url, (i) => {
+    const compressed = await decodeFromUrl(attachmentUrl, (i) => {
       i.opacity(1 / (2 * strength), true);
 
       i.composite(i.clone().opacity(0.3).rotate(5, false) as Image);
@@ -281,11 +281,11 @@ createMessageCommand({
     usage: "invertvalue [last attachment on the channel]",
   },
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
-    if (!attachment) return "Image not found in channel!";
+    if (!attachmentUrl) return "Image not found in channel!";
 
-    const compressed = await decodeFromUrl(attachment.url, (i) => {
+    const compressed = await decodeFromUrl(attachmentUrl, (i) => {
       i.invertValue();
       return i.encode();
     });
@@ -305,11 +305,11 @@ createMessageCommand({
     usage: "invert [last attachment on the channel]",
   },
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
-    if (!attachment) return "Image not found in channel!";
+    if (!attachmentUrl) return "Image not found in channel!";
 
-    const compressed = await decodeFromUrl(attachment.url, (i) => {
+    const compressed = await decodeFromUrl(attachmentUrl, (i) => {
       i.invert();
       return i.encode();
     });
@@ -329,11 +329,11 @@ createMessageCommand({
     usage: "size [last attachment on the channel]",
   },
   async execute({ bot, message }) {
-    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
 
-    if (!attachment) return "Image not found in channel!";
+    if (!attachmentUrl) return "Image not found in channel!";
 
-    const image = await Image.decode(await fetch(attachment.url).then((i) => i.arrayBuffer()));
+    const image = await Image.decode(await fetch(attachmentUrl).then((i) => i.arrayBuffer()));
 
     const { embed } = new MessageEmbed()
       .thumbnail("attachment://img.png")

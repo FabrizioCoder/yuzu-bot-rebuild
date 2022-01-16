@@ -72,7 +72,7 @@ createMonitor({
 
       if (entry) {
         await sendMessage(bot, message.channelId, {
-          content: `That command doesn't exist! 🔒 did you mean \`${entry[0]}\`?`,
+          content: `That command doesn't exist! \🔒 did you mean \`${entry[0]}\`?`,
         });
         fxd.clear();
       }
