@@ -18,6 +18,7 @@ export function createMessageCommand(
     meta: { ...o.meta },
     category: o.category,
     execute: o.execute,
+    translated: o.translated,
   };
   commands.set(o.names[0], created);
 

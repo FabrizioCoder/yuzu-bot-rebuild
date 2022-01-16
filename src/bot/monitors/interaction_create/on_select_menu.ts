@@ -30,16 +30,16 @@ createMonitor({
           const resolvedPrefix = "description" in data ? "/" : "!";
           const resolvedDescription = "description" in data ? meta?.descr ?? data.description : meta.descr;
 
-          const translatedDescription = await translate(
-            bot as BotWithCache,
-            `${resolvedDescription}`,
-            interaction.guildId
-          );
+          const translatedDescription = await translate(bot as BotWithCache, resolvedDescription!, interaction.guildId);
 
           return `\`${resolvedPrefix}${data.name}\` -> ${translated ? translatedDescription : resolvedDescription}`;
         });
 
-        baseEmbed.title = String.raw`Información del comando 💣`;
+        baseEmbed.title = String.raw`${await translate(
+          bot as BotWithCache,
+          "strings:HELP_COMMAND:EMBED_TITLE",
+          interaction.guildId
+        )}`;
         baseEmbed.fields = [
           {
             name: await translate(bot as BotWithCache, "strings:HELP_COMMAND:CATEGORY", interaction.guildId),
@@ -48,8 +48,8 @@ createMonitor({
             }),
           },
           {
-            name: await translate(bot as BotWithCache, "stirngs:HELP_COMMAND:COMMANDS", interaction.guildId),
-            value: commandPairs.join("\n"),
+            name: await translate(bot as BotWithCache, "strings:HELP_COMMAND:COMMANDS", interaction.guildId),
+            value: (await Promise.all(commandPairs)).join("\n"),
           },
         ];
 

@@ -70,5 +70,10 @@
     "CANNOT_TOUCH_BUTTON": "You cannot touch that button!",
     "NOT_IN_RESULTS": "Page not in results",
     "ASK_FOR_PAGE": "Send a message beetween 0 and {{limit}}"
+  },
+  "display": {
+    "DESCRIPTION": "Pokepast.es wrapper!",
+    "USAGE": "display [--mobile] <link>",
+    "ON_MISSING_LINK": "Link not found"
   }
 }

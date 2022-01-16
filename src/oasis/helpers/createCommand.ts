@@ -16,6 +16,7 @@ export function createCommand(
     meta: { ...o.meta },
     category: o.category,
     execute: o.execute,
+    translated: o.translated,
   };
   slashCommands.set(created.data.name!, created);
   return created;

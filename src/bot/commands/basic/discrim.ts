@@ -42,8 +42,8 @@ createCommand({
 createMessageCommand({
   names: ["discrim"],
   meta: {
-    descr: "discrim:DESCRIPTION",
-    usage: "discrim:USAGE",
+    descr: "commands:discrim:DESCRIPTION",
+    usage: "commands:discrim:USAGE",
   },
   category: Category.Util,
   translated: true,
@@ -56,9 +56,12 @@ createMessageCommand({
 
     const { embed } = new MessageEmbed()
       .color(randomHex())
-      .description(users.join(", ") ?? "discrim:NO_RESULTS")
+      .description(users.join(", ") ?? "commands:discrim:NO_RESULTS")
       .footer(
-        await translate(bot, "discrim:EMBED_FOOTER", message.guildId, { count: users.length, tag: discriminator })
+        await translate(bot, "commands:discrim:EMBED_FOOTER", message.guildId, {
+          count: users.length,
+          tag: discriminator,
+        })
       );
     return embed;
   },

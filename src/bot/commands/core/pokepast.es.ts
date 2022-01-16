@@ -1,13 +1,12 @@
-import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
+import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category } from "utils";
 import { sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";
 
 createCommand({
   meta: {
-    descr: "pokepast.es wrapper",
-    short: "pokepast.es wrapper",
-    usage: "<Link>",
+    descr: "commands:display:DESCRIPTION",
+    usage: "commands:display:USAGE",
   },
   category: Category.Info,
   async execute({ bot, interaction }) {
@@ -20,7 +19,7 @@ createCommand({
     const pasteId = idRegex.exec(link?.value as string)?.[1];
 
     if (!pasteId) {
-      return "Link no encontrado";
+      return "commands:display:ON_MISSING_LINK";
     }
 
     const { paste } = await getRawPaste(pasteId);
@@ -43,4 +42,39 @@ createCommand({
     .addStringOption((o) => o.setName("link").setDescription("Link from https://pokepast.es/").setRequired(true))
     .addBooleanOption((o) => o.setName("plaintext").setDescription("To send in plain text or inside a file"))
     .toJSON(),
+});
+
+createMessageCommand({
+  names: ["paste"],
+  category: Category.Info,
+  meta: {
+    descr: "commands:display:DESCRIPTION",
+    usage: "commands:display:USAGE",
+  },
+  async execute({ bot, message, args: { args } }) {
+    const [first, second] = args;
+
+    const hasMobileFlag = first === "--mobile" || first === "-m";
+    const link = hasMobileFlag ? second : first;
+    const idRegex = new RegExp("(?:.es/)(.+)", "g");
+    const pasteId = idRegex.exec(link)?.[1];
+
+    if (!pasteId) {
+      return "commands:display:ON_MISSING_LINK";
+    }
+
+    const { paste } = await getRawPaste(pasteId);
+
+    if (hasMobileFlag) {
+      await sendMessage(bot, message.channelId, {
+        content: `\`\`\`md\n${paste}\`\`\``,
+      });
+    } else {
+      const file = new Blob([paste], { type: "text/plain" });
+
+      await sendMessage(bot, message.channelId, {
+        file: [{ blob: file, name: "Pokepaste.md" }],
+      });
+    }
+  },
 });

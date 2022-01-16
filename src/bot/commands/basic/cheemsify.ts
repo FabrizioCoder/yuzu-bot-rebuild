@@ -57,8 +57,8 @@ createMessageCommand({
 
 createCommand({
   meta: {
-    descr: "cheems:DESCRIPTION",
-    usage: "cheems:USAGE",
+    descr: "commands:cheems:DESCRIPTION",
+    usage: "commands:cheems:USAGE",
   },
   category: Category.Fun,
   translated: true,
@@ -66,7 +66,7 @@ createCommand({
     const message = interaction.data?.resolved?.messages?.first();
 
     if (!message) {
-      return "cheems:ON_MISSING_TEXT";
+      return "commands:cheems:ON_MISSING_TEXT";
     }
 
     return cheemsify(message.content);

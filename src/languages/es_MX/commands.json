@@ -70,5 +70,10 @@
     "CANNOT_TOUCH_BUTTON": "No puedes tocar ese botón!",
     "NOT_IN_RESULTS": "El número específicado no se encuentra en los resultados",
     "ASK_FOR_PAGE": "Envía un mensaje entre 0 y {{limit}}"
+  },
+  "display": {
+    "DESCRIPTION": "Wrapper de pokepast.es!",
+    "USAGE": "display [--mobile] <link>",
+    "ON_MISSING_LINK": "Link no encontrado"
   }
 }
