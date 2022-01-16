@@ -9,7 +9,6 @@ createMessageCommand({
   isGuildOnly: true,
   meta: {
     descr: "Set a language",
-    short: "Set a language",
     usage: "lang [es | en]",
   },
   async execute({ message, args: { args } }) {

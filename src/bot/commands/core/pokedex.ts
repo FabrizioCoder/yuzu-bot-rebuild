@@ -96,6 +96,7 @@ createMessageCommand({
     usage: "commands:pokedex:USAGE",
   },
   category: Category.Util,
+  translated: true,
   async execute({ bot, message, args: { args } }) {
     const option = args.join(" ");
 

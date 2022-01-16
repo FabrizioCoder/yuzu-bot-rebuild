@@ -40,7 +40,6 @@ function setInteractionCommands(cmds: Map<string, unknown>) {
         isGuildOnly: false,
         meta: {
           descr: getActionFromCommandName(commandName),
-          short: getActionFromCommandName(commandName),
           usage: "[@User]",
         },
         category: Category.Interaction,
@@ -57,6 +56,7 @@ function setInteractionCommands(cmds: Map<string, unknown>) {
             },
           ],
         },
+        translated: false,
         async execute({ bot, interaction }) {
           type Image = { url: string };
           const data = (await fetch(Api.Nekos + endpoint).then((a) => a.json())) as Image | undefined;
@@ -106,11 +106,11 @@ function setMessageCommands(cmds: Map<string, unknown>) {
         isGuildOnly: false,
         meta: {
           descr: getActionFromCommandName(commandName),
-          short: getActionFromCommandName(commandName),
           usage: "[@User]",
         },
         category: Category.Interaction,
         names: [commandName],
+        translated: false,
         async execute({ bot, message, args: { args } }) {
           type Image = { url: string };
           const data = (await fetch(Api.Nekos + endpoint).then((a) => a.json())) as Image | undefined;
