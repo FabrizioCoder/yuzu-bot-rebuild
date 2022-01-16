@@ -1,20 +1,20 @@
 import type { SelectMenuComponent } from "discordeno";
 import { cache, createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
-import { Category, CategoryEmoji, DiscordColors } from "utils";
+import { Category, CategoryEmoji, DiscordColors, translate } from "utils";
 import { avatarURL, InteractionResponseTypes, MessageComponentTypes, sendInteractionResponse } from "discordeno";
 
 createCommand({
   meta: {
-    descr: "\\📕 Ayuda del bot...",
-    short: "\\📕 Ayuda del bot",
-    usage: "...",
+    descr: "commands:help:DESCRIPTION",
+    usage: "commands:help:USAGE",
   },
   category: Category.Info,
+  translated: true,
   async execute({ bot, interaction }) {
     const menu: SelectMenuComponent = {
       type: MessageComponentTypes.SelectMenu,
       customId: "menu",
-      placeholder: "Nada seleccionado 📕📗📘",
+      placeholder: await translate(bot, "commands:help:PLACEHOLDER", interaction.guildId),
       options: Array.from(Object.entries(Category))
         .filter(([k]) => k !== "Admin")
         .filter(([k]) => CategoryEmoji[`:category_${k.toLowerCase()}:` as keyof typeof CategoryEmoji])
@@ -42,7 +42,11 @@ createCommand({
       .color(DiscordColors.Blurple)
       .author(interaction.user.username, avatar)
       .thumbnail(avatar)
-      .description(`${cache.slashCommands.size + cache.commands.size} comandos`)
+      .description(
+        await translate(bot, "commands:help:COMMANDS_LENGTH", interaction.guildId, {
+          count: cache.slashCommands.size + cache.commands.size,
+        })
+      )
       .footer(`${interaction.user.id} <> Required [] Optional`, avatar);
 
     await sendInteractionResponse(bot, interaction.id, interaction.token, {

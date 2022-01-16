@@ -4,11 +4,11 @@ import { SafetyLevels, search } from "images";
 
 createCommand({
   meta: {
-    descr: "Click encima de un mensaje para buscar una imagen",
-    short: "Click encima de un mensaje",
-    usage: "<Input>",
+    descr: "commands:search:DESCRIPTION",
+    usage: "commands:search:USAGE",
   },
   category: Category.Util,
+  translated: true,
   async execute({ interaction }) {
     const message = interaction.data?.resolved?.messages?.first();
 

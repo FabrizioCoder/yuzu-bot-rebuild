@@ -1,8 +1,74 @@
 {
   "avatar": {
     "DESCRIPTION": "Searches for a user's avatar",
+    "USAGE": "avatar [@Mention]",
     "ON_MISSING_USER": "The users doesn't exist",
     "EMBED_TITLE": "Requested by {{mention}}",
     "EMBED_DESCRIPTION": "[Reference](https://www.google.com/searchbyimage?image_url={{avatar}})\n[Avatar URL]({{avatar}})"
+  },
+  "8ball": {
+    "DESCRIPTION": "🎱 Answers a yes/no question",
+    "USAGE": "8ball <question>"
+  },
+  "cheemsify": {
+    "DESCRIPTION": "Adds 'm' to a text",
+    "USAGE": "cheemsify <text>",
+    "ON_MISSING_TEXT": "Put something to say in cheems"
+  },
+  "cheems": {
+    "DESCRIPTION": "Click to add 'm' to a text",
+    "USAGE": "cheems <text>",
+    "ON_MISSING_TEXT": "Put something to say in cheems"
+  },
+  "discrim": {
+    "DESCRIPTION": "Finds users with the same tag",
+    "USAGE": "discrim <#tag>",
+    "NO_RESULTS": "No results",
+    "EMBED_FOOTER": "{{count}} users with the tag {{tag}}"
+  },
+  "search": {
+    "DESCRIPTION": "Click a message to search for an image on the internet",
+    "USAGE": "search <text>"
+  },
+  "emojify": {
+    "DESCRIPTION": "Converts a text to emojis",
+    "USAGE": "emojify <text>"
+  },
+  "invert": {
+    "DESCRIPTION": "Make a text upside down",
+    "USAGE": "invert <text>"
+  },
+  "userinfo": {
+    "DESCRIPTION": "Searches for a user",
+    "USAGE": "userinfo <@user>",
+    "USER_NOT_FOUND": "User not found",
+    "IS_BOT": "Is bot? {{bot}}",
+    "ON_DISCORD_SINCE": "On Discord since",
+    "ON_SERVER_SINCE": "On server since",
+    "BOOSTING_SERVER_SINCE": "Boosting since"
+  },
+  "say": {
+    "DESCRIPTION": "Make the bot say something bad",
+    "USAGE": "say <text>",
+    "ON_MISSING_TEXT": "Please write a text for me to say",
+    "CANNOT_SEND_INVITE_LINKS": "I can't send invite links"
+  },
+  "help": {
+    "DESCRIPTION": "Bot's help!!!",
+    "USAGE": "help",
+    "PLACEHOLDER": "Nothing selected",
+    "COMMANDS_LENGTH": "{{count}} Commands!"
+  },
+  "image": {
+    "DESCRIPTION": "Search images on the internet",
+    "USAGE": "image <text>",
+    "SAFE_SEARCH": "Safe search",
+    "SAFE_SEARCH_ON": "Yes",
+    "SAFE_SEARCH_OFF": "No",
+    "RESULTS_FOR": "Results for {{search}}",
+    "ON_MISSING_TEXT": "Please tell me what to search for",
+    "CANNOT_TOUCH_BUTTON": "You cannot touch that button!",
+    "NOT_IN_RESULTS": "Page not in results",
+    "ASK_FOR_PAGE": "Send a message beetween 0 and {{limit}}"
   }
 }

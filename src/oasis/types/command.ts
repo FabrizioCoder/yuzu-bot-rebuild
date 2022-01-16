@@ -12,7 +12,6 @@ import type { BotWithCache } from "cache_plugin";
 export interface Information {
   descr: string; // description
   usage: string; // duh
-  short: string; // short description
 }
 
 export interface SlashCommandContext {

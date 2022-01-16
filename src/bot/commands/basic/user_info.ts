@@ -1,14 +1,14 @@
 import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
-import { Category, DiscordColors, snowflakeToTimestamp } from "utils";
+import { Category, DiscordColors, snowflakeToTimestamp, translate } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno";
 
 createCommand({
   meta: {
-    descr: "Busca un usuario",
-    short: "Busca un usuario",
-    usage: "<User>",
+    descr: "commands:userinfo:DESCRIPTION",
+    usage: "commands:userinfo:USAGE",
   },
   category: Category.Info,
+  translated: true,
   async execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
@@ -19,7 +19,7 @@ createCommand({
     const user = bot.users.get(BigInt(option.value as string));
 
     if (!user) {
-      return "No encontré al usuario";
+      return "commands:userinfo:USER_NOT_FOUND";
     }
 
     const avatar = avatarURL(bot, user.id, user.discriminator, {
@@ -29,9 +29,13 @@ createCommand({
     const embed = new MessageEmbed()
       .color(DiscordColors.Blurple)
       .footer(`${user.id}`, avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar }))
-      .field("¿Es bot?", user.bot ? "Sí" : "No")
       .field(
-        "Se unió a Discord en:",
+        ...((
+          await translate(bot, "commands:userinfo:IS_BOT", interaction.guildId, { bot: user.bot ? "Sí" : "No" })
+        ).split(" ") as [string, string])
+      )
+      .field(
+        await translate(bot, "commands:userinfo:ON_DISCORD_SINCE", interaction.guildId),
         `<t:${Math.floor(snowflakeToTimestamp(user.id) / 1000)}> <- <t:${Math.floor(
           snowflakeToTimestamp(user.id) / 1000
         )}:R>`
@@ -47,13 +51,13 @@ createCommand({
         // if is booster
         if (member.premiumSince) {
           embed.field(
-            "Mejora el servidor desde:",
+            await translate(bot, "commands:userinfo:BOOSTING_SERVER_SINCE", interaction.guildId),
             `<t:${Math.floor(member.premiumSince / 1000)})> <- <t:${Math.floor(member.premiumSince / 1000)}:R>`
           );
         }
 
         embed.field(
-          "Se unió al servidor en:",
+          await translate(bot, "commands:userinfo:ON_SERVER_SINCE"),
           `<t:${Math.floor(member.joinedAt / 1000)}> <- <t:${Math.floor(member.joinedAt / 1000)}:R>`
         );
 
@@ -67,7 +71,7 @@ createCommand({
   },
   data: new ChatInputApplicationCommandBuilder()
     .setName("userinfo")
-    .setDescription("Busca un usuario")
+    .setDescription("Searches for a user")
     .addUserOption((o) => o.setName("user").setDescription("User to search 👥").setRequired(true))
     .toJSON(),
 });

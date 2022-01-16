@@ -5,7 +5,6 @@ import { Category, DiscordColors, translate } from "utils";
 createCommand({
   meta: {
     descr: "commands:avatar:DESCRIPTION",
-    short: "commands:avatar:DESCRIPTION",
     usage: "[@Mention]",
   },
   category: Category.Info,
@@ -53,7 +52,6 @@ createMessageCommand({
   names: ["avatar", "pfp", "avy", "profilepicture"],
   meta: {
     descr: "commands:avatar:DESCRIPTION",
-    short: "commands:avatar:DESCRIPTION",
     usage: "[@Mención]",
   },
   category: Category.Info,

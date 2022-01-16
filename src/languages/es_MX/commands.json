@@ -1,8 +1,74 @@
 {
   "avatar": {
     "DESCRIPTION": "Busca el avatar de un usuario",
+    "USAGE": "avatar [@Mention]",
     "ON_MISSING_USER": "El usuario no se encontró",
     "EMBED_TITLE": "Pedido por {{mention}}",
     "EMBED_DESCRIPTION": "[Referencia](https://www.google.com/searchbyimage?image_url={{avatar}})\n[Avatar URL]({{avatar}})"
+  },
+  "8ball": {
+    "DESCRIPTION": "🎱 Responde al usuario una pregunta de sí/no",
+    "USAGE": "8ball <pregunta>"
+  },
+  "cheemsify": {
+    "DESCRIPTION": "Conviertem un temxtom am imdiomam cheems",
+    "USAGE": "cheemsify <texto>",
+    "ON_MISSING_TEXT": "Pomn amlgom pamram demcimr emn chememms"
+  },
+  "cheems": {
+    "DESCRIPTION": "Click y conviertem un temxtom am imdiomam cheems",
+    "USAGE": "cheems <texto>",
+    "ONON_MISSING_TEXT": "Pomn amlgom pamram demcimr emn chememms"
+  },
+  "DISCRIM": {
+    "DESCRIPTION": "Encuentra a usuarios con el mismo tag",
+    "USAGE": "discrim <#tag>",
+    "NO_RESULTS": "Sin resultados",
+    "EMBED_FOOTER": "{{count}} usuario(s) con el tag {{tag}}"
+  },
+  "search": {
+    "DESCRIPTION": "Click encima de un mensaje para buscar una imagen",
+    "USAGE": "search <texto>"
+  },
+  "emojify": {
+    "DESCRIPTION": "Convierte un texto a emojis",
+    "USAGE": "emojify <texto>"
+  },
+  "invert": {
+    "DESCRIPTION": "Invierte un texto hacia arriba",
+    "USAGE": "invert <texto>"
+  },
+  "userinfo": {
+    "DESCRIPTION": "Busca un usuario",
+    "USAGE": "userinfo <@user>",
+    "USER_NOT_FOUND": "Usuario no encontrado",
+    "IS_BOT": "¿Es bot? {{bot}}",
+    "ON_DISCORD_SINCE": "Se unió a Discord en",
+    "ON_SERVER_SINCE": "Se unió al server en",
+    "BOOSING_SERVER_SINCE": "Mejora el servidor desde"
+  },
+  "say": {
+    "DESCRIPTION": "Hace que el bot diga algo malo",
+    "USAGE": "say <texto>",
+    "ON_MISSING_TEXT": "Por favor escribe algo para que lo diga",
+    "CANNOT_SEND_INVITE_LINKS": "No puedo enviar invites"
+  },
+  "help": {
+    "DESCRIPTION": "Ayuda del bot!!!",
+    "USAGE": "help",
+    "PLACEHOLDER": "Nada seleccionado",
+    "COMMANDS_LENGTH": "{{count}} Comandos!"
+  },
+  "image": {
+    "DESCRIPTION": "Busca imágenes en internet",
+    "USAGE": "image <texto>",
+    "SAFE_SEARCH": "Búsqueda segura",
+    "SAFE_SEARCH_ON": "Sí",
+    "SAFE_SEARCH_OFF": "No",
+    "RESULTS_FOR": "Resultados para {{search}}",
+    "ON_MISSING_TEXT": "Por favor escribe un texto",
+    "CANNOT_TOUCH_BUTTON": "No puedes tocar ese botón!",
+    "NOT_IN_RESULTS": "El número específicado no se encuentra en los resultados",
+    "ASK_FOR_PAGE": "Envía un mensaje entre 0 y {{limit}}"
   }
 }

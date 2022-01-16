@@ -6,7 +6,6 @@ createCommand({
   isGuildOnly: true,
   meta: {
     descr: "📗 Encuentra un comando del bot...",
-    short: "📗 Encuentra un comando del bot...",
     usage: "<Command>",
   },
   category: Category.Info,
@@ -39,7 +38,7 @@ createCommand({
       .footer("Optional [] Required <>", avatar)
       .field("Nombre del comando:", commandName, true)
       .field("Uso del comando:", `${prefix}${commandName} ${commandMetaData?.usage}`, true)
-      .field("Info del comando:", commandDescription ?? commandMetaData?.descr ?? commandMetaData?.short ?? "❓", true);
+      .field("Info del comando:", commandDescription ?? commandMetaData?.descr ?? "❓", true);
 
     return embed;
   },

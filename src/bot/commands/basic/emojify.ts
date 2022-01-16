@@ -4,16 +4,16 @@ import { ApplicationCommandOptionTypes } from "discordeno";
 
 createCommand({
   meta: {
-    descr: "Convierte un texto a emojis",
-    short: "Reemplaza texto por emojis",
-    usage: "<Text>",
+    descr: "commands:emojify:DESCRIPTION",
+    usage: "commands:emojify:USAGE",
   },
   category: Category.Fun,
+  translated: true,
   execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
-      return "Escribe algo";
+      return;
     }
 
     const mapping: Record<string, string> = {
@@ -42,7 +42,7 @@ createCommand({
   },
   data: new ChatInputApplicationCommandBuilder()
     .setName("emojify")
-    .setDescription("Convierte un texto a emojis")
+    .setDescription("Converts a text to emojis")
     .addStringOption((o) => o.setName("input").setDescription("Text to Emojify").setRequired(true))
     .toJSON(),
 });

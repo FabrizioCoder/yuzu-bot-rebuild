@@ -11,13 +11,12 @@ import { getGuild } from "discordeno";
 // important for the database to work
 export type Languages = "es_MX" | "en_US";
 
-export async function translate(bot: BotWithCache, key: string, guildId?: bigint, options?: unknown) {
-  if (!db) return;
-
+export async function translate(bot: BotWithCache, key: string, guildId?: bigint, options?: unknown): Promise<string> {
   const guild = guildId ? bot.guilds.get(guildId) ?? (await getGuild(bot, guildId)) : undefined;
-  const language = guildId
-    ? (await getLanguage(getCollection(db), guildId).then((a) => a?.locale)) ?? guild?.preferredLocale ?? "en_US"
-    : guild?.preferredLocale ?? "en_US";
+  const language =
+    guildId && db
+      ? (await getLanguage(getCollection(db), guildId).then((a) => a?.locale)) ?? guild?.preferredLocale ?? "en_US"
+      : guild?.preferredLocale ?? "en_US";
 
   // undefined is silly bug cause i18next dont have proper typings
   const languageMap = i18next.getFixedT(language, undefined) || i18next.getFixedT("en_US", undefined);

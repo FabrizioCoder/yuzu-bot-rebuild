@@ -7,11 +7,11 @@ const name = <const>`${rpts.length}ball`;
 
 createCommand({
   meta: {
-    descr: "🎱 Responde al usuario una pregunta de sí/no",
-    short: "🎱 Responde al usuario",
-    usage: "<Input>",
+    descr: "commands:8ball:DESCRIPTION",
+    usage: "commands:8ball:USAGE",
   },
   category: Category.Fun,
+  translated: true,
   execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
@@ -30,7 +30,7 @@ createCommand({
   },
   data: new ChatInputApplicationCommandBuilder()
     .setName(name)
-    .setDescription("Responde al usuario con una pregunta de sí/no")
+    .setDescription("🎱 Answers a yes/no question")
     .addStringOption((o) => o.setName("question").setDescription("🎱 Question ").setRequired(true))
     .toJSON(),
 });

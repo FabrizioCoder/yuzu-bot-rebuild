@@ -1,6 +1,7 @@
 import type { Embed, SelectMenuComponent } from "discordeno";
+import type { BotWithCache } from "cache_plugin";
 import { cache, createMonitor } from "oasis";
-import { Category } from "utils";
+import { Category, translate } from "utils";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
 
 createMonitor({
@@ -13,7 +14,9 @@ createMonitor({
     if (interaction.data?.customId === "menu") {
       const baseEmbed = interaction.message?.embeds[0];
 
-      if (!baseEmbed) return;
+      if (!baseEmbed) {
+        return;
+      }
 
       const category = interaction.data?.values?.[0];
       const row = interaction.message?.components;
@@ -23,22 +26,30 @@ createMonitor({
           .filter(([_, cmd]) => cmd.category === Category[category as keyof typeof Category])
           .map(([_, cmd]) => cmd);
 
-        const commandPairs = commands.map(
-          ({ data, meta }) =>
-            `\`${"description" in data ? "/" : "!"}${data.name}\` -> ${
-              "description" in data ? data.description : meta?.descr ?? meta?.short
-            }`
-        );
+        const commandPairs = commands.map(async ({ data, meta, translated }) => {
+          const resolvedPrefix = "description" in data ? "/" : "!";
+          const resolvedDescription = "description" in data ? meta?.descr ?? data.description : meta.descr;
+
+          const translatedDescription = await translate(
+            bot as BotWithCache,
+            `${resolvedDescription}`,
+            interaction.guildId
+          );
+
+          return `\`${resolvedPrefix}${data.name}\` -> ${translated ? translatedDescription : resolvedDescription}`;
+        });
 
         baseEmbed.title = String.raw`Información del comando 💣`;
         baseEmbed.fields = [
           {
-            name: "Categoría",
-            value: `${commands.length} Comandos`,
+            name: await translate(bot as BotWithCache, "strings:HELP_COMMAND:CATEGORY", interaction.guildId),
+            value: await translate(bot as BotWithCache, "strings:HELP_COMMAND:COMMANDS_LENGTH", interaction.guildId, {
+              count: commands.length,
+            }),
           },
           {
-            name: "Comandos",
-            value: `${commandPairs.join("\n")}`,
+            name: await translate(bot as BotWithCache, "stirngs:HELP_COMMAND:COMMANDS", interaction.guildId),
+            value: commandPairs.join("\n"),
           },
         ];
 

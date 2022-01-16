@@ -3,5 +3,10 @@
   "COMMAND_IS_GUILDONLY": "That command is guild-only don't use it on DM",
   "COMMAND_IS_ADMINONLY": "You're not the dev so you can't use that command",
   "MY_PREFIX_IS": "My prefix is {{prefix}}",
-  "DID_YOU_MEAN": "That command doesn't exist! 🔒 did you mean `{{command}}`?"
+  "DID_YOU_MEAN": "That command doesn't exist! 🔒 did you mean `{{command}}`?",
+  "HELP_COMMAND": {
+    "CATEGORY": "Category",
+    "COMMANDS": "Commands",
+    "COMMANDS_LENGTH": "{{count}} Commands"
+  }
 }
