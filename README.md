@@ -1,9 +1,9 @@
 # Yuzu's Discord bot v2
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Le-Val/yuzu-bot-rebuild?color=lightblue&label=Files)
-![GitHub last commit](https://img.shields.io/github/last-commit/Le-Val/yuzu-bot-rebuild)
-![GitHub](https://img.shields.io/github/license/Le-Val/yuzu-bot-rebuild)
-[![GitHub issues](https://img.shields.io/github/issues/Le-Val/yuzu-bot-rebuild?color=lightblue&label=Issues)](https://github.com/Le-Val/yuzu-bot-rebuild/issues)
+![GitHub repo size](https://img.shields.io/github/repo-size/yuzudev/yuzu-bot-rebuild?color=lightblue&label=Files)
+![GitHub last commit](https://img.shields.io/github/last-commit/yuzudev/yuzu-bot-rebuild)
+![GitHub](https://img.shields.io/github/license/yuzudev/yuzu-bot-rebuild)
+[![GitHub issues](https://img.shields.io/github/issues/yuzudev/yuzu-bot-rebuild?color=lightblue&label=Issues)](https://github.com/yuzudev/yuzu-bot-rebuild/issues)
 
 - my discord: `Yuzu#1401`
 - [support the proyect by inviting the bot](https://top.gg/bot/893319907981283340)
