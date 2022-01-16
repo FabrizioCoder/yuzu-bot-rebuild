@@ -51,7 +51,7 @@ export async function loadLanguages() {
     fallbackLng: "en_US",
     preload: languageFolder.map((file) => (file.isDirectory ? file.name : undefined)).filter(Boolean),
     backend: {
-      loadPath: `${Deno.realPathSync("./src/languages")}/{{lng}}/{{ns}}.toml`,
+      loadPath: `${Deno.realPathSync("./src/languages")}/{{lng}}/{{ns}}.json`,
     },
     initImmediate: false,
     interpolation: { escapeValue: false },
