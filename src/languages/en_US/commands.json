@@ -7,7 +7,7 @@
     "EMBED_DESCRIPTION": "[Reference](https://www.google.com/searchbyimage?image_url={{avatar}})\n[Avatar URL]({{avatar}})"
   },
   "8ball": {
-    "DESCRIPTION": "🎱 Answers a yes/no question",
+    "DESCRIPTION": "\\🎱 Answers a yes/no question",
     "USAGE": "8ball <question>"
   },
   "cheemsify": {
@@ -103,7 +103,7 @@
     "ON_EMBED_LIMIT_EXCEEDED": "The song lyrics are too large to fit in a message!"
   },
   "starboard": {
-    "DESCRIPTION": "Set up a channel for starboard messages ⭐",
+    "DESCRIPTION": "Set up a channel for starboard messages \\⭐",
     "USAGE": "<Channel> [emoji] [count]",
     "ON_MISSING_PERMISSIONS": "No posees suficientes permisos",
     "ON_INVALID_CHANNEL": "The channel should be on this server"

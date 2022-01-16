@@ -38,7 +38,6 @@ export async function determineNamespaces(path: string, namespaces: string[] = [
       const toPush = `${folderName}${file.name.substr(0, file.name.length - 5)}`;
       if (!toPush.startsWith("TODO")) namespaces.push(toPush);
     }
-    console.log(namespaces);
   }
 
   return [...new Set(namespaces)];
@@ -52,7 +51,7 @@ export async function loadLanguages() {
     fallbackLng: "en_US",
     preload: languageFolder.map((file) => (file.isDirectory ? file.name : undefined)).filter(Boolean),
     backend: {
-      loadPath: `${Deno.realPathSync("./src/languages")}/{{lng}}/{{ns}}.json`,
+      loadPath: `${Deno.realPathSync("./src/languages")}/{{lng}}/{{ns}}.toml`,
     },
     initImmediate: false,
     interpolation: { escapeValue: false },

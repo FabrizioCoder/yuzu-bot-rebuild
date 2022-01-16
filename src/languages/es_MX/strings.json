@@ -3,11 +3,11 @@
   "COMMAND_IS_GUILDONLY": "Ese comando es solo para servidores",
   "COMMAND_IS_ADMINONLY": "Solo los devs pueden usar ese comando",
   "MY_PREFIX_IS": "Mi prefix es {{prefix}}",
-  "DID_YOU_MEAN": "Ese comando no existe! 🔒 quisiste decir: `{{command}}`?",
+  "DID_YOU_MEAN": "Ese comando no existe! \\🔒 quisiste decir: `{{command}}`?",
   "HELP_COMMAND": {
     "CATEGORY": "Categoría",
     "COMMANDS": "Commandos",
     "COMMANDS_LENGTH": "{{count}} Comandos",
-    "EMBED_TITLE": "Información del comando 💣"
+    "EMBED_TITLE": "Información del comando \\💣"
   }
 }
