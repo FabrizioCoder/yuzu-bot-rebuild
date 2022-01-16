@@ -95,5 +95,17 @@
     "USAGE": "snipe",
     "ON_MISSING_MESSAGE": "Theres no deleted messages",
     "ON_LARGE_MESSAGE": "Large message sended"
+  },
+  "lyrics": {
+    "DESCRIPTION": "Searches for a song lyrics",
+    "USAGE": "lyrics <text>",
+    "ON_ERROR": "Song not found",
+    "ON_EMBED_LIMIT_EXCEEDED": "The song lyrics are too large to fit in a message!"
+  },
+  "starboard": {
+    "DESCRIPTION": "Set up a channel for starboard messages ⭐",
+    "USAGE": "<Channel> [emoji] [count]",
+    "ON_MISSING_PERMISSIONS": "No posees suficientes permisos",
+    "ON_INVALID_CHANNEL": "The channel should be on this server"
   }
 }

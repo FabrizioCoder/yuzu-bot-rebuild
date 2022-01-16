@@ -1,6 +1,6 @@
 /* TODO: check for long song lyrics */
 
-import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
@@ -18,9 +18,8 @@ interface Song {
 
 createCommand({
   meta: {
-    descr: "Busca letras de canciones",
-    short: "Busca letras de canciones",
-    usage: "[@Mención]",
+    descr: "commands:lyrics:DESCRIPTION",
+    usage: "commands:lyrics:USAGE",
   },
   category: Category.Util,
   async execute({ interaction }) {
@@ -35,11 +34,11 @@ createCommand({
     );
 
     if (!data) {
-      return "No pude encontrar esa canción";
+      return "commands:lyrics:ON_ERROR";
     }
 
     if (data.lyrics.length > 2048) {
-      return "La canción excede el límite de caracteres";
+      return "commands:lyrics:ON_EMBED_LIMIT_EXCEEDED";
     }
 
     const { embed } = new MessageEmbed()
@@ -55,4 +54,38 @@ createCommand({
     .setDescription("Search for song lyrics")
     .addStringOption((o) => o.setName("query").setDescription("Search query for lyrics").setRequired(true))
     .toJSON(),
+});
+
+createMessageCommand({
+  names: ["lyrics", "song"],
+  meta: {
+    descr: "commands:lyrics:DESCRIPTION",
+    usage: "commands:lyrics:USAGE",
+  },
+  category: Category.Util,
+  async execute({ args: { args } }) {
+    const option = args.join(" ");
+
+    if (!option) return;
+
+    const data: Song | undefined = await fetch(`https://some-random-api.ml/lyrics/?title=${option}`).then((a) =>
+      a.json()
+    );
+
+    if (!data) {
+      return "commands:lyrics:ON_ERROR";
+    }
+
+    if (data.lyrics.length > 2048) {
+      return "commands:lyrics:ON_EMBED_LIMIT_EXCEEDED";
+    }
+
+    const { embed } = new MessageEmbed()
+      .color(randomHex())
+      .title(data.title)
+      .author(data.author, data.thumbnail.genius)
+      .footer(data.lyrics);
+
+    return embed;
+  },
 });

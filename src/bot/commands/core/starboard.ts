@@ -1,5 +1,5 @@
 import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
-import { Category } from "utils";
+import { Category, translate } from "utils";
 import { ChannelTypes, getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 import { editStarboard, getCollection, getStarboard, setStarboard } from "database/controllers/starboard_controller.ts";
@@ -8,9 +8,8 @@ import { db } from "database/db";
 createCommand({
   isGuildOnly: true,
   meta: {
-    descr: "Configura un canal para enviar mensajes starboard ⭐",
-    short: "Configura un canal para enviar mensajes starboard ⭐",
-    usage: "<Channel> [emoji] [count]",
+    descr: "commands:starboard:DESCRIPTION",
+    usage: "commands:starboard:USAGE",
   },
   category: Category.Config,
   async execute({ bot, interaction }) {
@@ -28,26 +27,25 @@ createCommand({
       return;
     }
 
-    const channelId = options?.[0]?.value as string | undefined;
-
-    if (!channelId) {
-      return "Debes mencionar al menos la id de un canal";
-    }
+    const channelId = options?.[0]?.value as string;
 
     const isStaff = interaction.member ? hasGuildPermissions(bot, guild, interaction.member, ["MANAGE_GUILD"]) : false;
     const channel = bot.channels.get(BigInt(channelId)) ?? (await getChannel(bot, BigInt(channelId)));
 
     if (!isStaff) {
-      return "No posees suficientes permisos";
+      return "commands:starboard:ON_MISSING_PERMISSIONS";
     }
 
     if (channel?.guildId !== interaction.guildId!) {
-      return "El canal debe pertenecer al servidor...";
+      return "commands:starboard:ON_INVALID_CHANNEL";
     }
 
     const count = options?.[2]?.value ?? 5;
 
-    if (typeof count !== "number") return;
+    // type guard
+    if (typeof count !== "number") {
+      return;
+    }
 
     const emoji =
       guild.emojis.find((emoji) => emoji.name === (options?.[1].value as string | undefined)) ??
@@ -55,17 +53,16 @@ createCommand({
 
     const starboard = await getStarboard(getCollection(db), guild.id);
 
-    if (count < 1) {
-      return "El número debe ser mayor a 0";
-    }
-
     if (!starboard) {
       // set a new starboard
       await setStarboard(getCollection(db), guild.id, channel.id, emoji.name, count);
 
       const newStarboard = await getStarboard(getCollection(db), guild.id);
 
-      return `El canal del starboard será <#${newStarboard?.channelId}> y tendrá el emoji ${emoji?.name ?? "⭐"}`;
+      return translate(bot, "commands:starboard:ON_STARBOARD_CREATED", interaction.guildId, {
+        channelId: newStarboard?.channelId,
+        emojiName: emoji.name,
+      });
     } else {
       await editStarboard(getCollection(db), guild.id, {
         count,
@@ -75,7 +72,10 @@ createCommand({
 
       const newStarboard = await getStarboard(getCollection(db), guild.id);
 
-      return `El canal del starboard se editó a <#${newStarboard?.channelId}> y tendrá el emoji ${emoji?.name ?? "⭐"}`;
+      return translate(bot, "commands:starboard:ON_STARBOARD_CREATED", interaction.guildId, {
+        channelId: newStarboard?.channelId,
+        emojiName: emoji.name,
+      });
     }
   },
   data: new ChatInputApplicationCommandBuilder()

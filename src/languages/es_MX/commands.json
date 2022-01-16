@@ -95,5 +95,19 @@
     "USAGE": "snipe",
     "ON_MISSING_MESSAGE": "No existe un mensaje eliminado",
     "ON_LARGE_MESSAGE": "Mensaje largo recibido"
+  },
+  "lyrics": {
+    "DESCRIPTION": "Busca la letra de una canción",
+    "USAGE": "lyrics <texto>",
+    "ON_ERROR": "Canción no encontrada",
+    "ON_EMBED_LIMIT_EXCEEDED": "La letra de la canció excede el límite de caracteres!"
+  },
+  "starboard": {
+    "DESCRIPTION": "Configura un canal para enviar mensajes starboard ⭐",
+    "USAGE": "<Channel> [emoji] [count]",
+    "ON_MISSING_PERMISSIONS": "No posees suficientes permisos",
+    "ON_INVALID_CHANNEL": "El canal debe pertenecer al servidor",
+    "ON_STARBOARD_CREATED": "El canal del starboard sera <#{{channelId}}> y tendrá el emoji {{emojiName}}",
+    "ON_STARBOARD_MODIFIED": "El canal del starboard se editó a <#{{channelId}}> y tendrá el emoji {{emojiName}}"
   }
 }
