@@ -111,5 +111,12 @@
   "info": {
     "DESCRIPTION": "Boring stuff and nerd's statistics",
     "USAGE": "info"
+  },
+  "pokedex": {
+    "DESCRIPTION": "Searches for a pokemon by its name or id",
+    "USAGE": "pokedex <name | id>",
+    "ON_INVALID_POKEMON": "Pokemon's information not found",
+    "EMBED_FIELDNAME_ABILITIES": "Abilities",
+    "EMBED_FIELDNAME_TYPES": "Types"
   }
 }

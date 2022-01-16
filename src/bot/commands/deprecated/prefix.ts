@@ -9,7 +9,6 @@ createMessageCommand({
   isGuildOnly: true,
   meta: {
     descr: "Actualiza el prefix del servidor",
-    short: "Actualiza el prefix del servidor",
     usage: "<Input>",
   },
   category: Category.Config,

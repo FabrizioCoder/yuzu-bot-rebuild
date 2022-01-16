@@ -27,7 +27,6 @@ enum Arguments {
 createCommand({
   meta: {
     descr: "Crea, edita, borra o modifica tags",
-    short: "Crea, edita, borra o modifica tags",
     usage:
       "[\
       add(name, content) |\

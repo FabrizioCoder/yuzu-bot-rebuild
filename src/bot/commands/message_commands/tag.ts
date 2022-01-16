@@ -29,7 +29,6 @@ createMessageCommand({
   isGuildOnly: true,
   meta: {
     descr: "Crea, edita, borra o modifica tags",
-    short: "Crea, edita, borra o modifica tags",
     usage:
       "[add(name, content) | remove(name) | give(name, @user) | edit(name, content) | list() | nsfw(name) | owner(name)] [search] ...",
   },

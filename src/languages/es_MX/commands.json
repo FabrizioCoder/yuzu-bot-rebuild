@@ -113,5 +113,12 @@
   "info": {
     "DESCRIPTION": "Estadísticas para nerds y cosas aburridas",
     "USAGE": "info"
+  },
+  "pokedex": {
+    "DESCRIPTION": "Busca un Pokémon por su nombre o id",
+    "USAGE": "pokedex <nombre | id>",
+    "ON_INVALID_POKEMON": "Información del Pokémon no encontrada",
+    "EMBED_FIELDNAME_ABILITIES": "Habilidades",
+    "EMBED_FIELDNAME_TYPES": "Tipos"
   }
 }

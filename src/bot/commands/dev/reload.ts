@@ -8,7 +8,6 @@ createMessageCommand({
   isAdminOnly: true,
   meta: {
     descr: "...",
-    short: "..",
     usage: ".",
   },
   category: Category.Owner,
