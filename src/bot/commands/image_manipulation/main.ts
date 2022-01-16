@@ -5,6 +5,7 @@ import { Image } from "imagescript";
 
 enum Overlay {
   Lgbt = "https://media.discordapp.net/attachments/895959965469134858/932053795184197652/lgbt-flag-2.png?width=676&height=427",
+  Trans = "https://media.discordapp.net/attachments/895959965469134858/932064828246335518/m0ab83l4m94y.png?width=853&height=427",
   Ussr = "https://media.discordapp.net/attachments/895959965469134858/932062453943132232/New_USSR.png?width=641&height=427",
   Israel = "https://media.discordapp.net/attachments/895959965469134858/932060629248929852/israel-flag.png?width=712&height=427",
 }
@@ -27,6 +28,46 @@ createMessageCommand({
     const attachment = cache.lastAttachments.get(message.channelId)?.[0];
 
     const overlay = await fetch(Overlay.Israel)
+      .then((i) => i.arrayBuffer())
+      .then(Image.decode);
+
+    let user: Awaited<ReturnType<typeof getUser>> | undefined;
+
+    if (message.mentionedUserIds.length > 0) {
+      user = bot.users.get(message.mentionedUserIds[0]) ?? (await getUser(bot, message.mentionedUserIds[0]));
+    }
+
+    if (!user && !attachment) {
+      return "Image not found in channel! try to mention a user";
+    }
+
+    const attachmentOrAvatar = user
+      ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
+      : attachment!.url;
+
+    const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
+      i.composite(overlay.opacity(0.5).cover(i.width, i.height));
+      return i.encode();
+    });
+
+    await sendMessage(bot, message.channelId, {
+      file: [{ blob: new Blob([compressed]), name: "img.png" }],
+      content: `<@${message.authorId}>`,
+    });
+  },
+});
+
+createMessageCommand({
+  names: ["trans"],
+  meta: {
+    descr: "Overlay a transexual flag",
+    usage: "Trans [last attachment on the channel]",
+  },
+  category: Category.Image,
+  async execute({ bot, message }) {
+    const attachment = cache.lastAttachments.get(message.channelId)?.[0];
+
+    const overlay = await fetch(Overlay.Trans)
       .then((i) => i.arrayBuffer())
       .then(Image.decode);
 
