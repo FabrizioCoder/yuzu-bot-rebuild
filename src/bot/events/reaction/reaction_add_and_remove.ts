@@ -19,9 +19,7 @@ const execute: Execute = async function (bot, { channelId, guildId, messageId })
   const user = (bot as BotWithCache).users.get(message.authorId) ?? (await getUser(bot, message.authorId));
 
   // get the reaction
-  const reaction = message.reactions?.find(
-    (r) => r.emoji.id?.toString() === starboard.emojiId || r.emoji.name === starboard.emojiId || r.emoji.name === "⭐"
-  );
+  const reaction = message.reactions?.find((r) => r.emoji.name === starboard.emojiName);
 
   // delete the message if it reaches 0 reactions and theres a message already
   if ((!reaction || reaction.count < 1) && cache.alreadySendedInStarboard.has(messageId)) {
@@ -40,14 +38,14 @@ const execute: Execute = async function (bot, { channelId, guildId, messageId })
   }
 
   // if the emojis aren't equal
-  const areEqual = starboard.emojiId === reaction?.emoji.name || starboard.emojiId === reaction?.emoji.id?.toString();
+  const areEqual = starboard.emojiName === reaction?.emoji.name;
 
   if (!areEqual) {
     return;
   }
 
   // if the channel is the starboard channel
-  if (BigInt(starboard.channelId) === channelId) {
+  if (starboard.channelId.toBigInt() === channelId) {
     return;
   }
 
@@ -94,16 +92,16 @@ const execute: Execute = async function (bot, { channelId, guildId, messageId })
   }
 
   // otherwise send a new message
-  sendMessage(bot, BigInt(starboard.channelId), { embeds: [embed.embed] })
+  sendMessage(bot, starboard.channelId.toBigInt(), { embeds: [embed.embed] })
     .then((msg) => {
       cache.alreadySendedInStarboard.set(messageId, msg);
       return msg;
     })
     .then((msg) => {
-      if (reaction.emoji.id && reaction.emoji.name) {
+      if (reaction?.emoji.id && reaction.emoji.name) {
         return addReaction(bot, msg.channelId, msg.id, `${reaction.emoji.name}:${reaction.emoji.id}`);
       }
-      if (!reaction.emoji.id && reaction.emoji.name) {
+      if (!reaction?.emoji.id && reaction?.emoji.name) {
         return addReaction(bot, msg.channelId, msg.id, reaction.emoji.name);
       }
     })

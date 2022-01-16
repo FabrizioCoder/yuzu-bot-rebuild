@@ -10,8 +10,8 @@ import {
   getTag,
   passTag,
   removeTag,
-} from "../../../database/controllers/tag_controller.ts";
-import { db } from "../../../database/db.ts";
+} from "database/controllers/tag_controller.ts";
+import { db } from "database/db";
 
 enum Arguments {
   Add,
@@ -69,11 +69,11 @@ createMessageCommand({
           ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"])
           : false;
 
-        if (BigInt(tag.user) !== message.authorId && !isAdmin && message.authorId !== Configuration.OWNER_ID) {
+        if (tag.userId.toBigInt() !== message.authorId && !isAdmin && message.authorId !== Configuration.OWNER_ID) {
           return "El tag no te pertenece";
         }
 
-        if (tag.global && message.authorId !== Configuration.OWNER_ID) {
+        if (tag.isGlobal && message.authorId !== Configuration.OWNER_ID) {
           return "El tag es global y no se puede remover";
         }
 
@@ -92,10 +92,10 @@ createMessageCommand({
         if (!user || user.bot) return "No encontré ese usuario";
 
         await passTag(getCollection(db), message.guildId, user.id, {
-          server: message.guildId.toString(),
-          user: user.id.toString(),
-          global: tag.nsfw,
-          nsfw: tag.nsfw,
+          guildId: message.guildId,
+          userId: user.id,
+          isGlobal: tag.isGlobal,
+          isNsfw: tag.isNsfw,
         });
 
         const output = await getTag(getCollection(db), tag.name, message.guildId);
@@ -108,14 +108,18 @@ createMessageCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        if (BigInt(tag.user) !== message.authorId) {
+        if (tag.userId.toBigInt() !== message.authorId) {
           return "El tag no te pertenece";
         }
 
-        await editTag(getCollection(db), tag, {
-          content: content.join(" "),
-          attachments: [],
-        });
+        await editTag(
+          getCollection(db),
+          { guildId: tag.guildId.toBigInt(), userId: tag.userId.toBigInt(), name: tag.name },
+          {
+            content: content.join(" "),
+            attachments: [],
+          }
+        );
 
         const output = await getTag(getCollection(db), tag.name, message.guildId);
 
@@ -138,20 +142,28 @@ createMessageCommand({
           ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"])
           : false;
 
-        if (BigInt(tag.user) !== message.authorId && !isAdmin) {
+        if (tag.userId.toBigInt() !== message.authorId && !isAdmin) {
           return "El tag no te pertenece";
         }
 
-        if (tag.global) return "No se puede marcar un tag global";
+        if (tag.isGlobal) return "No se puede marcar un tag global";
 
-        await editTag(getCollection(db), tag, {
-          global: false,
-          nsfw: !tag.nsfw,
-        });
+        await editTag(
+          getCollection(db),
+          {
+            guildId: tag.guildId.toBigInt(),
+            userId: tag.userId.toBigInt(),
+            name: tag.name,
+          },
+          {
+            isGlobal: false,
+            isNsfw: !tag.isNsfw,
+          }
+        );
 
         const output = await getTag(getCollection(db), tag.name, message.guildId);
 
-        return `Edité el tag ${output?.name} como **${!output?.nsfw ? "sfw" : "nsfw"}**`;
+        return `Edité el tag ${output?.name} como **${!output?.isNsfw ? "sfw" : "nsfw"}**`;
       }
       case Arguments.Owner: {
         const [name] = options;
@@ -159,7 +171,7 @@ createMessageCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        return `ID: ${tag.user} <@${tag.user}>`;
+        return `ID: ${tag.userId.toBigInt()} <@${tag.userId.toBigInt()}>`;
       }
       case Arguments.Display:
       default: {
@@ -179,7 +191,7 @@ createMessageCommand({
         const channel = bot.channels.get(message.channelId) ?? (await getChannel(bot, message.channelId));
         const safe = !channel?.nsfw;
 
-        if (tag.nsfw && safe) {
+        if (tag.isNsfw && safe) {
           return "Contenido nsfw, lo sentimos pero no se puede mostrar en éste canal :underage:";
         }
 

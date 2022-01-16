@@ -1,4 +1,6 @@
+import type { Bson } from "mongo";
+
 export interface PrefixSchema {
-  server: string;
+  guildId: Bson.Long;
   prefix: string;
 }

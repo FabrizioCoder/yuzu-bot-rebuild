@@ -2,13 +2,8 @@ import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
 import { Category } from "utils";
 import { ChannelTypes, getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
-import {
-  editStarboard,
-  getCollection,
-  getStarboard,
-  setStarboard,
-} from "../../../database/controllers/starboard_controller.ts";
-import { db } from "../../../database/db.ts";
+import { editStarboard, getCollection, getStarboard, setStarboard } from "database/controllers/starboard_controller.ts";
+import { db } from "database/db";
 
 createCommand({
   isGuildOnly: true,
@@ -66,21 +61,17 @@ createCommand({
 
     if (!starboard) {
       // set a new starboard
-      await setStarboard(getCollection(db), guild.id, channel.id, emoji?.id ?? emoji.name, count);
+      await setStarboard(getCollection(db), guild.id, channel.id, emoji.name, count);
 
       const newStarboard = await getStarboard(getCollection(db), guild.id);
 
       return `El canal del starboard será <#${newStarboard?.channelId}> y tendrá el emoji ${emoji?.name ?? "⭐"}`;
     } else {
-      await editStarboard(
-        getCollection(db),
-        { guildId: guild.id.toString() },
-        {
-          count,
-          channelId: channel.id.toString(),
-          emojiId: !emoji ? "⭐" : emoji.id ? emoji.id.toString() : emoji.name,
-        }
-      );
+      await editStarboard(getCollection(db), guild.id, {
+        count,
+        channelId: channel.id,
+        emojiName: emoji.name,
+      });
 
       const newStarboard = await getStarboard(getCollection(db), guild.id);
 

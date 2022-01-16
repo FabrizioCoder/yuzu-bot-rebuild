@@ -12,7 +12,7 @@ async function startDatabase() {
     const client = new MongoClient();
     await client.connect(secret);
 
-    db = client.database("azucluster");
+    db = client.database("yuzucluster");
   }
 }
 

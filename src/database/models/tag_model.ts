@@ -1,9 +1,11 @@
+import type { Bson } from "mongo";
+
 export interface TagSchema {
-  server: string;
-  user: string;
+  guildId: Bson.Long;
+  userId: Bson.Long;
   name: string;
   content: string;
   attachments: string[];
-  global: boolean;
-  nsfw: boolean;
+  isGlobal: boolean;
+  isNsfw: boolean;
 }

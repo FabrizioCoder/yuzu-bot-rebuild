@@ -2,6 +2,7 @@ import type { BotWithCache } from "cache_plugin";
 import { cache, createMonitor } from "oasis";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
+import { translate } from "utils";
 
 createMonitor({
   name: "onSlashCommand",
@@ -36,7 +37,7 @@ createMonitor({
       await sendInteractionResponse(bot, interaction.id, interaction.token, {
         type: InteractionResponseTypes.DeferredChannelMessageWithSource,
         data: {
-          content: "Este comando solo está disponible en servidores",
+          content: await translate(bot as BotWithCache, "strings:COMMAND_IS_GUILDONLY", interaction.guildId),
         },
         private: true,
       });
@@ -55,7 +56,7 @@ createMonitor({
         await sendInteractionResponse(bot, interaction.id, interaction.token, {
           type: InteractionResponseTypes.DeferredChannelMessageWithSource,
           data: {
-            content: "No puedo enviar embeds...",
+            content: await translate(bot as BotWithCache, "string:BOT_CANNOT_SEND_EMBEDS", interaction.guildId),
           },
           private: true,
         });
@@ -70,7 +71,12 @@ createMonitor({
     await sendInteractionResponse(bot, interaction.id, interaction.token, {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
       data: {
-        content: typeof output === "string" ? output : "",
+        content:
+          typeof output === "string"
+            ? command.translated
+              ? await translate(bot as BotWithCache, output, interaction.guildId)
+              : output
+            : "",
         embeds: typeof output !== "string" ? [output] : [],
         allowedMentions: { users: [], roles: [] },
       },

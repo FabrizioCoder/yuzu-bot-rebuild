@@ -1,4 +1,4 @@
-import type { DiscordenoAttachment, DiscordenoMessage } from "discordeno";
+import type { DiscordenoMessage } from "discordeno";
 import { Collection } from "discordeno";
 
 export const lastMessages = new Collection<bigint, DiscordenoMessage>();

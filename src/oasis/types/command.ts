@@ -48,6 +48,7 @@ export interface CreateCommand {
   isAdminOnly?: boolean;
   category: number;
   options?: ApplicationCommandOption[];
+  translated?: boolean;
 }
 
 export interface Command<Slash extends boolean = true> {
@@ -59,4 +60,5 @@ export interface Command<Slash extends boolean = true> {
   execute(
     ctx: Slash extends true ? SlashCommandContext : MessageCommandContext
   ): string | Embed | void | Promise<string | Embed | void>;
+  translated?: boolean;
 }

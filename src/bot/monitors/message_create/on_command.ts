@@ -3,8 +3,9 @@ import { cache, createMonitor } from "oasis";
 import { botMention, Configuration, compareDistance } from "utils";
 import { sendMessage } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
-import { getCollection, getPrefix } from "../../../database/controllers/prefix_controller.ts";
-import { db } from "../../../database/db.ts";
+import { getCollection, getPrefix } from "database/controllers/prefix_controller.ts";
+import { db } from "database/db";
+import { translate } from "utils";
 
 // get a prefix from a given guildId
 async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Configuration.PREFIX) {
@@ -34,7 +35,9 @@ createMonitor({
 
     if (!message.content.startsWith(prefix)) {
       if (message.content.match(botMention(bot.id))) {
-        await sendMessage(bot, message.channelId, { content: `Mi prefix es ${prefix}` });
+        await sendMessage(bot, message.channelId, {
+          content: await translate(bot as BotWithCache, "strings:MY_PREFIX_IS", message.guildId, { prefix }),
+        });
       }
       return;
     }
@@ -72,7 +75,7 @@ createMonitor({
 
       if (entry) {
         await sendMessage(bot, message.channelId, {
-          content: `That command doesn't exist! \🔒 did you mean \`${entry[0]}\`?`,
+          content: await translate(bot as BotWithCache, "strings:DID_YOU_MEAN", message.guildId, { command: entry[0] }),
         });
         fxd.clear();
       }
@@ -80,12 +83,16 @@ createMonitor({
     }
 
     if (!message.guildId && command.isGuildOnly) {
-      await sendMessage(bot, message.channelId, { content: "Este comando solo funciona en servidores..." });
+      await sendMessage(bot, message.channelId, {
+        content: await translate(bot as BotWithCache, "strings:COMMAND_IS_GUILDONLY", message.guildId),
+      });
       return;
     }
 
     if (message.authorId !== Configuration.OWNER_ID && command.isAdminOnly) {
-      await sendMessage(bot, message.channelId, { content: "Debes ser dev para usar el comando..." });
+      await sendMessage(bot, message.channelId, {
+        content: await translate(bot as BotWithCache, "strings:COMMAND_IS_ADMINONLY", message.guildId),
+      });
       return;
     }
 
@@ -103,21 +110,28 @@ createMonitor({
       const canSendEmbeds = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["EMBED_LINKS"]);
 
       if (typeof output !== "string" && !canSendEmbeds) {
-        await sendMessage(bot, message.channelId, { content: "No puedo enviar embeds..." });
+        await sendMessage(bot, message.channelId, {
+          content: await translate(bot as BotWithCache, "strings:BOT_CANNOT_SEND_EMBEDS", message.guildId),
+        });
         return;
       }
     }
 
     // END PERMISSIONS
 
-    if (!output) return;
+    if (!output) {
+      return;
+    }
 
     if (typeof output !== "string") {
       await sendMessage(bot, message.channelId, { embeds: [output] });
     }
 
     if (typeof output === "string") {
-      await sendMessage(bot, message.channelId, { content: output, allowedMentions: { users: [], roles: [] } });
+      await sendMessage(bot, message.channelId, {
+        content: command.translated ? await translate(bot as BotWithCache, output, message.guildId) : output,
+        allowedMentions: { users: [], roles: [] },
+      });
     }
   },
 });

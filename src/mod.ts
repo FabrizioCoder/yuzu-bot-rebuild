@@ -1,19 +1,21 @@
-import { Configuration, loadDynamicCommands } from "utils";
+import { Configuration, loadDynamicCommands, loadLanguages } from "utils";
 import { cache, load } from "oasis";
 import { createBot, startBot } from "discordeno";
 import { enableCachePlugin } from "cache_plugin";
 import { enablePermissionsPlugin } from "permissions_plugin";
-import { startDatabase } from "../database/db.ts";
+import { startDatabase } from "database/db";
 
 import "dotenv/load";
 
-const folders = ["slash_commands", "commands", "events", "tasks", "monitors"] as const;
+const folders = ["commands", "events", "tasks", "monitors"] as const;
 
 for (const folder of folders) {
   await load("./src/bot", folder);
 }
 
 loadDynamicCommands();
+
+await loadLanguages();
 
 const bot = createBot({
   botId: Deno.args[0] ? BigInt(Deno.args[0]) : Configuration.ID,

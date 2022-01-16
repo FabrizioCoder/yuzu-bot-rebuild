@@ -1,0 +1,8 @@
+{
+  "avatar": {
+    "DESCRIPTION": "Busca el avatar de un usuario",
+    "ON_MISSING_USER": "El usuario no se encontró",
+    "EMBED_TITLE": "Pedido por {{mention}}",
+    "EMBED_DESCRIPTION": "[Referencia](https://www.google.com/searchbyimage?image_url={{avatar}})\n[Avatar URL]({{avatar}})"
+  }
+}

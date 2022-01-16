@@ -1,0 +1,7 @@
+{
+  "BOT_CANNOT_SEND_EMBEDS": "No puedo enviar embeds",
+  "COMMAND_IS_GUILDONLY": "Ese comando es solo para servidores",
+  "COMMAND_IS_ADMINONLY": "Solo los devs pueden usar ese comando",
+  "MY_PREFIX_IS": "Mi prefix es {{prefix}}",
+  "DID_YOU_MEAN": "Ese comando no existe! 🔒 quisiste decir: `{{command}}`?"
+}

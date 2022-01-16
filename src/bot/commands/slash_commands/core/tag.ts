@@ -10,8 +10,8 @@ import {
   getTag,
   passTag,
   removeTag,
-} from "../../../database/controllers/tag_controller.ts";
-import { db } from "../../../database/db.ts";
+} from "database/controllers/tag_controller.ts";
+import { db } from "database/db";
 
 enum Arguments {
   Add,
@@ -77,11 +77,15 @@ createCommand({
           ? hasGuildPermissions(bot, interaction.guildId, interaction.member, ["ADMINISTRATOR"])
           : false;
 
-        if (BigInt(tag.user) !== interaction.user.id && !isAdmin && interaction.user.id !== Configuration.OWNER_ID) {
+        if (
+          tag.userId.toBigInt() !== interaction.user.id &&
+          !isAdmin &&
+          interaction.user.id !== Configuration.OWNER_ID
+        ) {
           return "El tag no te pertenece";
         }
 
-        if (tag.global && interaction.user.id !== Configuration.OWNER_ID) {
+        if (tag.isGlobal && interaction.user.id !== Configuration.OWNER_ID) {
           return "El tag es global y no se puede remover";
         }
 
@@ -100,10 +104,10 @@ createCommand({
         if (!user || user.bot) return "No encontré ese usuario";
 
         await passTag(getCollection(db), interaction.guildId, user.id, {
-          server: interaction.guildId.toString(),
-          user: user.id.toString(),
-          global: tag.nsfw,
-          nsfw: tag.nsfw,
+          guildId: interaction.guildId,
+          userId: user.id,
+          isGlobal: tag.isGlobal,
+          isNsfw: tag.isNsfw,
         });
 
         const output = await getTag(getCollection(db), tag.name, interaction.guildId);
@@ -116,11 +120,15 @@ createCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        if (BigInt(tag.user) !== interaction.user.id) {
+        if (tag.userId.toBigInt() !== interaction.user.id) {
           return "El tag no te pertenece";
         }
 
-        await editTag(getCollection(db), tag, { content, attachments: [] });
+        await editTag(
+          getCollection(db),
+          { guildId: tag.guildId.toBigInt(), userId: tag.userId.toBigInt(), name: tag.name },
+          { content, attachments: [] }
+        );
 
         const output = await getTag(getCollection(db), tag.name, interaction.guildId);
 
@@ -143,20 +151,24 @@ createCommand({
           ? hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["ADMINISTRATOR"])
           : false;
 
-        if (BigInt(tag.user) !== interaction.user.id && !isAdmin) {
+        if (tag.userId.toBigInt() !== interaction.user.id && !isAdmin) {
           return "El tag no te pertenece";
         }
 
-        if (tag.global) return "No se puede marcar un tag global";
+        if (tag.isGlobal) return "No se puede marcar un tag global";
 
-        await editTag(getCollection(db), tag, {
-          global: false,
-          nsfw: !tag.nsfw,
-        });
+        await editTag(
+          getCollection(db),
+          { guildId: tag.guildId.toBigInt(), userId: tag.userId.toBigInt(), name: tag.name },
+          {
+            isGlobal: false,
+            isNsfw: !tag.isNsfw,
+          }
+        );
 
         const output = await getTag(getCollection(db), tag.name, interaction.guildId);
 
-        return `Edité el tag ${output?.name} como **${!output?.nsfw ? "sfw" : "nsfw"}**`;
+        return `Edité el tag ${output?.name} como **${!output?.isNsfw ? "sfw" : "nsfw"}**`;
       }
       case Arguments.Owner: {
         const [name] = <[string]>option.options?.map((o) => o.value);
@@ -164,7 +176,7 @@ createCommand({
 
         if (!tag) return "No encontré ese tag";
 
-        return `ID: ${tag.user} <@${tag.user}>`;
+        return `ID: ${tag.userId.toBigInt()} <@${tag.userId.toBigInt()}>`;
       }
       case Arguments.Display: {
         if (!interaction.channelId) return;
@@ -184,7 +196,7 @@ createCommand({
 
         const safe = !channel?.nsfw;
 
-        if (tag.nsfw && safe) {
+        if (tag.isNsfw && safe) {
           return "Contenido nsfw, lo sentimos pero no se puede mostrar en éste canal :underage:";
         }
 

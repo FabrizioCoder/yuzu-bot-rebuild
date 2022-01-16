@@ -1,6 +1,8 @@
+import type { Bson } from "mongo";
+
 export interface StarboardSchema {
-  guildId: string;
-  channelId: string;
-  emojiId: string;
+  guildId: Bson.Long;
+  channelId: Bson.Long;
+  emojiName?: string;
   count: number;
 }

@@ -15,6 +15,9 @@
     "poke_deno": "https://deno.land/x/poke_deno@1.1.0/mod.ts",
     "imagescript": "https://deno.land/x/imagescript@1.2.9/mod.ts",
     "utils": "./src/utils/mod.ts",
-    "oasis": "./src/oasis/mod.ts"
+    "oasis": "./src/oasis/mod.ts",
+    "database/db": "./src/database/db.ts",
+    "database/controllers/": "./src/database/controllers/",
+    "database/models/": "./src/database/models/"
   }
 }

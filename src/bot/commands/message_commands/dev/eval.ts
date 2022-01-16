@@ -1,6 +1,10 @@
 import { createMessageCommand, MessageEmbed } from "oasis";
 import { Category, DiscordColors } from "utils";
 
+import * as Discordeno from "discordeno";
+
+Discordeno;
+
 createMessageCommand({
   names: ["eval"],
   isGuildOnly: false,

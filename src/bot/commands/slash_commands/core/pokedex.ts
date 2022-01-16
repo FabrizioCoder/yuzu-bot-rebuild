@@ -1,10 +1,11 @@
-import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
-import { createMessageCommand, MessageEmbed } from "oasis";
+import type { Pokemon, PokemonTarget } from "../../../types/pokeapi.ts";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
 import { Api, Category, randomHex } from "utils";
+import { ApplicationCommandOptionTypes } from "discordeno";
 
 async function getPokemonFromApi(pokemon: string | number) {
   try {
-    const data = (await fetch(`${Api.PokeApi}/pokemon/${pokemon}`).then((a) => a.json())) as Pokemon | undefined;
+    const data: Pokemon | undefined = await fetch(`${Api.PokeApi}/pokemon/${pokemon}`).then((a) => a.json());
 
     return Promise.resolve(data);
   } catch {
@@ -40,23 +41,21 @@ function parsePokemonWeight(weight: number) {
   return strWeight;
 }
 
-// Command...
-createMessageCommand({
-  names: ["pokedex", "dex"],
+createCommand({
   meta: {
     descr: "Comando para buscar un pokémon por su nombre o id",
     short: "Busca pokemones",
     usage: "<Nombre o id>",
   },
   category: Category.Util,
-  async execute({ args: { args } }) {
-    const option = args.join(" ");
+  async execute({ interaction }) {
+    const option = interaction.data?.options?.[0];
 
-    if (!option) {
-      return "Debes ingresar más información del pokémon para buscarlo.";
+    if (option?.type !== ApplicationCommandOptionTypes.String) {
+      return;
     }
 
-    const target = parseMessageToPokemon(option);
+    const target = parseMessageToPokemon(option.value as string);
     const poke = (await getPokemonFromApi(target.id)) ?? (await getPokemonFromApi(target.specie));
 
     if (!poke) {
@@ -76,4 +75,9 @@ createMessageCommand({
 
     return embed;
   },
+  data: new ChatInputApplicationCommandBuilder()
+    .setName("pokedex")
+    .setDescription("Comando para buscar un pokémon por su nombre o id")
+    .addStringOption((o) => o.setName("query").setDescription("Name or id").setRequired(true))
+    .toJSON(),
 });

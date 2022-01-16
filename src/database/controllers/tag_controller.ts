@@ -1,6 +1,8 @@
 import type { Database, Collection as MongoCollection } from "mongo";
 import type { TagSchema } from "../models/tag_model.ts";
 
+import { makeLong } from "../makeLong.ts";
+
 type Collection<T = TagSchema> = MongoCollection<T>;
 
 export function getCollection(db: Database) {
@@ -10,7 +12,7 @@ export function getCollection(db: Database) {
 export function getTag(collection: Collection, name: string, id?: bigint) {
   return id
     ? collection.findOne(
-        { name: name, server: id.toString() },
+        { name: name, guildId: makeLong(id) },
         {
           noCursorTimeout: false,
         }
@@ -27,8 +29,8 @@ export function findTag(collection: Collection, id: bigint, userId: bigint) {
   return collection
     .find(
       {
-        server: id.toString(),
-        user: userId.toString(),
+        guildId: makeLong(id),
+        userId: makeLong(userId),
       },
       {
         noCursorTimeout: false,
@@ -53,39 +55,63 @@ export function addTag(
 ) {
   if (!content && !attachments) return;
   return collection.insertOne({
-    server: id.toString(),
-    user: userId.toString(),
+    guildId: makeLong(id),
+    userId: makeLong(userId),
     name: name,
     content: content ?? "",
     attachments: attachments ?? [],
-    global: false,
-    nsfw: false,
+    isGlobal: false,
+    isNsfw: false,
   });
 }
 
 export function removeTag(collection: Collection, id: bigint, userId: bigint, name: string) {
   return collection.deleteOne({
-    server: id.toString(),
-    user: userId.toString(),
+    guildId: makeLong(id),
+    user: makeLong(userId),
     name,
   });
 }
 
 export function editTag(
   collection: Collection,
-  query: Pick<TagSchema, "server" | "user" | "name">,
-  data: Partial<TagSchema>
+  query: { guildId: bigint; userId: bigint; name: string },
+  {
+    name,
+    content,
+    guildId,
+    userId,
+    attachments,
+    isGlobal,
+    isNsfw,
+  }: Omit<Partial<TagSchema>, "guildId" | "userId"> & Partial<{ guildId: bigint; userId: bigint }>
 ) {
-  return collection.updateOne(query, { $set: data });
+  return collection.updateOne(
+    { guildId: makeLong(query.guildId), userId: makeLong(query.userId) },
+    {
+      $set: {
+        name,
+        content,
+        guildId: guildId ? makeLong(guildId) : undefined,
+        userId: userId ? makeLong(userId) : undefined,
+        attachments,
+        isGlobal,
+        isNsfw,
+      },
+    }
+  );
 }
 
 export function passTag(
   collection: Collection,
   id: bigint,
   userId: bigint,
-  data: Pick<TagSchema, "server" | "user" | "global" | "nsfw">
+  data: Pick<TagSchema, "isGlobal" | "isNsfw"> & { guildId: bigint; userId: bigint }
 ) {
-  return collection.updateOne(data, {
-    $set: { server: id.toString(), user: userId.toString() },
-  });
+  return collection.updateOne(
+    { guildId: makeLong(data.guildId), userId: makeLong(userId), isGlobal: data.isGlobal, isNsfw: data.isNsfw },
+    {
+      $set: { guildId: makeLong(id), userId: makeLong(userId) },
+    }
+  );
 }
