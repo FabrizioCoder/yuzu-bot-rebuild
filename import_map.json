@@ -13,6 +13,7 @@
     "dotenv": "https://deno.land/x/dotenv@v3.1.0/mod.ts",
     "dotenv/load": "https://deno.land/x/dotenv@v3.1.0/load.ts",
     "poke_deno": "https://deno.land/x/poke_deno@1.1.0/mod.ts",
+    "imagescript": "https://deno.land/x/imagescript@1.2.9/mod.ts",
     "utils": "./src/utils/mod.ts",
     "oasis": "./src/oasis/mod.ts"
   }

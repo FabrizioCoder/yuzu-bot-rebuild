@@ -19,6 +19,7 @@ export enum CategoryEmoji {
   ":category_admin:" = "<:category_admin:900649020668645386>",
   ":category_config:" = "<:category_config:900660131275100182>",
   ":category_interaction:" = "<:category_interaction:900655587384246272>",
+  ":category_image:" = "<:category_image:932054764634636348>",
 }
 
 export enum DiscordColors {
@@ -39,6 +40,7 @@ export enum Category {
   Util,
   Admin,
   Owner,
+  Image,
 }
 
 // ids
