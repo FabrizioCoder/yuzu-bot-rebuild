@@ -75,5 +75,25 @@
     "DESCRIPTION": "Wrapper de pokepast.es!",
     "USAGE": "display [--mobile] <link>",
     "ON_MISSING_LINK": "Link no encontrado"
+  },
+  "emotes": {
+    "DESCRIPTION": "Muestra, añade y remueve emojis",
+    "USAGE": "emotes | add | remove | hide | display [name] [url]",
+    "ON_INVALID_ROLE": "Debes mencionar un rol",
+    "ON_INVALID_LINK": "Debes enviar un link con una imagen",
+    "ON_MISSING_PERMISSIONS": "No posees suficientes permisos",
+    "ON_BOT_MISSING_PERMISSIONS": "No poseo suficientes permisos",
+    "ON_INVALID_EMOJI_NAME": "El emoji debe tener al menos 2 caracteres",
+    "ON_EMOJI_DELETED": "Eliminé el emoji {{emojiName}}",
+    "ON_EMOJI_CREATED": "Creé el emoji <:{{emojiName}}:{{emojiId}}>",
+    "ON_EMOJI_MODIFIED": "El emoji {{emojiName}} está escondido y solo podrá ser usado por <@{{roleId}}>",
+    "ON_EMOJI_NOT_FOUND": "Emoji no encontrado",
+    "ON_EMOJI_NOT_CREATED": "Emoji no creado"
+  },
+  "snipe": {
+    "DESCRIPTION": "Busca el último mensaje eliminado en el canal",
+    "USAGE": "snipe",
+    "ON_MISSING_MESSAGE": "No existe un mensaje eliminado",
+    "ON_LARGE_MESSAGE": "Mensaje largo recibido"
   }
 }

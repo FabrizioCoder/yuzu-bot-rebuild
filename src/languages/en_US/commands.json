@@ -75,5 +75,25 @@
     "DESCRIPTION": "Pokepast.es wrapper!",
     "USAGE": "display [--mobile] <link>",
     "ON_MISSING_LINK": "Link not found"
+  },
+  "emotes": {
+    "DESCRIPTION": "Add removes modifies and searches emojis",
+    "USAGE": "emotes | add | remove | hide | display [name] [url]",
+    "ON_INVALID_ROLE": "You have to mention a role",
+    "ON_INVALID_LINK": "You have to send a link with an image",
+    "ON_MISSING_PERMISSIONS": "You don't have enough permissions",
+    "ON_BOT_MISSING_PERMISSIONS": "I don't have enough permissions",
+    "ON_INVALID_EMOJI_NAME": "The emoji should be at least 2 characters long",
+    "ON_EMOJI_DELETED": "Emoji {{emojiName}} deleted",
+    "ON_EMOJI_CREATED": "Emoji <:{{emojiName}}:{{emojiId}}> created",
+    "ON_EMOJI_MODIFIED": "The emoji {{emojiName}} is hidden and can only be used by <@{{roleId}}>",
+    "ON_EMOJI_NOT_FOUND": "Emoji not found",
+    "ON_EMOJI_NOT_CREATED": "The emoji has not be created"
+  },
+  "snipe": {
+    "DESCRIPTION": "Searches for the last deleted message on the current channel",
+    "USAGE": "snipe",
+    "ON_MISSING_MESSAGE": "Theres no deleted messages",
+    "ON_LARGE_MESSAGE": "Large message sended"
   }
 }
