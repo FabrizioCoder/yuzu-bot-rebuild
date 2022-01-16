@@ -107,5 +107,9 @@
     "USAGE": "<Channel> [emoji] [count]",
     "ON_MISSING_PERMISSIONS": "No posees suficientes permisos",
     "ON_INVALID_CHANNEL": "The channel should be on this server"
+  },
+  "info": {
+    "DESCRIPTION": "Boring stuff and nerd's statistics",
+    "USAGE": "info"
   }
 }

@@ -6,10 +6,10 @@ createMessageCommand({
   names: ["info", "botinfo"],
   category: Category.Info,
   meta: {
-    descr: "Estadísticas para nerds",
-    short: "Estadísticas para nerds",
-    usage: "lol",
+    descr: "commands:info:DESCRIPTION",
+    usage: "commands:info:USAGE",
   },
+  translated: true,
   async execute({ bot }) {
     // utility
     const me = bot.users.get(bot.id) ?? (await getUser(bot, bot.id));

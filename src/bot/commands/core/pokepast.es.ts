@@ -9,6 +9,7 @@ createCommand({
     usage: "commands:display:USAGE",
   },
   category: Category.Info,
+  translated: true,
   async execute({ bot, interaction }) {
     if (!interaction.channelId) return;
 
@@ -51,6 +52,7 @@ createMessageCommand({
     descr: "commands:display:DESCRIPTION",
     usage: "commands:display:USAGE",
   },
+  translated: true,
   async execute({ bot, message, args: { args } }) {
     const [first, second] = args;
 

@@ -22,6 +22,7 @@ createCommand({
     usage: "commands:lyrics:USAGE",
   },
   category: Category.Util,
+  translated: true,
   async execute({ interaction }) {
     const option = interaction.data?.options?.[0];
 
@@ -63,6 +64,7 @@ createMessageCommand({
     usage: "commands:lyrics:USAGE",
   },
   category: Category.Util,
+  translated: true,
   async execute({ args: { args } }) {
     const option = args.join(" ");
 

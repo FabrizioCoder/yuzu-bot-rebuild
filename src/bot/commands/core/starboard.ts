@@ -12,6 +12,7 @@ createCommand({
     usage: "commands:starboard:USAGE",
   },
   category: Category.Config,
+  translated: true,
   async execute({ bot, interaction }) {
     if (!db) return;
 

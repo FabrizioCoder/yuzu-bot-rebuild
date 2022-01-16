@@ -109,5 +109,9 @@
     "ON_INVALID_CHANNEL": "El canal debe pertenecer al servidor",
     "ON_STARBOARD_CREATED": "El canal del starboard sera <#{{channelId}}> y tendrá el emoji {{emojiName}}",
     "ON_STARBOARD_MODIFIED": "El canal del starboard se editó a <#{{channelId}}> y tendrá el emoji {{emojiName}}"
+  },
+  "info": {
+    "DESCRIPTION": "Estadísticas para nerds y cosas aburridas",
+    "USAGE": "info"
   }
 }

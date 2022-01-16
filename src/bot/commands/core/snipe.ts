@@ -7,6 +7,7 @@ createCommand({
     descr: "commands:snipe:DESCRIPTION",
   },
   category: Category.Util,
+  translated: true,
   async execute({ bot, interaction }) {
     if (!interaction.channelId) return;
 
@@ -47,6 +48,7 @@ createMessageCommand({
   meta: {
     descr: "commands:snipe:DESCRIPTION",
   },
+  translated: true,
   async execute({ bot, message }) {
     const sniped = cache.lastMessages.get(message.channelId);
 

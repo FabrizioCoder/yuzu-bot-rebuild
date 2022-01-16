@@ -10,6 +10,7 @@ createCommand({
     usage: "commands:emotes:USAGE",
   },
   category: Category.Config,
+  translated: true,
   async execute({ bot, interaction }) {
     const option = interaction.data?.options?.[0];
 
@@ -159,6 +160,7 @@ createMessageCommand({
     usage: "commands:emotes:USAGE",
   },
   category: Category.Config,
+  translated: true,
   async execute({ bot, message, args }) {
     const [option, ...options] = args.args;
 
