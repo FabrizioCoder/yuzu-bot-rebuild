@@ -118,5 +118,20 @@
     "ON_INVALID_POKEMON": "Pokemon's information not found",
     "EMBED_FIELDNAME_ABILITIES": "Abilities",
     "EMBED_FIELDNAME_TYPES": "Types"
+  },
+  "tag": {
+    "DESCRIPTION": "Add removes modifies tags or gets information about them",
+    "USAGE": "tag add | remove | give | edit | nsfw | owner | display [tag name] [...]",
+    "ON_TAG_CLAIMED": "That tag is already claimed try another name",
+    "ON_TAG_CREATED": "Tag {{tagName}} created",
+    "ON_TAG_DELETED": "Tag {{tagName}} deleted",
+    "ON_TAG_EDITED": "Tag {{tagName}} modified",
+    "ON_TAG_NSFW": "Tag {{tagname}} is now **{{level}}**",
+    "ON_TAG_GIFTED": "<@{{userId}}>! {{authorTag}} gave you the tag {{tagName}}",
+    "ON_TAG_NOT_FOUND": "Tag not found",
+    "ON_TAG_OWNERSHIP_DOES_NOT_BELONG": "The tag is not yours",
+    "ON_TAG_GLOBAL": "The tag is global you cannot do that",
+    "ON_USER_NOT_FOUND": "User not found",
+    "ON_NSFW_CONTENT": "NSFW content can't be sended in non-nsfw channels"
   }
 }
