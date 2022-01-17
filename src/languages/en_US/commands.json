@@ -133,5 +133,54 @@
     "ON_TAG_GLOBAL": "The tag is global you cannot do that",
     "ON_USER_NOT_FOUND": "User not found",
     "ON_NSFW_CONTENT": "NSFW content can't be sended in non-nsfw channels"
+  },
+  "img/hug": {
+    "ACTION": "hugs",
+    "ON_INVALID_USER": "You have to mention someone!",
+    "ON_INVALID_DATA": "Image not found",
+    "ON_SELF": "You seem so lonely...",
+    "ON_INVALID_USER": "Invalid user! try to mention someone else"
+  },
+  "img/kiss": {
+    "ACTION": "kisses",
+    "ON_INVALID_USER": "You have to mention someone!",
+    "ON_INVALID_DATA": "Image not found",
+    "ON_SELF": "You seem so lonely...",
+    "ON_INVALID_USER": "Invalid user! try to mention someone else"
+  },
+  "img/poke": {
+    "ACTION": "pokes",
+    "ON_INVALID_USER": "You have to mention someone!",
+    "ON_INVALID_DATA": "Image not found",
+    "ON_SELF": "You cannot poke yourself stupid!",
+    "ON_INVALID_USER": "Invalid user! try to mention someone else"
+  },
+  "img/tickle": {
+    "ACTION": "tickles",
+    "ON_INVALID_USER": "You have to mention someone!",
+    "ON_INVALID_DATA": "Image not found",
+    "ON_SELF": "That's not how it works!!!",
+    "ON_INVALID_USER": "Invalid user! try to mention someone else"
+  },
+  "img/pat": {
+    "ACTION": "pats",
+    "ON_INVALID_USER": "You have to mention someone!",
+    "ON_INVALID_DATA": "Image not found",
+    "ON_SELF": "Oh you can't do that but I'll give you a cookie instead: :cookie:",
+    "ON_INVALID_USER": "Invalid user! try to mention someone else"
+  },
+  "img/cuddle": {
+    "ACTION": "cuddled up",
+    "ON_INVALID_USER": "You have to mention someone!",
+    "ON_INVALID_DATA": "Image not found",
+    "ON_SELF": "That's not how it works!!!",
+    "ON_INVALID_USER": "Invalid user! try to mention someone else"
+  },
+  "img/feed": {
+    "ACTION": "feeds",
+    "ON_INVALID_USER": "You have to mention someone!",
+    "ON_INVALID_DATA": "Image not found",
+    "ON_SELF": "That's not how it works!!! You have to feed someone else",
+    "ON_INVALID_USER": "Invalid user! try to mention someone else"
   }
 }

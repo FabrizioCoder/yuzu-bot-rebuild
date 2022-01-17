@@ -135,5 +135,54 @@
     "ON_TAG_GLOBAL": "The tag is global you cannot do that",
     "ON_USER_NOT_FOUND": "User not found",
     "ON_NSFW_CONTENT": "NSFW content can't be sended in non-nsfw channels"
+  },
+  "img/hug": {
+    "ACTION": "hugs",
+    "ON_INVALID_USER": "Debes mencionar a alguien!",
+    "ON_INVALID_DATA": "Imagen no encontrada",
+    "ON_SELF": "Te ves muy solitario...",
+    "ON_INVALID_USER": "Usuario no encontrado! intenta mencionar a alguien más!"
+  },
+  "img/kiss": {
+    "ACTION": "besa a",
+    "ON_INVALID_USER": "Debes mencionar a alguien!",
+    "ON_INVALID_DATA": "Imagen no encontrada",
+    "ON_SELF": "Te ves muy solitario...",
+    "ON_INVALID_USER": "Usuario no encontrado! intenta mencionar a alguien más!"
+  },
+  "img/poke": {
+    "ACTION": "molesta a",
+    "ON_INVALID_USER": "Debes mencionar a alguien!",
+    "ON_INVALID_DATA": "Imagen no encontrada",
+    "ON_SELF": "No puedes molestarte a ti mismo tonto!",
+    "ON_INVALID_USER": "Usuario no encontrado! intenta mencionar a alguien más!"
+  },
+  "img/tickle": {
+    "ACTION": "hace cosquilas a",
+    "ON_INVALID_USER": "Debes mencionar a alguien!",
+    "ON_INVALID_DATA": "Imagen no encontrada",
+    "ON_SELF": "Así no es como funciona!!!",
+    "ON_INVALID_USER": "Usuario no encontrado! intenta mencionar a alguien más!"
+  },
+  "img/pat": {
+    "ACTION": "acaricia a",
+    "ON_INVALID_USER": "Debes mencionar a alguien!",
+    "ON_INVALID_DATA": "Imagen no encontrada",
+    "ON_SELF": "Oh no puedes hacer eso pero te daré una galleta por tu esfuerzo: :cookie:",
+    "ON_INVALID_USER": "Usuario no encontrado! intenta mencionar a alguien más!"
+  },
+  "img/cuddle": {
+    "ACTION": "se acurruca con",
+    "ON_INVALID_USER": "Debes mencionar a alguien!",
+    "ON_INVALID_DATA": "Imagen no encontrada",
+    "ON_SELF": "Así no es como funciona!!!",
+    "ON_INVALID_USER": "Usuario no encontrado! intenta mencionar a alguien más!"
+  },
+  "img/feed": {
+    "ACTION": "alimenta a",
+    "ON_INVALID_USER": "Debes mencionar a alguien!",
+    "ON_INVALID_DATA": "Imagen no encontrada",
+    "ON_SELF": "Así no es como funciona! tienes que mencionar a alguien que no seas tú",
+    "ON_INVALID_USER": "Usuario no encontrado! intenta mencionar a alguien más!"
   }
 }

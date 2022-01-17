@@ -1,4 +1,5 @@
 import { Api, Category, DiscordColors } from "../constants.ts";
+import { translate } from "../i18next.ts";
 import { cache } from "oasis";
 import { createCommand, createMessageCommand, MessageEmbed } from "oasis";
 import { ApplicationCommandTypes, ApplicationCommandOptionTypes, getUser } from "discordeno";
@@ -9,15 +10,7 @@ export function loadDynamicCommands() {
   setMessageCommands(cache.commands);
 }
 
-const endpointsActionPairs = new Map([
-  ["img/hug", "hugs"],
-  ["img/kiss", "kisses"],
-  ["img/poke", "pokes"],
-  ["img/tickle", "tickle"],
-  ["img/pat", "pats"],
-  ["img/cuddle", "cuddle"],
-  ["img/feed", "feeds"],
-] as const);
+const endpoints = ["img/hug", "img/kiss", "img/poke", "img/tickle", "img/pat", "img/cuddle", "img/feed"];
 
 function getDescription(action: string, target: bigint, author: bigint) {
   return `<@${author}> ${action} <@${target}>`;
@@ -26,27 +19,21 @@ function getDescription(action: string, target: bigint, author: bigint) {
 function getCommandName(endpointString: string) {
   return endpointString.slice(4, endpointString.length);
 }
-
-function getActionFromCommandName(commandName: string) {
-  return endpointsActionPairs.get(`img/${commandName}` as any);
-}
-
 function setInteractionCommands(cmds: Map<string, unknown>) {
-  Array.from(endpointsActionPairs.keys()).forEach((endpoint) => {
+  endpoints.forEach((endpoint) => {
     const commandName = getCommandName(endpoint);
     cmds.set(
       commandName,
       createCommand({
-        isGuildOnly: false,
         meta: {
-          descr: getActionFromCommandName(commandName),
-          usage: "[@User]",
+          descr: `commands:${commandName}:DESCRIPTION`,
+          usage: `commands:${commandName}:USAGE`,
         },
         category: Category.Interaction,
         data: {
           type: ApplicationCommandTypes.ChatInput,
           name: commandName,
-          description: `${commandName} a user`,
+          description: `To ${commandName} a user`,
           options: [
             {
               type: ApplicationCommandOptionTypes.User,
@@ -56,7 +43,7 @@ function setInteractionCommands(cmds: Map<string, unknown>) {
             },
           ],
         },
-        translated: false,
+        translated: true,
         async execute({ bot, interaction }) {
           type Image = { url: string };
           const data = (await fetch(Api.Nekos + endpoint).then((a) => a.json())) as Image | undefined;
@@ -72,18 +59,18 @@ function setInteractionCommands(cmds: Map<string, unknown>) {
           const user = bot.users.get(userId) ?? (await getUser(bot, userId));
 
           if (!data) {
-            return "No encontré una imagen para mostrar";
+            return `commands:${commandName}:ON_INVALID_DATA`;
           }
 
           if (userId === interaction.user.id) {
-            return "No debes hacerlo contigo mismo";
+            return `commands:${commandName}:ON_SELF`;
           }
 
           if (!user) {
-            return "Especifica correctamente el usuario";
+            return `commands:${commandName}:ON_INVALID_USER`;
           }
 
-          const description = String(getActionFromCommandName(commandName));
+          const description = await translate(bot, `commands:${commandName}:ACTION`, interaction.guildId);
 
           const { embed } = new MessageEmbed()
             .color(DiscordColors.Blurple)
@@ -98,19 +85,18 @@ function setInteractionCommands(cmds: Map<string, unknown>) {
 }
 
 function setMessageCommands(cmds: Map<string, unknown>) {
-  Array.from(endpointsActionPairs.keys()).forEach((endpoint) => {
+  endpoints.forEach((endpoint) => {
     const commandName = getCommandName(endpoint);
     cmds.set(
       commandName,
       createMessageCommand({
-        isGuildOnly: false,
         meta: {
-          descr: getActionFromCommandName(commandName),
-          usage: "[@User]",
+          descr: `commands:${commandName}:DESCRIPTION`,
+          usage: `commands:${commandName}:USAGE`,
         },
         category: Category.Interaction,
         names: [commandName],
-        translated: false,
+        translated: true,
         async execute({ bot, message, args: { args } }) {
           type Image = { url: string };
           const data = (await fetch(Api.Nekos + endpoint).then((a) => a.json())) as Image | undefined;
@@ -120,7 +106,7 @@ function setMessageCommands(cmds: Map<string, unknown>) {
           const search = rawMention?.match(/\d{18}/gi)?.[0];
 
           if (!search) {
-            return "Menciona a alguien";
+            return `commands:${commandName}:ON_INVALID_USER`;
           }
 
           // get the user
@@ -128,18 +114,18 @@ function setMessageCommands(cmds: Map<string, unknown>) {
           const user = bot.users.get(userId) ?? (await getUser(bot, userId));
 
           if (!data) {
-            return "No encontré una imagen para mostrar";
+            return `commands:${commandName}:ON_INVALID_DATA`;
           }
 
           if (userId === message.authorId) {
-            return "No debes hacerlo contigo mismo";
+            return `commands:${commandName}:ON_SELF`;
           }
 
           if (!user) {
-            return "Especifica correctamente el usuario";
+            return `commands:${commandName}:ON_INVALID_USER`;
           }
 
-          const description = String(getActionFromCommandName(commandName));
+          const description = await translate(bot, `commands:${commandName}:ACTION`, message.guildId);
 
           const { embed } = new MessageEmbed()
             .color(DiscordColors.Blurple)
