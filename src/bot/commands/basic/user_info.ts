@@ -52,11 +52,11 @@ createCommand({
         }
 
         embed.field(
-          await translate(bot, "commands:userinfo:ON_SERVER_SINCE"),
+          await translate(bot, "commands:userinfo:ON_SERVER_SINCE", interaction.guildId),
           `<t:${Math.floor(member.joinedAt / 1000)}> <- <t:${Math.floor(member.joinedAt / 1000)}:R>`
         );
 
-        embed.field("Apodo", member.nick ?? user.username);
+        embed.field("Nick", member.nick ?? user.username);
 
         embed.field(`Roles: [${member.roles.length}]`, `@everyone ${member.roles.map((r) => `<@&${r}>`).join(" ")}`);
       }
