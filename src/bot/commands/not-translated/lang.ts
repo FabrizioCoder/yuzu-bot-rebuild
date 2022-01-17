@@ -2,6 +2,8 @@ import { createMessageCommand } from "oasis";
 import { Category } from "utils";
 import { addLanguage, editLanguage, getLanguage, getCollection } from "database/controllers/language_controller.ts";
 import { db } from "database/db";
+import { getGuild, getMember } from "discordeno";
+import { hasGuildPermissions } from "permissions_plugin";
 
 createMessageCommand({
   names: ["lang", "setlang"],
@@ -11,10 +13,17 @@ createMessageCommand({
     descr: "Set a language",
     usage: "lang [es | en]",
   },
-  async execute({ message, args: { args } }) {
+  async execute({ bot, message, args: { args } }) {
     if (!db) return;
 
     const input = args[0];
+
+    const member = bot.members.get(message.authorId) ?? (await getMember(bot, message.guildId!, message.authorId));
+    const guild = bot.guilds.get(message.guildId!) ?? (await getGuild(bot, message.guildId!));
+
+    if (!hasGuildPermissions(bot, guild, member, ["ADMINISTRATOR"])) {
+      return "Not enough permissions!!!";
+    }
 
     const currentLanguage = await getLanguage(getCollection(db), message.guildId!);
 
