@@ -184,5 +184,14 @@
     "ON_INVALID_DATA": "Imagen no encontrada",
     "ON_SELF": "Así no es como funciona! tienes que mencionar a alguien que no seas tú",
     "ON_INVALID_USER": "Usuario no encontrado! intenta mencionar a alguien más!"
+  },
+  "prefix": {
+    "DESCRIPTION": "Actualiza el prefix del servidor",
+    "USAGE": "prefix <texto>",
+    "ON_NO_PREFIX": "El prefix es `{{prefix}}`",
+    "ON_INVALID_PREFIX": "El prefix no puede contener caracteres especiales",
+    "ON_MISSING_PERMISSIONS": "No posees suficientes permisos",
+    "ON_PREFIX_CREATED": "Prefix `{{prefix}}` creado",
+    "ON_PREFIX_UPDATED": "Prefix `{{old}}` actualizado a `{{prefix}}`"
   }
 }

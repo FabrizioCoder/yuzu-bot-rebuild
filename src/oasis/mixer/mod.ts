@@ -1,4 +1,4 @@
-export function mix(constructors: Function[]) {
+export function mix(...constructors: Function[]) {
   return function (derivedCtor: Function) {
     constructors.forEach((baseCtor) => {
       Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {

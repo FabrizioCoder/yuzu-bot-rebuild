@@ -17,7 +17,8 @@ export class ChoiceBuilder {
   }
 
   public toJSON(): ApplicationCommandOptionChoice {
-    if (!this.name || !this.value) throw new TypeError("Property 'name' or 'value' are required");
+    if (!this.name) throw new TypeError("Property 'name' is required");
+    if (!this.value) throw new TypeError("Property 'value' is required");
 
     return {
       name: this.name,
@@ -256,7 +257,7 @@ export class OptionBased {
   }
 }
 
-@mix([OptionBuilder, OptionBased])
+@mix(OptionBuilder, OptionBased)
 export class OptionBuilderNested {
   public constructor(
     public type?: ApplicationCommandOptionTypes.SubCommand | ApplicationCommandOptionTypes.SubCommandGroup,
@@ -268,6 +269,7 @@ export class OptionBuilderNested {
     this.description = description;
   }
 
+  // TODO: this will get overwritten by the mixer
   public toJSON(): ApplicationCommandOption {
     if (!this.type) throw new TypeError("Property 'type' is required");
     if (!this.name) throw new TypeError("Property 'name' is required");

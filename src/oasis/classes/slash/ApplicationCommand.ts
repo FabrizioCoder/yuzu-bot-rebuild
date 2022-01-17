@@ -58,7 +58,7 @@ export class MessageApplicationCommandBuilder {
 // TODO
 // export class UserApplicationCommandBuilder extends ApplicationCommandBuilder {}
 
-@mix([ApplicationCommandBuilder, OptionBased])
+@mix(ApplicationCommandBuilder, OptionBased)
 export class ChatInputApplicationCommandBuilder {
   public type: ApplicationCommandTypes.ChatInput = ApplicationCommandTypes.ChatInput;
 

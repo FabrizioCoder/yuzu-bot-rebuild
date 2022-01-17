@@ -35,7 +35,7 @@ export async function determineNamespaces(path: string, namespaces: string[] = [
         isLanguage ? "" : `${folderName + file.name}/`
       );
     } else {
-      const toPush = `${folderName}${file.name.substr(0, file.name.length - 5)}`;
+      const toPush = `${folderName}${file.name.substring(0, file.name.length - 5)}`;
       if (!toPush.startsWith("TODO")) namespaces.push(toPush);
     }
   }

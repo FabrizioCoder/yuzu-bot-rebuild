@@ -1,5 +1,5 @@
 import { createMessageCommand } from "oasis";
-import { Category, isNotAscii } from "utils";
+import { Category, isNotAscii, translate } from "utils";
 import { hasGuildPermissions } from "permissions_plugin";
 import { addPrefix, editPrefix, getCollection, getPrefix } from "database/controllers/prefix_controller.ts";
 import { db } from "database/db";
@@ -8,10 +8,11 @@ createMessageCommand({
   names: ["prefix", "setprefix"],
   isGuildOnly: true,
   meta: {
-    descr: "Actualiza el prefix del servidor",
-    usage: "<Input>",
+    descr: "commands:prefix:DESCRIPTION",
+    usage: "commands:prefix:USAGE",
   },
   category: Category.Config,
+  translated: true,
   async execute({ bot, message, args: { args, prefix } }) {
     if (!db || !message.guildId) {
       return;
@@ -20,11 +21,11 @@ createMessageCommand({
     const [input] = args;
 
     if (!input) {
-      return `El prefix actual es ${prefix}`;
+      return translate(bot, "commands:prefix:ON_NO_PREFIX", message.guildId, { prefix });
     }
 
     if (isNotAscii(input)) {
-      return "El prefix no puede contener caracteres especiales";
+      return "commands:prefix:ON_INVALID_PREFIX";
     }
 
     // the prefix (may be undefined)
@@ -36,7 +37,7 @@ createMessageCommand({
       : false;
 
     if (!isStaff) {
-      return "No posees suficientes permisos";
+      return "commands:prefix:ON_MISSING_PERMISSIONS";
     }
 
     if (guildPrefix) {
@@ -44,13 +45,18 @@ createMessageCommand({
 
       const newPrefix = await getPrefix(getCollection(db), message.guildId);
 
-      return `El prefix se ha actualizado a ${newPrefix?.prefix}`;
+      return translate(bot, "commands:prefix:ON_PREFIX_CREATED", message.guildId, {
+        prefix: newPrefix?.prefix,
+      });
     } else {
       await addPrefix(getCollection(db), message.guildId, input);
 
       const newPrefix = await getPrefix(getCollection(db), message.guildId);
 
-      return `El prefix nuevo será ${newPrefix?.prefix}`;
+      return translate(bot, "commands:prefix:ON_PREFIX_UPDATED", message.guildId, {
+        prefix: newPrefix?.prefix,
+        old: prefix,
+      });
     }
   },
 });

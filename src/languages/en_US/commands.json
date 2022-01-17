@@ -196,5 +196,14 @@
     "ON_INVALID_DATA": "Image not found",
     "ON_SELF": "That's not how it works!!! You have to feed someone else",
     "ON_INVALID_USER": "Invalid user! try to mention someone else"
+  },
+  "prefix": {
+    "DESCRIPTION": "Updates the server's prefix",
+    "USAGE": "prefix <text>",
+    "ON_NO_PREFIX": "The prefix is `{{prefix}}`",
+    "ON_INVALID_PREFIX": "The prefix should be **only** ascii characters",
+    "ON_MISSING_PERMISSIONS": "You don't have enough permissions",
+    "ON_PREFIX_CREATED": "Prefix `{{prefix}}` created",
+    "ON_PREFIX_UPDATED": "Prefix `{{old}}` is now `{{prefix}}`"
   }
 }
