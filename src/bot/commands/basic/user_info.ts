@@ -30,11 +30,6 @@ createCommand({
       .color(DiscordColors.Blurple)
       .footer(`${user.id}`, avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar }))
       .field(
-        ...((
-          await translate(bot, "commands:userinfo:IS_BOT", interaction.guildId, { bot: user.bot ? "Sí" : "No" })
-        ).split(" ") as [string, string])
-      )
-      .field(
         await translate(bot, "commands:userinfo:ON_DISCORD_SINCE", interaction.guildId),
         `<t:${Math.floor(snowflakeToTimestamp(user.id) / 1000)}> <- <t:${Math.floor(
           snowflakeToTimestamp(user.id) / 1000
