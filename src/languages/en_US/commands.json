@@ -134,49 +134,63 @@
     "ON_USER_NOT_FOUND": "User not found",
     "ON_NSFW_CONTENT": "NSFW content can't be sended in non-nsfw channels"
   },
-  "img/hug": {
+  "hug": {
+    "DESCRIPTION": "Command to hug someone",
+    "USAGE": "hug <@user>",
     "ACTION": "hugs",
     "ON_INVALID_USER": "You have to mention someone!",
     "ON_INVALID_DATA": "Image not found",
     "ON_SELF": "You seem so lonely...",
     "ON_INVALID_USER": "Invalid user! try to mention someone else"
   },
-  "img/kiss": {
+  "kiss": {
+    "DESCRIPTION": "Command to kiss someone ^^",
+    "USAGE": "kiss <@user>",
     "ACTION": "kisses",
     "ON_INVALID_USER": "You have to mention someone!",
     "ON_INVALID_DATA": "Image not found",
     "ON_SELF": "You seem so lonely...",
     "ON_INVALID_USER": "Invalid user! try to mention someone else"
   },
-  "img/poke": {
+  "poke": {
+    "DESCRIPTION": "Command to poke someone",
+    "USAGE": "poke <@user>",
     "ACTION": "pokes",
     "ON_INVALID_USER": "You have to mention someone!",
     "ON_INVALID_DATA": "Image not found",
     "ON_SELF": "You cannot poke yourself stupid!",
     "ON_INVALID_USER": "Invalid user! try to mention someone else"
   },
-  "img/tickle": {
+  "tickle": {
+    "DESCRIPTION": "Command to tickle someone",
+    "USAGE": "tickle <@user>",
     "ACTION": "tickles",
     "ON_INVALID_USER": "You have to mention someone!",
     "ON_INVALID_DATA": "Image not found",
     "ON_SELF": "That's not how it works!!!",
     "ON_INVALID_USER": "Invalid user! try to mention someone else"
   },
-  "img/pat": {
+  "pat": {
+    "DESCRIPTION": "Command to pat someone",
+    "USAGE": "pat <@user>",
     "ACTION": "pats",
     "ON_INVALID_USER": "You have to mention someone!",
     "ON_INVALID_DATA": "Image not found",
     "ON_SELF": "Oh you can't do that but I'll give you a cookie instead: :cookie:",
     "ON_INVALID_USER": "Invalid user! try to mention someone else"
   },
-  "img/cuddle": {
+  "cuddle": {
+    "DESCRIPTION": "Command to cuddle up with someone",
+    "USAGE": "cuddle <@user>",
     "ACTION": "cuddled up",
     "ON_INVALID_USER": "You have to mention someone!",
     "ON_INVALID_DATA": "Image not found",
     "ON_SELF": "That's not how it works!!!",
     "ON_INVALID_USER": "Invalid user! try to mention someone else"
   },
-  "img/feed": {
+  "feed": {
+    "DESCRIPTION": "Command to feed someone",
+    "USAGE": "feed <@user>",
     "ACTION": "feeds",
     "ON_INVALID_USER": "You have to mention someone!",
     "ON_INVALID_DATA": "Image not found",
