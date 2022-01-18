@@ -58,10 +58,12 @@ createCommand({
           return "commands:emotes:ON_EMOJI_NOT_FOUND";
         }
 
+        if (emoji.roles?.includes(BigInt(role))) {
+          return;
+        }
+
         await editEmoji(bot, guild.id, emoji.id, {
-          roles: emoji.roles
-            ? [BigInt(role), ...emoji.roles].map((id) => id.toString())
-            : [BigInt(role)].map((id) => id.toString()),
+          roles: emoji.roles ? [BigInt(role), ...emoji.roles].map((id) => id.toString()) : [role],
         } as any & { roles: string[] });
 
         return translate(bot, "commands:emotes:ON_EMOJI_MODIFIED", interaction.guildId, {
@@ -90,8 +92,8 @@ createCommand({
       case "add": {
         const [name, image] = option.options?.map((o) => o.value) as [string, string];
         // enforce to add an emoji of 2 characters
-        if (name.length < 2) {
-          return "El emoji debe tener al menos 2 caracteres";
+        if (name.length < 2 || guild.emojis.map((e) => e.name).includes(name)) {
+          return "commands:emotes:ON_INVALID_EMOJI_NAME";
         }
 
         const emoji = await createEmoji(bot, guild.id, {
@@ -207,9 +209,13 @@ createMessageCommand({
           return "commands:emotes:ON_EMOJI_NOT_FOUND";
         }
 
+        if (emoji.roles?.includes(BigInt(role))) {
+          return;
+        }
+
         await editEmoji(bot, guild.id, emoji.id, {
-          roles: emoji.roles ? [BigInt(role), ...emoji.roles] : [BigInt(role)],
-        });
+          roles: emoji.roles ? [BigInt(role), ...emoji.roles].map((id) => id.toString()) : [role],
+        } as any & { roles: string[] });
 
         return translate(bot, "commands:emotes:ON_EMOJI_MODIFIED", message.guildId, {
           emojiName: emoji.name,
@@ -238,7 +244,7 @@ createMessageCommand({
         const [name, image] = options as [string | undefined, string | undefined];
 
         // enforce to add an emoji of at least 2 characters
-        if (!name || name.length < 2) {
+        if (!name || name.length < 2 || guild.emojis.map((e) => e.name).includes(name)) {
           return "commands:emotes:ON_INVALID_EMOJI_NAME";
         }
 
