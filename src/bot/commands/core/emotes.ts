@@ -59,8 +59,10 @@ createCommand({
         }
 
         await editEmoji(bot, guild.id, emoji.id, {
-          roles: emoji.roles ? [BigInt(role), ...emoji.roles] : [BigInt(role)],
-        });
+          roles: emoji.roles
+            ? [BigInt(role), ...emoji.roles].map((id) => id.toString())
+            : [BigInt(role)].map((id) => id.toString()),
+        } as any & { roles: string[] });
 
         return translate(bot, "commands:emotes:ON_EMOJI_MODIFIED", interaction.guildId, {
           emojiName: emoji.name,
@@ -102,8 +104,7 @@ createCommand({
         }
 
         return translate(bot, "commands:emotes:ON_EMOJI_CREATED", interaction.guildId, {
-          emojiName: emoji.name,
-          emojiId: emoji.id,
+          emojiMention: `<:${emoji.name}:${emoji.id}>`,
         });
       }
       default: {

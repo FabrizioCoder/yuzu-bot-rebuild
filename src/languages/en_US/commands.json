@@ -85,7 +85,7 @@
     "ON_BOT_MISSING_PERMISSIONS": "I don't have enough permissions",
     "ON_INVALID_EMOJI_NAME": "The emoji should be at least 2 characters long",
     "ON_EMOJI_DELETED": "Emoji {{emojiName}} deleted",
-    "ON_EMOJI_CREATED": "Emoji <:{{emojiName}}:{{emojiId}}> created",
+    "ON_EMOJI_CREATED": "Emoji {{emojiMention}} created",
     "ON_EMOJI_MODIFIED": "The emoji {{emojiName}} is hidden and can only be used by <@{{roleId}}>",
     "ON_EMOJI_NOT_FOUND": "Emoji not found",
     "ON_EMOJI_NOT_CREATED": "The emoji has not be created"
