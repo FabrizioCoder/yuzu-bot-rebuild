@@ -85,7 +85,7 @@
     "ON_BOT_MISSING_PERMISSIONS": "No poseo suficientes permisos",
     "ON_INVALID_EMOJI_NAME": "El emoji debe tener al menos 2 caracteres",
     "ON_EMOJI_DELETED": "Eliminé el emoji {{emojiName}}",
-    "ON_EMOJI_CREATED": "Creé el emoji <:{{emojiName}}:{{emojiId}}>",
+    "ON_EMOJI_CREATED": "Creé el emoji {{emojiMention}}",
     "ON_EMOJI_MODIFIED": "El emoji {{emojiName}} está escondido y solo podrá ser usado por <@{{roleId}}>",
     "ON_EMOJI_NOT_FOUND": "Emoji no encontrado",
     "ON_EMOJI_NOT_CREATED": "Emoji no creado"
