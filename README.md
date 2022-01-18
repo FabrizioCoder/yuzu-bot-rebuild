@@ -5,17 +5,18 @@
 ![GitHub](https://img.shields.io/github/license/yuzudev/yuzu-bot-rebuild)
 [![GitHub issues](https://img.shields.io/github/issues/yuzudev/yuzu-bot-rebuild?color=lightblue&label=Issues)](https://github.com/yuzudev/yuzu-bot-rebuild/issues)
 
-- my discord: `Yuzu#1401`
+- my discord: `Yuzu#0956`
 - [support the proyect by inviting the bot](https://top.gg/bot/893319907981283340)
 
 ### Features
 
-- Functional - Lightweight
-- No event emitters just good stuff
-- Easy-to-use command system & decorators (optional)
-- Events, Commands, Monitors & Tasks handlers
-- 27 unique commands (+50 in total)
-- Powerful command system
+- Functional - Lightweight - No event emitters
+- Languages
+- Image manipulation commands
+- Easy-to-use command system & decorators
+- handlers for Events, Commands, Monitors & Tasks
+- Database (for starboard, tags, prefixes and languages)
+- +50 commands
 
 ### Example
 
