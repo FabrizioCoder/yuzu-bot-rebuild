@@ -13,7 +13,7 @@
 - Functional - Lightweight - No event emitters
 - Languages
 - Image manipulation commands
-- Easy-to-use command system & decorators
+- Easy-to-use command system
 - handlers for Events, Commands, Monitors & Tasks
 - Database (for starboard, tags, prefixes and languages)
 - +50 commands

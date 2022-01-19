@@ -1,7 +1,7 @@
-import type { Command } from "./types/command.ts";
-import type { Event } from "./types/event.ts";
-import type { Monitor } from "./types/monitor.ts";
-import type { Task } from "./types/task.ts";
+import type { Command } from "./helpers/cache/createCommand.ts";
+import type { Event } from "./helpers/cache/createEvent.ts";
+import type { Monitor } from "./helpers/cache/createMonitor.ts";
+import type { Task } from "./helpers/cache/createTask.ts";
 import type { ButtonCollector, MessageCollector } from "./types/collector.ts";
 
 import { Collection } from "discordeno";
