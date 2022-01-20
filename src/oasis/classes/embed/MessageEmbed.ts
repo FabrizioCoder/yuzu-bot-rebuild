@@ -23,10 +23,12 @@ export class MessageEmbed {
     }
     if (typeof color === "string") {
       if (color === "random") {
-        return Math.floor(Math.random() * (0xffffff + 1));
+        this.embed.color = Math.floor(Math.random() * (0xffffff + 1));
+        return this;
       }
       else {
-        return parseInt(color.replace('#', ''), 16);
+        this.embed.color = parseInt(color.replace('#', ''), 16);
+        return this
       }
     }
     if (color < 0 || color > 0xffffff) throw new RangeError('COLOR_RANGE');
