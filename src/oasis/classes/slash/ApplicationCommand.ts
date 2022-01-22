@@ -45,7 +45,7 @@ export class MessageApplicationCommandBuilder {
     return (this.name = name), this;
   }
 
-  public toJSON(): EditGlobalApplicationCommand & { name: string; type: ApplicationCommandTypes.Message } {
+  public toJSON(): { name: string; type: ApplicationCommandTypes.Message } {
     if (!this.name) throw new TypeError("Propety 'name' is required");
 
     return {

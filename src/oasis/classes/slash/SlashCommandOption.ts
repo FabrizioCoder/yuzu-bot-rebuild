@@ -102,7 +102,7 @@ export class OptionBuilderLimitedValues extends OptionBuilder {
     return this;
   }
 
-  public toJSON(): ApplicationCommandOption {
+  public override toJSON(): ApplicationCommandOption {
     return {
       ...super.toJSON(),
       choices: this.choices?.map((c) => c.toJSON()) ?? [],
@@ -133,7 +133,7 @@ export class OptionBuilderString extends OptionBuilder {
     return this;
   }
 
-  public toJSON(): ApplicationCommandOption {
+  public override toJSON(): ApplicationCommandOption {
     return {
       ...super.toJSON(),
       choices: this.choices?.map((c) => c.toJSON()) ?? [],
@@ -161,7 +161,7 @@ export class OptionBuilderChannel extends OptionBuilder {
     return this;
   }
 
-  public toJSON(): ApplicationCommandOption {
+  public override toJSON(): ApplicationCommandOption {
     return {
       ...super.toJSON(),
       channelTypes: this.channelTypes ?? [],

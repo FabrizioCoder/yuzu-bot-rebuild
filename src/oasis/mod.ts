@@ -1,5 +1,13 @@
+export * from "./helpers/structures/channel.ts";
+export * from "./helpers/structures/guild.ts";
+export * from "./helpers/structures/interaction.ts";
+export * from "./helpers/structures/member.ts";
+export * from "./helpers/structures/message.ts";
+export * from "./helpers/structures/user.ts";
+
 // helpers
 export * from "./handler.ts";
+export * from "./client.ts";
 
 // helpers
 export * from "./helpers/cache/createCommand.ts";
