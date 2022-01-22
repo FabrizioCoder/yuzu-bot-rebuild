@@ -5,8 +5,9 @@ import { Limits } from "../../constants.ts";
 export class MessageEmbed {
   public total = 0;
   public file?: FileContent;
+  public embed: Embed & { fields: NonNullable<Embed["fields"]> };
 
-  public constructor(public embed: Embed & { fields: NonNullable<Embed["fields"]> } = { fields: [] }) {
+  public constructor(embed: Embed = {}) {
     this.embed = Object.assign(embed, { fields: [] });
   }
 

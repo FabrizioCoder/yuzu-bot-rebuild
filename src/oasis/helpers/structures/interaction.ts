@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-empty-interface
-
 import type {
   Bot,
   DiscordenoInteraction,
@@ -8,7 +6,7 @@ import type {
 } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
 
-export interface OasisInteraction {
+export interface OasisInteraction extends DiscordenoInteraction {
   sendResponse(
     type: InteractionResponseTypes,
     data?: InteractionApplicationCommandCallbackData,
@@ -23,12 +21,6 @@ export interface OasisInteraction {
   getFollowupMessage(
     ...[messageId]: Tail<Parameters<Helper<"getFollowupMessage">>>
   ): ReturnType<Helper<"getFollowupMessage">>;
-}
-
-declare module "discordeno" {
-  interface DiscordenoInteraction extends OasisInteraction {
-    // pass
-  }
 }
 
 export default function (bot: Bot) {
@@ -48,7 +40,7 @@ export default function (bot: Bot) {
       getFollowupMessage: bot.helpers.getFollowupMessage.bind(null, payload.token),
     };
 
-    return data as DiscordenoInteraction & OasisInteraction;
+    return data as OasisInteraction;
   };
 
   return bot;

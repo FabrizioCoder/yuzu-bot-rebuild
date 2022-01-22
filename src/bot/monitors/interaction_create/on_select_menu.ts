@@ -28,7 +28,7 @@ createMonitor({
 
         const commandPairs = commands.map(async ({ data, meta, translated }) => {
           const resolvedPrefix = "description" in data ? "/" : "!";
-          const resolvedDescription = "description" in data ? meta?.descr ?? data.description : meta.descr;
+          const resolvedDescription = "description" in data ? meta?.descr ?? data.description : meta?.descr;
 
           const translatedDescription = await translate(bot as BotWithCache, resolvedDescription!, interaction.guildId);
 

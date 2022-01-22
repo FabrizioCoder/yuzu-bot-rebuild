@@ -3,16 +3,9 @@
 import type { Bot, DiscordenoUser } from "discordeno";
 import { Util } from "../../classes/Util.ts";
 
-export interface OasisUser {
+export interface OasisUser extends DiscordenoUser {
   tag: string;
-  avatarURL: string;
   toString(): string;
-}
-
-declare module "discordeno" {
-  interface DiscordenoUser extends OasisUser {
-    // pass
-  }
 }
 
 export default function (bot: Bot) {
@@ -24,16 +17,13 @@ export default function (bot: Bot) {
     const data = {
       ...payload,
       tag: `${payload.username}#${payload.discriminator}`,
-      avatarURL: bot.helpers.avatarURL(BigInt(payload.id), Number(payload.discriminator), {
-        avatar: bot.utils.iconHashToBigInt(String(payload.avatar)),
-      }),
       timestamp: Util.snowflakeToTimestamp(BigInt(payload.id)),
       toString() {
         return `<@${this.id}>`;
       },
     };
 
-    return data as DiscordenoUser & OasisUser;
+    return data as OasisUser;
   };
 
   return bot;

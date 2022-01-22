@@ -5,6 +5,7 @@ import { avatarURL, getUser, sendMessage } from "discordeno";
 createCommand({
   meta: {
     descr: "commands:snipe:DESCRIPTION",
+    usage: "commands:snipe:USAGE",
   },
   category: Category.Util,
   translated: true,
@@ -47,6 +48,7 @@ createMessageCommand({
   category: Category.Util,
   meta: {
     descr: "commands:snipe:DESCRIPTION",
+    usage: "commands:snipe:USAGE",
   },
   translated: true,
   async execute({ bot, message }) {

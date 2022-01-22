@@ -1,9 +1,7 @@
-// deno-lint-ignore-file no-empty-interface
-
 import type { Bot, DiscordenoChannel } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
 
-export interface OasisChannel {
+export interface OasisChannel extends DiscordenoChannel {
   createStageInstance(
     ...[topic, privacyLevel]: Tail<Parameters<Helper<"createStageInstance">>>
   ): ReturnType<Helper<"createStageInstance">>;
@@ -23,12 +21,6 @@ export interface OasisChannel {
   send(...[content]: Tail<Parameters<Helper<"sendMessage">>>): ReturnType<Helper<"sendMessage">>;
   getMessage(...[id]: Tail<Parameters<Helper<"getMessage">>>): ReturnType<Helper<"getMessage">>;
   getMessages(...[options]: Tail<Parameters<Helper<"getMessages">>>): ReturnType<Helper<"getMessages">>;
-}
-
-declare module "discordeno" {
-  interface DiscordenoChannel extends OasisChannel {
-    // pass
-  }
 }
 
 export default function (bot: Bot) {
@@ -58,7 +50,7 @@ export default function (bot: Bot) {
       getMessages: bot.helpers.getMessages.bind(null, payload.id),
     };
 
-    return data as DiscordenoChannel & OasisChannel;
+    return data as OasisChannel;
   };
 
   return bot;

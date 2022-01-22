@@ -34,7 +34,11 @@ function Oasis(this: Oasis, options: OasisCreateBotOptions): Oasis {
   return this;
 }
 
-Oasis.start = async function <B extends Bot>(this: Oasis, token: string, intents: CreateBotOptions["intents"]) {
+Oasis.prototype.start = async function <B extends Bot>(
+  this: Oasis,
+  token: string,
+  intents: CreateBotOptions["intents"]
+) {
   const bot = createBot({ ...this.options, token, intents });
 
   setupChannel(bot);

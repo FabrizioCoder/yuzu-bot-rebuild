@@ -1,9 +1,7 @@
-// deno-lint-ignore-file no-empty-interface
-
 import type { Bot, DiscordenoGuild } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
 
-export interface OasisGuild {
+export interface OasisGuild extends DiscordenoGuild {
   createdAt?: Date;
   edit(...[options, shardId]: Tail<Parameters<Helper<"editGuild">>>): ReturnType<Helper<"editGuild">>;
   editWelcomeScreen(
@@ -56,12 +54,6 @@ export interface OasisGuild {
   // emojiUrl(...args: Tail<Parameters<Helper<"emojiUrl">>>): ReturnType<Helper<"emojiUrl">>;
 }
 
-declare module "discordeno" {
-  interface DiscordenoGuild extends OasisGuild {
-    // pass
-  }
-}
-
 export default function (bot: Bot) {
   const { guild } = bot.transformers;
 
@@ -109,7 +101,7 @@ export default function (bot: Bot) {
       // emojiUrl: bot.helpers.emojiUrl,
     };
 
-    return data as DiscordenoGuild & OasisGuild;
+    return data as OasisGuild;
   };
 
   return bot;

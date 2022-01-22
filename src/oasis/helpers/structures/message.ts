@@ -1,9 +1,7 @@
-// deno-lint-ignore-file no-empty-interface
-
 import type { Bot, DiscordenoMessage, DiscordenoMember, DiscordenoUser } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
 
-export interface OasisMessage {
+export interface OasisMessage extends DiscordenoMessage {
   author: DiscordenoUser;
   member: DiscordenoMember;
   addReaction(...[reason]: Tail<Tail<Parameters<Helper<"addReaction">>>>): ReturnType<Helper<"addReaction">>;
@@ -22,12 +20,6 @@ export interface OasisMessage {
     ...[reaction]: Tail<Tail<Parameters<Helper<"removeReactionEmoji">>>>
   ): ReturnType<Helper<"removeReactionEmoji">>;
   unpin(): ReturnType<Helper<"unpinMessage">>;
-}
-
-declare module "discordeno" {
-  interface DiscordenoMessage extends OasisMessage {
-    // pass
-  }
 }
 
 export default function (bot: Bot) {
@@ -57,7 +49,7 @@ export default function (bot: Bot) {
       unpin: bot.helpers.unpinMessage.bind(null, payload.channelId, payload.id),
     };
 
-    return data as DiscordenoMessage & OasisMessage;
+    return data as OasisMessage;
   };
 
   return bot;

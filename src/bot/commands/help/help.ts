@@ -77,7 +77,8 @@ createMessageCommand({
   names: ["help"],
   isGuildOnly: true,
   meta: {
-    descr: "📕 Ayuda del bot...",
+    descr: "commands:help:DESCRIPTION",
+    usage: "commands:help:USAGE",
   },
   category: Category.Info,
   async execute({ bot, message }) {

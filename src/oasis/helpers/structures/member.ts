@@ -1,13 +1,9 @@
-// deno-lint-ignore-file no-empty-interface
-
 import type { Bot, DiscordenoMember } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
 import { avatarURL } from "discordeno";
 import { Util } from "../../classes/Util.ts";
 
-export interface OasisMember {
-  joinedAt: Date;
-  premiumSince?: Date;
+export interface OasisMember extends DiscordenoMember {
   tag: string;
   avatarURL: string;
   timestamp: number;
@@ -18,24 +14,14 @@ export interface OasisMember {
   kick(...[reason]: Tail<Tail<Parameters<Helper<"kickMember">>>>): ReturnType<Helper<"kickMember">>;
 }
 
-declare module "discordeno" {
-  interface DiscordenoMember extends OasisMember {
-    // pass
-  }
-}
-
 export default function (bot: Bot) {
   const { member } = bot.transformers;
 
   bot.transformers.member = function (bot, { ...rest }, guildId, userId) {
     const payload = member(bot, rest, guildId, userId);
 
-    const { joinedAt, premiumSince } = payload;
-
     const data = {
       ...payload,
-      joinedAt: new Date(joinedAt),
-      premiumSince: premiumSince ? new Date(premiumSince) : undefined,
       avatarURL: avatarURL(bot, payload.id, Number(rest.user?.discriminator), {
         avatar: bot.utils.iconHashToBigInt(String(payload.avatar)),
       }),
@@ -50,7 +36,7 @@ export default function (bot: Bot) {
       kick: bot.helpers.kickMember.bind(null, payload.id, payload.guildId),
     };
 
-    return data as DiscordenoMember & OasisMember;
+    return data as OasisMember;
   };
 
   return bot;
