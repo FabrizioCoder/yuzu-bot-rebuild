@@ -70,7 +70,6 @@ export default function (bot: Bot) {
 
     const data = {
       ...payload,
-      createdAt: payload.joinedAt ? new Date(payload.joinedAt) : undefined,
       // helpers
       edit: bot.helpers.editGuild.bind(null, payload.id),
       editWelcomeScreen: bot.helpers.editWelcomeScreen.bind(null, payload.id),

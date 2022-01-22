@@ -6,7 +6,6 @@ import { Util } from "../../classes/Util.ts";
 export interface OasisUser {
   tag: string;
   avatarURL: string;
-  createdAt: Date;
   toString(): string;
 }
 
@@ -29,7 +28,6 @@ export default function (bot: Bot) {
         avatar: bot.utils.iconHashToBigInt(String(payload.avatar)),
       }),
       timestamp: Util.snowflakeToTimestamp(BigInt(payload.id)),
-      createdAt: new Date(Util.snowflakeToTimestamp(BigInt(payload.id))),
       toString() {
         return `<@${this.id}>`;
       },

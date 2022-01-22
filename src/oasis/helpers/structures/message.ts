@@ -2,10 +2,8 @@
 
 import type { Bot, DiscordenoMessage, DiscordenoMember, DiscordenoUser } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
-import { Util } from "../../classes/Util.ts";
 
 export interface OasisMessage {
-  createdAt: Date;
   author: DiscordenoUser;
   member: DiscordenoMember;
   addReaction(...[reason]: Tail<Tail<Parameters<Helper<"addReaction">>>>): ReturnType<Helper<"addReaction">>;
@@ -40,7 +38,6 @@ export default function (bot: Bot) {
 
     const data = {
       ...payload,
-      createdAt: new Date(Util.snowflakeToTimestamp(BigInt(payload.id))),
       author: bot.transformers.user(bot, rest.author),
       member:
         rest.member && rest.guild_id && rest.id
