@@ -21,27 +21,23 @@ export interface OasisInteraction extends DiscordenoInteraction {
   getFollowupMessage(
     ...[messageId]: Tail<Parameters<Helper<"getFollowupMessage">>>
   ): ReturnType<Helper<"getFollowupMessage">>;
+  getOriginalInteractionResponse(): ReturnType<Helper<"getOriginalInteractionResponse">>;
+}
+
+export function makeInteraction(bot: Bot, interaction: DiscordenoInteraction): OasisInteraction {
+  return {
+    ...interaction,
+    sendResponse(type: InteractionResponseTypes, data?: InteractionApplicationCommandCallbackData, priv = false) {
+      return bot.helpers.sendInteractionResponse(this.id, this.token, { type, data, private: priv });
+    },
+    getOriginalInteractionResponse: bot.helpers.getOriginalInteractionResponse.bind(null, interaction.token),
+    deleteFollowupMessage: bot.helpers.deleteFollowupMessage.bind(null, interaction.token),
+    editFollowupMessage: bot.helpers.editFollowupMessage.bind(null, interaction.token),
+    getFollowupMessage: bot.helpers.getFollowupMessage.bind(null, interaction.token),
+  };
 }
 
 export default function (bot: Bot) {
-  const { interaction } = bot.transformers;
-
-  bot.transformers.interaction = function (bot, { ...rest }) {
-    const payload = interaction(bot, rest);
-
-    const data = {
-      ...payload,
-      sendResponse(type: InteractionResponseTypes, data?: InteractionApplicationCommandCallbackData, priv = false) {
-        return bot.helpers.sendInteractionResponse(this.id, this.token, { type, data, private: priv });
-      },
-      getOriginalInteractionResponse: bot.helpers.getOriginalInteractionResponse.bind(null, payload.token),
-      deleteFollowupMessage: bot.helpers.deleteFollowupMessage.bind(null, payload.token),
-      editFollowupMessage: bot.helpers.editFollowupMessage.bind(null, payload.token),
-      getFollowupMessage: bot.helpers.getFollowupMessage.bind(null, payload.token),
-    };
-
-    return data as OasisInteraction;
-  };
-
+  bot.transformers.interaction = (bot, payload) => makeInteraction(bot, bot.transformers.interaction(bot, payload));
   return bot;
 }

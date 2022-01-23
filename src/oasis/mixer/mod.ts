@@ -1,3 +1,5 @@
+// deno-lint-ignore-file ban-types
+
 export function mix(...constructors: Function[]) {
   return function (derivedCtor: Function) {
     constructors.forEach((baseCtor) => {

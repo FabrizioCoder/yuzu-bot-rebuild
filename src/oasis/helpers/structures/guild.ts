@@ -2,7 +2,6 @@ import type { Bot, DiscordenoGuild } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
 
 export interface OasisGuild extends DiscordenoGuild {
-  createdAt?: Date;
   edit(...[options, shardId]: Tail<Parameters<Helper<"editGuild">>>): ReturnType<Helper<"editGuild">>;
   editWelcomeScreen(
     ...[options]: Tail<Parameters<Helper<"editWelcomeScreen">>>
@@ -54,55 +53,51 @@ export interface OasisGuild extends DiscordenoGuild {
   // emojiUrl(...args: Tail<Parameters<Helper<"emojiUrl">>>): ReturnType<Helper<"emojiUrl">>;
 }
 
-export default function (bot: Bot) {
-  const { guild } = bot.transformers;
-
-  bot.transformers.guild = function (bot, { ...rest }) {
-    const payload = guild(bot, rest);
-
-    const data = {
-      ...payload,
-      // helpers
-      edit: bot.helpers.editGuild.bind(null, payload.id),
-      editWelcomeScreen: bot.helpers.editWelcomeScreen.bind(null, payload.id),
-      editWidget: bot.helpers.editWidget.bind(null, payload.id),
-      getAuditLogs: bot.helpers.getAuditLogs.bind(null, payload.id),
-      getBan: bot.helpers.getBan.bind(null, payload.id),
-      getBans: bot.helpers.getBans.bind(null, payload.id),
-      getGuildPreview: bot.helpers.getGuildPreview.bind(null, payload.id),
-      getPruneCount: bot.helpers.getPruneCount.bind(null, payload.id),
-      getVanityUrl: bot.helpers.getVanityUrl.bind(null, payload.id),
-      getVoiceRegions: bot.helpers.getVoiceRegions.bind(null, payload.id),
-      getWelcomeScreen: bot.helpers.getWelcomeScreen.bind(null, payload.id),
-      getWidget: bot.helpers.getWidget.bind(null, payload.id),
-      getWidgetImageURL: bot.helpers.getWidgetImageURL.bind(null, payload.id),
-      guildBannerURL: bot.helpers.guildBannerURL.bind(null, payload.id),
-      guildSplashURL: bot.helpers.guildSplashURL.bind(null, payload.id),
-      leave: bot.helpers.leaveGuild.bind(null, payload.id),
-      // scheduled events
-      createScheduledEvent: bot.helpers.createScheduledEvent.bind(null, payload.id),
-      deleteScheduledEvent: bot.helpers.deleteScheduledEvent.bind(null, payload.id),
-      editScheduledEvent: bot.helpers.editScheduledEvent.bind(null, payload.id),
-      getScheduledEvent: bot.helpers.getScheduledEvent.bind(null, payload.id),
-      getScheduledEventUsers: bot.helpers.getScheduledEventUsers.bind(null, payload.id),
-      getScheduledEvents: bot.helpers.getScheduledEvents.bind(null, payload.id),
-      // channel helpers
-      createChannel: bot.helpers.createChannel.bind(null, payload.id),
-      deleteChannel: bot.helpers.deleteChannel,
-      getChannel: bot.helpers.getChannel,
-      getChannels: bot.helpers.getChannels.bind(null, payload.id),
-      swapChannels: bot.helpers.swapChannels.bind(null, payload.id),
-      // emoji helpers
-      createEmoji: bot.helpers.createEmoji.bind(null, payload.id),
-      deleteEmoji: bot.helpers.deleteEmoji.bind(null, payload.id),
-      editEmoji: bot.helpers.editEmoji.bind(null, payload.id),
-      getEmoji: bot.helpers.getEmoji.bind(null, payload.id),
-      getEmojis: bot.helpers.getEmojis.bind(null, payload.id),
-      // emojiUrl: bot.helpers.emojiUrl,
-    };
-
-    return data as OasisGuild;
+export function makeGuild(bot: Bot, guild: DiscordenoGuild): OasisGuild {
+  return {
+    ...guild,
+    // helpers
+    edit: bot.helpers.editGuild.bind(null, guild.id),
+    editWelcomeScreen: bot.helpers.editWelcomeScreen.bind(null, guild.id),
+    editWidget: bot.helpers.editWidget.bind(null, guild.id),
+    getAuditLogs: bot.helpers.getAuditLogs.bind(null, guild.id),
+    getBan: bot.helpers.getBan.bind(null, guild.id),
+    getBans: bot.helpers.getBans.bind(null, guild.id),
+    getGuildPreview: bot.helpers.getGuildPreview.bind(null, guild.id),
+    getPruneCount: bot.helpers.getPruneCount.bind(null, guild.id),
+    getVanityUrl: bot.helpers.getVanityUrl.bind(null, guild.id),
+    getVoiceRegions: bot.helpers.getVoiceRegions.bind(null, guild.id),
+    getWelcomeScreen: bot.helpers.getWelcomeScreen.bind(null, guild.id),
+    getWidget: bot.helpers.getWidget.bind(null, guild.id),
+    getWidgetImageURL: bot.helpers.getWidgetImageURL.bind(null, guild.id),
+    guildBannerURL: bot.helpers.guildBannerURL.bind(null, guild.id),
+    guildSplashURL: bot.helpers.guildSplashURL.bind(null, guild.id),
+    leave: bot.helpers.leaveGuild.bind(null, guild.id),
+    // scheduled events
+    createScheduledEvent: bot.helpers.createScheduledEvent.bind(null, guild.id),
+    deleteScheduledEvent: bot.helpers.deleteScheduledEvent.bind(null, guild.id),
+    editScheduledEvent: bot.helpers.editScheduledEvent.bind(null, guild.id),
+    getScheduledEvent: bot.helpers.getScheduledEvent.bind(null, guild.id),
+    getScheduledEventUsers: bot.helpers.getScheduledEventUsers.bind(null, guild.id),
+    getScheduledEvents: bot.helpers.getScheduledEvents.bind(null, guild.id),
+    // channel helpers
+    createChannel: bot.helpers.createChannel.bind(null, guild.id),
+    deleteChannel: bot.helpers.deleteChannel,
+    getChannel: bot.helpers.getChannel,
+    getChannels: bot.helpers.getChannels.bind(null, guild.id),
+    swapChannels: bot.helpers.swapChannels.bind(null, guild.id),
+    // emoji helpers
+    createEmoji: bot.helpers.createEmoji.bind(null, guild.id),
+    deleteEmoji: bot.helpers.deleteEmoji.bind(null, guild.id),
+    editEmoji: bot.helpers.editEmoji.bind(null, guild.id),
+    getEmoji: bot.helpers.getEmoji.bind(null, guild.id),
+    getEmojis: bot.helpers.getEmojis.bind(null, guild.id),
+    // emojiUrl: bot.helpers.emojiUrl,
   };
+}
+
+export default function (bot: Bot) {
+  bot.transformers.guild = (bot, payload) => makeGuild(bot, bot.transformers.guild(bot, payload));
 
   return bot;
 }

@@ -2,6 +2,7 @@ import type { Bot, DiscordenoChannel } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
 
 export interface OasisChannel extends DiscordenoChannel {
+  toString(): string;
   createStageInstance(
     ...[topic, privacyLevel]: Tail<Parameters<Helper<"createStageInstance">>>
   ): ReturnType<Helper<"createStageInstance">>;
@@ -23,35 +24,32 @@ export interface OasisChannel extends DiscordenoChannel {
   getMessages(...[options]: Tail<Parameters<Helper<"getMessages">>>): ReturnType<Helper<"getMessages">>;
 }
 
-export default function (bot: Bot) {
-  const { channel } = bot.transformers;
-
-  bot.transformers.channel = function (bot, { ...rest }) {
-    const payload = channel(bot, rest);
-
-    const data = {
-      ...payload,
-      toString() {
-        return `<#${this.id}>`;
-      },
-      // channel helpers
-      createStageInstance: bot.helpers.createStageInstance.bind(null, payload.id),
-      delete: bot.helpers.deleteChannel.bind(null, payload.id),
-      deleteOverwrite: bot.helpers.deleteChannelOverwrite.bind(null, payload.id),
-      edit: bot.helpers.editChannel.bind(null, payload.id),
-      editOverwrite: bot.helpers.editChannelOverwrite.bind(null, payload.id),
-      follow: bot.helpers.followChannel.bind(null, payload.id),
-      getPins: bot.helpers.getPins.bind(null, payload.id),
-      getWebhooks: bot.helpers.getChannelWebhooks.bind(null, payload.id),
-      startTyping: bot.helpers.startTyping.bind(null, payload.id),
-      // useful things
-      send: bot.helpers.sendMessage.bind(null, payload.id),
-      getMessage: bot.helpers.getMessage.bind(null, payload.id),
-      getMessages: bot.helpers.getMessages.bind(null, payload.id),
-    };
-
-    return data as OasisChannel;
+export function makeChannel(bot: Bot, channel: DiscordenoChannel): OasisChannel {
+  return {
+    ...channel,
+    toString() {
+      return `<#${this.id}>`;
+    },
+    // channel helpers
+    createStageInstance: bot.helpers.createStageInstance.bind(null, channel.id),
+    delete: bot.helpers.deleteChannel.bind(null, channel.id),
+    deleteOverwrite: bot.helpers.deleteChannelOverwrite.bind(null, channel.id),
+    edit: bot.helpers.editChannel.bind(null, channel.id),
+    editOverwrite: bot.helpers.editChannelOverwrite.bind(null, channel.id),
+    follow: bot.helpers.followChannel.bind(null, channel.id),
+    getPins: bot.helpers.getPins.bind(null, channel.id),
+    getWebhooks: bot.helpers.getChannelWebhooks.bind(null, channel.id),
+    startTyping: bot.helpers.startTyping.bind(null, channel.id),
+    // useful things
+    // TODO: MAKE SEND FUNCTION ACCEPT EMBED CONSTRUCTOR OR DO A sendEmbed() METHOD
+    send: bot.helpers.sendMessage.bind(null, channel.id),
+    getMessage: bot.helpers.getMessage.bind(null, channel.id),
+    getMessages: bot.helpers.getMessages.bind(null, channel.id),
   };
+}
+
+export default function (bot: Bot) {
+  bot.transformers.channel = (bot, payload) => makeChannel(bot, bot.transformers.channel(bot, payload));
 
   return bot;
 }

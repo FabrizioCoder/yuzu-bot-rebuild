@@ -1,11 +1,8 @@
 import type { Bot, DiscordenoMember } from "discordeno";
 import type { Helper, Tail } from "../../types/utility.ts";
-import { avatarURL } from "discordeno";
 import { Util } from "../../classes/Util.ts";
 
 export interface OasisMember extends DiscordenoMember {
-  tag: string;
-  avatarURL: string;
   timestamp: number;
   createdAt: Date;
   toString(): string;
@@ -14,30 +11,23 @@ export interface OasisMember extends DiscordenoMember {
   kick(...[reason]: Tail<Tail<Parameters<Helper<"kickMember">>>>): ReturnType<Helper<"kickMember">>;
 }
 
-export default function (bot: Bot) {
-  const { member } = bot.transformers;
-
-  bot.transformers.member = function (bot, { ...rest }, guildId, userId) {
-    const payload = member(bot, rest, guildId, userId);
-
-    const data = {
-      ...payload,
-      avatarURL: avatarURL(bot, payload.id, Number(rest.user?.discriminator), {
-        avatar: bot.utils.iconHashToBigInt(String(payload.avatar)),
-      }),
-      timestamp: Util.snowflakeToTimestamp(BigInt(payload.id)),
-      createdAt: new Date(Util.snowflakeToTimestamp(payload.id)),
-      toString() {
-        return `<@!<${this.id}>`;
-      },
-      // helpers
-      ban: bot.helpers.banMember.bind(null, payload.id, payload.guildId),
-      edit: bot.helpers.editMember.bind(null, payload.id, payload.guildId),
-      kick: bot.helpers.kickMember.bind(null, payload.id, payload.guildId),
-    };
-
-    return data as OasisMember;
+export function makeMember(bot: Bot, member: DiscordenoMember): OasisMember {
+  return {
+    ...member,
+    timestamp: Util.snowflakeToTimestamp(BigInt(member.id)),
+    createdAt: new Date(Util.snowflakeToTimestamp(member.id)),
+    toString() {
+      return `<@!<${this.id}>`;
+    },
+    // helpers
+    ban: bot.helpers.banMember.bind(null, member.id, member.guildId),
+    edit: bot.helpers.editMember.bind(null, member.id, member.guildId),
+    kick: bot.helpers.kickMember.bind(null, member.id, member.guildId),
   };
+}
+
+export default function (bot: Bot) {
+  bot.transformers.member = (bot, payload, ...rest) => makeMember(bot, bot.transformers.member(bot, payload, ...rest));
 
   return bot;
 }
