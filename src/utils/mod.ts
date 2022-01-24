@@ -3,7 +3,6 @@ export * from "./constants.ts";
 
 // utility
 export * from "./std/range.ts";
-export * from "./std/snowflake.ts";
 export * from "./std/cheemsify.ts";
 export * from "./std/logger.ts";
 export * from "./algorithms/levenshtein_distance.ts";
