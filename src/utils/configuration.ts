@@ -6,9 +6,9 @@ const file = await Deno.readFile("src/config.toml");
 const decoded = TOML.parse(decoder.decode(file));
 
 export default {
-  botId: BigInt(decoded.botId as number),
-  channelId: BigInt(decoded.channelId as number),
-  ownerId: BigInt(decoded.ownerId as number),
+  botId: BigInt(decoded.botId as string),
+  channelId: BigInt(decoded.channelId as string),
+  ownerId: BigInt(decoded.ownerId as string),
   prefix: decoded.prefix as string,
   token: decoded.token as string,
   version: decoded.version as string,
