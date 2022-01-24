@@ -1,5 +1,5 @@
 import { createMessageCommand, MessageEmbed } from "oasis";
-import { Category, DiscordColors } from "utils";
+import * as Utils from "utils";
 
 import * as Discordeno from "discordeno";
 
@@ -9,7 +9,7 @@ createMessageCommand({
   names: ["eval"],
   isGuildOnly: false,
   isAdminOnly: true,
-  category: Category.Owner,
+  category: Utils.Category.Owner,
   execute({ bot, message, args: { args } }) {
     const time = Date.now();
     const input = args.join(" ");
@@ -17,10 +17,10 @@ createMessageCommand({
     if (!input) return "Escribe algo.";
 
     try {
-      const output = eval(input);
+      const output = Deno.inspect(eval(input));
 
       const { embed } = new MessageEmbed()
-        .color(DiscordColors.Blurple)
+        .color(Utils.DiscordColors.Blurple)
         .field("Javascript 🖥", `\`\`\`js\n${output}\`\`\``, true)
         .field("Tiempo ⌛", `\`\`\`ts\n${Date.now() - time}ms\`\`\``, true)
         .field("Entrada 📥", `\`\`\`js\n${input}\`\`\``, true)
@@ -32,7 +32,7 @@ createMessageCommand({
       return embed;
     } catch (error) {
       if (error instanceof Error) {
-        return new MessageEmbed({ description: "Error: " + error.message, color: DiscordColors.Red }).embed;
+        return new MessageEmbed({ description: "Error: " + error.message, color: Utils.DiscordColors.Red }).embed;
       }
     }
   },
