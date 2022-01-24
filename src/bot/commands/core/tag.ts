@@ -1,5 +1,5 @@
 import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder } from "oasis";
-import { Category, Configuration, toCapitalCase, translate } from "utils";
+import { Category, toCapitalCase, translate } from "utils";
 import { ApplicationCommandOptionTypes, getChannel, getUser } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
 import {
@@ -23,6 +23,8 @@ enum Arguments {
   Owner,
   Display,
 }
+
+const OWNER_ID = 774292293020155906n;
 
 createCommand({
   meta: {
@@ -74,15 +76,11 @@ createCommand({
           ? hasGuildPermissions(bot, interaction.guildId, interaction.member, ["ADMINISTRATOR"])
           : false;
 
-        if (
-          tag.userId.toBigInt() !== interaction.user.id &&
-          !isAdmin &&
-          interaction.user.id !== Configuration.OWNER_ID
-        ) {
+        if (tag.userId.toBigInt() !== interaction.user.id && !isAdmin && interaction.user.id !== OWNER_ID) {
           return "commands:tag:ON_TAG_OWNERSHIP_DOES_NOT_BELONG";
         }
 
-        if (tag.isGlobal && interaction.user.id !== Configuration.OWNER_ID) {
+        if (tag.isGlobal && interaction.user.id !== OWNER_ID) {
           return "commands:tag:ON_TAG_GLOBAL";
         }
 
@@ -325,11 +323,11 @@ createMessageCommand({
           ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"])
           : false;
 
-        if (tag.userId.toBigInt() !== message.authorId && !isAdmin && message.authorId !== Configuration.OWNER_ID) {
+        if (tag.userId.toBigInt() !== message.authorId && !isAdmin && message.authorId !== OWNER_ID) {
           return "commands:tag:ON_TAG_OWNERSHIP_DOES_NOT_BELONG";
         }
 
-        if (tag.isGlobal && message.authorId !== Configuration.OWNER_ID) {
+        if (tag.isGlobal && message.authorId !== OWNER_ID) {
           return "commands:tag:ON_TAG_GLOBAL";
         }
 

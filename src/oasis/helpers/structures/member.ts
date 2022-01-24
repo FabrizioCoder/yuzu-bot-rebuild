@@ -25,9 +25,3 @@ export function makeMember(bot: Bot, member: DiscordenoMember): OasisMember {
     kick: bot.helpers.kickMember.bind(null, member.id, member.guildId),
   };
 }
-
-export default function (bot: Bot) {
-  bot.transformers.member = (bot, payload, ...rest) => makeMember(bot, bot.transformers.member(bot, payload, ...rest));
-
-  return bot;
-}

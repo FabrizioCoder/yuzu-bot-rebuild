@@ -38,9 +38,3 @@ export function makeMessage(bot: Bot, message: DiscordenoMessage): OasisMessage 
     unpin: bot.helpers.unpinMessage.bind(null, message.channelId, message.id),
   };
 }
-
-export default function (bot: Bot) {
-  bot.transformers.message = (bot, payload) => makeMessage(bot, bot.transformers.message(bot, payload));
-
-  return bot;
-}

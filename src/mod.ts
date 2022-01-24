@@ -18,14 +18,14 @@ await loadLanguages();
 
 const client = new Oasis({
   // important
-  botId: Deno.args[0] ? BigInt(Deno.args[0]) : Configuration.ID,
+  botId: Deno.args[0] ? BigInt(Deno.args[0]) : Configuration.botId,
   // plugins
   plugins: [enableCachePlugin, enablePermissionsPlugin],
   // transforms a Map<string, T> into a Record<string, T["execute"]>
   events: Object.fromEntries(Array.from(cache.events.entries(), ([name, event]) => [name, event.execute])),
 });
 
-await client.start(Deno.args[1] ?? Deno.env.get("TOKEN") ?? Configuration.TOKEN, [
+await client.start(Deno.args[1] ?? Deno.env.get("TOKEN") ?? Configuration.token, [
   "Guilds",
   "GuildMessages",
   "GuildMessageReactions",

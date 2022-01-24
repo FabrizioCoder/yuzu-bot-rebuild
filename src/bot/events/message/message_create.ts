@@ -17,7 +17,7 @@ createEvent({
         }
       } catch (e) {
         if (e instanceof Error) {
-          await sendMessage(bot, Configuration.CHANNEL_ID, {
+          await sendMessage(bot, Configuration.channelId, {
             content: `${e.cause}\n${e.stack}`,
           }).catch(logger.error);
         }

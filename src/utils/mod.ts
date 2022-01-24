@@ -13,6 +13,8 @@ export * from "./i18next.ts";
 
 export * as cache from "./cache.ts";
 
+export { default as Configuration } from "./configuration.ts";
+
 export function randomHex() {
   return Math.floor(Math.random() * 16777215);
 }

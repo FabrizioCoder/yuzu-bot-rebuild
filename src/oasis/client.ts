@@ -3,13 +3,6 @@
 import type { Bot, CreateBotOptions } from "discordeno";
 import { createBot, startBot } from "discordeno";
 
-import setupChannel from "./helpers/structures/channel.ts";
-import setupGuild from "./helpers/structures/guild.ts";
-import setupInteraction from "./helpers/structures/interaction.ts";
-import setupMember from "./helpers/structures/member.ts";
-import setupMessage from "./helpers/structures/message.ts";
-import setupUser from "./helpers/structures/user.ts";
-
 export interface OasisCreateBotOptions extends Omit<CreateBotOptions, "intents" | "token"> {
   plugins?: Array<Function>;
 }
@@ -40,13 +33,6 @@ Oasis.prototype.start = async function <B extends Bot>(
   intents: CreateBotOptions["intents"]
 ) {
   const bot = createBot({ ...this.options, token, intents });
-
-  setupChannel(bot);
-  setupGuild(bot);
-  setupInteraction(bot);
-  setupMember(bot);
-  setupMessage(bot);
-  setupUser(bot);
 
   this.options.plugins?.reduce((prev, cur) => Object.assign(bot, cur(prev)), bot);
 

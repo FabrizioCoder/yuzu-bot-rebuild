@@ -14,9 +14,3 @@ export function makeUser(_bot: Bot, user: DiscordenoUser): OasisUser {
     },
   };
 }
-
-export default function (bot: Bot) {
-  bot.transformers.user = (bot, payload) => makeUser(bot, bot.transformers.user(bot, payload));
-
-  return bot;
-}

@@ -12,6 +12,6 @@ createTask({
       `-> <t:${Math.floor(uptime / 1000)}:F>`;
 
     // log
-    await sendMessage(bot, Configuration.CHANNEL_ID, { content: uptimeMessage }).catch(logger.error);
+    await sendMessage(bot, Configuration.channelId, { content: uptimeMessage }).catch(logger.error);
   },
 });

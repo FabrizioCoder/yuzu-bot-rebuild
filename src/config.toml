@@ -1,0 +1,14 @@
+# admin configs
+channelId = 895959965469134858
+guildId = 891367004903182336
+ownerId = 774292293020155906
+
+# application id
+botId = 893319907981283340
+
+# prefix
+prefix = "!"
+
+# extra confis
+token = "........"
+version = "2.3.0"

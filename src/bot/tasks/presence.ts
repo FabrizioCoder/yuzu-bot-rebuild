@@ -14,7 +14,7 @@ createTask({
       `${uCount.toLocaleString("de-CH")} users`,
       `${gCount.toLocaleString("de-CH")} servers`,
       `${cache.slashCommands.size} slash commands and ${cache.commands.size} commands`,
-      `Bot using v${Configuration.VERSION}`,
+      `Bot using v${Configuration.version}`,
       "!help /help",
     ] as const;
 

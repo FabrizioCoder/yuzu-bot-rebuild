@@ -47,9 +47,3 @@ export function makeChannel(bot: Bot, channel: DiscordenoChannel): OasisChannel 
     getMessages: bot.helpers.getMessages.bind(null, channel.id),
   };
 }
-
-export default function (bot: Bot) {
-  bot.transformers.channel = (bot, payload) => makeChannel(bot, bot.transformers.channel(bot, payload));
-
-  return bot;
-}

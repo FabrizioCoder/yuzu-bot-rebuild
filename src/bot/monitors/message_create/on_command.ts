@@ -8,7 +8,7 @@ import { db } from "database/db";
 import { translate } from "utils";
 
 // get a prefix from a given guildId
-async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Configuration.PREFIX) {
+async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Configuration.prefix) {
   if (!id || !database) return prefix;
 
   const { prefix: customPrefix } = (await getPrefix(getCollection(database), id)) ?? { prefix };
@@ -89,7 +89,7 @@ createMonitor({
       return;
     }
 
-    if (message.authorId !== Configuration.OWNER_ID && command.isAdminOnly) {
+    if (message.authorId !== Configuration.ownerId && command.isAdminOnly) {
       await sendMessage(bot, message.channelId, {
         content: await translate(bot as BotWithCache, "strings:COMMAND_IS_ADMINONLY", message.guildId),
       });

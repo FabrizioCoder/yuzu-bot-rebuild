@@ -36,8 +36,3 @@ export function makeInteraction(bot: Bot, interaction: DiscordenoInteraction): O
     getFollowupMessage: bot.helpers.getFollowupMessage.bind(null, interaction.token),
   };
 }
-
-export default function (bot: Bot) {
-  bot.transformers.interaction = (bot, payload) => makeInteraction(bot, bot.transformers.interaction(bot, payload));
-  return bot;
-}

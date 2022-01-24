@@ -22,7 +22,7 @@ createEvent({
     log.info(`API version: ${cyan(payload.v.toString())}`);
     log.info(`Running OS: ${Deno.build.env} ${Deno.build.os} ${Deno.build.arch}`);
     log.info(`Logged in ${payload.user.username} ${payload.applicationId}`);
-    log.info(`Bot version: ${cyan(Configuration.VERSION)}`);
+    log.info(`Bot version: ${cyan(Configuration.version)}`);
     log.info(`Discordeno version: ${cyan(bot.constants.DISCORDENO_VERSION)}`);
     log.info(...Object.entries(Deno.version).map(([a, b]) => `${a}: ${cyan(b)}`));
   },

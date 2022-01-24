@@ -95,9 +95,3 @@ export function makeGuild(bot: Bot, guild: DiscordenoGuild): OasisGuild {
     // emojiUrl: bot.helpers.emojiUrl,
   };
 }
-
-export default function (bot: Bot) {
-  bot.transformers.guild = (bot, payload) => makeGuild(bot, bot.transformers.guild(bot, payload));
-
-  return bot;
-}
