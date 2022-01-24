@@ -1,5 +1,5 @@
 import { Configuration, loadDynamicCommands, loadLanguages } from "utils";
-import { cache, loadEverything, Oasis } from "oasis";
+import { cache, loadEverything, OasisMake } from "oasis";
 import { enableCachePlugin } from "cache_plugin";
 import { enablePermissionsPlugin } from "permissions_plugin";
 import { startDatabase } from "database/db";
@@ -12,7 +12,7 @@ loadDynamicCommands();
 
 await loadLanguages();
 
-const client = new Oasis({
+const client = OasisMake({
   // important
   botId: Deno.args[0] ? BigInt(Deno.args[0]) : Configuration.botId,
   // plugins

@@ -27,6 +27,10 @@ function Oasis(this: Oasis, options: OasisCreateBotOptions): Oasis {
   return this;
 }
 
+export function OasisMake(options: OasisCreateBotOptions) {
+  return new Oasis(options);
+}
+
 export async function start<B extends Bot>(
   options: OasisCreateBotOptions,
   token: string,
