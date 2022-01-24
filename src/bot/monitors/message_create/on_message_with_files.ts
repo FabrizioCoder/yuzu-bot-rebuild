@@ -7,7 +7,7 @@ createMonitor({
   isGuildOnly: true,
   ignoreBots: false,
   execute(_bot, message) {
-    const hasFile = message.attachments.length > 0 || message.embeds.some((e) => e.image);
+    const hasFile = message.attachments.length > 0 || message.embeds.map((e) => e.image).length > 0;
 
     if (hasFile) {
       cache.lastAttachments.delete(message.channelId);

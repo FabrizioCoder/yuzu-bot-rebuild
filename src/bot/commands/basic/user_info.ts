@@ -1,5 +1,5 @@
-import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
-import { Category, DiscordColors, snowflakeToTimestamp, translate } from "utils";
+import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed, Util } from "oasis";
+import { Category, DiscordColors, translate } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno";
 
 createCommand({
@@ -31,8 +31,8 @@ createCommand({
       .footer(`${user.id}`, avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar }))
       .field(
         await translate(bot, "commands:userinfo:ON_DISCORD_SINCE", interaction.guildId),
-        `<t:${Math.floor(snowflakeToTimestamp(user.id) / 1000)}> <- <t:${Math.floor(
-          snowflakeToTimestamp(user.id) / 1000
+        `<t:${Math.floor(Util.snowflakeToTimestamp(user.id) / 1000)}> <- <t:${Math.floor(
+          Util.snowflakeToTimestamp(user.id) / 1000
         )}:R>`
       )
       .thumbnail(avatar)

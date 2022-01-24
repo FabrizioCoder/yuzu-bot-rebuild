@@ -27,20 +27,26 @@ function Oasis(this: Oasis, options: OasisCreateBotOptions): Oasis {
   return this;
 }
 
-Oasis.prototype.start = async function <B extends Bot>(
-  this: Oasis,
+export async function start<B extends Bot>(
+  options: OasisCreateBotOptions,
   token: string,
   intents: CreateBotOptions["intents"]
 ) {
-  const bot = createBot({ ...this.options, token, intents });
+  const bot = createBot({ ...options, token, intents });
 
-  this.options.plugins?.reduce((prev, cur) => Object.assign(bot, cur(prev)), bot);
-
-  this.bot = bot;
+  options.plugins?.reduce((prev, cur) => Object.assign(bot, cur(prev)), bot);
 
   await startBot(bot);
 
   return bot as OasisBot<B>;
+}
+
+Oasis.prototype.start = async function (this: Oasis, token: string, intents: CreateBotOptions["intents"]) {
+  const bot = await start(this.options, token, intents);
+
+  this.bot = bot;
+
+  return bot;
 };
 
 export { Oasis };

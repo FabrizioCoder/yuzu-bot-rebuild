@@ -1,5 +1,5 @@
-import { createMessageCommand, MessageEmbed } from "oasis";
-import { Category, DiscordColors, snowflakeToTimestamp, toCapitalCase } from "utils";
+import { createMessageCommand, MessageEmbed, Util } from "oasis";
+import { Category, DiscordColors, toCapitalCase } from "utils";
 import { avatarURL, getUser } from "discordeno";
 
 createMessageCommand({
@@ -13,7 +13,7 @@ createMessageCommand({
   async execute({ bot }) {
     // utility
     const me = bot.users.get(bot.id) ?? (await getUser(bot, bot.id));
-    const botCreatedAt = Math.floor(snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000);
+    const botCreatedAt = Math.floor(Util.snowflakeToTimestamp(bot.id) /* toUnix -> */ / 1000);
 
     if (!me) {
       return;

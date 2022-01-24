@@ -8,6 +8,7 @@ export * from "./helpers/structures/user.ts";
 // helpers
 export * from "./handler.ts";
 export * from "./client.ts";
+export * from "./classes/Util.ts";
 
 // helpers
 export * from "./helpers/cache/createCommand.ts";

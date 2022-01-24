@@ -1,16 +1,12 @@
 import { Configuration, loadDynamicCommands, loadLanguages } from "utils";
-import { cache, load, Oasis } from "oasis";
+import { cache, loadEverything, Oasis } from "oasis";
 import { enableCachePlugin } from "cache_plugin";
 import { enablePermissionsPlugin } from "permissions_plugin";
 import { startDatabase } from "database/db";
 
 import "dotenv/load";
 
-const folders = ["commands", "events", "tasks", "monitors"] as const;
-
-for (const folder of folders) {
-  await load("./src/bot", folder);
-}
+await loadEverything("./src/bot", ["commands", "events", "tasks", "monitors"]);
 
 loadDynamicCommands();
 

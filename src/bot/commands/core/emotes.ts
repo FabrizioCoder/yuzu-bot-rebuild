@@ -64,6 +64,7 @@ createCommand({
 
         await editEmoji(bot, guild.id, emoji.id, {
           roles: emoji.roles ? [BigInt(role), ...emoji.roles].map((id) => id.toString()) : [role],
+          // deno-lint-ignore no-explicit-any
         } as any & { roles: string[] });
 
         return translate(bot, "commands:emotes:ON_EMOJI_MODIFIED", interaction.guildId, {
@@ -215,6 +216,7 @@ createMessageCommand({
 
         await editEmoji(bot, guild.id, emoji.id, {
           roles: emoji.roles ? [BigInt(role), ...emoji.roles].map((id) => id.toString()) : [role],
+          // deno-lint-ignore no-explicit-any
         } as any & { roles: string[] });
 
         return translate(bot, "commands:emotes:ON_EMOJI_MODIFIED", message.guildId, {
