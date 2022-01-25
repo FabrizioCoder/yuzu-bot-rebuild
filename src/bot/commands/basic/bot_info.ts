@@ -40,7 +40,6 @@ createMessageCommand({
       .field("Memory", memory.join("\n"))
       .field("OS", toCapitalCase(Deno.build.os))
       .field("My Discord", "Yuzu#0956")
-      .field("Repository", "\\🔒 [Get source code](https://github.com/Le-Val/yuzu-bot-rebuild)")
       .field("Since", `<t:${botCreatedAt}> <- <t:${botCreatedAt}:R>`)
       .field(
         "Desarrollo",
