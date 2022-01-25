@@ -1,9 +1,9 @@
-import * as TOML from "https://deno.land/std@0.122.0/encoding/toml.ts";
+import { parse } from "https://deno.land/std@0.122.0/encoding/toml.ts";
 
 const decoder = new TextDecoder("utf8");
 const file = await Deno.readFile("src/config.toml");
 
-const decoded = TOML.parse(decoder.decode(file));
+const decoded = parse(decoder.decode(file));
 
 export default {
   botId: BigInt(decoded.botId as string),
