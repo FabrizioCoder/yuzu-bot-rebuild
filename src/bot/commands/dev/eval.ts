@@ -1,38 +1,55 @@
-import { createMessageCommand, MessageEmbed } from "oasis";
+import * as Oasis from "oasis";
 import * as Utils from "utils";
+import * as Discord from "discordeno";
 
-import * as Discordeno from "discordeno";
-
-Discordeno;
-
-createMessageCommand({
+Oasis.createMessageCommand({
   names: ["eval"],
   isGuildOnly: false,
   isAdminOnly: true,
   category: Utils.Category.Owner,
-  execute({ bot, message, args: { args } }) {
-    const time = Date.now();
+  async execute({ bot, message, args: { args } }) {
     const input = args.join(" ");
 
-    if (!input) return "Escribe algo.";
+    if (!input) {
+      return "Escribe algo.";
+    }
+
+    const offset = (str: string) => {
+      return `\`\`\`js\n${str}\n\`\`\``;
+    };
+
+    const asyncEval = (code: string, returns = false) => {
+      return `(async()=>{\n${!returns ? `return ${code.trim()}` : `${code.trim()}`}\n})()`;
+    };
 
     try {
-      const output = Deno.inspect(eval(input));
+      const parsed = input.startsWith("```js") && input.endsWith("```") ? input.substring(5, input.length - 3) : input;
+      const startedAt = Date.now();
+      const evaluated = await eval(asyncEval(parsed, parsed.includes("return")));
+      const result = typeof evaluated === "string" ? evaluated : Deno.inspect(evaluated);
 
-      const { embed } = new MessageEmbed()
+      if (result.length >= Oasis.Limits.Description - offset("").length) {
+        await Discord.sendMessage(bot, message.channelId, {
+          file: [{ name: "Content.js", blob: new Blob([result]) }],
+          content: `<@${message.authorId}>`,
+        });
+        return;
+      }
+
+      const { embed } = new Oasis.MessageEmbed()
+        .author(message.tag)
         .color(Utils.DiscordColors.Blurple)
-        .field("Javascript 🖥", `\`\`\`js\n${output}\`\`\``, true)
-        .field("Tiempo ⌛", `\`\`\`ts\n${Date.now() - time}ms\`\`\``, true)
-        .field("Entrada 📥", `\`\`\`js\n${input}\`\`\``, true)
-        .field("Salida 📤", `\`\`\`ts\n${output}\`\`\``, true)
-        .field("Tipo 📋", `\`\`\`ts\n${typeof output}\`\`\``, true)
-        .author(`Bot id:${bot.id}`)
-        .footer(`Channel id: ${message.channelId}`);
+        .description(offset(result))
+        .field("Type", typeof evaluated)
+        .footer(`Execution time: ${Math.ceil((Date.now() - startedAt) / 2)}ms`);
 
       return embed;
     } catch (error) {
       if (error instanceof Error) {
-        return new MessageEmbed({ description: "Error: " + error.message, color: Utils.DiscordColors.Red }).embed;
+        return new Oasis.MessageEmbed({
+          description: `Error: ${error.cause} ${error.message}`,
+          color: Utils.DiscordColors.Red,
+        }).embed;
       }
     }
   },
