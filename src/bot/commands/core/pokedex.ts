@@ -5,7 +5,7 @@ import { ApplicationCommandOptionTypes } from "discordeno";
 
 async function getPokemonFromApi(pokemon: string | number) {
   try {
-    const data: Pokemon | undefined = await fetch(`${Api.PokeApi}/pokemon/${pokemon}`).then((a) => a.json());
+    const data: Pokemon | undefined = await fetch(`${Api.PokeApi}pokemon/${pokemon}`).then((a) => a.json());
 
     return Promise.resolve(data);
   } catch {

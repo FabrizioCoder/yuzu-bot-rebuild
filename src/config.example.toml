@@ -1,0 +1,33 @@
+# REMOVE THE .example IN THIS FILE
+
+# BOT'S PREFIX
+prefix = "!"
+
+# BOT'S VERSION
+version = "3.0.0"
+
+# TESTING
+development = true
+
+# BOT'S TOKEN
+[bot.gateway]
+intents = [ "Guilds", "GuildMessages" ]
+token = "bot token here"
+
+# MONGODB URI
+[db]
+uri = """
+test:
+mongodb://localhost:27017/test
+
+db example:
+mongodb+srv://<username>:<password>@<db_cluster_url>/<db_name>?authMechanism=SCRAM-SHA-1
+"""
+
+[logs] # OPTIONAL (0n by default)
+channelId = "log channel id"
+guildId = "guild id"
+
+[misc] # REQUIRED
+ownerId = "bot owner id"
+botId = "bot id (important)"

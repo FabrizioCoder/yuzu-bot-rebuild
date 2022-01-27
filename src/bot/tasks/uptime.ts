@@ -1,6 +1,7 @@
 import { createTask, Milliseconds } from "oasis";
-import { Configuration, logger } from "utils";
+import { Configuration } from "utils";
 import { sendMessage } from "discordeno";
+import { error } from "logger";
 
 createTask({
   name: "uptime",
@@ -12,6 +13,6 @@ createTask({
       `-> <t:${Math.floor(uptime / 1000)}:F>`;
 
     // log
-    await sendMessage(bot, Configuration.channelId, { content: uptimeMessage }).catch(logger.error);
+    await sendMessage(bot, Configuration.logs.channelId, { content: uptimeMessage }).catch(error);
   },
 });

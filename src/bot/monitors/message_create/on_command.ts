@@ -89,7 +89,7 @@ createMonitor({
       return;
     }
 
-    if (message.authorId !== Configuration.ownerId && command.isAdminOnly) {
+    if (message.authorId !== Configuration.misc.ownerId && command.isAdminOnly) {
       await sendMessage(bot, message.channelId, {
         content: await translate(bot as BotWithCache, "strings:COMMAND_IS_ADMINONLY", message.guildId),
       });

@@ -52,5 +52,5 @@ export const chanMention = /^<(#)\d{18}>/gim;
 
 export enum Api {
   Nekos = "https://nekos.life/api/v2/",
-  PokeApi = "https://pokeapi.co/api/v2",
+  PokeApi = "https://pokeapi.co/api/v2/",
 }

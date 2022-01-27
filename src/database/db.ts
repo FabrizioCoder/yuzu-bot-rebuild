@@ -1,16 +1,15 @@
 import type { Database } from "mongo";
 import { MongoClient } from "mongo";
-
-import "dotenv/load";
+import { Configuration } from "utils";
 
 let db: Database | undefined = undefined;
 
 async function startDatabase() {
-  const secret = Deno.env.get("DB");
+  const { uri } = Configuration.db;
 
-  if (!db && secret) {
+  if (!db && uri) {
     const client = new MongoClient();
-    await client.connect(secret);
+    await client.connect(uri);
 
     db = client.database("yuzucluster");
   }

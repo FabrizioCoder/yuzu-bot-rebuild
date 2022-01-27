@@ -7,14 +7,12 @@ export interface OasisCreateBotOptions extends Omit<CreateBotOptions, "intents" 
   plugins?: Array<Function>;
 }
 
-export type OasisBot<B extends Bot = Bot> = B;
-
 // classy class
 declare class Oasis {
   public options: OasisCreateBotOptions;
-  public bot?: OasisBot;
+  public bot: Bot;
   public constructor(options: OasisCreateBotOptions);
-  public start(this: Oasis, token: string, intents: CreateBotOptions["intents"]): Promise<OasisBot>;
+  public start(this: Oasis, token: string, intents: CreateBotOptions["intents"]): Promise<Bot>;
 }
 
 function Oasis(this: Oasis, options: OasisCreateBotOptions): Oasis {
@@ -42,7 +40,7 @@ export async function start<B extends Bot>(
 
   await startBot(bot);
 
-  return bot as OasisBot<B>;
+  return bot as B;
 }
 
 Oasis.prototype.start = async function (this: Oasis, token: string, intents: CreateBotOptions["intents"]) {

@@ -1,6 +1,7 @@
 import { cache, createEvent } from "oasis";
-import { Configuration, logger } from "utils";
+import { Configuration } from "utils";
 import { sendMessage } from "discordeno";
+import { error } from "logger";
 
 createEvent({
   name: "interactionCreate",
@@ -17,9 +18,9 @@ createEvent({
         }
       } catch (e) {
         if (e instanceof Error) {
-          await sendMessage(bot, Configuration.channelId, {
+          await sendMessage(bot, Configuration.logs.channelId, {
             content: `${e.cause}\n${e.stack}`,
-          }).catch(logger.error);
+          }).catch(error);
         }
       }
     });

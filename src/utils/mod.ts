@@ -4,11 +4,11 @@ export * from "./constants.ts";
 // utility
 export * from "./std/range.ts";
 export * from "./std/cheemsify.ts";
-export * from "./std/logger.ts";
 export * from "./algorithms/levenshtein_distance.ts";
 
 export * from "./scripts/APICommands.ts";
 export * from "./i18next.ts";
+export * from "./scripts/setupLogger.ts";
 
 export * as cache from "./cache.ts";
 
