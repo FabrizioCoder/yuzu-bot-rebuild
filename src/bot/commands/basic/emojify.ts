@@ -35,7 +35,7 @@ createCommand({
       ...Object.fromEntries(rangeChar("a", "z").map((c) => [c, `:regional_indicator_${c}: `])),
     };
 
-    return (option.value as string)
+    return option.value
       .split("")
       .map((c) => (c.toLowerCase() in mapping ? mapping[c.toLowerCase()] : c))
       .join("");

@@ -9,7 +9,7 @@
     "cache_plugin": "https://raw.githubusercontent.com/discordeno/cache-plugin/main/mod.ts",
     "permissions_plugin": "https://raw.githubusercontent.com/discordeno/permissions-plugin/main/mod.ts",
     "mongo": "https://deno.land/x/mongo@v0.29.0/mod.ts",
-    "images": "https://deno.land/x/ddgimages@v1.1.1/mod.ts",
+    "images": "https://deno.land/x/ddgimages@2.0.0/mod.ts",
     "poke_deno": "https://deno.land/x/poke_deno@1.1.0/mod.ts",
     "imagescript": "https://deno.land/x/imagescript@1.2.9/mod.ts",
     "logger": "https://deno.land/std@0.122.0/log/mod.ts",

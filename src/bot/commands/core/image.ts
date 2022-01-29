@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-unreachable
+
 import type { ButtonComponent } from "discordeno";
 import {
   createCommand,
@@ -89,6 +91,8 @@ const buttons: [ButtonComponent, ButtonComponent, ButtonComponent, ButtonCompone
   },
 ];
 
+const disabled = true as boolean;
+
 createCommand({
   meta: {
     // help command ignore this
@@ -98,6 +102,10 @@ createCommand({
   category: Category.Util,
   translated: true,
   async execute({ bot, interaction }) {
+    if (disabled) {
+      return "The owner has restricted this command to a whitelist! feel free to ask for access on the support server";
+    }
+
     const option = interaction.data?.options?.[0];
 
     if (option?.type !== ApplicationCommandOptionTypes.String) {
@@ -302,6 +310,10 @@ createMessageCommand({
   category: Category.Util,
   translated: true,
   async execute({ bot, message, args: { args } }) {
+    if (disabled) {
+      return "The owner has restricted this command to a whitelist! feel free to ask for access on the support server";
+    }
+
     const option = args.join(" ");
 
     if (!option) {

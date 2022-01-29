@@ -11,7 +11,7 @@ createMonitor({
 
     if (type !== InteractionTypes.MessageComponent) {
       return;
-    } else if (data?.componentType === MessageComponentTypes.SelectMenu) {
+    } else if (data?.componentType !== MessageComponentTypes.Button) {
       return;
     }
 

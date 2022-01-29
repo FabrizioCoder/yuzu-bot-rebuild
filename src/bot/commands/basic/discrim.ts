@@ -17,7 +17,7 @@ createCommand({
     }
 
     const users = bot.users.map((u) => {
-      if (u.discriminator === <number>option.value) return `${u.username}#${u.discriminator}`;
+      if (u.discriminator === option.value) return `${u.username}#${u.discriminator}`;
     });
 
     const { embed } = new MessageEmbed()
