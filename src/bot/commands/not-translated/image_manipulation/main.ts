@@ -349,3 +349,30 @@ createMessageCommand({
     });
   },
 });
+
+createMessageCommand({
+  names: ["globo", "textballoon", "balloon"],
+  meta: {
+    descr: "Pog",
+    usage: "globo [last attachment on the channel]",
+  },
+  category: Category.Image,
+  async execute({ bot, message }) {
+    const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
+    const balloon = await fetch("https://i.redd.it/z0nqjst12ih61.jpg").then((a) => a.arrayBuffer()).then(Image.decode);
+
+    if (!attachmentUrl) return "Image not found in channel!";
+
+    const compressed = await decodeFromUrl(attachmentUrl, (i) => {
+      i.fit(i.width, i.height + ((balloon.height - 100) * 2));
+      i.composite(balloon.resize(i.width, (balloon.height - 100)), 0, 0);
+      i.crop(0, 0, i.width , i.height - (balloon.height));
+      return i.encode();
+    });
+
+    await sendMessage(bot, message.channelId, {
+      file: [{ blob: new Blob([compressed]), name: "img.png" }],
+      content: `<@${message.authorId}>`,
+    });
+  },
+});
