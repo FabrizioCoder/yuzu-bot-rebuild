@@ -12,14 +12,14 @@ createCommand({
   async execute({ bot, interaction }) {
     if (!interaction.channelId) return;
 
-    const message = cache.lastMessages.get(interaction.channelId);
+    const snipedMessage = cache.lastMessages.get(interaction.channelId);
 
-    if (!message) {
+    if (!snipedMessage) {
       return "commands:snipe:ON_MISSING_MESSAGE";
     }
 
-    if (message.content.length >= 4096) {
-      const file = new Blob([message.content]);
+    if (snipedMessage.content.length >= 4096) {
+      const file = new Blob([snipedMessage.content]);
 
       await sendMessage(bot, interaction.channelId, { file: [{ name: "Content.txt", blob: file }] });
 
@@ -28,12 +28,12 @@ createCommand({
 
     const { embed } = new MessageEmbed()
       .author(
-        message.tag,
+        snipedMessage.tag,
         avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar })
       )
       .color(randomHex())
-      .description(message.content)
-      .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`);
+      .description(snipedMessage.content)
+      .footer(`${snipedMessage.id} • ${new Date(snipedMessage.timestamp).toLocaleString()}`);
 
     return embed;
   },
@@ -52,27 +52,27 @@ createMessageCommand({
   },
   translated: true,
   async execute({ bot, message }) {
-    const sniped = cache.lastMessages.get(message.channelId);
+    const snipedMessage = cache.lastMessages.get(message.channelId);
 
-    if (!sniped) {
+    if (!snipedMessage) {
       return "commands:snipe:ON_MISSING_MESSAGE";
     }
 
-    if (sniped.content.length >= 4096) {
-      const file = new Blob([sniped.content]);
+    if (snipedMessage.content.length >= 4096) {
+      const file = new Blob([snipedMessage.content]);
 
       await sendMessage(bot, message.channelId, { file: [{ name: "Content.txt", blob: file }] });
 
       return "commands:snipe:ON_LARGE_MESSAGE";
     }
 
-    const author = bot.users.get(message.authorId) ?? (await getUser(bot, message.authorId));
+    const author = bot.users.get(snipedMessage.authorId) ?? (await getUser(bot, snipedMessage.authorId));
 
     const { embed } = new MessageEmbed()
-      .author(message.tag, avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }))
+      .author(snipedMessage.tag, avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }))
       .color(randomHex())
-      .description(message.content)
-      .footer(`${message.id} • ${new Date(message.timestamp).toLocaleString()}`);
+      .description(snipedMessage.content)
+      .footer(`${snipedMessage.id} • ${new Date(snipedMessage.timestamp).toLocaleString()}`);
 
     return embed;
   },

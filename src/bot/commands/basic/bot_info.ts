@@ -39,7 +39,6 @@ createMessageCommand({
       .field("Cached messages", bot.messages.size.toLocaleString(), true)
       .field("Memory", memory.join("\n"))
       .field("OS", toCapitalCase(Deno.build.os))
-      .field("My Discord", "Yuzu#0956")
       .field("Since", `<t:${botCreatedAt}> <- <t:${botCreatedAt}:R>`)
       .field(
         "Desarrollo",

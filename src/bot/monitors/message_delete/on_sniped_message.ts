@@ -10,9 +10,9 @@ createMonitor({
   execute(_bot, _payload, message) {
     if (message) {
       // TODO flags: SourceMessageDeleted
-      if ((Number(message.flags) & MessageFlags.SourceMessageDeleted) === MessageFlags.SourceMessageDeleted) {
-        // pass
-      }
+      // if ((Number(message.flags) & MessageFlags.SourceMessageDeleted) === MessageFlags.SourceMessageDeleted) {
+      // pass
+      // }
       cache.lastMessages.delete(message.channelId);
       cache.lastMessages.set(message.channelId, message);
     }
