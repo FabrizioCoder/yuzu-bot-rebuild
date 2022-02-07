@@ -1,8 +1,9 @@
 import type { EventHandlers } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
-import { createEvent, MessageEmbed } from "oasis";
+import { createEvent } from "oasis/commando";
+import { MessageEmbed } from "oasis/builders";
 import { cache, DiscordColors } from "utils";
-import { addReaction, avatarURL, deleteMessage, editMessage, sendMessage, getMessage, getUser } from "discordeno";
+import { addReaction, avatarURL, deleteMessage, editMessage, getMessage, getUser, sendMessage } from "discordeno";
 import { getCollection, getStarboard } from "../../../database/controllers/starboard_controller.ts";
 import { db } from "../../../database/db.ts";
 
@@ -85,7 +86,9 @@ const execute: Execute = async function (bot, { channelId, guildId, messageId })
     const response = cache.alreadySendedInStarboard.get(messageId);
 
     if (response) {
-      await editMessage(bot, response.channelId, response.id, { embeds: [embed.embed] }).catch(() => {});
+      await editMessage(bot, response.channelId, response.id, {
+        embeds: [embed.embed],
+      }).catch(() => {});
     }
 
     return;

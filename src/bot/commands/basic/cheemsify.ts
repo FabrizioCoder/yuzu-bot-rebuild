@@ -1,9 +1,5 @@
-import {
-  createCommand,
-  createMessageCommand,
-  ChatInputApplicationCommandBuilder,
-  MessageApplicationCommandBuilder,
-} from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageApplicationCommandBuilder } from "oasis/builders";
 import { Category, cheemsify } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 

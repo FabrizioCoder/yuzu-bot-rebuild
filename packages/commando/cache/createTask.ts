@@ -1,8 +1,7 @@
-import type { Milliseconds } from "../../constants.ts";
 import type { DiscordenoUser } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
 
-import { tasks } from "../../cache.ts";
+import { tasks } from "../cache.ts";
 
 export interface ReadyPayload {
   shardId: number;
@@ -17,7 +16,7 @@ export interface ReadyPayload {
 export interface Task {
   // arbitrary name
   name: string;
-  interval: Milliseconds;
+  interval: number;
   // botId uptime and anothe ruseful ids
   execute: (bot: BotWithCache, payload: ReadyPayload, ...args: number[]) => void | Promise<void> | Promise<void>;
 }

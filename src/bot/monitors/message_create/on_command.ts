@@ -1,6 +1,6 @@
 import type { BotWithCache } from "cache_plugin";
-import { cache, createMonitor } from "oasis";
-import { botMention, Configuration, compareDistance } from "utils";
+import { CommandoCache, createMonitor } from "oasis/commando";
+import { botMention, compareDistance, Configuration } from "utils";
 import { sendMessage } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
 import { getCollection, getPrefix } from "database/controllers/prefix_controller.ts";
@@ -46,7 +46,8 @@ createMonitor({
       return;
     }
 
-    const command = cache.commands.get(name) ?? cache.commands.get(cache.aliases.get(name) ?? "None");
+    const command =
+      CommandoCache.commands.get(name) ?? CommandoCache.commands.get(CommandoCache.aliases.get(name) ?? "None");
 
     // CHECKS
 
@@ -60,7 +61,7 @@ createMonitor({
 
       const fxd = new Map<string, number>();
 
-      for (const [key] of cache.commands) {
+      for (const [key] of CommandoCache.commands) {
         const ratio = compareDistance(key, name);
         fxd.set(key, ratio);
       }

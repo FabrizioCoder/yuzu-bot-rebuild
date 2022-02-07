@@ -1,8 +1,7 @@
-import type { Command } from "./helpers/cache/createCommand.ts";
-import type { Event } from "./helpers/cache/createEvent.ts";
-import type { Monitor } from "./helpers/cache/createMonitor.ts";
-import type { Task } from "./helpers/cache/createTask.ts";
-import type { ButtonCollector, MessageCollector } from "./types/collector.ts";
+import type { Command } from "./cache/createCommand.ts";
+import type { Event } from "./cache/createEvent.ts";
+import type { Monitor } from "./cache/createMonitor.ts";
+import type { Task } from "./cache/createTask.ts";
 
 import { Collection } from "discordeno";
 
@@ -26,9 +25,4 @@ export const tasks: Collection<string, Task> = new Collection();
 export const runningTasks = {
   initialTimeouts: new Set<number>(),
   intervals: new Set<number>(),
-};
-
-export const collectors = {
-  buttons: new Collection<bigint, ButtonCollector>(),
-  messages: new Collection<bigint, MessageCollector>(),
 };

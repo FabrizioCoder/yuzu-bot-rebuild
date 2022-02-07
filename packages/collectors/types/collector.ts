@@ -1,4 +1,4 @@
-import type { DiscordenoInteraction, DiscordenoUser, DiscordenoMessage } from "discordeno";
+import type { DiscordenoInteraction, DiscordenoMessage, DiscordenoUser } from "discordeno";
 
 // BASE
 

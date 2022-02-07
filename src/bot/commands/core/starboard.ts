@@ -1,4 +1,5 @@
-import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
+import { createCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder } from "oasis/builders";
 import { Category, translate } from "utils";
 import { ChannelTypes, getChannel, getGuild } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";

@@ -1,4 +1,5 @@
-import { createMessageCommand, MessageEmbed } from "oasis";
+import { createMessageCommand } from "oasis/commando";
+import { MessageEmbed } from "oasis/builders";
 import { cache, Category, DiscordColors } from "utils";
 import { avatarURL, getUser, sendMessage } from "discordeno";
 import { Image } from "imagescript";
@@ -42,7 +43,10 @@ createMessageCommand({
     }
 
     const attachmentOrAvatar = user
-      ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
+      ? avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
+          size: 512,
+        })
       : attachmentUrl!;
 
     const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
@@ -82,7 +86,10 @@ createMessageCommand({
     }
 
     const attachmentOrAvatar = user
-      ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
+      ? avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
+          size: 512,
+        })
       : attachmentUrl!;
 
     const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
@@ -122,7 +129,10 @@ createMessageCommand({
     }
 
     const attachmentOrAvatar = user
-      ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
+      ? avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
+          size: 512,
+        })
       : attachmentUrl!;
 
     const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
@@ -162,7 +172,10 @@ createMessageCommand({
     }
 
     const attachmentOrAvatar = user
-      ? avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 512 })
+      ? avatarURL(bot, user.id, user.discriminator, {
+          avatar: user.avatar,
+          size: 512,
+        })
       : attachmentUrl!;
 
     const compressed = await decodeFromUrl(attachmentOrAvatar, (i) => {
@@ -359,14 +372,16 @@ createMessageCommand({
   category: Category.Image,
   async execute({ bot, message }) {
     const attachmentUrl = cache.lastAttachments.get(message.channelId)?.[0];
-    const balloon = await fetch("https://i.redd.it/z0nqjst12ih61.jpg").then((a) => a.arrayBuffer()).then(Image.decode);
+    const balloon = await fetch("https://i.redd.it/z0nqjst12ih61.jpg")
+      .then((a) => a.arrayBuffer())
+      .then(Image.decode);
 
     if (!attachmentUrl) return "Image not found in channel!";
 
     const compressed = await decodeFromUrl(attachmentUrl, (i) => {
-      i.fit(i.width, i.height + ((balloon.height - 100) * 2));
-      i.composite(balloon.resize(i.width, (balloon.height - 100)), 0, 0);
-      i.crop(0, 0, i.width , i.height - (balloon.height));
+      i.fit(i.width, i.height + (balloon.height - 100) * 2);
+      i.composite(balloon.resize(i.width, balloon.height - 100), 0, 0);
+      i.crop(0, 0, i.width, i.height - balloon.height);
       return i.encode();
     });
 

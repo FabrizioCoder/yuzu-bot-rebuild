@@ -1,9 +1,10 @@
-import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { createCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
-const rpts = <const>["Sí", "No", "Tal vez", "No sé", "¡Claro!", "Podría ser", "Es poco probable", "Quizás"];
-const name = <const>`${rpts.length}ball`;
+const rpts = ["Sí", "No", "Tal vez", "No sé", "¡Claro!", "Podría ser", "Es poco probable", "Quizás"] as const;
+const name = `${rpts.length}ball` as const;
 
 createCommand({
   meta: {
@@ -22,7 +23,9 @@ createCommand({
         .field("Tu pregunta fue:", `${option.value}`)
         .field("Mi respuesta es:", rpts[Math.floor(Math.random() * rpts.length)])
         .thumbnail(
-          avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar })
+          avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+            avatar: interaction.user.avatar,
+          })
         );
 
       return embed;

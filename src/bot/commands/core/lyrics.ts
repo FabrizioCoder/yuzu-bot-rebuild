@@ -1,6 +1,7 @@
 /* TODO: check for long song lyrics */
 
-import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { Category, randomHex } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 

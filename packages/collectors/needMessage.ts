@@ -1,15 +1,21 @@
-import type { CollectMessagesOptions, MessageCollectorOptions } from "../types/collector.ts";
+import type { CollectMessagesOptions, MessageCollector, MessageCollectorOptions } from "./types/collector.ts";
 import type { DiscordenoMessage } from "discordeno";
-import { Milliseconds } from "../constants.ts";
-import * as cache from "../cache.ts";
+import { Milliseconds } from "./constants.ts";
+import { Collection } from "./deps.ts";
+
+const collectors = {
+  messages: new Collection<bigint, MessageCollector>(),
+};
+
+export const { messages } = collectors;
 
 export function collectMessages(options: CollectMessagesOptions): Promise<DiscordenoMessage[]> {
   return new Promise((resolve, reject) => {
-    cache.collectors.messages
+    collectors.messages
       .get(options.key)
       ?.reject("A new collector began before the user responded to the previous one.");
 
-    cache.collectors.messages.set(options.key, {
+    collectors.messages.set(options.key, {
       ...options,
       messages: [],
       resolve,

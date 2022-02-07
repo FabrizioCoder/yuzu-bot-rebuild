@@ -1,4 +1,5 @@
-import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { Category, randomHex, translate } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
@@ -17,7 +18,9 @@ createCommand({
     }
 
     const users = bot.users.map((u) => {
-      if (u.discriminator === option.value) return `${u.username}#${u.discriminator}`;
+      if (u.discriminator === option.value) {
+        return `${u.username}#${u.discriminator}`;
+      }
     });
 
     const { embed } = new MessageEmbed()
@@ -51,7 +54,9 @@ createMessageCommand({
     const discriminator = parseInt(args[0]);
 
     const users = bot.users.map((u) => {
-      if (u.discriminator === discriminator) return `${u.username}#${u.discriminator}`;
+      if (u.discriminator === discriminator) {
+        return `${u.username}#${u.discriminator}`;
+      }
     });
 
     const { embed } = new MessageEmbed()

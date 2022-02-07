@@ -1,5 +1,5 @@
 import type { BotWithCache } from "cache_plugin";
-import { cache, createMonitor } from "oasis";
+import { CommandoCache, createMonitor } from "oasis/commando";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
 import { translate } from "utils";
@@ -12,7 +12,7 @@ createMonitor({
   async execute(bot, interaction) {
     if (interaction.type !== InteractionTypes.ApplicationCommand) return;
 
-    const command = cache.slashCommands.get(interaction.data?.name!);
+    const command = CommandoCache.slashCommands.get(interaction.data?.name!);
 
     if (!command) return;
 
@@ -45,7 +45,10 @@ createMonitor({
     }
 
     // END CHECKS
-    const output = await command.execute({ bot: bot as BotWithCache, interaction });
+    const output = await command.execute({
+      bot: bot as BotWithCache,
+      interaction,
+    });
 
     // PERMISSIONS
 

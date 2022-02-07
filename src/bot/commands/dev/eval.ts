@@ -1,8 +1,9 @@
-import * as Oasis from "oasis";
+import { createMessageCommand } from "oasis/commando";
+import { Limits, MessageEmbed } from "oasis/builders";
 import * as Utils from "utils";
 import * as Discord from "discordeno";
 
-Oasis.createMessageCommand({
+createMessageCommand({
   names: ["eval"],
   isGuildOnly: false,
   isAdminOnly: true,
@@ -28,7 +29,7 @@ Oasis.createMessageCommand({
       const evaluated = await eval(asyncEval(parsed, parsed.includes("return")));
       const result = typeof evaluated === "string" ? evaluated : Deno.inspect(evaluated);
 
-      if (result.length >= Oasis.Limits.Description - offset("").length) {
+      if (result.length >= Limits.Description - offset("").length) {
         await Discord.sendMessage(bot, message.channelId, {
           file: [{ name: "Content.js", blob: new Blob([result]) }],
           content: `<@${message.authorId}>`,
@@ -36,7 +37,7 @@ Oasis.createMessageCommand({
         return;
       }
 
-      const { embed } = new Oasis.MessageEmbed()
+      const { embed } = new MessageEmbed()
         .author(message.tag)
         .color(Utils.DiscordColors.Blurple)
         .description(offset(result))
@@ -46,7 +47,7 @@ Oasis.createMessageCommand({
       return embed;
     } catch (error) {
       if (error instanceof Error) {
-        return new Oasis.MessageEmbed({
+        return new MessageEmbed({
           description: `Error: ${error.cause} ${error.message}`,
           color: Utils.DiscordColors.Red,
         }).embed;

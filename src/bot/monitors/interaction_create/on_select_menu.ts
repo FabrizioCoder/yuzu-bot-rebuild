@@ -1,6 +1,6 @@
 import type { Embed, SelectMenuComponent } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
-import { cache, createMonitor } from "oasis";
+import { CommandoCache, createMonitor } from "oasis/commando";
 import { Category, translate } from "utils";
 import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
 
@@ -22,7 +22,7 @@ createMonitor({
       const row = interaction.message?.components;
 
       if (row && category) {
-        const commands = [...cache.slashCommands, ...cache.commands]
+        const commands = [...CommandoCache.slashCommands, ...CommandoCache.commands]
           .filter(([_, cmd]) => cmd.category === Category[category as keyof typeof Category])
           .map(([_, cmd]) => cmd);
 

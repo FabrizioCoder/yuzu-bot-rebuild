@@ -1,4 +1,5 @@
-import { createCommand, MessageApplicationCommandBuilder } from "oasis";
+import { createCommand } from "oasis/commando";
+import { MessageApplicationCommandBuilder } from "oasis/builders";
 import { Category } from "utils";
 import { SafetyLevels, search } from "images";
 

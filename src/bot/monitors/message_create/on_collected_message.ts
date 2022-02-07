@@ -1,4 +1,5 @@
-import { cache, createMonitor } from "oasis";
+import { createMonitor } from "oasis/commando";
+import { messages } from "oasis/collectors";
 
 createMonitor({
   name: "messageMonitor",
@@ -6,12 +7,12 @@ createMonitor({
   isGuildOnly: true,
   ignoreBots: true,
   execute(_bot, message) {
-    const collector = cache.collectors.messages.get(message.authorId);
+    const collector = messages.get(message.authorId);
     if (!collector || message.channelId !== collector.channelId) return;
     if (!collector.filter(message)) return;
 
     if (collector.amount === 1 || collector.amount === collector.messages.length + 1) {
-      cache.collectors.messages.delete(message.authorId);
+      messages.delete(message.authorId);
       return collector.resolve([...collector.messages, message]);
     }
 

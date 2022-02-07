@@ -1,1 +1,1 @@
-export type Tail<T extends unknown[]> = T extends [infer _A, ...(infer R)] ? R : never;
+export type Tail<T extends unknown[]> = T extends [infer _A, ...infer R] ? R : never;

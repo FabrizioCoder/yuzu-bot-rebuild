@@ -1,4 +1,5 @@
-import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder } from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder } from "oasis/builders";
 import { Category, toCapitalCase, translate } from "utils";
 import { ApplicationCommandOptionTypes, getChannel, getUser } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";
@@ -62,7 +63,9 @@ createCommand({
 
         const output = await getTag(getCollection(db), name, interaction.guildId);
 
-        return translate(bot, "commands:ON_TAG_CREATED", interaction.guildId, { tagName: output?.name });
+        return translate(bot, "commands:ON_TAG_CREATED", interaction.guildId, {
+          tagName: output?.name,
+        });
       }
       case Arguments.Remove: {
         const [name] = <[string]>option.options?.map((o) => o.value);
@@ -131,7 +134,11 @@ createCommand({
 
         await editTag(
           getCollection(db),
-          { guildId: tag.guildId.toBigInt(), userId: tag.userId.toBigInt(), name: tag.name },
+          {
+            guildId: tag.guildId.toBigInt(),
+            userId: tag.userId.toBigInt(),
+            name: tag.name,
+          },
           { content, attachments: [] }
         );
 
@@ -168,7 +175,11 @@ createCommand({
 
         await editTag(
           getCollection(db),
-          { guildId: tag.guildId.toBigInt(), userId: tag.userId.toBigInt(), name: tag.name },
+          {
+            guildId: tag.guildId.toBigInt(),
+            userId: tag.userId.toBigInt(),
+            name: tag.name,
+          },
           {
             isGlobal: false,
             isNsfw: !tag.isNsfw,
@@ -309,7 +320,9 @@ createMessageCommand({
 
         const output = await getTag(getCollection(db), name, message.guildId);
 
-        return translate(bot, "commands:tag:ON_TAG_CREATED", message.guildId, { tagName: output?.name });
+        return translate(bot, "commands:tag:ON_TAG_CREATED", message.guildId, {
+          tagName: output?.name,
+        });
       }
       case Arguments.Remove: {
         const [name] = options;
@@ -333,7 +346,9 @@ createMessageCommand({
 
         await removeTag(getCollection(db), message.guildId, message.authorId, tag.name);
 
-        return translate(bot, "commands:tag:ON_TAG_DELETED", message.guildId, { tagName: tag?.name });
+        return translate(bot, "commands:tag:ON_TAG_DELETED", message.guildId, {
+          tagName: tag?.name,
+        });
       }
       case Arguments.Give: {
         const [name, userId] = options;
@@ -378,7 +393,11 @@ createMessageCommand({
 
         await editTag(
           getCollection(db),
-          { guildId: tag.guildId.toBigInt(), userId: tag.userId.toBigInt(), name: tag.name },
+          {
+            guildId: tag.guildId.toBigInt(),
+            userId: tag.userId.toBigInt(),
+            name: tag.name,
+          },
           {
             content: content.join(" "),
             attachments: [],
@@ -387,7 +406,9 @@ createMessageCommand({
 
         const output = await getTag(getCollection(db), tag.name, message.guildId);
 
-        return translate(bot, "commands:tag:ON_TAG_EDITED", message.guildId, { tagName: output?.name });
+        return translate(bot, "commands:tag:ON_TAG_EDITED", message.guildId, {
+          tagName: output?.name,
+        });
       }
       case Arguments.List: {
         const [userId] = <[string | undefined]>options;

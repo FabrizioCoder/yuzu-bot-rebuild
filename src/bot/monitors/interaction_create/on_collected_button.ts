@@ -1,4 +1,5 @@
-import { createMonitor, processButtonCollectors } from "oasis";
+import { createMonitor } from "oasis/commando";
+import { processButtonCollectors } from "oasis/collectors";
 import { InteractionTypes, MessageComponentTypes } from "discordeno";
 
 createMonitor({

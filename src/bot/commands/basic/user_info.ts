@@ -1,4 +1,6 @@
-import { createCommand, ChatInputApplicationCommandBuilder, MessageEmbed, Util } from "oasis";
+import { createCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
+import { Util } from "oasis/misc/Util.ts";
 import { Category, DiscordColors, translate } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, getMember } from "discordeno";
 

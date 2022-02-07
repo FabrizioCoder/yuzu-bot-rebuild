@@ -1,4 +1,5 @@
-import { cache, createCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { CommandoCache, createCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { Category, DiscordColors } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL } from "discordeno";
 
@@ -16,7 +17,8 @@ createCommand({
       return;
     }
 
-    const command = cache.slashCommands.get(option.value as string) ?? cache.commands.get(option.value as string);
+    const command =
+      CommandoCache.slashCommands.get(option.value as string) ?? CommandoCache.commands.get(option.value as string);
 
     if (!command) {
       return "El comando no existe";

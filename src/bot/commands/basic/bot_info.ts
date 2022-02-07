@@ -1,4 +1,6 @@
-import { createMessageCommand, MessageEmbed, Util } from "oasis";
+import { createMessageCommand } from "oasis/commando";
+import { MessageEmbed } from "oasis/builders";
+import { Util } from "oasis/misc/Util.ts";
 import { Category, DiscordColors, toCapitalCase } from "utils";
 import { avatarURL, getUser } from "discordeno";
 
@@ -25,7 +27,9 @@ createMessageCommand({
     );
 
     // avatar
-    const avatar = avatarURL(bot, me.id, me.discriminator, { avatar: me.avatar });
+    const avatar = avatarURL(bot, me.id, me.discriminator, {
+      avatar: me.avatar,
+    });
 
     const { embed } = new MessageEmbed()
       .color(DiscordColors.Blurple)

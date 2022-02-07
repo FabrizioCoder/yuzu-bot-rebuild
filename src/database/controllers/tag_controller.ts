@@ -1,4 +1,4 @@
-import type { Database, Collection as MongoCollection } from "mongo";
+import type { Collection as MongoCollection, Database } from "mongo";
 import type { TagSchema } from "../models/tag_model.ts";
 
 import { makeLong } from "../makeLong.ts";
@@ -106,10 +106,18 @@ export function passTag(
   collection: Collection,
   id: bigint,
   userId: bigint,
-  data: Pick<TagSchema, "isGlobal" | "isNsfw"> & { guildId: bigint; userId: bigint }
+  data: Pick<TagSchema, "isGlobal" | "isNsfw"> & {
+    guildId: bigint;
+    userId: bigint;
+  }
 ) {
   return collection.updateOne(
-    { guildId: makeLong(data.guildId), userId: makeLong(userId), isGlobal: data.isGlobal, isNsfw: data.isNsfw },
+    {
+      guildId: makeLong(data.guildId),
+      userId: makeLong(userId),
+      isGlobal: data.isGlobal,
+      isNsfw: data.isNsfw,
+    },
     {
       $set: { guildId: makeLong(id), userId: makeLong(userId) },
     }

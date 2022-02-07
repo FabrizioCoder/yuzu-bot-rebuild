@@ -70,10 +70,12 @@ TOKEN=YOURTOKEN
 
 ### Heroku
 
-1. Add [this](https://github.com/chibat/heroku-buildpack-deno.git) buildpack to your app
+1. Add [this](https://github.com/chibat/heroku-buildpack-deno.git) buildpack to
+   your app
 2. Make a mongodb atlas account
 3. Copy the `.env` example
-4. Add both your Discord token and the mongo atlas URI to the Heroku env variables
+4. Add both your Discord token and the mongo atlas URI to the Heroku env
+   variables
 5. Deploy directly from Github
 6. Enjoy
 

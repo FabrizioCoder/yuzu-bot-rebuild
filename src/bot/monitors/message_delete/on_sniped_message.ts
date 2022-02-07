@@ -1,6 +1,6 @@
-import { createMonitor } from "oasis";
+import { createMonitor } from "oasis/commando";
 import { cache } from "utils";
-import { MessageFlags } from "discordeno";
+// import { MessageFlags } from "discordeno";
 
 createMonitor({
   name: "messageSniper",

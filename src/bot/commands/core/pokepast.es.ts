@@ -1,4 +1,5 @@
-import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder } from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder } from "oasis/builders";
 import { Category } from "utils";
 import { sendMessage } from "discordeno";
 import { getRawPaste } from "poke_deno";

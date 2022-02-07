@@ -1,13 +1,14 @@
 import type { SelectMenuComponent } from "discordeno";
-import { cache, createCommand, createMessageCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { CommandoCache, createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { Category, CategoryEmoji, DiscordColors, translate } from "utils";
 import {
   avatarURL,
   getUser,
   InteractionResponseTypes,
   MessageComponentTypes,
-  sendMessage,
   sendInteractionResponse,
+  sendMessage,
 } from "discordeno";
 
 createCommand({
@@ -51,7 +52,7 @@ createCommand({
       .thumbnail(avatar)
       .description(
         await translate(bot, "commands:help:COMMANDS_LENGTH", interaction.guildId, {
-          count: cache.slashCommands.size + cache.commands.size,
+          count: CommandoCache.slashCommands.size + CommandoCache.commands.size,
         })
       )
       .footer(`${interaction.user.id} <> Required [] Optional`, avatar);
@@ -122,7 +123,7 @@ createMessageCommand({
       .thumbnail(avatar)
       .description(
         await translate(bot, "commands:help:COMMANDS_LENGTH", message.guildId, {
-          count: cache.slashCommands.size + cache.commands.size,
+          count: CommandoCache.slashCommands.size + CommandoCache.commands.size,
         })
       )
       .footer(`${author.id} <> Required [] Optional`, avatar);

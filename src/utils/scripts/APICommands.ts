@@ -1,13 +1,13 @@
 import { Api, Category, DiscordColors } from "../constants.ts";
 import { translate } from "../i18next.ts";
-import { cache } from "oasis";
-import { createCommand, createMessageCommand, MessageEmbed } from "oasis";
-import { ApplicationCommandTypes, ApplicationCommandOptionTypes, getUser } from "discordeno";
+import { CommandoCache, createCommand, createMessageCommand } from "oasis/commando";
+import { MessageEmbed } from "oasis/builders";
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes, getUser } from "discordeno";
 
 // modify the endpointActionPairs to change the actions
 export function loadDynamicCommands() {
-  setInteractionCommands(cache.slashCommands);
-  setMessageCommands(cache.commands);
+  setInteractionCommands(CommandoCache.slashCommands);
+  setMessageCommands(CommandoCache.commands);
 }
 
 const endpoints = ["img/hug", "img/kiss", "img/poke", "img/tickle", "img/pat", "img/cuddle", "img/feed"];

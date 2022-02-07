@@ -1,4 +1,5 @@
-import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { ApplicationCommandOptionTypes, avatarURL, getUser } from "discordeno";
 import { Category, DiscordColors, translate } from "utils";
 
@@ -66,12 +67,19 @@ createMessageCommand({
       return "commands:avatar:ON_MISSING_USER";
     }
 
-    const avatar = avatarURL(bot, user.id, user.discriminator, { avatar: user.avatar, size: 2048 });
+    const avatar = avatarURL(bot, user.id, user.discriminator, {
+      avatar: user.avatar,
+      size: 2048,
+    });
 
     const { embed } = new MessageEmbed()
       .author(`Owner: ${user.username}#${user.discriminator}`, avatar)
       .color(DiscordColors.Blurple)
-      .title(await translate(bot, `commands:avatar:EMBED_TITLE`, message.guildId, { mention: message.tag }))
+      .title(
+        await translate(bot, `commands:avatar:EMBED_TITLE`, message.guildId, {
+          mention: message.tag,
+        })
+      )
       .description(await translate(bot, `commands:avatar:EMBED_DESCRIPTION`, message.guildId, { avatar }))
       .image(avatar);
 

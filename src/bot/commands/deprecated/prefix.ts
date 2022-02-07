@@ -1,4 +1,4 @@
-import { createMessageCommand } from "oasis";
+import { createMessageCommand } from "oasis/commando";
 import { Category, isNotAscii, translate } from "utils";
 import { hasGuildPermissions } from "permissions_plugin";
 import { addPrefix, editPrefix, getCollection, getPrefix } from "database/controllers/prefix_controller.ts";
@@ -21,7 +21,9 @@ createMessageCommand({
     const [input] = args;
 
     if (!input) {
-      return translate(bot, "commands:prefix:ON_NO_PREFIX", message.guildId, { prefix });
+      return translate(bot, "commands:prefix:ON_NO_PREFIX", message.guildId, {
+        prefix,
+      });
     }
 
     if (isNotAscii(input)) {

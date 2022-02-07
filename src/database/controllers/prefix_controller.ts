@@ -1,4 +1,4 @@
-import type { Database, Collection as MongoCollection } from "mongo";
+import type { Collection as MongoCollection, Database } from "mongo";
 import type { PrefixSchema } from "../models/prefix_model.ts";
 
 import { makeLong } from "../makeLong.ts";
@@ -10,7 +10,12 @@ export function getCollection(db: Database) {
 }
 
 export function getPrefix(collection: Collection, id: bigint) {
-  return collection.findOne({ guildId: makeLong(id) }, { noCursorTimeout: false });
+  return collection.findOne(
+    { guildId: makeLong(id) },
+    {
+      noCursorTimeout: false,
+    }
+  );
 }
 
 export function addPrefix(collection: Collection, id: bigint, prefix: string) {

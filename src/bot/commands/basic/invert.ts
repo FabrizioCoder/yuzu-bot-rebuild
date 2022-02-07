@@ -1,4 +1,5 @@
-import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
+import { createCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder } from "oasis/builders";
 import { Category } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 

@@ -9,7 +9,7 @@ import type {
 } from "discordeno";
 import type { BotWithCache } from "cache_plugin";
 
-import { aliases, commands, slashCommands } from "../../cache.ts";
+import { aliases, commands, slashCommands } from "../cache.ts";
 
 export function createCommand(
   o: Omit<CreateCommand, "data" | "type" | "description" | "name"> & {

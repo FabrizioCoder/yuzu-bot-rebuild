@@ -1,4 +1,5 @@
-import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { Category, randomHex, translate } from "utils";
 import { ApplicationCommandOptionTypes, avatarURL, createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
 import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";

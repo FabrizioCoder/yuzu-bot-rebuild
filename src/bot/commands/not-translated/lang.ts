@@ -1,6 +1,6 @@
-import { createMessageCommand } from "oasis";
+import { createMessageCommand } from "oasis/commando";
 import { Category } from "utils";
-import { addLanguage, editLanguage, getLanguage, getCollection } from "database/controllers/language_controller.ts";
+import { addLanguage, editLanguage, getCollection, getLanguage } from "database/controllers/language_controller.ts";
 import { db } from "database/db";
 import { getGuild, getMember } from "discordeno";
 import { hasGuildPermissions } from "permissions_plugin";

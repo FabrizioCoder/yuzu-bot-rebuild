@@ -1,6 +1,6 @@
-import { cache, createMessageCommand } from "oasis";
+import { CommandoCache, createMessageCommand } from "oasis/commando";
 import { Category } from "utils";
-import { upsertApplicationCommands, sendMessage } from "discordeno";
+import { sendMessage, upsertApplicationCommands } from "discordeno";
 
 createMessageCommand({
   names: ["reload"],
@@ -12,7 +12,7 @@ createMessageCommand({
   },
   category: Category.Owner,
   async execute({ bot, message }) {
-    const commands = cache.slashCommands.map((c) => c.data);
+    const commands = CommandoCache.slashCommands.map((c) => c.data);
 
     const file = new Blob([Deno.inspect(commands, {})]);
 

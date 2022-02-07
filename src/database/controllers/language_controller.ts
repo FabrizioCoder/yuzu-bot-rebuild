@@ -1,4 +1,4 @@
-import type { Database, Collection as MongoCollection } from "mongo";
+import type { Collection as MongoCollection, Database } from "mongo";
 import type { LanguageSchema } from "../models/language_model.ts";
 import type { Languages } from "../../utils/i18next.ts";
 
@@ -11,7 +11,12 @@ export function getCollection(db: Database) {
 }
 
 export function getLanguage(collection: Collection, id: bigint) {
-  return collection.findOne({ guildId: makeLong(id) }, { noCursorTimeout: false });
+  return collection.findOne(
+    { guildId: makeLong(id) },
+    {
+      noCursorTimeout: false,
+    }
+  );
 }
 
 export function addLanguage(collection: Collection, id: bigint, language: Languages) {
@@ -19,7 +24,12 @@ export function addLanguage(collection: Collection, id: bigint, language: Langua
 }
 
 export function editLanguage(collection: Collection, id: bigint, language: Languages) {
-  return collection.updateOne({ guildId: makeLong(id) }, { $set: { locale: language } });
+  return collection.updateOne(
+    { guildId: makeLong(id) },
+    {
+      $set: { locale: language },
+    }
+  );
 }
 
 export function deleteLanguage(collection: Collection, id: bigint) {

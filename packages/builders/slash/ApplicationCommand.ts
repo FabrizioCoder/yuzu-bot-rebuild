@@ -1,7 +1,7 @@
-import type { EditGlobalApplicationCommand } from "discordeno";
-import { ApplicationCommandTypes } from "discordeno";
+import type { EditGlobalApplicationCommand } from "../deps.ts";
+import { ApplicationCommandTypes } from "../deps.ts";
 import { OptionBased } from "./SlashCommandOption.ts";
-import { mix } from "../../mixer/mod.ts";
+import { mix } from "../mixer/mod.ts";
 
 export abstract class ApplicationCommandBuilder implements EditGlobalApplicationCommand {
   protected constructor(
@@ -69,7 +69,9 @@ export class ChatInputApplicationCommandBuilder {
   } {
     if (!this.type) throw new TypeError("Propety 'type' is required");
     if (!this.name) throw new TypeError("Propety 'name' is required");
-    if (!this.description) throw new TypeError("Propety 'description' is required");
+    if (!this.description) {
+      throw new TypeError("Propety 'description' is required");
+    }
 
     return {
       type: ApplicationCommandTypes.ChatInput,

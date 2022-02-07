@@ -1,4 +1,5 @@
-import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { cache, Category, randomHex } from "utils";
 import { avatarURL, getUser, sendMessage } from "discordeno";
 
@@ -21,7 +22,9 @@ createCommand({
     if (snipedMessage.content.length >= 4096) {
       const file = new Blob([snipedMessage.content]);
 
-      await sendMessage(bot, interaction.channelId, { file: [{ name: "Content.txt", blob: file }] });
+      await sendMessage(bot, interaction.channelId, {
+        file: [{ name: "Content.txt", blob: file }],
+      });
 
       return "commands:snipe:ON_LARGE_MESSAGE";
     }
@@ -29,7 +32,9 @@ createCommand({
     const { embed } = new MessageEmbed()
       .author(
         snipedMessage.tag,
-        avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar })
+        avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+          avatar: interaction.user.avatar,
+        })
       )
       .color(randomHex())
       .description(snipedMessage.content)
@@ -61,7 +66,9 @@ createMessageCommand({
     if (snipedMessage.content.length >= 4096) {
       const file = new Blob([snipedMessage.content]);
 
-      await sendMessage(bot, message.channelId, { file: [{ name: "Content.txt", blob: file }] });
+      await sendMessage(bot, message.channelId, {
+        file: [{ name: "Content.txt", blob: file }],
+      });
 
       return "commands:snipe:ON_LARGE_MESSAGE";
     }
@@ -69,7 +76,12 @@ createMessageCommand({
     const author = bot.users.get(snipedMessage.authorId) ?? (await getUser(bot, snipedMessage.authorId));
 
     const { embed } = new MessageEmbed()
-      .author(snipedMessage.tag, avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }))
+      .author(
+        snipedMessage.tag,
+        avatarURL(bot, author.id, author.discriminator, {
+          avatar: author.avatar,
+        })
+      )
       .color(randomHex())
       .description(snipedMessage.content)
       .footer(`${snipedMessage.id} • ${new Date(snipedMessage.timestamp).toLocaleString()}`);

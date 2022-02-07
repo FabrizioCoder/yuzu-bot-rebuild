@@ -1,15 +1,7 @@
-// deno-lint-ignore-file no-unreachable
-
 import type { ButtonComponent } from "discordeno";
-import {
-  createCommand,
-  createMessageCommand,
-  ChatInputApplicationCommandBuilder,
-  needButton,
-  needMessage,
-  MessageEmbed,
-  Milliseconds,
-} from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
+import { Milliseconds, needButton, needMessage } from "oasis/collectors";
 import { Category, randomHex, translate } from "utils";
 import {
   ApplicationCommandOptionTypes,
@@ -26,9 +18,9 @@ import {
 import { SafetyLevels, search } from "images";
 
 // enums
-const ButtonEmojis = <const>{
+const ButtonEmojis = {
   Back: {
-    id: "930546313890791444",
+    id: "930546313890791444", // TODO: pass ids to bigints
     name: "left",
     animated: false,
   },
@@ -48,7 +40,7 @@ const ButtonEmojis = <const>{
     animated: false,
   },
   Xsign: "✖️",
-};
+} as const;
 
 // NOTE: using a tuple because the max size of buttons is 5
 // Do this outside of the func body
@@ -138,14 +130,19 @@ createCommand({
       )
       .author(
         results[0].source,
-        avatarURL(bot, interaction.user.id, interaction.user.discriminator, { avatar: interaction.user.avatar })
+        avatarURL(bot, interaction.user.id, interaction.user.discriminator, {
+          avatar: interaction.user.avatar,
+        })
       )
       .footer(await translate(bot, "commands:image:RESULTS_FOR", interaction.guildId, { search: option.value }));
     // do not end this ^ for now
 
     const sended = await sendInteractionResponse(bot, interaction.id, interaction.token, {
       type: InteractionResponseTypes.DeferredChannelMessageWithSource,
-      data: { embeds: [embed.embed], components: [{ type: 1, components: buttons }] },
+      data: {
+        embeds: [embed.embed],
+        components: [{ type: 1, components: buttons }],
+      },
     });
 
     // stuff to help the button collector
@@ -176,7 +173,9 @@ createCommand({
             await sendInteractionResponse(bot, interaction.id, interaction.token, {
               type: InteractionResponseTypes.ChannelMessageWithSource,
               private: true,
-              data: { content: await translate(bot, "commands:image:CANNOT_TOUCH_BUTTON", interaction.guildId) },
+              data: {
+                content: await translate(bot, "commands:image:CANNOT_TOUCH_BUTTON", interaction.guildId),
+              },
             });
             return;
           }
@@ -215,7 +214,9 @@ createCommand({
                 await sendInteractionResponse(bot, interaction.id, interaction.token, {
                   type: InteractionResponseTypes.ChannelMessageWithSource,
                   private: true,
-                  data: { content: await translate(bot, "commands:image:NOT_IN_RESULTS", interaction.guildId) },
+                  data: {
+                    content: await translate(bot, "commands:image:NOT_IN_RESULTS", interaction.guildId),
+                  },
                 });
                 // repeat w/ new index? (not necessary)
                 read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
@@ -281,13 +282,18 @@ createCommand({
           // edit the message the component is attached to
           await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
             type: InteractionResponseTypes.UpdateMessage,
-            data: { embeds: [embed.embed], components: [{ type: 1, components: buttons }] },
+            data: {
+              embeds: [embed.embed],
+              components: [{ type: 1, components: buttons }],
+            },
           });
           read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
         })
         .catch(async () => {
           // remove buttons
-          await editMessage(bot, sendedMessageChannelId, sendedMessageId, { components: [] });
+          await editMessage(bot, sendedMessageChannelId, sendedMessageId, {
+            components: [],
+          });
           // do not repeat
           // pass
         });
@@ -342,8 +348,17 @@ createMessageCommand({
           ? await translate(bot, "commands:image:SAFE_SEARCH_OFF", message.guildId)
           : await translate(bot, "commands:image:SAFE_SEARCH_ON", message.guildId)
       )
-      .author(results[0].source, avatarURL(bot, author.id, author.discriminator, { avatar: author.avatar }))
-      .footer(await translate(bot, "commands:image:RESULTS_FOR", message.guildId, { search: option }));
+      .author(
+        results[0].source,
+        avatarURL(bot, author.id, author.discriminator, {
+          avatar: author.avatar,
+        })
+      )
+      .footer(
+        await translate(bot, "commands:image:RESULTS_FOR", message.guildId, {
+          search: option,
+        })
+      );
 
     const sended = await sendMessage(bot, message.channelId, {
       embeds: [embed.embed],
@@ -472,13 +487,18 @@ createMessageCommand({
           // edit the message the component is attached to
           await sendInteractionResponse(bot, button.interaction.id, button.interaction.token, {
             type: InteractionResponseTypes.UpdateMessage,
-            data: { embeds: [embed.embed], components: [{ type: 1, components: buttons }] },
+            data: {
+              embeds: [embed.embed],
+              components: [{ type: 1, components: buttons }],
+            },
           });
           read(sendedMessageId, sendedMessageChannelId, sendedMessageAuthorId, acc, time);
         })
         .catch(async () => {
           // remove buttons
-          await editMessage(bot, sendedMessageChannelId, sendedMessageId, { components: [] });
+          await editMessage(bot, sendedMessageChannelId, sendedMessageId, {
+            components: [],
+          });
           // do not repeat
           // pass
         });

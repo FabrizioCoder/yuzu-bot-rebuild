@@ -1,14 +1,23 @@
-import type { ButtonCollectorOptions, ButtonCollectorReturn, CollectButtonOptions } from "../types/collector.ts";
+import type {
+  ButtonCollector,
+  ButtonCollectorOptions,
+  ButtonCollectorReturn,
+  CollectButtonOptions,
+} from "./types/collector.ts";
 import type { DiscordenoInteraction } from "discordeno";
-import { Milliseconds } from "../constants.ts";
-import * as cache from "../cache.ts";
+import { Collection } from "./deps.ts";
+import { Milliseconds } from "./constants.ts";
+
+export const collectors = {
+  buttons: new Collection<bigint, ButtonCollector>(),
+};
+
+export const { buttons } = collectors;
 
 export function collectButtons(options: CollectButtonOptions): Promise<ButtonCollectorReturn[]> {
   return new Promise((resolve, reject) => {
-    cache.collectors.buttons
-      .get(options.key)
-      ?.reject("A new collector began before the user responded to the previous one.");
-    cache.collectors.buttons.set(options.key, {
+    collectors.buttons.get(options.key)?.reject("A new collector began before the user responded to the previous one.");
+    collectors.buttons.set(options.key, {
       ...options,
       buttons: [] as ButtonCollectorReturn[],
       resolve,
@@ -46,7 +55,7 @@ export function processButtonCollectors(data: DiscordenoInteraction) {
   if (!data.message) return;
 
   // If this message is not pending a button response, we can ignore
-  const collector = cache.collectors.buttons.get(data.user ? data.user.id : data.message.id);
+  const collector = collectors.buttons.get(data.user ? data.user.id : data.message.id);
   if (!collector) return;
 
   // This message is a response to a collector. Now running the filter function.
@@ -55,7 +64,7 @@ export function processButtonCollectors(data: DiscordenoInteraction) {
   // If the necessary amount has been collected
   if (collector.amount === 1 || collector.amount === collector.buttons.length + 1) {
     // Remove the collector
-    cache.collectors.buttons.delete(data.message.id);
+    collectors.buttons.delete(data.message.id);
     // Resolve the collector
     return collector.resolve([
       ...collector.buttons,

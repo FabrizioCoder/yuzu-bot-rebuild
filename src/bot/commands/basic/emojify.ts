@@ -1,4 +1,5 @@
-import { createCommand, ChatInputApplicationCommandBuilder } from "oasis";
+import { createCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder } from "oasis/builders";
 import { Category, rangeChar } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 
@@ -35,7 +36,7 @@ createCommand({
       ...Object.fromEntries(rangeChar("a", "z").map((c) => [c, `:regional_indicator_${c}: `])),
     };
 
-    return option.value
+    return (option.value as string)
       .split("")
       .map((c) => (c.toLowerCase() in mapping ? mapping[c.toLowerCase()] : c))
       .join("");

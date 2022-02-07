@@ -1,4 +1,4 @@
-import { createMonitor } from "oasis";
+import { createMonitor } from "oasis/commando";
 import { cache } from "utils";
 
 createMonitor({
@@ -14,10 +14,7 @@ createMonitor({
       const embedFiles = message.embeds.map((e) => e.image?.url).filter(Boolean) as string[];
 
       cache.lastAttachments.delete(message.channelId);
-      cache.lastAttachments.set(
-        message.channelId,
-        [...files, ...embedFiles]
-      );
+      cache.lastAttachments.set(message.channelId, [...files, ...embedFiles]);
     }
   },
 });

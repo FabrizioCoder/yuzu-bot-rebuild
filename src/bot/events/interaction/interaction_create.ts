@@ -1,4 +1,4 @@
-import { cache, createEvent } from "oasis";
+import { CommandoCache, createEvent } from "oasis/commando";
 import { Configuration } from "utils";
 import { sendMessage } from "discordeno";
 import { error } from "logger";
@@ -6,7 +6,7 @@ import { error } from "logger";
 createEvent({
   name: "interactionCreate",
   execute(bot, interaction) {
-    cache.monitors.forEach(async (monitor) => {
+    CommandoCache.monitors.forEach(async (monitor) => {
       if (monitor.event !== "interactionCreate") return;
       try {
         if (monitor.ignoreBots && interaction.user.bot) {

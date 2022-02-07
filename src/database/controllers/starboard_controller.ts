@@ -1,4 +1,4 @@
-import type { Database, Collection as MongoCollection } from "mongo";
+import type { Collection as MongoCollection, Database } from "mongo";
 import type { StarboardSchema } from "../models/starboard_model.ts";
 
 import { makeLong } from "../makeLong.ts";
@@ -10,7 +10,12 @@ export function getCollection(db: Database) {
 }
 
 export function getStarboard(collection: Collection, id: bigint) {
-  return collection.findOne({ guildId: makeLong(id) }, { noCursorTimeout: false });
+  return collection.findOne(
+    { guildId: makeLong(id) },
+    {
+      noCursorTimeout: false,
+    }
+  );
 }
 
 export function setStarboard(collection: Collection, id: bigint, channelId: bigint, emojiName?: string, count = 5) {

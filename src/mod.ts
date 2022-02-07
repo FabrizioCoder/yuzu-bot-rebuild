@@ -1,5 +1,7 @@
 import { Configuration, loadDynamicCommands, loadLanguages, setupLogger } from "utils";
-import { cache, loadEverything, Oasis } from "oasis";
+import { Oasis } from "oasis/client";
+import { CommandoCache } from "oasis/commando";
+import { loadEverything } from "oasis/fileloader";
 import { enableCachePlugin } from "cache_plugin";
 import { enablePermissionsPlugin } from "permissions_plugin";
 import { startDatabase } from "database/db";
@@ -18,7 +20,7 @@ const client = new Oasis({
   // plugins
   plugins: [enableCachePlugin, enablePermissionsPlugin],
   // transforms a Map<string, T> into a Record<string, T["execute"]>
-  events: Object.fromEntries(Array.from(cache.events.entries(), ([name, event]) => [name, event.execute])),
+  events: Object.fromEntries(Array.from(CommandoCache.events.entries(), ([name, event]) => [name, event.execute])),
 });
 
 await client.start(Deno.args[1] ?? Configuration.bot.gateway.token, Configuration.bot.gateway.intents);
@@ -27,7 +29,7 @@ await client.start(Deno.args[1] ?? Configuration.bot.gateway.token, Configuratio
 if (Configuration.development) {
   await upsertApplicationCommands(
     client.bot,
-    cache.slashCommands.map((cmd) => cmd.data),
+    CommandoCache.slashCommands.map((cmd) => cmd.data),
     Configuration.logs.guildId || undefined
   );
 }

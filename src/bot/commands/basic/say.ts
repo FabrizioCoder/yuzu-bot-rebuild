@@ -1,4 +1,4 @@
-import { createMessageCommand } from "oasis";
+import { createMessageCommand } from "oasis/commando";
 import { Category, isInvite } from "utils";
 import { deleteMessage } from "discordeno";
 

@@ -1,5 +1,6 @@
 import type { Pokemon, PokemonTarget } from "../../types/pokeapi.ts";
-import { createCommand, createMessageCommand, ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis";
+import { createCommand, createMessageCommand } from "oasis/commando";
+import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { Api, Category, randomHex, translate } from "utils";
 import { ApplicationCommandOptionTypes } from "discordeno";
 

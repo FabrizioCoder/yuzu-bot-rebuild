@@ -1,4 +1,4 @@
-import { resolve, join, relative, dirname, fromFileUrl } from "path";
+import { dirname, fromFileUrl, join, relative, resolve } from "path";
 
 type RecursiveF<T> = AsyncGenerator<T, void | RecursiveF<T>>;
 
@@ -23,7 +23,9 @@ export async function* load<T extends { default: unknown }>(root: string, dir: s
 export async function loadEverything<T extends { default: unknown }>(root: string, dirs: string[]): Promise<T[]> {
   const output = [] as T[];
 
-  for (const dir of dirs) for await (const mod of load<T>(root, dir)) output.push(mod);
+  for (const dir of dirs) {
+    for await (const mod of load<T>(root, dir)) output.push(mod);
+  }
 
   return output;
 }

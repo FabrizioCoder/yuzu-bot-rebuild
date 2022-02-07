@@ -1,4 +1,4 @@
-import { createMessageCommand } from "oasis";
+import { createMessageCommand } from "oasis/commando";
 import { Category } from "utils";
 
 createMessageCommand({

@@ -1,4 +1,5 @@
-import { cache, createTask, Milliseconds } from "oasis";
+import { CommandoCache, createTask } from "oasis/commando";
+import { Milliseconds } from "oasis/collectors";
 import { Configuration } from "utils";
 import { ActivityTypes, editBotStatus } from "discordeno";
 
@@ -13,7 +14,7 @@ createTask({
       `${bot.gateway.shards.size} shards`,
       `${uCount.toLocaleString("de-CH")} users`,
       `${gCount.toLocaleString("de-CH")} servers`,
-      `${cache.slashCommands.size} slash commands and ${cache.commands.size} commands`,
+      `${CommandoCache.slashCommands.size} slash commands and ${CommandoCache.commands.size} commands`,
       `Bot using v${Configuration.version}`,
       "!help /help",
     ] as const;

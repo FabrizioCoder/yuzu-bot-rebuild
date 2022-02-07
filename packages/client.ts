@@ -1,7 +1,7 @@
 // deno-lint-ignore-file ban-types
 
-import type { Bot, CreateBotOptions } from "discordeno";
-import { createBot, startBot } from "discordeno";
+import type { Bot, CreateBotOptions } from "https://deno.land/x/discordeno@13.0.0-rc18/mod.ts";
+import { createBot, startBot } from "https://deno.land/x/discordeno@13.0.0-rc18/mod.ts";
 
 export interface OasisCreateBotOptions extends Omit<CreateBotOptions, "intents" | "token"> {
   plugins?: Array<Function>;
