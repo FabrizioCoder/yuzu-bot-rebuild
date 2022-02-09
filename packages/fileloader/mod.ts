@@ -1,4 +1,4 @@
-import { dirname, fromFileUrl, join, relative, resolve } from "path";
+import { dirname, fromFileUrl, join, relative, resolve } from "https://deno.land/std@0.119.0/path/mod.ts";
 
 type RecursiveF<T> = AsyncGenerator<T, void | RecursiveF<T>>;
 

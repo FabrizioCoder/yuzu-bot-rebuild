@@ -4,8 +4,8 @@ import { createEvent } from "oasis/commando";
 import { MessageEmbed } from "oasis/builders";
 import { cache, DiscordColors } from "utils";
 import { addReaction, avatarURL, deleteMessage, editMessage, getMessage, getUser, sendMessage } from "discordeno";
-import { getCollection, getStarboard } from "../../../database/controllers/starboard_controller.ts";
-import { db } from "../../../database/db.ts";
+import { getCollection, getStarboard } from "database/controllers/starboard_controller.ts";
+import { db } from "database/db";
 
 type Execute = EventHandlers["reactionAdd"] & EventHandlers["reactionRemove"];
 const execute: Execute = async function (bot, { channelId, guildId, messageId }) {

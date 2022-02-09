@@ -1,11 +1,10 @@
 import type { BotWithCache } from "cache_plugin";
 import { CommandoCache, createMonitor } from "oasis/commando";
-import { botMention, compareDistance, Configuration } from "utils";
+import { botMention, compareDistance, Configuration, translate } from "utils";
 import { sendMessage } from "discordeno";
 import { botHasGuildPermissions } from "permissions_plugin";
 import { getCollection, getPrefix } from "database/controllers/prefix_controller.ts";
 import { db } from "database/db";
-import { translate } from "utils";
 
 // get a prefix from a given guildId
 async function getPrefixFromId(database: typeof db, id?: bigint, prefix = Configuration.prefix) {

@@ -1,8 +1,9 @@
-export abstract class Util {
-  // important
-  static DiscordEpoch = 14200704e5;
+// deno-lint-ignore-file no-namespace
 
-  static snowflakeToTimestamp(id: bigint) {
+export namespace Util {
+  export const DiscordEpoch = 14200704e5;
+
+  export function snowflakeToTimestamp(id: bigint) {
     return Number(id >> 22n) + Util.DiscordEpoch;
   }
 }
