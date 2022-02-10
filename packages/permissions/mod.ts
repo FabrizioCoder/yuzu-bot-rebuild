@@ -5,17 +5,17 @@ import {
 } from "https://deno.land/x/discordeno@13.0.0-rc19/mod.ts";
 
 export function hasPermission(bitfield: bigint, permission: keyof typeof BitwisePermissionFlags) {
-  return (bitfield & BigInt(BitwisePermissionFlags[permission])) === BigInt(BitwisePermissionFlags[permission]);
-}
+  if (bitfield & 8n) return true;
 
-export function hasPermissions(bitfield: bigint, permissions: Array<keyof typeof BitwisePermissionFlags>) {
-  return permissions.every((perm) => hasPermission(bitfield, perm));
+  return bitfield & BigInt(BitwisePermissionFlags[permission]);
 }
 
 export function toPermissionsBitfield(guild: DiscordenoGuild, member: DiscordenoMember) {
   let permissions = 0n;
+
   permissions |= [...member.roles, member.guildId]
-    .map((id) => guild.roles.get(id)?.permissions)
+    // deno-lint-ignore no-extra-non-null-assertion
+    .map((id) => guild.roles.get(id)!?.permissions)
     .filter(Boolean)
     .reduce((bits, perms) => (bits!) | (perms!), 0n);
 
