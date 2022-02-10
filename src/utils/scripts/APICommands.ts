@@ -19,6 +19,7 @@ function getDescription(action: string, target: bigint, author: bigint) {
 function getCommandName(endpointString: string) {
   return endpointString.slice(4, endpointString.length);
 }
+
 function setInteractionCommands(cmds: Map<string, unknown>) {
   endpoints.forEach((endpoint) => {
     const commandName = getCommandName(endpoint);

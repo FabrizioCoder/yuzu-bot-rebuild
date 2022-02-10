@@ -14,11 +14,14 @@ export function hasPermissions(bitfield: bigint, permissions: Array<keyof typeof
 
 export function toPermissionsBitfield(guild: DiscordenoGuild, member: DiscordenoMember) {
   let permissions = 0n;
-  permissions |=
-    [...member.roles, member.guildId]
-      .map((id) => guild.roles.get(id)?.permissions)
-      .filter(Boolean)
-      .reduce((bits, perms) => bits | perms, 0n) || 0n;
+  permissions |= [...member.roles, member.guildId]
+    .map((id) => guild.roles.get(id)?.permissions)
+    .filter(Boolean)
+    .reduce((bits, perms) => (bits!) | (perms!), 0n);
+
+  permissions ||= 0n;
+
   if (guild.ownerId === member.id) permissions |= 8n;
+
   return permissions;
 }
