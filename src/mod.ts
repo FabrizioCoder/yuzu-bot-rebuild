@@ -23,7 +23,7 @@ const client = new Oasis({
 });
 
 await client.start(Deno.args[1] ?? Configuration.bot.gateway.token, Configuration.bot.gateway.intents);
-
+ 
 // UPLOAD SLASH COMMANDS ON TEST SERVER
 if (Configuration.development) {
   await upsertApplicationCommands(

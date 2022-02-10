@@ -11,18 +11,14 @@ development = true
 
 # BOT'S TOKEN
 [bot.gateway]
-intents = [ "Guilds", "GuildMessages" ]
+intents = [ "Guilds", "GuildMessages", "GuildMessageReactions", "DirectMessages", "GuildEmojisAndStickers" ]
 token = "bot token here"
 
 # MONGODB URI
 [db]
-uri = """
-test:
-mongodb://localhost:27017/test
-
-db example:
-mongodb+srv://<username>:<password>@<db_cluster_url>/<db_name>?authMechanism=SCRAM-SHA-1
-"""
+# uri = "mongodb://localhost:27017/test"
+# uri = "mongodb+srv://<username>:<password>@<db_cluster_url>/<db_name>?authMechanism=SCRAM-SHA-1"
+uri = "database uri here"
 
 [logs] # OPTIONAL (0n by default)
 channelId = "log channel id"

@@ -3,11 +3,11 @@ function substractPattern(str: string) {
 }
 
 export function compareDistance(a: string, b: string): number {
-  if (Boolean(a) && b) {
+  if (a.length === 0 && b) {
     return b.length;
   }
 
-  if (Boolean(b) && a) {
+  if (b.length === 0 && a) {
     return a.length;
   }
 
