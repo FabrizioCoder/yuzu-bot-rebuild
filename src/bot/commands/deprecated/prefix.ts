@@ -1,7 +1,8 @@
 import { createMessageCommand } from "oasis/commando";
 import { Category, isNotAscii, translate } from "utils";
-import { hasGuildPermissions } from "permissions_plugin";
+import { hasPermission, toPermissionsBitfield } from "oasis/permissions";
 import { addPrefix, editPrefix, getCollection, getPrefix } from "database/controllers/prefix_controller.ts";
+import { getGuild } from "discordeno";
 import { db } from "database/db";
 
 createMessageCommand({
@@ -33,9 +34,11 @@ createMessageCommand({
     // the prefix (may be undefined)
     const guildPrefix = await getPrefix(getCollection(db), message.guildId);
 
+    const guild = bot.guilds.get(message.guildId) ?? (await getGuild(bot, message.guildId));
+
     // permission checks
     const isStaff = message.member
-      ? hasGuildPermissions(bot, message.guildId, message.member, ["MANAGE_GUILD"])
+      ? hasPermission(toPermissionsBitfield(guild, message.member), "MANAGE_GUILD")
       : false;
 
     if (!isStaff) {

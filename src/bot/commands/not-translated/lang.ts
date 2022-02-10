@@ -1,9 +1,9 @@
 import { createMessageCommand } from "oasis/commando";
+import { hasPermission, toPermissionsBitfield } from "oasis/permissions";
 import { Category } from "utils";
 import { addLanguage, editLanguage, getCollection, getLanguage } from "database/controllers/language_controller.ts";
 import { db } from "database/db";
 import { getGuild, getMember } from "discordeno";
-import { hasGuildPermissions } from "permissions_plugin";
 
 createMessageCommand({
   names: ["lang", "setlang"],
@@ -18,10 +18,12 @@ createMessageCommand({
 
     const input = args[0];
 
-    const member = bot.members.get(BigInt("" + message.authorId + message.guildId!)) ?? (await getMember(bot, message.guildId!, message.authorId));
+    const member =
+      bot.members.get(BigInt("" + message.authorId + message.guildId!)) ??
+      (await getMember(bot, message.guildId!, message.authorId));
     const guild = bot.guilds.get(message.guildId!) ?? (await getGuild(bot, message.guildId!));
 
-    if (!hasGuildPermissions(bot, guild, member, ["ADMINISTRATOR"])) {
+    if (!hasPermission(toPermissionsBitfield(guild, member), "ADMINISTRATOR")) {
       return "Not enough permissions!!!";
     }
 

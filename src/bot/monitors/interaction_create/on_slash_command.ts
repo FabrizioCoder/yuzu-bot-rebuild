@@ -1,7 +1,7 @@
 import type { BotWithCache } from "cache_plugin";
 import { CommandoCache, createMonitor } from "oasis/commando";
-import { InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
-import { botHasGuildPermissions } from "permissions_plugin";
+import { getGuild, getMember, InteractionResponseTypes, InteractionTypes, sendInteractionResponse } from "discordeno";
+import { hasPermission, toPermissionsBitfield } from "oasis/permissions";
 import { translate } from "utils";
 
 createMonitor({
@@ -24,7 +24,11 @@ createMonitor({
 
     // if the bot can't send messages
     if (interaction.guildId) {
-      const canSendMessages = botHasGuildPermissions(bot as BotWithCache, interaction.guildId, ["SEND_MESSAGES"]);
+      const guild = (bot as BotWithCache).guilds.get(interaction.guildId) ?? (await getGuild(bot, interaction.guildId));
+      const botAsMember =
+        (bot as BotWithCache).members.get(BigInt("" + bot.id + interaction.guildId)) ??
+        (await getMember(bot, interaction.guildId, bot.id));
+      const canSendMessages = hasPermission(toPermissionsBitfield(guild, botAsMember), "SEND_MESSAGES");
 
       if (!canSendMessages) {
         return;
@@ -53,7 +57,11 @@ createMonitor({
     // PERMISSIONS
 
     if (interaction.guildId) {
-      const canSendEmbeds = botHasGuildPermissions(bot as BotWithCache, interaction.guildId, ["EMBED_LINKS"]);
+      const guild = (bot as BotWithCache).guilds.get(interaction.guildId) ?? (await getGuild(bot, interaction.guildId));
+      const botAsMember =
+        (bot as BotWithCache).members.get(BigInt("" + bot.id + interaction.guildId)) ??
+        (await getMember(bot, interaction.guildId, bot.id));
+      const canSendEmbeds = hasPermission(toPermissionsBitfield(guild, botAsMember), "EMBED_LINKS");
 
       if (typeof output !== "string" && !canSendEmbeds) {
         await sendInteractionResponse(bot, interaction.id, interaction.token, {

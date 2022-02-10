@@ -1,8 +1,8 @@
 import type { BotWithCache } from "cache_plugin";
 import { CommandoCache, createMonitor } from "oasis/commando";
 import { botMention, compareDistance, Configuration, translate } from "utils";
-import { sendMessage } from "discordeno";
-import { botHasGuildPermissions } from "permissions_plugin";
+import { getGuild, getMember, sendMessage } from "discordeno";
+import { hasPermission, toPermissionsBitfield } from "oasis/permissions";
 import { getCollection, getPrefix } from "database/controllers/prefix_controller.ts";
 import { db } from "database/db";
 
@@ -22,7 +22,11 @@ createMonitor({
   ignoreBots: true,
   async execute(bot, message) {
     if (message.guildId) {
-      const canSendMessages = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["SEND_MESSAGES"]);
+      const guild = (bot as BotWithCache).guilds.get(message.guildId) ?? (await getGuild(bot, message.guildId));
+      const botAsMember =
+        (bot as BotWithCache).members.get(BigInt("" + bot.id + message.guildId)) ??
+        (await getMember(bot, message.guildId, bot.id));
+      const canSendMessages = hasPermission(toPermissionsBitfield(guild, botAsMember), "SEND_MESSAGES");
 
       if (!canSendMessages) return;
     }
@@ -107,7 +111,11 @@ createMonitor({
     // PERMISSIONS
 
     if (message.guildId) {
-      const canSendEmbeds = botHasGuildPermissions(bot as BotWithCache, message.guildId, ["EMBED_LINKS"]);
+      const guild = (bot as BotWithCache).guilds.get(message.guildId) ?? (await getGuild(bot, message.guildId));
+      const botAsMember =
+        (bot as BotWithCache).members.get(BigInt("" + bot.id + message.guildId)) ??
+        (await getMember(bot, message.guildId, bot.id));
+      const canSendEmbeds = hasPermission(toPermissionsBitfield(guild, botAsMember), "EMBED_LINKS");
 
       if (typeof output !== "string" && !canSendEmbeds) {
         await sendMessage(bot, message.channelId, {

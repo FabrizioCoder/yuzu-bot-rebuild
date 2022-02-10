@@ -3,7 +3,7 @@ import type { Event } from "./cache/createEvent.ts";
 import type { Monitor } from "./cache/createMonitor.ts";
 import type { Task } from "./cache/createTask.ts";
 
-import { Collection } from "discordeno";
+import { Collection } from "https://deno.land/x/discordeno@13.0.0-rc19/mod.ts";
 
 // slash commands
 export const slashCommands: Collection<string, Command> = new Collection();

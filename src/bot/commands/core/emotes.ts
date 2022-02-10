@@ -1,8 +1,16 @@
 import { createCommand, createMessageCommand } from "oasis/commando";
 import { ChatInputApplicationCommandBuilder, MessageEmbed } from "oasis/builders";
 import { Category, randomHex, translate } from "utils";
-import { ApplicationCommandOptionTypes, avatarURL, createEmoji, deleteEmoji, editEmoji, getGuild } from "discordeno";
-import { botHasGuildPermissions, hasGuildPermissions } from "permissions_plugin";
+import {
+  ApplicationCommandOptionTypes,
+  avatarURL,
+  createEmoji,
+  deleteEmoji,
+  editEmoji,
+  getGuild,
+  getMember,
+} from "discordeno";
+import { hasPermission, toPermissionsBitfield } from "oasis/permissions";
 
 createCommand({
   isGuildOnly: true,
@@ -30,12 +38,13 @@ createCommand({
     }
 
     if (option.name !== "display") {
-      const canManageEmojis = hasGuildPermissions(bot, guild, interaction.member, ["MANAGE_EMOJIS"]);
+      const canManageEmojis = hasPermission(toPermissionsBitfield(guild, interaction.member), "MANAGE_EMOJIS");
 
       if (!canManageEmojis) {
         return "commands:emotes:ON_MISSING_PERMISSIONS";
       }
-      const botCanManageEmojis = botHasGuildPermissions(bot, guild, ["MANAGE_EMOJIS"]);
+      const botAsMember = bot.members.get(BigInt("" + bot.id + guild.id)) ?? (await getMember(bot, guild.id, bot.id));
+      const botCanManageEmojis = hasPermission(toPermissionsBitfield(guild, botAsMember), "MANAGE_EMOJIS");
 
       if (!botCanManageEmojis) {
         return "commands:emotes:ON_BOT_MISSING_PERMISSIONS";
@@ -180,12 +189,13 @@ createMessageCommand({
     }
 
     if (option?.toLowerCase() === "hide" || option?.toLowerCase() === "remove" || option?.toLowerCase() === "add") {
-      const canManageEmojis = hasGuildPermissions(bot, guild, message.member, ["MANAGE_EMOJIS"]);
+      const canManageEmojis = hasPermission(toPermissionsBitfield(guild, message.member!), "MANAGE_EMOJIS");
 
       if (!canManageEmojis) {
         return "commands:emotes:ON_MISSING_PERMISSIONS";
       }
-      const botCanManageEmojis = botHasGuildPermissions(bot, guild, ["MANAGE_EMOJIS"]);
+      const botAsMember = bot.members.get(BigInt("" + bot.id + guild.id)) ?? (await getMember(bot, guild.id, bot.id));
+      const botCanManageEmojis = hasPermission(toPermissionsBitfield(guild, botAsMember), "MANAGE_EMOJIS");
 
       if (!botCanManageEmojis) {
         return "commands:emotes:ON_BOT_MISSING_PERMISSIONS";

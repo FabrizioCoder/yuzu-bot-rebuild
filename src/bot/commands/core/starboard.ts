@@ -2,7 +2,7 @@ import { createCommand } from "oasis/commando";
 import { ChatInputApplicationCommandBuilder } from "oasis/builders";
 import { Category, translate } from "utils";
 import { ChannelTypes, getChannel, getGuild } from "discordeno";
-import { hasGuildPermissions } from "permissions_plugin";
+import { hasPermission } from "oasis/permissions";
 import { editStarboard, getCollection, getStarboard, setStarboard } from "database/controllers/starboard_controller.ts";
 import { db } from "database/db";
 
@@ -31,7 +31,7 @@ createCommand({
 
     const channelId = options?.[0]?.value as string;
 
-    const isStaff = interaction.member ? hasGuildPermissions(bot, guild, interaction.member, ["MANAGE_GUILD"]) : false;
+    const isStaff = hasPermission(toPermissionsBitfield(guild, interaction.member), "MANAGE_GUILD");
     const channel = bot.channels.get(BigInt(channelId)) ?? (await getChannel(bot, BigInt(channelId)));
 
     if (!isStaff) {

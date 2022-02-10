@@ -1,8 +1,8 @@
 import { createCommand, createMessageCommand } from "oasis/commando";
 import { ChatInputApplicationCommandBuilder } from "oasis/builders";
-import { Category, toCapitalCase, translate } from "utils";
-import { ApplicationCommandOptionTypes, getChannel, getUser } from "discordeno";
-import { hasGuildPermissions } from "permissions_plugin";
+import { hasPermission, toPermissionsBitfield } from "oasis/permissions";
+import { Category, Configuration, toCapitalCase, translate } from "utils";
+import { ApplicationCommandOptionTypes, getChannel, getGuild, getUser } from "discordeno";
 import {
   addTag,
   editTag,
@@ -25,8 +25,6 @@ enum Arguments {
   Display,
 }
 
-const OWNER_ID = 774292293020155906n;
-
 createCommand({
   meta: {
     descr: "commands:tag:DESCRIPTION",
@@ -45,6 +43,7 @@ createCommand({
       return;
     }
 
+    const guild = bot.guilds.get(interaction.guildId) ?? (await getGuild(bot, interaction.guildId));
     const channel = bot.channels.get(interaction.channelId) ?? (await getChannel(bot, interaction.channelId));
 
     switch (Arguments[toCapitalCase(option.name) as keyof typeof Arguments]) {
@@ -76,14 +75,18 @@ createCommand({
         }
 
         const isAdmin = interaction.member
-          ? hasGuildPermissions(bot, interaction.guildId, interaction.member, ["ADMINISTRATOR"])
+          ? hasPermission(toPermissionsBitfield(guild, interaction.member), "ADMINISTRATOR")
           : false;
 
-        if (tag.userId.toBigInt() !== interaction.user.id && !isAdmin && interaction.user.id !== OWNER_ID) {
+        if (
+          tag.userId.toBigInt() !== interaction.user.id &&
+          !isAdmin &&
+          interaction.user.id !== Configuration.misc.ownerId
+        ) {
           return "commands:tag:ON_TAG_OWNERSHIP_DOES_NOT_BELONG";
         }
 
-        if (tag.isGlobal && interaction.user.id !== OWNER_ID) {
+        if (tag.isGlobal && interaction.user.id !== Configuration.misc.ownerId) {
           return "commands:tag:ON_TAG_GLOBAL";
         }
 
@@ -162,7 +165,7 @@ createCommand({
         }
 
         const isAdmin = interaction.member
-          ? hasGuildPermissions(bot, interaction.guildId, interaction.user.id, ["ADMINISTRATOR"])
+          ? hasPermission(toPermissionsBitfield(guild, interaction.member), "ADMINISTRATOR")
           : false;
 
         if (tag.userId.toBigInt() !== interaction.user.id && !isAdmin) {
@@ -304,6 +307,8 @@ createMessageCommand({
 
     const search = Arguments[toCapitalCase(option) as keyof typeof Arguments];
 
+    const guild = bot.guilds.get(message.guildId) ?? (await getGuild(bot, message.guildId));
+
     switch (search) {
       case Arguments.Add: {
         const [name, ...content] = options;
@@ -333,14 +338,14 @@ createMessageCommand({
         }
 
         const isAdmin = message.member
-          ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"])
+          ? hasPermission(toPermissionsBitfield(guild, message.member), "ADMINISTRATOR")
           : false;
 
-        if (tag.userId.toBigInt() !== message.authorId && !isAdmin && message.authorId !== OWNER_ID) {
+        if (tag.userId.toBigInt() !== message.authorId && !isAdmin && message.authorId !== Configuration.misc.ownerId) {
           return "commands:tag:ON_TAG_OWNERSHIP_DOES_NOT_BELONG";
         }
 
-        if (tag.isGlobal && message.authorId !== OWNER_ID) {
+        if (tag.isGlobal && message.authorId !== Configuration.misc.ownerId) {
           return "commands:tag:ON_TAG_GLOBAL";
         }
 
@@ -426,7 +431,7 @@ createMessageCommand({
         }
 
         const isAdmin = message.member
-          ? hasGuildPermissions(bot, message.guildId, message.member, ["ADMINISTRATOR"])
+          ? hasPermission(toPermissionsBitfield(guild, message.member), "ADMINISTRATOR")
           : false;
 
         if (tag.userId.toBigInt() !== message.authorId && !isAdmin) {

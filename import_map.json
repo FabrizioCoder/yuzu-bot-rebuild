@@ -5,9 +5,8 @@
     "path": "https://deno.land/std@0.119.0/path/mod.ts",
     "fmt/colors": "https://deno.land/std@0.119.0/fmt/colors.ts",
     "fmt/printf": "https://deno.land/std@0.119.0/fmt/printf.ts",
-    "discordeno": "https://deno.land/x/discordeno@13.0.0-rc18/mod.ts",
-    "cache_plugin": "https://raw.githubusercontent.com/discordeno/cache-plugin/main/mod.ts",
-    "permissions_plugin": "https://raw.githubusercontent.com/discordeno/permissions-plugin/main/mod.ts",
+    "discordeno": "https://deno.land/x/discordeno@13.0.0-rc19/mod.ts",
+    "cache_plugin": "https://deno.land/x/discordeno@13.0.0-rc19/plugins/cache/mod.ts",
     "mongo": "https://deno.land/x/mongo@v0.29.0/mod.ts",
     "images": "https://deno.land/x/ddgimages@v2.0.1/mod.ts",
     "poke_deno": "https://deno.land/x/poke_deno@1.1.0/mod.ts",
@@ -22,6 +21,7 @@
     "oasis/commando": "./packages/commando/mod.ts",
     "oasis/fileloader": "./packages/fileloader/mod.ts",
     "oasis/misc/": "./packages/misc/",
-    "oasis/collectors": "./packages/collectors/mod.ts"
+    "oasis/collectors": "./packages/collectors/mod.ts",
+    "oasis/permissions": "./packages/permissions/mod.ts"
   }
 }
