@@ -18,7 +18,7 @@ createMessageCommand({
 
     const input = args[0];
 
-    const member = bot.members.get(message.authorId) ?? (await getMember(bot, message.guildId!, message.authorId));
+    const member = bot.members.get(BigInt("" + message.authorId + message.guildId!)) ?? (await getMember(bot, message.guildId!, message.authorId));
     const guild = bot.guilds.get(message.guildId!) ?? (await getGuild(bot, message.guildId!));
 
     if (!hasGuildPermissions(bot, guild, member, ["ADMINISTRATOR"])) {

@@ -1,3 +1,7 @@
 *.env
 TODO
 config.toml
+registries/
+gen/
+deps/
+.vscode/

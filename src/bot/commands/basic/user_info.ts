@@ -42,7 +42,7 @@ createCommand({
 
     if (interaction.guildId) {
       // get the same user as a member object
-      const member = bot.members.get(user.id) ?? (await getMember(bot, interaction.guildId, user.id));
+      const member = bot.members.get(BigInt("" + user.id + interaction.guildId)) ?? (await getMember(bot, interaction.guildId, user.id));
 
       if (member.guildId === interaction.guildId) {
         // if is booster
