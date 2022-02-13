@@ -2,7 +2,7 @@ import { createCommand } from "oasis/commando";
 import { ChatInputApplicationCommandBuilder } from "oasis/builders";
 import { Category, translate } from "utils";
 import { ChannelTypes, getChannel, getGuild } from "discordeno";
-import { hasPermission } from "oasis/permissions";
+import { hasPermission, toPermissionsBitfield } from "oasis/permissions"
 import { editStarboard, getCollection, getStarboard, setStarboard } from "database/controllers/starboard_controller.ts";
 import { db } from "database/db";
 
