@@ -31,7 +31,7 @@ createCommand({
 
     const channelId = options?.[0]?.value as string;
 
-    const isStaff = hasPermission(toPermissionsBitfield(guild, interaction.member), "MANAGE_GUILD");
+    const isStaff = hasPermission(toPermissionBitfield(guild, interaction.member), "MANAGE_GUILD");
     const channel = bot.channels.get(BigInt(channelId)) ?? (await getChannel(bot, BigInt(channelId)));
 
     if (!isStaff) {
